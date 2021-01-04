@@ -4,6 +4,7 @@
 
 This is a WORCS project for my dissertation project. (To learn about WORCS, please visit https://github.com/cjvanlissa/worcs)
 
+Other materials are availablae on the OSF project: https://osf.io/hydxk/
 
 ## Project structure
 
