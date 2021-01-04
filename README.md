@@ -1,10 +1,9 @@
-# Readme <a href='https://osf.io/zcvbs/'><img src='worcs_icon.png' align="right" height="139" /></a>
+# Playing Alone, Feeling Connected: Do Single-Player Video Games with Social Surrogates Replenish Belonging After Social Rejection?
 
 <!-- Please add a brief introduction to explain what the project is about    -->
 
-## Where do I start?
+This is a WORCS project for my dissertation project. (To learn about WORCS, please visit https://github.com/cjvanlissa/worcs)
 
-You can load this project in RStudio by opening the file called 'WORCS project.Rproj'.
 
 ## Project structure
 
@@ -20,6 +19,10 @@ prepare_data.R            | Script to process raw data       | Human editable
 manuscript/manuscript.rmd | Source code for paper            | Human editable
 manuscript/references.bib | BibTex references for manuscript | Human editable
 renv.lock                 | Reproducible R environment       | Read only     
+
+
+## Contact
+Nami Sunami (nsunami@udel.edu)
 
 <!--  You can consider adding the following to this file:                    -->
 <!--  * A citation reference for your project                                -->
