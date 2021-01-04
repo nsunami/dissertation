@@ -1,5 +1,5 @@
 ---
-title             : "Playing Alone, Feeling Connected: Do Single Player Video Games Replenish Belonging After Social Rejection?"
+title             : "Playing Alone, Feeling Connected: Do Single-Player Video Games with Social Surrogates Replenish Belonging After Social Rejection?"
 shorttitle        : "Playing Alone, Feeling Connected"
 
 author: 
