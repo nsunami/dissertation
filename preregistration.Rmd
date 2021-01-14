@@ -14,6 +14,10 @@ affiliation:
 output: prereg::cos_prereg
 bibliography      : "preregistration.bib"
 ---
+```{r, include = FALSE}
+options(tinytex.verbose = TRUE)
+```
+
 <!-- Workaround for CSLReferences Error -->
 <!-- \newlength{\cslhangindent} -->
 <!-- \setlength{\cslhangindent}{1.5em} -->
@@ -197,7 +201,7 @@ Example: We used the software program G*Power to conduct a power analysis. Our g
 N/A - I'm using existing datasets for this study.
 
 ### Study 2
-To my knowledge, only one study tested whether recalling a media with or without social surrogates replenished belonging following social rejection @derrickSocialSurrogacyHow2009 (Derrick et al., 2009, Study 2). I will not use the effect size reported in this study for the following reasons. First, an effect size observed in a single study can be upwardly biased and unreliable (Lakens, 2017; Lane & Dunlap, 1978). Second, the media used in the original study was a TV program, not a video game, and thus the effect size may not be compatible. 
+To my knowledge, only one study tested whether recalling a media with or without social surrogates replenished belonging following social rejection (Derrick et al., 2009, Study 2). I will not use the effect size reported in this study for the following reasons. First, an effect size observed in a single study can be upwardly biased and unreliable (Lakens, 2017; Lane & Dunlap, 1978). Second, the media used in the original study was a TV program, not a video game, and thus the effect size may not be compatible. 
 
 Instead, I again use an average effect size estimate (r = .21) across 474 meta-analyses as a starting point (Richard et al., 2003) consistent with the procedure in Study 1. As mentioned, the safeguarded target effect size was Cohen’s d = 0.35. With 90% power to reduce Type II error and 5% alpha by convention, I plan to recruit 344 (172 per group) participants to detect the effect size of d = 0.35 in a two-group design. I will also consider this effect size as the smallest effect size of interest for the equivalence test. Any effect sizes smaller than d = 0.35 will be considered theoretically equivalent to zero in the context of the current study. 
 
@@ -250,7 +254,6 @@ The contents presented in this single-player game will vary depending on the exp
 I will manipulate the social worlds via the opportunities for immersing into the story of the video game, and thus facilitating the collective assimilation (Gabriel & Valenti, 2017; Gabriel & Young, 2011). In the high social world condition, the player will be presented with story components—they will learn how the player character decides to help the village of Azmar and the story about the calamity Gaki, etc. In the low social world condition, the player will not be presented with these storytelling components. 
 
 
-
 ## Measured variables
 <!-- Describe each variable that you will measure. This will include outcome measures, as well as any predictors or covariates that you will measure. You do not need to include any variables that you plan on collecting if they are not going to be included in the confirmatory analyses of this study.
 
@@ -265,6 +268,7 @@ Below are the tables of the measures included in each sub-studies.
 
 **Table 1** _Study 1a: Summary of Measures_
 
+| --- | --- | --- | --- |
 | Measure | Construct | Validity | Citation |
 | --- | --- | --- | --- |
 | Self-Assessment Manikin |
@@ -272,6 +276,7 @@ Below are the tables of the measures included in each sub-studies.
 | Arousal | State arousal | Dis. | Bradley &amp; Lang, 1994 |
 | Dominance | State dominance | Dis. | Bradley &amp; Lang, 1994 |
 | Center for Epidemiologic Studies Depression Scale (CES-D) | Depressive symptoms | Con. (R) | Radloff, 1977 |
+| PROMIS—Short Form 8a - Social Isolation | Social isolation | Con. (R) | Cella et al., 2019; Hahn et al., 2014 |
 | Beliefs about Biological Differences between Blacks and Whites Scale | False beliefs about biological differences between Black and White people | Dis | Hoffman et al., 2016 |
 | Interpersonal Reactivity Scale | Tendency to react to another person&#39;s experience | Dis. | Davis, 1980 |
 | Self-Monitoring Scale | Tendency to self-observe and control one&#39;s behavior according to social appropriateness | Dis. | Snyder, 1974 |
@@ -283,12 +288,12 @@ Below are the tables of the measures included in each sub-studies.
 
 #### Study 1b
 
-**Table 2** _Study 1b: Summary of Measures_ 
+**Table 2** _Study 1b: Summary of Measures_
 
+| --- | --- | --- | --- |
 | Measure | Construct | Validity | Citation |
 | --- | --- | --- | --- |
 | Self-Assessment Manikin: Valence | State valence | Con. | Bradley &amp; Lang, 1994 |
-| --- | --- | --- | --- |
 | MacArthur Scale of Subjective Social Status | Subjective social status | Dis. | Adler et al., 2000 |
 | PROMIS—Short Form 8a |
 | Social Isolation | Social isolation | Con. (R) | Cella et al., 2019; Hahn et al., 2014 |
@@ -315,6 +320,7 @@ Below are the tables of the measures included in each sub-studies.
 | PROMIS Sleep Disturbance—Short Form 4a | Sleep disturbance | Dis. | Cella et al., 2019 |
 | Single-Item Narcissism Scale | Narcissism | Dis. | Konrath et al., 2014 |
 | Perceived Stress Scale | Perceived stress | Dis. | S. Cohen et al., 1983 |
+| Center for Epidemiologic Studies Depression Scale (CES-D) - Short-Form | Depressive symptoms | Con. (R) | Andresen et al., 1994 |
 
 _Note._ Con. = Convergent Validity. Dis. = Discriminant Validity. (R) = Reverse association.
 
@@ -322,10 +328,10 @@ _Note._ Con. = Convergent Validity. Dis. = Discriminant Validity. (R) = Reverse 
 
 **Table 3** _Study 1c: Summary of Measures_
 
+| --- | --- | --- | --- |
 | Measure | Construct | Validity | Citation |
 | --- | --- | --- | --- |
 | Self-Assessment Manikin |
-| --- |
 | Valence (Times 1, 2, &amp; 3) | State valence | Con. | Bradley &amp; Lang, 1994 |
 | Arousal (Time 2) | State arousal | Dis. | Bradley &amp; Lang, 1994 |
 | Dominance (Time 2) | State dominance | Dis. | Bradley &amp; Lang, 1994 |
@@ -341,12 +347,12 @@ _Note._ Con. = Convergent Validity. Dis. = Discriminant Validity. (R) = Reverse 
 
 #### Study 1d
 
-**Table 4** _Summary of Measures for Study 1d_
+**Table 4** _Study 1d: Summary of Measures_
 
+| --- | --- | --- | --- |
 | Measure | Construct | Validity | Citation |
 | --- | --- | --- | --- |
 | Self-Assessment Manikin (Times 1, 2, 3, &amp; 4) |
-| --- |
 | Valence | State valence | Con. | Bradley &amp; Lang, 1994 |
 | Arousal | State arousal | Dis. | Bradley &amp; Lang, 1994 |
 | Dominance | State dominance | Dis. | Bradley &amp; Lang, 1994 |
@@ -362,16 +368,14 @@ _Note._ Con. = Convergent Validity. Dis. = Discriminant Validity. (R) = Reverse 
 _Note._ Con. = Convergent Validity. Dis. = Discriminant Validity. (R) = Reverse association.
 
 
-
-
 #### Study 1e 
 
-**Table 5** _Study 1c: Summary of Measures_ 
+**Table 5** _Study 1e: Summary of Measures_ 
 
+| --- | --- | --- | --- |
 | Measure | Construct | Validity | Citation |
 | --- | --- | --- | --- |
 | Self-Assessment Manikin (Times 1, 2, 3, 4, 5, &amp; 6) |
-| --- |
 | Valence | State valence | Con. | Bradley &amp; Lang, 1994 |
 | Arousal | State arousal | Dis. | Bradley &amp; Lang, 1994 |
 | Dominance | State dominance | Dis. | Bradley &amp; Lang, 1994 |
@@ -406,11 +410,12 @@ Example: We will take the mean of the two questions above to create a single mea
 
 Below is the table of measures and indices for across studies. 
 
+|---------|-------|
 | Measure | Index |
 |---------|-------|
 |Heart Manikin| raw score |
 | Self-Assessment Manikins | raw score |
-| \setlength\parskip{12pt} \setlength\parindent{24pt} **Study 1a: Mass Testing**|
+| **Study 1a: Mass Testing**|
 | CES-D | sum score |
 | Beliefs about Biological Differences between Blacks and Whites Scale. |  average (11 items) |
 | Interpersonal Reactivity Scale. | average score |
@@ -449,7 +454,8 @@ Below is the table of measures and indices for across studies.
 | Modified Narrative Engagement Scale | average |
 | Enjoyment Subscale of the Game User Experience Satisfaction Scale (GUESS) | average | 
 |  **Study 3** |
-| **Same as Study 2*|
+| *Same as Study 2*|
+
 
 
 # Analysis Plan

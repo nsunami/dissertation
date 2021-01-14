@@ -18,7 +18,7 @@ affiliation:
     institution   : "University of Delaware"
 
 authornote: |
-  Naoyuki Sunami \item \href{https://orcid.org/0000-0001-5482-8370}{\textcolor{orcidlogocol}{\aiOrcid} \hspace{2mm} https://orcid.org/0000-0001-5482-8370}
+  Naoyuki Sunami https://orcid.org/0000-0001-5482-8370
 
 
   A dissertation to be submitted to the Faculty of the University of Delaware in partial fulfillment of the requirements for the degree of Doctor of Philosophy in Psychology. This work is licensed under a Creative Commons Attribution 4.0 International License.
@@ -107,13 +107,13 @@ We used `r cite_r("r-references.bib")` for all our analyses.
 # Discussion
 
 
-\newpage
+<!-- \newpage -->
 
 # References
 
-\begingroup
-\setlength{\parindent}{-0.5in}
-\setlength{\leftskip}{0.5in}
+<!-- \begingroup -->
+<!-- \setlength{\parindent}{-0.5in} -->
+<!-- \setlength{\leftskip}{0.5in} -->
 
-<div id="refs" custom-style="Bibliography"></div>
-\endgroup
+<!-- <div id="refs" custom-style="Bibliography"></div> -->
+<!-- \endgroup -->
