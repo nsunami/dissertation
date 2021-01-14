@@ -5,7 +5,6 @@
 *.sas7bdat
 *.xlsx
 *.xls
-*.pdf
 *.fff
 *.log
 *.tex
