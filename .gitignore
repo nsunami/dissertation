@@ -9,3 +9,4 @@
 *.log
 *.tex
 .Rproj.user
+data/
