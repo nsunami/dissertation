@@ -10,3 +10,4 @@
 *.tex
 .Rproj.user
 *.rds
+data/
