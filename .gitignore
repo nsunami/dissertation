@@ -9,5 +9,4 @@
 *.log
 *.tex
 .Rproj.user
-*.rds
 data/

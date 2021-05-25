@@ -4,7 +4,7 @@ editor_options:
     wrap: 72
 ---
 
-# THE BI-DIMENSIONAL REJECTION TAXONOMY
+# The Bi-Dimensional Rejection Taxonomy
 
 This chapter has been published as, Sunami, N., Nadzan, M. A., &
 Jaremka, L. M. (2019). The bi‐dimensional rejection taxonomy: Organizing
