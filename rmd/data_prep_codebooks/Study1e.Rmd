@@ -1,0 +1,38 @@
+---
+title: "Study 1e Codebook (NPSv2)"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
+  pdf_document:
+    toc: yes
+    toc_depth: 4
+    latex_engine: xelatex
+---
+
+
+```{r setup}
+library(here)
+knitr::opts_chunk$set(
+	error = TRUE,
+	message = TRUE,
+	warning = TRUE
+)
+ggplot2::theme_set(ggplot2::theme_bw())
+
+```
+
+
+```{r prepare_codebook}
+library(codebook)
+codebook_data <- rio::import(here("data_public/Study1e_public.rds"))
+```
+
+
+
+```{r codebook}
+codebook(codebook_data)
+```

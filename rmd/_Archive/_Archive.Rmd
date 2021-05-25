@@ -1,0 +1,807 @@
+---
+title: "_Archive Notes"
+output: html_notebook
+---
+
+
+
+-----
+
+# Study 3 ARchive Scripts
+```{r}
+# Condition
+s3_df %>% 
+  ggplot(aes(x = parasocial, fill = social_world)) +
+  geom_bar() + 
+  # labels
+  ggtitle("Study 3: Number of Participants by Condition") +
+  xlab("Parasocial Relationship Condition") +
+  ylab("Count") + 
+  scale_fill_discrete(name = "Social World \nCondition")
+# Visualize how many participants per condition passed attention checks
+s3_df %>% ggplot(aes(x = attention_rejection_correct,
+                     fill = attention_parasocial_correct)) + geom_bar() +
+  facet_grid( . ~ attention_social_world_correct) + 
+  # Labels
+  xlab("Attention Check for Rejection (Correct)") +
+  ylab("Count") +
+  scale_fill_discrete(name = "Attention Check \nfor Parasocial \nRelationship (Correct)")
+
+```
+
+
+
+----
+Change score
+
+The Manikin scores correlated with
+
+-   Multiple identitiy (Study 1a)
+-   social monitoring (Study 1a)
+-   Biological beliefs (Study 1a) (not sure why)
+-   Interpersonal threats (Study 1b)
+-   Stress (Study 1b)
+-   Narcissism (Study 1b)
+-   NTS Control (Study 1c, Study 1e)
+-   NTS Meaning (Study 1c, Study 1e)
+-   Arousal (Study 1c, Study 1e)
+-   Dominance (Study 1c, Study 1e)
+-   SES (Study 1c but not Study 1b and Study 1e)
+## Convergent and Discriminant Validities
+
+For the purpose of summarizing the results, I treat the correlation coefficients and regression coefficients commutable.
+
+```{r fig.width=10, fig.height=100, eval=FALSE}
+##### Correlations
+S1a_cor_CIs <- S1a_cor_CIs %>%
+  mutate(time = "T1")
+
+# Create a combined tibble with an id column
+all_cor <- bind_rows(
+  "Study 1a" = S1a_cor_CIs,
+  "Study 1b" = S1b_cor_CIs,
+  "Study 1c" = S1c_cor_CIs,
+  "Study 1d" = S1d_cor_CIs,
+  "Study 1e" = S1e_cor_CIs, .id = "dataset")
+
+# GGplot Template
+draw_forest <-  function(){ #Add data points and color them black
+  list(geom_point(),
+       #add the CI error bars
+       geom_errorbarh(height=.1),
+       #Specify the limits of the x-axis and relabel it to something more meaningful
+       scale_x_continuous(limits=c(-1,1), name='Correlation Coefficient [95%CI]'),
+       #Give y-axis a meaningful label
+       ylab('Variable') ,
+       # Legend Title
+       scale_color_discrete(name = "Hypothesized \nValidity") ,
+       #Add a vertical dashed line indicating an effect size of zero, for reference
+       geom_vline(xintercept=0, color='black', linetype='dashed') ,
+       #Create sub-plots (i.e., facets) based on levels of setting
+       #And allow them to have their own unique axes (so authors don't redundantly repeat)
+       # facet_grid(dataset+type+time~outcome, scales= 'free', space='free') +
+       ggh4x::facet_nested(type+time~outcome, scales= 'free', space='free') ,
+       # ggh4x::facet_nested_wrap(dataset+type+time~outcome, scales = "free_x",
+       #                          remove_labels = "all",
+       #                          nrow = 15) +
+       ggtitle("Correlation Coefficients with Heart Manikin Scores") ,
+       # Add SESOI
+       SESOIgeom
+  )
+}
+
+
+
+# Forestplot for all correlations
+ggplot(all_cor,
+       aes(y=label, x=estimate, xmin=lower, xmax=upper,
+           color = type)) +
+  #Add data points and color them black
+  geom_point()+
+  #add the CI error bars
+  geom_errorbarh(height=.1)+
+  #Specify the limits of the x-axis and relabel it to something more meaningful
+  scale_x_continuous(limits=c(-1,1), name='Correlation Coefficient [95%CI]')+
+  #Give y-axis a meaningful label
+  ylab('Variable') + 
+  # Legend Title
+  scale_color_discrete(name = "Hypothesized \nValidity") + 
+  #Add a vertical dashed line indicating an effect size of zero, for reference
+  geom_vline(xintercept=0, color='black', linetype='dashed') +
+  #Create sub-plots (i.e., facets) based on levels of setting
+  #And allow them to have their own unique axes (so authors don't redundantly repeat)
+  # facet_grid(dataset+type+time~outcome, scales= 'free', space='free') +
+  ggh4x::facet_nested(type+time~outcome, scales= 'free', space='free') +
+  # ggh4x::facet_nested_wrap(dataset+type+time~outcome, scales = "free_x", 
+  #                          remove_labels = "all",
+  #                          nrow = 15) +
+  ggtitle("Correlation Coefficients with Heart Manikin Scores") + 
+  # Add SESOI
+  SESOIgeom
+
+
+all_cor %>% filter(dataset == "Study 1a") %>%
+  ggplot(aes(y=label, x=estimate, xmin=lower, xmax=upper,
+             color = type)) + draw_forest()
+```
+
+
+```{r fig.width=7, fig.height=16, eval=FALSE}
+##### Mixed Models
+#### Check if values are standardized
+# # Study 1b
+# S1b_mixed_mods_std %>% colnames()
+# 
+# # Study 1c
+# S1c_mixed_mods %>% colnames()
+# 
+# # Study 1d
+# S1d_mixed_mods%>% colnames()
+# 
+# # Study 1e
+# S1e_mixed_mods%>% colnames()
+
+# Bind All
+all_mixed_mods <- bind_rows(
+  "Study 1b" = S1b_mixed_mods_std,
+  "Study 1c" = S1c_mixed_mods,
+  "Study 1d" = S1d_mixed_mods,
+  "Study 1e" = S1e_mixed_mods, .id = "dataset")
+
+# Forest plot
+## ggplot method
+all_mixed_mods %>% 
+  arrange(dataset, type) %>%
+  ggplot(.,
+         aes(y = pred_label, x = pred_coef,
+             xmin = ci_lower, xmax = ci_upper,
+             color = type)) +
+  #Add data points and color them black
+  geom_point()+
+  #add the CI error bars
+  geom_errorbarh(height=.1)+
+  #Specify the limits of the x-axis and relabel it to something more meaningful
+  scale_x_continuous(limits=c(-1,1),
+                     name='Regression Coefficient with Heart Manikin')+
+  #Give y-axis a meaningful label
+  ylab('Variable')+
+  # Legend
+  scale_color_discrete(name = "Hypothesized \nValidity") +
+  #Add a vertical dashed line indicating an effect size of zero, for reference
+  geom_vline(xintercept=0, color='black', linetype='dashed') +
+  #Create sub-plots (i.e., facets) based on levels of setting
+  #And allow them to have their own unique axes (so authors don't redundantly repeat)
+  ggh4x::facet_nested(type + dataset ~ ., scales= 'free', space='free') +
+  ggtitle("All Studies: Standardized Regression Coefficients\nwith the Heart Manikin in Mixed Models") +
+  # Caption
+  labs(caption = "Error bars represent 95% confidence intervals around a standardized coefficient. \nWithin studies, results are controled for fixed effects of manipulations and time.") +
+  # Add SESOI
+  SESOIgeom 
+
+```
+
+
+# Correlogram for S1e
+```{r fig.width=12, fig.height = 12}
+# S1e - Correlogram
+S1e_data_target_only %>%
+  ggcorr(data = ., label = TRUE, label_round = 2, label_size = 3,
+         layout.exp = 3, hjust = .9,
+         method = "pairwise.complete.obs") + 
+  ggtitle("Study 1e Correlations")
+
+```
+
+# Mixed mdoel plot for S1c
+```{r}
+S1c_data_long %>% 
+  ggplot(aes(x = valence, y = heart, color = grouping_dummy)) +
+  geom_point(position = "jitter") +
+  geom_smooth(method = "lm", se = TRUE) + 
+  facet_wrap(. ~ time)
+
+```
+
+
+# Correlogram from S1c
+
+```{r}
+# Correlogram
+S1c_data_target_only %>%
+  ggcorr(data = ., label = TRUE, label_round = 2, label_size = 3,
+         layout.exp = 3, hjust = .9,
+         method = "pairwise.complete.obs") + 
+  ggtitle("Study 1c Correlations")
+
+```
+
+
+# Study1b - correlations
+
+```{r s1b_correlations, fig.width=10, fig.height=10, cache=TRUE}
+
+# Note the within-subjects nature of this correlation
+# # Visit 1
+# S1b_target_variables %>%
+#   filter(visit == 1) %>% 
+#   select(-visit) %>%
+#   ggcorr(data = ., label = TRUE, label_round = 2, label_size = 3,
+#          layout.exp = 3, hjust = .9,
+#          method = "pairwise.complete.obs") + 
+#   ggtitle("Study 1a (RAIv1) - Visit 1")
+# 
+# 
+# # Visit 2
+# S1b_target_variables %>%
+#   filter(visit == 2) %>% 
+#   select(-visit) %>%
+#   ggcorr(data = ., label = TRUE, label_round = 2, label_size = 3,
+#          layout.exp = 3, hjust = .9,
+#          method = "pairwise.complete.obs") + 
+#   ggtitle("Study 1a (RAIv1) - Visit 2")
+# 
+# # Visit 3
+# S1b_target_variables %>%
+#   filter(visit == 3) %>% 
+#   select(-visit) %>%
+#   ggcorr(data = ., label = TRUE, label_round = 2, label_size = 3,
+#          layout.exp = 3, hjust = .9,
+#          method = "pairwise.complete.obs") + 
+#   ggtitle("Study 1a (RAIv1) - Visit 3")
+
+# All Combined
+S1b_target_variables %>%
+  select(-id, -visit) %>%
+  ggcorr(data = ., label = TRUE, label_round = 2, label_size = 3,
+         layout.exp = 3, hjust = .9,
+         method = "pairwise.complete.obs") +
+  ggtitle("Study 1b (RAIv1) - All Visits")
+```
+
+# Correlogram from S1a
+### Correlogram
+```{r s1a-correlogram}
+# Correlation Visual Matrix
+Study1a_target_vars %>%
+  ggcorr(data = ., label = TRUE, label_round = 2, label_size = 3,
+         layout.exp = 2, hjust = .9,
+         method = "pairwise.complete.obs")
+## Caption for the plot
+S1a_dfcaption <- paste("Degrees of freedom for each variables are:",
+                       paste(paste(S1a_cor_CIs$label,
+                                   "=", S1a_cor_CIs$df), collapse = ", "))
+```
+
+
+```{r}
+# Plot the changes
+s2_df_long %>% 
+  ggplot(aes(x = Time, y = value, group = PROLIFIC_PID, color = PROLIFIC_PID)) +
+  # Line
+  geom_line(alpha = 0.6) + 
+  # Prediction line by group
+  # geom_line(stat = "summary", fun.data = mean_cl_normal, size = 2) + 
+  # Facet
+  guides(color = FALSE) +
+  facet_grid(. ~essay_condition)
+
+# Spaghetti
+s2_df_long %>%
+  # Start the ggplot 2 (data from the above)
+  ggplot(aes(x = Time, y = value, fill = Time)) + 
+  # Add violin plot
+  geom_violin() + 
+  # Add confidence intervals
+  stat_summary(fun.data = mean_cl_normal, 
+               fun.args = list(conf.int = .95),
+               geom = "errorbar", width = .2) + 
+  # Add the mean 
+  geom_point(stat = "summary", fun.data = mean_cl_normal, shape = 21) +
+  # Add actual data points 
+  geom_point(position = "jitter", size = .8) +
+  # Add Lines conencting particiapnts
+  geom_line(aes(x = Time, y = value, group = PROLIFIC_PID,
+                color = NULL), alpha = .5) +
+  # Labels
+  scale_y_continuous(name = "Heart Manikin") +
+  labs(caption = "Errorbars represent 95% confidence intervals") + 
+  theme_minimal() + 
+  # Remove Legends
+  guides(fill = FALSE, color = FALSE) + 
+  scale_x_discrete() + 
+  # Facet
+  facet_grid(. ~ essay_condition, labeller = labeller(essay_condition = str_to_title))
+
+```
+
+# Study 2 - Exclusion Check
+
+# Exclusion
+```{r}
+# Visualize how many participants per condition passed attention checks
+s2_df %>% ggplot(aes(x = attention_rejection_correct,
+                     fill = attention_VG_correct)) + geom_bar() +
+  # Labels
+  xlab("Attention Check for Rejection (Correct)") +
+  ylab("Count") +
+  scale_fill_discrete(name = "Attention Check \nfor Video Game \n(Correct)")  + 
+  # Y Breaks by 1 
+  scale_y_continuous(breaks = seq(0, 344, 10)) 
+
+
+# Create a df with those who passed the attention check
+s2_included <- s2_df %>% filter(attention_all_correct == TRUE)
+```
+
+# Study 3 Data Prep
+```{r}
+# PSI ----------------------------------------
+# PSI - PSI_1 - PSI_12
+# Reversed items: 2, 9, 10
+PSI_rev_items <- c("PSI_2", "PSI_9", "PSI_10")
+# Add "R"
+s3_df <- s3_df %>% 
+  rename_at(PSI_rev_items,  add_R)
+# Reverse code
+s3_df <- s3_df %>% mutate_at(vars(matches("\\dR$")), reverse_labelled_values)
+# Aggregate the scale
+s3_df$PSI <- s3_df %>% select(PSI_1:PSI_12) %>% aggregate_and_document_scale()
+
+
+# Narrative Engagement ----------------------------------------
+# Reversed Items: 1, 2, 3, 4, 5
+NE_rev_items <- c("Narrative_Engagement_1", "Narrative_Engagement_2",
+                  "Narrative_Engagement_3", "Narrative_Engagement_4",
+                  "Narrative_Engagement_5")
+# Add "R"
+s3_df <- s3_df %>% 
+  rename_at(NE_rev_items,  add_R)
+# Reverse code
+s3_df <- s3_df %>% mutate_at(vars(matches("\\dR$")), reverse_labelled_values)
+# Aggregate the scale
+s3_df$Narrative_Engagement <- s3_df %>% select(Narrative_Engagement_1R:Narrative_Engagement_9) %>% aggregate_and_document_scale()
+```
+
+
+
+
+# Renaming 
+```{r}
+# CESD - Sum Scores Items 1-20 (reversed items: 4, 8, 12, 16)
+# RPR_public <- RPR_public %>%
+#   rowwise() %>%
+#   mutate(CESD_sum = sum(c_across(all_of(CESD_vars))))
+
+# RPR_public <- RPR_public %>% 
+#   mutate(across(all_of(c("CESD4", "CESD8", "CESD12", "CESD16")),
+#                 function(x){case_when(x == 3 ~ 0, x == 2 ~ 1,
+#                                       x == 1 ~ 2, x == 0 ~ 3)},
+#                 .names = "{col}_rev"))
+
+# Beliefs on Biological Differences
+# Exclude the true differences questions:
+# 12 (heart disease), 13 (spinal cord disease),
+# 14 (bone), 15 (stroke) are true differences, and thus excluded
+RPR_public <- RPR_public %>%
+  mutate(bio_diff_mean = mean(c_across("bio_diff1":"bio_diff11")))
+
+```
+
+
+I performed power analysis for my dissertation project (Studies 2 and 3). Study 1 did not have a power analysis since I used pre-existing datasets.
+
+
+# Study 2
+The aim of Study 2 is to test a hypothesis that recalling playing one's favoriate game will mitigate the effect of social rejection.  The study used a two-group design.
+
+Since there was only one study tested this hypothesis, and relying one single-study for an effect size estimate is unreliable, I used an average effect size reported in social psychology literature. Then I took 80% confidence intervals. I will use the lower bound of this confidence interval as the target effect size.
+
+
+```{r}
+library(pwr)
+Richard_r <- .21
+Richard_sd <- .15
+Richard_r_sd <- .15
+Richard_r_variance <- Richard_r_sd^2
+compute.es::res(r = Richard_r, var.r = Richard_sd^2, n = 322, level = 80)
+# compute.es::res calculates lower and upper cl as   lower.d <- d - crit * sqrt(var.d)
+# I think the formula should be d - crit * sqrt(var.d)
+
+s2_es = .43 # 80% lower bound from Richard et al., 2003
+s2_power = .90
+s2_alpha = .05
+s2_target <- pwr.t.test(d = s2_es, sig.level = s2_alpha, power = s2_power)
+
+# Borenstein 2009 Conversion
+r2d <- function(r){
+  d <- 2 * r / sqrt(1 - r^2)
+  return(d)
+}
+Richard_d <- 2 * Richard_r / sqrt(1 - Richard_r^2)
+Richard_vd <- 4 * Richard_r_variance / (1 - Richard_r^2)^3
+Richard_d_SE <- sqrt(Richard_vd) # Borenstein
+Richard_d_80LL <- Richard_d - (qnorm(.90) * Richard_d_SE)
+Richard_d_80UL <- Richard_d + (qnorm(.90) * Richard_d_SE)
+Richard_d_60LL <- Richard_d - (qnorm(.80) * Richard_d_SE)
+Richard_d_60UL <- Richard_d + (qnorm(.80) * Richard_d_SE)
+
+
+psych::cohen.d.ci(Richard_d, n = 322, alpha = .20)
+```
+
+```{r}
+
+Richard_n_conclusions <- 474
+Richard_n_studies <- 33912
+xresult <- compute.es::res(r = Richard_r, var.r = Richard_r_variance,
+                           n = Richard_n_conclusions, level = 60, dig = 4)
+
+pwr.t.test(d = r2d(xresult$l.r), power = .90)
+pwr.t.test(d = xresult$l.d, power = .90)
+```
+```{r}
+compute.es::res(r = Richard_r, n = Richard_n_studies, level = 80, dig = 4)
+```
+
+Number of effects
+```{r}
+Richard_n_effects <- 474
+compute.es::res(r = Richard_r,
+                n = Richard_n_effects,
+                level = 80, dig = 4)
+```
+
+
+Following Borenstein - Fisher z Conversion
+```{r}
+# Fisher z convertion 
+library(psych)
+
+confidence_level <- .60
+
+Richard_z <- 0.5 * log((1 + Richard_r)/(1 - Richard_r))
+Richard_z_var <- 1 / (Richard_n_effects - 3)
+Richard_z_SE <- sqrt(Richard_z_var)
+qprop <-  1 - (1-confidence_level)/2
+Richard_z_LL <- Richard_z - qnorm(qprop) * Richard_z_SE
+Richard_z_LL_r <- fisherz2r(Richard_z_LL)
+Richard_z_LL_d <- r2d(Richard_z_LL_r)
+Richard_z_LL_d
+pwr.t.test(d = Richard_z_LL_d,
+           sig.level = 0.05,
+           power = .90)
+```
+
+
+```{r}
+library(psych)
+confidence_level <- .80
+
+Richard_z <- 0.5 * log((1 + Richard_r)/(1 - Richard_r))
+### ??? 
+Richard_z_var <- 1 / (Richard_n_studies - 3)
+# I'm using the total number of studies, rather  than the total number of meta-anlaytic conclusions because I'm interested in an average effect size from a population of studies, not a population of meta-analyses.
+
+Richard_z_SE <- sqrt(Richard_z_var)
+qprop <-  1 - (1-confidence_level)/2
+Richard_z_LL <- Richard_z - qnorm(qprop) * Richard_z_SE
+Richard_z_LL_r <- fisherz2r(Richard_z_LL)
+Richard_z_LL_d <- r2d(Richard_z_LL_r)
+Richard_z_LL_d
+pwr.t.test(d = Richard_z_LL_d,
+           sig.level = 0.05,
+           power = .90)
+```
+
+
+
+
+
+
+```{r}
+pwr.t.test()
+```
+
+
+```{r}
+# Variance R estimated from formula
+var_r_estimate <- (1 - Richard_r^2)^2 / (322 - 1)
+```
+
+
+
+The resulting target sample size with power = `r s2_power` and alpha = `r s2_alpha` is `r ceiling(s2_target$n)` per group (total N = `r ceiling(s2_target$n) * 2` for two groups)
+
+
+
+## BUCCS Approach
+- Derrick et al used a similar method
+- and measured belonging similarly
+- I expect that the magnitude of the effect will be similar, if the social surrogacy is the underlying process
+- I base their effect size and use BUCCS to correct for both inflation of effect size and publication bias
+
+```{r}
+library(BUCSS)
+ss.power.ba(F.observed = 3.01, 
+            N = 116,
+            levels.A = 2,
+            levels.B = 2,
+            alpha.prior = .5,
+            power = .90)
+```
+
+
+Derrick - t-test comparison between the social surrogacy vs non-surrogacy condition
+
+```{r}
+library(compute.es)
+tes(t = 1.78, n.1 = 116/2, n.2 = 116/2, level = 60)
+```
+
+
+
+# Study 3
+
+In Study 3, I will test whether two factors, Parasocial Relationships and Social Worlds, can influence belonging in a 2 x 2 between-subjects design. Similar to Study 2, there were no reliable effect size estimates available, and thus I rely on the averge effect size reported by Richard et al. (2003).
+
+
+Since parasocial relationships involve more direct interactions than social worlds, I expect that parasocial relationship more strongly affects belonging thana social words. Given this assumption, I expect the pattern of the results as follows: 
+
+1. Participants who had parasocial interactions and immersed in social words report the highest belonging
+2. Participants who had parasocial interactions without social worlds
+3. Participats without parasocial interactions with social worlds
+4. Participants did not have either parasocial interactions or social worlds will report the lowest belonging 
+
+```{r}
+s3_es = .43
+s3_es_f = .43/2 # According to Cohen 
+s3_power = .90
+s3_alpha = .05
+s3_target <- pwr.anova.test(k = 4, f = s3_es_f, sig.level = s3_alpha, power = s3_power)
+s3_target
+```
+
+
+
+## ANOVA Power Power Analyis - per Lakens & Caldwell Method
+
+```{r}
+library(Superpower)
+
+study3_target_d <- Richard_z_LL_d
+
+study3_design <- ANOVA_design(design = "2b*2b",
+                              n = 80,
+                              mu = c(0,.16,.16,0.32), sd = 1,
+                              labelnames = c("Parasocial", "High", "Low",
+                                             "SocialWorlds", "High", "Low"),
+                              plot = TRUE)
+ANOVA_exact(study3_design)
+```
+```{r}
+study3_monte <- ANOVA_power(study3_design,
+                            nsims = 1000)
+```
+
+```{r}
+plot_power(study3_design,
+           min = 80,
+           max = 200)
+```
+
+
+
+# Study 1 
+## Old forestplot() codes
+```{r}
+
+
+# Prepare a forest plot
+forestplot_coef <- function(df, mean, lower, upper,
+                            fig_title,
+                            labels_from,
+                            label_names,
+                            show_stats = FALSE,
+                            stats_round = 2){
+
+# Prepare data for the forestplot
+cur_cor_forestdata <- df %>% 
+  select(pred_coef, ci_lower, ci_upper) %>% 
+  # forestplot() takes a data frame that has mean, lower, and upper
+  rename(mean = {{mean}},
+         lower = {{lower}},
+         upper = {{upper}}) %>% 
+  add_row(.before = 1)
+
+labels_df <- rbind(label_names, df %>% select_(labels_from))
+
+if(show_stats == TRUE){
+  labels_df <- labels_df %>% 
+    cbind(round(cur_cor_forestdata, 2))
+}
+
+cur_forestplot <- forestplot(cur_cor_forestdata,
+                             # Bind the title row (note that NA will be required for the input data)
+           labeltext = labels_df,
+           is.summary = c(TRUE, rep(FALSE, nrow(cur_cor_forestdata))),
+           col = fpColors(box = "royalblue",
+                          line = "darkblue",
+                          summary = "royalblue"),
+           xticks = seq(-1, 1, .5),
+           title =  fig_title,
+           hrzl_lines = gpar(col = "#444444"))
+}
+
+
+
+# Render the forest plot
+forestplot_coef(S1b_models_std,
+                mean = pred_coef,
+                lower = ci_lower,
+                upper = ci_upper,
+                fig_title = "Standardized Regression Coeffients Predicting Heart Manikin Scores \n in Mixed Models (95%CI)",
+                labels_from = "names",
+                label_names = "Variable",
+                show_stats = TRUE)
+```
+
+First focusing on heart manikin and valence
+```{r}
+# Heart Manikin and Valence
+S1b_data %>% 
+  ggplot(aes(x = valence, y = heart, col = as.factor(id))) + 
+  geom_point(position = "jitter") + 
+    geom_smooth(method = lm, se = FALSE) +
+  theme_minimal() + 
+  theme(legend.position = "none")
+
+```
+```{r}
+lmer_model <-lmer(formula = heart ~ 1 + (1|id),
+     data = S1b_data) 
+lmer_model %>% 
+  summary()
+
+# Calculate Intraclass Correlation
+# visit level-varia
+
+0.8557/ (1+5729 + 0.8557)
+# The proportion of variance in heart scores 
+# within the person compared with teh total variance
+
+# Valence
+names(S1b_target_variables)
+```
+
+
+
+
+
+-----
+
+
+First, I used tidyverse packages to read the code files
+
+```{r}
+pacman::p_load(tidyverse, haven, dplyr)
+
+# Debrief csv's path.
+# Specify a path to the csv files from Qualtrics
+# Load the codes from Qualtrics (use numeric responses)
+
+debrief_path <- "./debrief/"
+rounds <- list.files(path = debrief_path, pattern = "round_*")
+
+# Initialize codes from Qualtrics
+codes <- NULL
+all_codes <- NULL
+coders <- c("Dineli", "Lauren", "Olivia")
+
+for(file in rounds){
+  current_df <- read_csv(paste0(debrief_path,file))
+  current_codes <- current_df %>% slice(-c(1,2))
+  
+  # List of ID in the given file
+  id <- slice(current_df, 1) %>%
+    grep("* - Coding", ., value = TRUE) %>%
+    gsub(" - Coding", "", .) %>% as.numeric()
+  
+  # List of seq_id in the given file
+  seq_id <- colnames(current_df) %>%
+    grep("*_exclude$", ., value = TRUE) %>% 
+    gsub("_exclude", "", .) %>% as.numeric()
+  
+  # Create a temporaly tibble of seqid, fleenid, origin for
+  # the given file
+  deb_key <- tibble(SeqID = seq_id, fleenID = id, origin = file)
+  
+  # Gather and Spread the codes for the current file
+  # so that each row represents a participant
+  # columns represent codes for each participant
+  codes <- current_codes %>% select(RecipientFirstName, ends_with("exclude")) %>%
+    gather(key = "key", value = "value", -RecipientFirstName) %>%
+    spread(RecipientFirstName, value) %>%
+    mutate(SeqID = as.numeric(gsub("_exclude","", key))) %>%
+    arrange(SeqID) %>% left_join(deb_key, by = "SeqID") %>%
+    select(origin, SeqID, fleenID, coders, everything(), -key)
+  
+  all_codes <- all_codes %>% bind_rows(codes)
+  
+  }
+
+```
+
+
+```{r}
+all_codes_agree <- add_column(all_codes, DL = all_codes$Dineli == all_codes$Lauren) %>%
+                   add_column(DO = all_codes$Dineli == all_codes$Olivia) %>%
+                   add_column(LO = all_codes$Lauren == all_codes$Olivia)
+
+all_codes_complete  <- add_column(all_codes_agree, all_agree = all_codes_agree$DL == TRUE &
+                               all_codes_agree$DO == TRUE &
+                               all_codes_agree$LO == TRUE) %>%
+                       add_column(all_exclude = all_codes_agree$Dineli == 1 &
+                               all_codes_agree$Lauren == 1 &
+                               all_codes_agree$Olivia == 1) %>%
+                       add_column(agreement = (as.numeric(all_codes_agree$DL) + 
+                               as.numeric(all_codes_agree$DO) + 
+                               as.numeric(all_codes_agree$LO))/3)
+
+p_agree <- summarise(all_codes_complete, mean(agreement, na.rm = TRUE))
+
+```
+
+Are there any duplicates?
+```{r}
+filter(all_codes_complete, duplicated(fleenID) == TRUE)
+```
+
+
+## Calculating Percentage Agreement
+Now we have a data frame of the codes, we calculate the percentage agreemenet between coders (3 values).
+
+
+```{r}
+DL <- summarize(all_codes_complete, mean(DL, na.rm = TRUE)) #%agreement with Dineli and Lauren
+DO <- summarize(all_codes_complete, mean(DO, na.rm = TRUE)) #% agreement with Dineli and Olivia
+LO <- summarize(all_codes_complete, mean(LO, na.rm = TRUE)) #% agreement with Lauren and Olivia
+```
+
+The percentage agreement between Dineli and Lauren was:
+
+|%Agreement|Dineli       |Lauren     |
+|-----------|------------|-----------|
+|Lauren     |`r DL[[1]]` |NA         |
+|Olivia     |`r DO[[1]]` |`r LO[[1]]`|
+
+
+Overall percentage agreement was `r round(p_agree[[1]] * 100)`%.
+
+
+```{r}
+# add a column expressing the final exclusion decision
+all_codes_complete <- all_codes_complete %>%
+                      mutate(final_exclusion = all_exclude == TRUE |
+                                (all_agree == FALSE & LO == 1 & Olivia == 1)|
+                                (all_agree == FALSE & LO == 0 & Dineli == 1))
+# nrow(filter(all_codes_complete, final_code == TRUE))
+
+n_excluded <- # the number of people marked as "exclude" by all the coders
+              summarise(all_codes_complete, sum(all_exclude, na.rm = TRUE))[[1]] +
+              ### For those participants who have discrepant coding:
+              # First, Lauren and Olviia's joint coding will determine the codes
+              # because Lauren and Olivia had the highest percentage coding
+              nrow(filter(all_codes_complete, all_agree == FALSE & LO == 1 & Olivia == 1)) +
+              # Second, where Lauren and Olivia disagree, Dineli's codes determine the final code
+              # because Dineli was the third person 
+              nrow(filter(all_codes_complete, all_agree == FALSE & LO == 0 & Dineli == 1))
+
+# write the id of excluded participants:
+write_csv(select(all_codes_complete, fleenID, final_exclusion), "excluded_participants.csv")
+```   
+
+The target sample size is 149.
+
+Out of total participants, `r nrow(all_codes_complete)` The number of people to be excluded was `r n_excluded[[1]]`.
+The number of participants after exclusion is `r nrow(all_codes_complete) - n_excluded[[1]]`. The overall percentage of exclusion is `r round(n_excluded[[1]]/nrow(all_codes_complete) * 100, 2)`%.
+

@@ -1,0 +1,129 @@
+---
+title: "Render Tables of Validation Measures"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+always_allow_html: yes
+---
+
+Render the latex tables for the included measures.
+
+```{r}
+
+library(kableExtra)
+library(pander)
+library(tidyverse)
+library(magrittr)
+library(stringr)
+options(kableExtra.auto_format = FALSE)
+
+```
+
+```{r}
+dt <- mtcars[1:5, 1:6]
+
+kbl(dt)
+```
+
+```{r}
+# get data
+table_url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdpZi42thE2Rl0EBKlgC-ybUqKnYo1YiFgDeVZxclHR7FG0XQHpRsGciHY7nVyXldoCKLdCjHTBw0j/pub?gid=0&single=true&output=csv"
+
+raw_table <- read_csv(table_url)
+raw_table <- raw_table %>%
+  mutate(need_packing = !(`Main Measure` == `Subscale (if any)`)) %>%
+  # abbreviate the labels
+  mutate(Validity = str_replace(Validity,"Convergent","Con."),
+         Validity = str_replace(Validity, "Discriminant", "Dis."))
+
+pack_starts <- raw_table %>%
+  mutate(rownum = row_number()) %>%
+  group_by(Study, `Main Measure`) %>%
+  filter(row_number() == 1 | row_number() == n()) %>%
+  filter(need_packing == TRUE) %>%
+  mutate(start_end = case_when(row_number() == 1 ~ "start",
+                               row_number() == n() ~ "end")) %>% 
+  select(-Validity, -Citation, -`Measured Construct`, -need_packing)
+```
+
+
+```{r}
+pack_starts <- raw_table %>%
+  mutate(rownum = row_number()) %>%
+  group_by(Study, `Main Measure`) %>%
+  mutate(Submeasure = row_number()) %>% 
+  mutate(start_num = case_when(Submeasure == 1 ~ rownum),
+         end_num = case_when(Submeasure == n() ~ rownum)) %>% 
+  ungroup() %>%
+  fill(start_num, .direction = "down") %>%
+  fill(end_num, .direction =  "up") %>%
+  filter(Submeasure == 1) %>%
+  mutate(need_packing = (start_num != end_num),
+         `Subscale (if any)` = case_when(need_packing == FALSE ~ `Main Measure`)) %>%
+  mutate(labels = case_when(need_packing == TRUE ~ `Main Measure`,
+                            TRUE ~ " ")) %>% 
+  mutate(intervals = end_num - start_num + 1)
+
+pack_index <- pack_starts$intervals
+names(pack_index) <- pack_starts$labels
+
+pack_index_a <- pack_starts %>% filter(Study == "a") %>% pull(intervals, labels) 
+pack_index_b <- pack_starts %>% filter(Study == "b") %>% pull(intervals, labels) 
+pack_index_c <- pack_starts %>% filter(Study == "c") %>% pull(intervals, labels) 
+pack_index_d <- pack_starts %>% filter(Study == "d") %>% pull(intervals, labels) 
+pack_index_e <- pack_starts %>% filter(Study == "e") %>% pull(intervals, labels) 
+```
+
+# Study 1a
+```{r}
+# raw_table %>%
+#   filter(Study == "a") %>%
+#   select(-Study, -`Main Measure`, -need_packing) %>%
+#   kbl(caption = "Table X.") %>%
+#   # column_spec(3:5, width = "2cm") %>% 
+#   pack_rows(index = pack_index_a,
+#             bold = FALSE, hline_after = FALSE) %>% 
+#     kable_classic(full_width = F, html_font = "Cambria") %>% 
+#   row_spec(0, bold = T)
+
+```
+
+
+
+
+# All Studies
+```{r table1, echo = FALSE, results='asis'}
+studies <- c("a", "b", "c", "d", "e")
+indices_list <- list(pack_index_a, pack_index_b, pack_index_c, pack_index_d, pack_index_e)
+
+for(i in 1:length(studies)){
+  temp_table <- raw_table %>%
+  filter(Study == studies[i]) %>%
+  select(-Study, -`Main Measure`, -need_packing) %>%
+    rename("Measure" = `Subscale (if any)`,
+           "Construct" = `Measured Construct`) %>%
+  kbl(caption = paste0("Table X. Summary of Measures for Study", " 1", studies[i])) %>%
+  column_spec(3, width = "2cm") %>% 
+  column_spec(4, width = "4cm") %>% 
+      row_spec(0, bold = T) %>% 
+  pack_rows(index = indices_list[[i]],
+            bold = FALSE, hline_after = FALSE,
+            # White out the line
+            label_row_css = "background-color: white; border-bottom:white") %>% 
+    kable_classic(full_width = F, html_font = "Cambria") %>%
+    footnote(general_title = "Note.",
+             footnote_as_chunk = TRUE,
+             general = "Con. = Convergent Validity. Dis. = Discriminant Validity. (R) = Reverse association. ")
+  temp_table %>% print()
+  # temp_table %>%  save_kable(paste0("Table ", studies[i], ".html")) 
+}
+
+```
+
+
+# Resources
+https://www.datadreaming.org/post/apa-style-table-in-rmarkdown-html-version/
+
+https://stackoverflow.com/questions/54876165/using-a-for-loop-with-knitrkable-and-kableextraadd-header-above
