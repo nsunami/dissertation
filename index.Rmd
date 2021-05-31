@@ -5,6 +5,10 @@ site: bookdown::bookdown_site
 output:
   bookdown::gitbook:
     lib_dir: "book_assets"
+    config:
+      edit:
+        link: https://github.com/nsunami/dissertation/edit/master/%s
+        text: "Edit"
   bookdown::pdf_book:
     keep_tex: yes
     latex_engine: xelatex
@@ -13,8 +17,8 @@ bibliography: ["references.bib", "references-exported.bib"]
 csl: "apa.csl"
 link-citations: true
 output_dir: "docs"
-github-repo: nsunami/dissertation
-
+github-repo: "nsunami/dissertation"
+delete_merged_file: false
 ---
 
 ```{r bidr-setup, message=FALSE, warning=FALSE, include=FALSE}
@@ -26,6 +30,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Abstract {-}
+# Note
 
-People have a fundamental need to belong—to be accepted, loved, and cared for. The COVID-19 pandemic has threatened people’s sense of belonging; people had to isolate themselves from others due to the stay-at-home orders. At the same time in early 2020, people started to spend more time playing video games; sales and consumption of video games skyrocketed, breaking previous records worldwide. Existing theoretical perspectives suggest one possible reason for this popularity: video games, including single-player video games, may help people feel socially connected. For example, according to the bi-dimensional rejection taxonomy, solo gameplay is a disengaged prosocial response, an attempt to replenish belonging in a hands-off, indirect manner. Also, according to the social surrogacy hypothesis, solo gameplay can provide social surrogates, symbolic bonds that can replenish belonging. Players can form parasocial relationships (one-way psychological bonds) with a non-player character in the game; players can also immerse themselves in the social worlds and feel like a member of a collective presented in the video game. Although existing theories and qualitative evidence suggest that solo gameplay can benefit belonging, quantitative evidence is lacking to support this prediction. In this dissertation, I examined if solo gameplay could replenish belonging after social rejection. In Study 1, I validated the Heart Manikin—a single-item measure of state belonging, which I used in the subsequent studies. In Study 2, rejected participants recalled their time playing a video game with vs. without social surrogates. In Study 3, rejected participants played a custom video game that manipulates parasocial relationships and social worlds. Across studies, I found that rejected participants reported similar levels of belonging after being exposed to social surrogates in video games. The results move forward the discourse on the bi-dimensional rejection taxonomy, the social surrogacy hypothesis, and the video games literature.
+The dissertation is moved to 
