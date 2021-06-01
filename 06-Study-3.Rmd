@@ -931,11 +931,11 @@ Dominance:
 `r s3_manikins_time_list$Dominance$"parasocial:social_world:time"`).
 However, there was a consistent Time effect across the models. At Time
 2, Participants reported lower belonging (Time 1:
-`r s3_time_APA$T1Heart`; Time 2: `r s3_time_APA$T2Heart`), lower valence
-(Time 1: `r s3_time_APA$T1Valence`; Time 2: `r s3_time_APA$T2Valence`),
+`r s3_time_APA$T1Heart`; Time 2: `r s3_time_APA$T2Heart`; `r s3_manikins_time_list$Heart$time`), lower valence
+(Time 1: `r s3_time_APA$T1Valence`; Time 2: `r s3_time_APA$T2Valence`; `r s3_manikins_time_list$Valence$time`),
 higher arousal (Time 1: `r s3_time_APA$T1Arousal`; Time 2:
-`r s3_time_APA$T2Arousal`), and higher dominance (Time 1:
-`r s3_time_APA$T1Dominance`; Time 2: `r s3_time_APA$T2Dominance`)
+`r s3_time_APA$T2Arousal`; `r s3_manikins_time_list$Arousal$time`), and higher dominance (Time 1:
+`r s3_time_APA$T1Dominance`; Time 2: `r s3_manikins_time_list$Dominance$time`)
 compared with the baseline (Time 1).
 
 ```{r s3-manikin-across-time-plot, fig.cap="Study 3 - Mankin Scores Across Time By Conditions", fig.width=9, fig.height=8}
