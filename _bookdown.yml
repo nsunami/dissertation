@@ -1,1 +1,2 @@
 delete_merged_file: false
+output_dir: "docs"

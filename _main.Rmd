@@ -19,7 +19,6 @@ documentclass: book
 bibliography: ["references.bib", "references-exported.bib"]
 csl: "apa.csl"
 link-citations: true
-output_dir: "docs"
 github-repo: "nsunami/dissertation"
 delete_merged_file: false
 ---
