@@ -9,6 +9,9 @@ output:
       edit:
         link: https://github.com/nsunami/dissertation/edit/master/%s
         text: "Edit"
+      sharing:
+        github: yes
+        facebook: no 
   bookdown::pdf_book:
     keep_tex: yes
     latex_engine: xelatex
