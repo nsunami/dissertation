@@ -67,7 +67,9 @@ more thorough theoretical framework for understanding responses to
 rejection, equipping researchers with a more complete map for generating
 new hypotheses.
 
-```{r bidr-all, out.width = '100%', fig.cap='Conceptual figure of the bi-dimensional rejection taxonomy. The antisocial--prosocial *x*-axis refers to rejection responses that function to reduce (antisocial) or promote (prosocial) social connection. The engaged--disengaged *y*-axis represents engaged (direct, active, "hands-on", approach-based) and disengaged (indirect, passive, "hands-off", avoidance-based) attempts to cope with the stressor (the current or future need-threat elicited by the rejection experience). The numbers in the figure represent quadrants: Quadrant 1 (engaged antisocial responses), Quadrant 2 (engaged prosocial responses), Quadrant 3 (disengaged antisocial responses), and Quadrant 4 (disengaged prosocial responses).'}
+(ref:bidr-all) Conceptual figure of the bi-dimensional rejection taxonomy. The antisocial--prosocial *x*-axis refers to rejection responses that function to reduce (antisocial) or promote (prosocial) social connection. The engaged--disengaged *y*-axis represents engaged (direct, active, "hands-on", approach-based) and disengaged (indirect, passive, "hands-off", avoidance-based) attempts to cope with the stressor (the current or future need-threat elicited by the rejection experience). The numbers in the figure represent quadrants: Quadrant 1 (engaged antisocial responses), Quadrant 2 (engaged prosocial responses), Quadrant 3 (disengaged antisocial responses), and Quadrant 4 (disengaged prosocial responses).
+
+```{r bidr-all, out.width = '100%', fig.cap='(ref:bidr-all)'}
 knitr::include_graphics("images/bidr-all.png")
 ```
 
@@ -180,7 +182,7 @@ papers for more extensive discussions of this dimension [@richmanReactionsDiscri
 antisocial-prosocial *x*-axis of the bi-dimensional rejection taxonomy.
 
 Many previous theories commonly highlight the existence of the
-antisocial--prosocial \_*x*-\_axis. For example, the multimotive model
+antisocial--prosocial *x*-axis. For example, the multimotive model
 defines antisocial responses as those that function to diminish
 belonging whereas prosocial responses as those that function to enhance
 belonging [@richmanReactionsDiscriminationStigmatization2009]. The need-threat model also identifies
