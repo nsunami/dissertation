@@ -45,14 +45,6 @@ library(rmarkdown)
 ```
 
 
-<!--chapter:end:index.Rmd-->
-
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Overview
 
 People have a fundamental need to belong---to be accepted, loved, and
@@ -96,7 +88,7 @@ relationships or social worlds replenish belonging after social
 rejection. In Chapter 6, I discuss the findings of my dissertation and
 future avenues for research.
 
-<!--chapter:end:01-Overview.Rmd-->
+<!--chapter:end:index.Rmd-->
 
 ---
 editor_options: 
@@ -4910,7 +4902,7 @@ independently manipulate parasocial relationships and social worlds.
 Participants spent on the average of `r s3_playtime$mean_playtime`
 minutes to play the game (`r s3_playtime$APA`).
 
-```{r s3-screenshots, fig.cap='Screenshots from the Custom Video Game, Shadows of Gaki. In the high parasocial relationship conditions (Panels A and B), participants saw a non-player character (Sashu) who followed the player throughout the gameplay. In the low parasocial relationship conditions (Panels B and D), the non-player character is absent. In the high social world conditions (Panels A and B), participants will learn about the story that Higra answered the Emperor\'s call to be a Samga and to reunite with Mother. In the low social world condition, participants will not learn about the story.'}
+```{r s3-screenshots, out.width='90%', fig.cap='Screenshots from the Custom Video Game, Shadows of Gaki. In the high parasocial relationship conditions (Panels A and B), participants saw a non-player character (Sashu) who followed the player throughout the gameplay. In the low parasocial relationship conditions (Panels B and D), the non-player character was absent. In the high social world conditions (Panels A and B), participants learned about the story that Higra answered the Emperor\'s call to be a Samga and to reunite with Mother. In the low social world condition, participants will not learn about the story.'}
 knitr::include_graphics(here("images", "sog-screenshots.png"))
 ```
 
@@ -6439,11 +6431,11 @@ null results. Possibilities of the null results include ineffective
 manipulations of social surrogacy, Type II error, and unexplained
 boundary conditions.
 
-Although the current studies provide ambiguous results, I did not
-observe any negative effects of playing video games previously reported 
-[for discussion, see @anderson2010; @hilgard2017]. On the contrary,
-many participants indicated that they enjoyed writing about their
-experience playing a video game in open-ended responses. I hope my
+I note that many past studies in social psychology focused on investigating
+negative effects of playing video games  
+[for discussion, see @anderson2010; @hilgard2017]. I took a different perspective 
+and focused on possible positive influence of the gameplay (see @adachiVideoGamesPromote2013; @granicBenefitsPlayingVideo2014 for 
+similar perspectives). I hope my
 dissertation contributes towards a more nuanced understanding of video games
 and how they influence social well-being.
 
@@ -6459,10 +6451,11 @@ social rejection.
 ---
 always_allow_html: true
 ---
-# References
-::: {#refs}
-:::
 
+
+# References {-}
+
+<div id="refs"></div>
 
 <!--chapter:end:08-References.Rmd-->
 
@@ -6470,7 +6463,9 @@ always_allow_html: true
 always_allow_html: true
 ---
 
-# Appendix {#appendix}
+# APPENDIX {-}
+
+
 ```{r appendix-setup}
 # Load package
 library(tidyverse)
@@ -6549,7 +6544,7 @@ s1a_cronbach_APA <- get_cronbach_alphas(s1a_realiablities) %>% map(~f.round(., 2
 ```{r appendix-s1b}
 # Get Cronbach's alphas
 s1b_realiablities <- read_rds(here("data_public", "reliability", "s1b_reliability.rds"))
-s1b_cronbach_APA <- s1b_realiablities %>% get_cronbach_alphas() %>% 
+s1b_cronbach_APA <- s1b_realiablities %>% get_cronbach_alphas() %>%
   map(~f.round(., 2, strip.lead.zeros = TRUE))
 ```
 
@@ -6605,7 +6600,7 @@ s1d_cronbach_APA <- get_cronbach_alphas(s1d_realiablities) %>% map(~f.round(., 2
 
 **Need for Closure Scale.** The Need for Closure Scale was a 15-item measure of a need for closure, a desire for an answer on any topic [@roetsItemSelectionValidation2011]. Participants answered their agreement on statements (e.g., "I don't like situations that are uncertain") on a 7-point scale (-3 = strongly disagree, +3 = strongly agree). I will use the average score across items as an index for need for closure. The scale showed convergent validity with constructs, such as need for structure and right-wing authoritarianism, related to need for closure [@roetsItemSelectionValidation2011]. Cronbach's alpha for the current sample was `r s1d_cronbach_APA$closure_mean`.
 
-**Social Judgment Survey.** The Social Judgement Survey is a single-item measure of adherence to the traditional cultural values [@proulxCaseTransmogrifyingExperimenter2008; ] [(Proulx & Heine, 2008; Rosenblatt et al., 1989)](https://www.zotero.org/google-docs/?WfCwBd). The survey asks participants to read a case brief of a defendant accused of prostitution, and answer how much bond should be assigned to the defendant. Higher amounts of bond indicates higher adherence to the traditional cultural values, and lower bond indicates lower adherence. The scale was found sensitive to the mortality salience and expectancy violation manipulations [(Proulx & Heine, 2008; Rosenblatt et al., 1989)](https://www.zotero.org/google-docs/?x6OWOl).
+**Social Judgment Survey.** The Social Judgement Survey is a single-item measure of adherence to the traditional cultural values [@proulxCaseTransmogrifyingExperimenter2008; @rosenblattEvidenceTerrorManagement1989]. The survey asks participants to read a case brief of a defendant accused of prostitution, and answer how much bond should be assigned to the defendant. Higher amounts of bond indicates higher adherence to the traditional cultural values, and lower bond indicates lower adherence. The scale was found sensitive to the mortality salience and expectancy violation manipulations [@proulxCaseTransmogrifyingExperimenter2008; @rosenblattEvidenceTerrorManagement1989].
 
 ### Study 1e: NPSv2
 ```{r appendix-s1e}
@@ -6615,15 +6610,15 @@ s1e_cronbach_APA <- get_cronbach_alphas(s1e_realiablities) %>% map(~f.round(., 2
 ```
 
 
-**Modified Need-Threat Scale.** I used a modified version of the Need-Threat Scale [(Nadzan & Jaremka, 2017)](https://www.zotero.org/google-docs/?FcyvHX) to measure feelings of belonging, self-esteem, and control [(Williams, 2009)](https://www.zotero.org/google-docs/?SDBRG2). The original Need-Threat Scale asked participants to retrospectively report their feelings during a Cyberball game. Instead, this modified version asks participants to answer according to how they feel at the moment ("right now"). Example items included "How accepted do you feel?" for belonging, "How confident do you feel?" for self-esteem, "How much control do you feel like you have?" for control, and "How important do you feel?". Participants indicated their answers on a horizontal slider ranging from 0 (The least I could possibly ever feel) and 100 (the most I could ever possibly feel), to minimize floor and ceiling effects. I calculated an average for each subscale as an index. The Cronbach's alpha for the current sample was `r s1e_cronbach_APA$belonging` for belonging, XX for self-esteem, XX for control, and XX for meaningful existence. This modified scale has not been validated.
+**Modified Need-Threat Scale.** I used a modified version of the Need-Threat Scale [@nadzanModifiedNeedThreatScale2017] to measure feelings of belonging, self-esteem, and control [@williamsOstracismTemporalNeedthreat2009]. The original Need-Threat Scale asked participants to retrospectively report their feelings during a Cyberball game. Instead, this modified version asks participants to answer according to how they feel at the moment ("right now"). Example items included "How accepted do you feel?" for belonging, "How confident do you feel?" for self-esteem, "How much control do you feel like you have?" for control, and "How important do you feel?". Participants indicated their answers on a horizontal slider ranging from 0 (The least I could possibly ever feel) and 100 (the most I could ever possibly feel), to minimize floor and ceiling effects. I calculated an average for each subscale as an index. The Cronbach's alpha for the current sample was `r s1e_cronbach_APA$nts_T3_belonging_mean` (Time 3) and `r s1e_cronbach_APA$nts_T5_belonging_mean` (Time 5) for belonging, `r s1e_cronbach_APA$nts_T3_esteem_mean` (Time 3) and `r s1e_cronbach_APA$nts_T5_esteem_mean` (Time 5) for self-esteem, `r s1e_cronbach_APA$nts_T3_control_mean` (Time 3) and `r s1e_cronbach_APA$nts_T5_control_mean` (Time 5) for control, and `r s1e_cronbach_APA$nts_T3_meaning_mean` (Time 3) and `r s1e_cronbach_APA$nts_T5_meaning_mean` (Time 5) for meaningful existence. This modified scale has not been validated.
 
-**Experiences in Close Relationships Scale---Short Form.** The Experiences in Close Relationships Scale---Short Form is a 12-item measure of attachment avoidance and anxiety [(Wei et al., 2007)](https://www.zotero.org/google-docs/?Uf5mzH). Participants were asked to indicate their agreement on sentences referring to concerns in intimate relationships on a 7-point scale (-3 = "Strongly disagree" to 3 "Strongly agree"). Example items included "I want to get close to others but I keep pulling back" for avoidance and "I find that people don't want to get as close as I would like" for anxiety. I will calculate an average for each subscale as an index. Cronbach's alphas for the current sample were XX for the avoidance subscale and XX for the anxiety subscale. Both subscales showed convergent and discriminant validities [(Wei et al., 2007)](https://www.zotero.org/google-docs/?ONz4BT).
+**Experiences in Close Relationships Scale---Short Form.** The Experiences in Close Relationships Scale---Short Form is a 12-item measure of attachment avoidance and anxiety [@weiExperiencesCloseRelationship2007]. Participants were asked to indicate their agreement on sentences referring to concerns in intimate relationships on a 7-point scale (-3 = "Strongly disagree" to 3 "Strongly agree"). Example items included "I want to get close to others but I keep pulling back" for avoidance and "I find that people don't want to get as close as I would like" for anxiety. I calculated an average for each subscale as an index. Cronbach's alphas for the current sample were `r s1e_cronbach_APA$ECR_avoidance_mean` for the avoidance subscale and `r s1e_cronbach_APA$ECR_anxiety_mean` for the anxiety subscale. Both subscales showed convergent and discriminant validities [@weiExperiencesCloseRelationship2007].
 
-**Fear of Negative Evaluation Scale---Brief Version.** The Fear of Negative Evaluation is a 15-item measure of apprehension in expecting negative judgment from others [(Leary, 1983)](https://www.zotero.org/google-docs/?4MoZ82). For each item, participants read a sentence (e.g., "I worry about what other people will think of me even when I know it doesn't make any difference.") and rated how characteristic it is of themselves on a 5-point scale (1 = "Not at all characteristic of me" and 5 = "Extremely characteristic of me"). I will calculate an average across 15 items as an index of fear of negative evaluation. Cronbach's alpha for the current sample was XX. The scale showed convergent validity with existing measures of social avoidance and anxiety [(Leary, 1983)](https://www.zotero.org/google-docs/?oJ2T1L).
+**Fear of Negative Evaluation Scale---Brief Version.** The Fear of Negative Evaluation is a 15-item measure of apprehension in expecting negative judgment from others [@learyBriefVersionFear1983]. For each item, participants read a sentence (e.g., "I worry about what other people will think of me even when I know it doesn't make any difference.") and rated how characteristic it is of themselves on a 5-point scale (1 = "Not at all characteristic of me" and 5 = "Extremely characteristic of me"). I calculated an average across 15 items as an index of fear of negative evaluation. Cronbach's alpha for the current sample was `r s1e_cronbach_APA$FNES_mean`. The scale showed convergent validity with existing measures of social avoidance and anxiety [@learyBriefVersionFear1983].
 
-**Rosenberg Self-Esteem Scale.** The Rosenberg Self-Esteem Scale is a 10-item measure of self-esteem [(Rosenberg, 1965)](https://www.zotero.org/google-docs/?j2ZnWa). Participants answered how much they agreed to statements (e.g., "I feel that I am a person of worth, at least on an equal basis with others.") on a 7-point scale (-3 = "Strongly disagree" to 3 = "Strongly agree"). I will calculate an average across 10 items as an index of self-esteem. Cronabch's alpha for the current sample was XX. The scale has convergent validity with measures of optimism, life satisfaction, and narcissism
+**Rosenberg Self-Esteem Scale.** The Rosenberg Self-Esteem Scale is a 10-item measure of self-esteem [@rosenbergMeasurementSelfEsteem1965]. Participants answered how much they agreed to statements (e.g., "I feel that I am a person of worth, at least on an equal basis with others.") on a 7-point scale (-3 = "Strongly disagree" to 3 = "Strongly agree"). I calculated an average across 10 items as an index of self-esteem. Cronabch's alpha for the current sample was `r s1e_cronbach_APA$esteem_mean`. The scale has convergent validity with measures of optimism, life satisfaction, and narcissism [@rosenbergMeasurementSelfEsteem1965].
 
-**Rejection Sensitivity Questionnaire---Short Version.** The Rejection Sensitivity Questionnaire---Short Version is an 8-item version of the Rejection Sensitivity Questionnaire [(Downey & Feldman, 1996; Romero-Canyas et al., 2010)](https://www.zotero.org/google-docs/?aXwjN3). The scale consisted of 8 scenarios describing a situation that can possibly evoke social rejection by another person (e.g., "You ask your parents for help in deciding what programs to apply to."). All items are relevant to the college student sample. For each scenario, participants rated (a) how concerned or anxious they were about how the other person would respond (1= Not at all concerned, 6 = Very concerned), and (b) how much they expected rejection to happen (1 = Very unlikely, 6 = Very likely) on a 6-point scale (ranging from 1 = Not at all concerned or very unlikely to 6 = very concerned or very likely). Following the scoring guidelines, I will create a scale composite by multiplying the two responses for each scenario (a and b) and averaging across the multiplied scores. Cronbach's alpha for the current sample was XXXX.
+**Rejection Sensitivity Questionnaire---Short Version.** The Rejection Sensitivity Questionnaire---Short Version is an 8-item version of the Rejection Sensitivity Questionnaire [@downeyImplicationsRejectionSensitivity1996; @romero-canyasPayingBelongWhen2010]. The scale consisted of 8 scenarios describing a situation that can possibly evoke social rejection by another person (e.g., "You ask your parents for help in deciding what programs to apply to."). All items are relevant to the college student sample. For each scenario, participants rated (a) how concerned or anxious they were about how the other person would respond (1= Not at all concerned, 6 = Very concerned), and (b) how much they expected rejection to happen (1 = Very unlikely, 6 = Very likely) on a 6-point scale (ranging from 1 = Not at all concerned or very unlikely to 6 = very concerned or very likely). Following the scoring guidelines, I created a scale composite by multiplying the two responses for each scenario (a and b) and averaging across the multiplied scores. Cronbach's alpha for the current sample was `r s1e_cronbach_APA$RS_mean`.
 
 
 ## Supplementary Figures and Analyses by Study
@@ -6635,7 +6630,7 @@ s1e_cronbach_APA <- get_cronbach_alphas(s1e_realiablities) %>% map(~f.round(., 2
 ##### Correlations Table
 
 ```{r appendix-s1a-correlations-table}
-# Means, SD, and Bivariate Correlations Table 
+# Means, SD, and Bivariate Correlations Table
 # Reference: https://www.datadreaming.org/post/apa-tables-using-rmarkdown-part-3/
 # Footnote for the table
 s1a_footnote <- "Heart = the Heart Manikin, Valence = the Valence Self-Assessment Manikin, CESD = the Center for Epidemiological Studies - Depression Scale, "
@@ -6647,8 +6642,8 @@ s1a_mnsdcor <- s1a_target_vars %>% get_nmsd_cor_table()
 s1a_mnsdcor %>% as_tibble() %>%
   render_APA_kable(col1_width = "1.5in",
                    title = s1a_title,
-                   footnote = s1a_footnote) %>% 
-  kable_styling_cortable() 
+                   footnote = s1a_footnote) %>%
+  kable_styling_cortable()
 ```
 
 
@@ -6664,7 +6659,7 @@ s1b_mnsdcor <- s1b_target_vars %>% select(-id, -visit) %>% get_nmsd_cor_table()
 s1b_footnote <- "Heart = the Heart Manikin, Valence = the Valence Self-Assessment Manikin, SES = Subjective Socioeconomic Status, IOS = Inclusion of the Other in the Self Scale, CESD = the Center for Epidemiological Studies - Depression Scale,"
 
 # Render table
-s1b_mnsdcor %>% as_tibble() %>% 
+s1b_mnsdcor %>% as_tibble() %>%
   render_APA_kable(col1_width = "1.5in",
                    title = "Study 1b - Descriptive Statistics and Correlations among Variables",
                    footnote = s1b_footnote) %>%
@@ -6687,17 +6682,17 @@ ggplot(s1b_cor_CIs,
   #Give y-axis a meaningful label
   ylab('Variable') +
   # Legend
-  scale_color_discrete(name = "Hypothesized\nValidity") + 
+  scale_color_discrete(name = "Hypothesized\nValidity") +
   #Add a vertical dashed line indicating an effect size of zero, for reference
   geom_vline(xintercept=0, color='black', linetype='dashed') +
   #Create sub-plots (i.e., facets) based on levels of setting
   #And allow them to have their own unique axes (so authors don't redundantly repeat)
-  ## Facet nested 
-  # facet_grid(type+time~outcome, scales= 'free', space='free') + 
+  ## Facet nested
+  # facet_grid(type+time~outcome, scales= 'free', space='free') +
   ggh4x::facet_nested(type + time ~ outcome, scales= 'free', space='free') +
-  ggtitle("Study 1b (RAIv1): Correlation Coefficients with the Heart Manikin\nacross Visits 1-3") + 
+  ggtitle("Study 1b (RAIv1): Correlation Coefficients with the Heart Manikin\nacross Visits 1-3") +
   # Add SESOI lines
-  SESOIgeom + 
+  SESOIgeom +
   # caption
   labs(caption = s1_caption_errorbars9095)
 ```
@@ -6709,24 +6704,24 @@ ggplot(s1b_cor_CIs,
 ```{r appendix-s1c-correlations-table}
 s1c_footnote <- "Heart = the Heart Manikin, SES = Subjective Socioeconomic Status, IOS = Inclusion of the Other in the Self Scale, NTS = the Need-Threat Scale"
 
-# N, M, SD, Cor tables 
+# N, M, SD, Cor tables
 s1c_mnsdcor <- s1c_target_vars %>% get_nmsd_cor_table()
 # Render table
-s1c_mnsdcor %>% as_tibble() %>% 
+s1c_mnsdcor %>% as_tibble() %>%
   render_APA_kable(col1_width = "1.5in",
                    title = "Study 1c - Descriptive Statistics and Correlations among Variables",
-                   footnote = s1c_footnote) %>% 
+                   footnote = s1c_footnote) %>%
   kable_styling_cortable()
 ```
 
 ##### Forestplot
 
 ```{r appendix-s1c-all-cors-plot, fig.cap='Study 1c - Forestplot of Correlation Coefficients between the Measured Variabels with the Heart Manikin', fig.width=9, fig.height=5}
-# Forestplot - all correlations, except the ones for the mixed model 
-s1c_cor_CIs %>% 
+# Forestplot - all correlations, except the ones for the mixed model
+s1c_cor_CIs %>%
   ggplot(aes(y = label, x = estimate,
              color = type)) +
-  # Dta points 
+  # Dta points
   geom_point()+
   # CI error bars - 90%
   geom_errorbarh(aes(xmin = conf.low_model90, xmax = conf.high_model90), height = .3, size = .3) +
@@ -6736,15 +6731,15 @@ s1c_cor_CIs %>%
   scale_x_continuous(limits=c(-1,1), name='Correlation Coefficient with Heart Manikin')+
   #Give y-axis a meaningful label
   ylab('Variable') +
-  # Legend labels 
-  scale_color_discrete(name = "Hypothesized\nValidity") + 
+  # Legend labels
+  scale_color_discrete(name = "Hypothesized\nValidity") +
   #Add a vertical dashed line indicating an effect size of zero, for reference
   geom_vline(xintercept=0, color='black', linetype='dashed') +
-  # Facet nested 
+  # Facet nested
   ggh4x::facet_nested(type + time ~ outcome, scales= 'free', space='free') +
   ggtitle("Study 1c (ARv1): Correlation Coefficients with the Heart Manikin") +
   # Add SESOI
-  SESOIgeom + 
+  SESOIgeom +
     # caption
   labs(caption = s1_caption_errorbars9095)
 ```
@@ -6755,55 +6750,55 @@ I explored whether the heart manikin scores changed across time by condition in 
 
 ```{r appendix-s1c-mixed}
 s1c_sensitivity_mixed_df <- tibble(outcome = c("heart", "valence")) %>%
-  mutate(formula = paste0(outcome, "~ grouping_dummy * time + (1|id)")) %>% 
-  mutate(model = map(formula, ~lmer(formula = ., data = s1c_df_long))) %>% 
+  mutate(formula = paste0(outcome, "~ grouping_dummy * time + (1|id)")) %>%
+  mutate(model = map(formula, ~lmer(formula = ., data = s1c_df_long))) %>%
   mutate(tidy = map(model, ~broom.mixed::tidy(.)),
          APA = map(model, ~describe.glm(.)))
 ```
 
 ```{r appnedix-s1c-belonging-across-time, fig.cap='Study 1c - Heart Manikin Scores Across Time and Conditions', fig.width=8, fig.height=11}
-s1c_heart_across_time_plot <- s1c_df_long %>% 
+s1c_heart_across_time_plot <- s1c_df_long %>%
   ggplot(aes(x = time, y = heart, color = grouping_dummy, group = grouping_dummy)) +
   # Plot Data Points
   geom_point(position = position_jitterdodge(jitter.height = 1,
                                              jitter.width = .05, dodge.width = my_dodge_width),
-             size = .2) + 
-  # Add line to connect the groups 
+             size = .2) +
+  # Add line to connect the groups
   geom_line(stat = "summary", fun.data = mean_cl_normal, position = dodge_pos) +
   geom_errorbar(fun.data = mean_cl_normal, stat = "summary", width = .3,
-                position = dodge_pos, color = "black") + 
-  # Plot means 
+                position = dodge_pos, color = "black") +
+  # Plot means
   geom_point(stat = "summary", fun.data = mean_cl_normal,
              shape = 21, aes(fill = grouping_dummy), color = "black",
-             position = dodge_pos) + 
+             position = dodge_pos) +
   # Labels
   xlab("Time") +
   ylab("Heart Manikin") +
-  scale_fill_brewer(palette = "Set2") + 
-  scale_color_brewer(palette = "Set2", name = "Condition") + 
-  guides(fill = FALSE) + 
+  scale_fill_brewer(palette = "Set2") +
+  scale_color_brewer(palette = "Set2", name = "Condition") +
+  guides(fill = FALSE) +
   labs(caption = "Participants completed the essay between Time 1 and Time 2. \nErrorbars represent 95% confidence intervals")
 
-s1c_valence_across_time_plot <- s1c_df_long %>% 
+s1c_valence_across_time_plot <- s1c_df_long %>%
   ggplot(aes(x = time, y = valence, color = grouping_dummy, group = grouping_dummy)) +
   # Plot Data Points
   geom_point(position = position_jitterdodge(jitter.height = 1,
                                              jitter.width = .05, dodge.width = my_dodge_width),
-             size = .2) + 
-  # Add line to connect the groups 
+             size = .2) +
+  # Add line to connect the groups
   geom_line(stat = "summary", fun.data = mean_cl_normal, position = dodge_pos) +
   geom_errorbar(fun.data = mean_cl_normal, stat = "summary", width = .3,
-                position = dodge_pos, color = "black") + 
-  # Plot means 
+                position = dodge_pos, color = "black") +
+  # Plot means
   geom_point(stat = "summary", fun.data = mean_cl_normal,
              shape = 21, aes(fill = grouping_dummy), color = "black",
-             position = dodge_pos) + 
+             position = dodge_pos) +
   # Labels
   xlab("Time") +
   ylab("Valence Manikin") +
-  scale_fill_brewer(palette = "Set2") + 
-  scale_color_brewer(palette = "Set2", name = "Condition") + 
-  guides(fill = FALSE) + 
+  scale_fill_brewer(palette = "Set2") +
+  scale_color_brewer(palette = "Set2", name = "Condition") +
+  guides(fill = FALSE) +
   labs(caption = "Participants completed the essay between Time 1 and Time 2. \nErrorbars represent 95% confidence intervals")
 
 ggarrange(s1c_heart_across_time_plot,
@@ -6823,7 +6818,7 @@ s1d_mnsdcor <- s1d_target_vars %>% get_nmsd_cor_table()
 # Render table
 s1d_mnsdcor %>% as_tibble() %>%
   render_APA_kable(title = "Study 1d - Descriptive Statistics and Correlations among Variables",
-                   footnote = s1d_footnote) %>% 
+                   footnote = s1d_footnote) %>%
   kable_styling_cortable()
 ```
 
@@ -6831,11 +6826,11 @@ s1d_mnsdcor %>% as_tibble() %>%
 
 ```{r appendix-s1d-all-forestplot, fig.cap='Study 1d - Forestplot of Correlation Coefficients between the Measured Scores and the Heart Manikin',fig.width=10, fig.height=12}
 ## Forestplot
-s1d_cor_CIs %>% 
+s1d_cor_CIs %>%
   ggplot(aes(y = forcats::fct_inorder(label), x = estimate, color = type)) +
   # SESOI and ZERO
-  geom_zeroSESOI + 
-  # Dta points 
+  geom_zeroSESOI +
+  # Dta points
   geom_point()+
   # CI error bars - 90%
   geom_errorbarh(aes(xmin = conf.low_model90, xmax = conf.high_model90), height = .3, size = .3) +
@@ -6846,11 +6841,11 @@ s1d_cor_CIs %>%
   # y-axis label
   ylab("Measure") +
   # Legend Title
-  scale_color_discrete(name = "Hypothesized \nValidity") + 
+  scale_color_discrete(name = "Hypothesized \nValidity") +
   # Facet the graph by type, time, and outcome
   ggh4x::facet_nested(type + time ~ outcome, scales= 'free', space='free') +
   # Title
-  ggtitle("Study 1d (EVv1) - Correlation Coefficients with \nthe Heart Manikin") + 
+  ggtitle("Study 1d (EVv1) - Correlation Coefficients with \nthe Heart Manikin") +
   # Caption
   labs(caption = paste(sep = "\n",
                        "Errorbars represent 90% (inner tick) and 95% (outer tick) confidence intervals",
@@ -6863,26 +6858,26 @@ s1d_cor_CIs %>%
 
 ```{r appendix-s1d-sensitivity-plot, fig.cap='Study 1d - Heart Manikin Across Time', fig.width=8, fig.height=6}
 # s1d Plot - Heart by Condition across time
-s1d_heart_across_time_plot <- s1d_dfC_long %>% 
+s1d_heart_across_time_plot <- s1d_dfC_long %>%
   ggplot(aes(x = time, y = heart, color = paste(rejection, confederate_desire), group = paste(rejection, confederate_desire))) +
   # Plot Data Points
   geom_point(position = position_jitterdodge(jitter.height = 1,
                                              jitter.width = .05, dodge.width = my_dodge_width),
-             size = .2) + 
-  # Add line to connect the groups 
+             size = .2) +
+  # Add line to connect the groups
   geom_line(stat = "summary", fun.data = mean_cl_normal, position = dodge_pos) +
   geom_errorbar(fun.data = mean_cl_normal, stat = "summary", width = .3,
-                position = dodge_pos, color = "black") + 
-  # Plot means 
+                position = dodge_pos, color = "black") +
+  # Plot means
   geom_point(stat = "summary", fun.data = mean_cl_normal,
              shape = 21, aes(fill = paste(rejection, confederate_desire)), color = "black",
-             position = dodge_pos) + 
+             position = dodge_pos) +
   # Labels
   xlab("Time") +
   ylab("Heart Manikin") +
-  scale_fill_brewer(palette = "Set2") + 
-  scale_color_brewer(palette = "Set2", name = "Condition") + 
-  guides(fill = FALSE) + 
+  scale_fill_brewer(palette = "Set2") +
+  scale_color_brewer(palette = "Set2", name = "Condition") +
+  guides(fill = FALSE) +
   labs(caption = "Participants completed the essay between Time 2 and Time 3.\nErrorbars represent 95% confidence intervals")
 
 s1d_heart_across_time_plot
@@ -6896,12 +6891,12 @@ s1d_heart_across_time_plot
 ```{r appendix-s1e-correlations-table}
 # Footnote
 s1e_footnote <- "Heart = the Heart Manikin, NTS = the Need-Threat Scale"
-# Get nmsdtable 
+# Get nmsdtable
 s1e_mnsdcor <- get_nmsd_cor_table(s1e_target_vars)
 # Render table
 s1e_mnsdcor %>% as_tibble() %>%
   render_APA_kable(title = "Study 1e - Descriptive Statistics and Correlation Coefficients",
-                   footnote = s1e_footnote) %>% 
+                   footnote = s1e_footnote) %>%
   kable_styling_cortable()
 ```
 
@@ -6909,11 +6904,11 @@ s1e_mnsdcor %>% as_tibble() %>%
 
 ```{r appendix-s1e-cor-forestplot, fig.cap='Study 1e - Forestplot of Correlations between the Measured Variables and the Heart Manikin Scores', fig.width = 14, fig.height = 14}
 # Study 1e - Correlations Forest Plot
-s1e_cor_CIs %>% 
+s1e_cor_CIs %>%
   ggplot(aes(y = label, x = estimate, color = type)) +
   # SESOI and Zero
   geom_zeroSESOI +
-  # Data points 
+  # Data points
   geom_point()+
   # CI error bars - 90%
   geom_errorbarh(aes(xmin = conf.low_model90, xmax = conf.high_model90), height = .3, size = .3) +
@@ -6924,14 +6919,14 @@ s1e_cor_CIs %>%
   # y-axis label
   ylab('Variable') +
   # Legend Title
-  scale_color_discrete(name = "Hypothesized \nValidity") + 
+  scale_color_discrete(name = "Hypothesized \nValidity") +
   # Facet nested
   ggh4x::facet_nested(type + time ~ outcome, scales= 'free', space='free') +
   # Title
-  ggtitle("Study 1e (NPSv2): Correlation Coefficients with Heart Manikin Scores") + 
+  ggtitle("Study 1e (NPSv2): Correlation Coefficients with Heart Manikin Scores") +
   # Caption
-  labs(caption = "") + 
-  # Add SESOI 
+  labs(caption = "") +
+  # Add SESOI
   SESOIgeom +
   # caption
   labs(caption = s1_caption_errorbars9095)
@@ -6943,48 +6938,48 @@ I explored whether participants reported different levels of belonging across ti
 
 ```{r appendix-s1e-belonging-plot, fig.cap='Study 1e - Heart Manikin Scores', fig.width=8, fig.height=5}
 # s1e Plot - Heart by Condition across time
-s1e_heart_plot <- s1e_df_long %>% 
-  mutate(across(c(rejection, confederate_desire), to_factor)) %>% 
-  ggplot(aes(x = time, y = heart, color = paste(rejection, confederate_desire), 
+s1e_heart_plot <- s1e_df_long %>%
+  mutate(across(c(rejection, confederate_desire), to_factor)) %>%
+  ggplot(aes(x = time, y = heart, color = paste(rejection, confederate_desire),
              group = paste(rejection, confederate_desire))) +
   # Plot Data Points
   geom_point(position = position_jitterdodge(jitter.height = 1,
                                              jitter.width = .05, dodge.width = my_dodge_width),
-             size = .2) + 
-  # Add line to connect the groups 
+             size = .2) +
+  # Add line to connect the groups
   geom_line(stat = "summary", fun.data = mean_cl_normal, position = dodge_pos) +
   geom_errorbar(fun.data = mean_cl_normal, stat = "summary", width = .3,
-                position = dodge_pos, color = "black") + 
-  # Plot means 
+                position = dodge_pos, color = "black") +
+  # Plot means
   geom_point(stat = "summary", fun.data = mean_cl_normal,
              shape = 21, aes(fill = paste(rejection, confederate_desire)), color = "black",
-             position = dodge_pos) + 
+             position = dodge_pos) +
   # Labels
-  ggtitle("Heart Manikin Scores across Time") + 
+  ggtitle("Heart Manikin Scores across Time") +
   xlab("Time") +
   ylab("Heart Manikin") +
-  scale_fill_brewer(palette = "Set2") + 
-  scale_color_brewer(palette = "Set2", name = "Condition") + 
-  guides(fill = FALSE) + 
+  scale_fill_brewer(palette = "Set2") +
+  scale_color_brewer(palette = "Set2", name = "Condition") +
+  guides(fill = FALSE) +
   labs(caption = paste(sep = "\n",
                        "Participants completed the confederate desire manipulation between Times 2 and 3",
                        "Participants completed the rejection essay between Times 4 and 5",
                        "Errorbars represent 95% confidence intervals"))
 s1e_heart_plot
 ```
- 
+
 I also explored whether participants reported different levels of need-threat between Time 3 and Time 5. Results are plotted in Figure \@ref(fig:s1e-nts-across-time-plot)
- 
+
 ```{r s1e-exploratory-NTS-mixed}
 # Exploratory Mixed Model with Time --------------------------------------------
-# run model 
-NTS_vars <- c("nts_belonging_mean", "nts_esteem_mean", 
+# run model
+NTS_vars <- c("nts_belonging_mean", "nts_esteem_mean",
               "nts_control_mean", "nts_meaning_mean",
               "nts_mean")
-s1e_rejection_NTS_df <- tibble(outcome = NTS_vars) %>% 
+s1e_rejection_NTS_df <- tibble(outcome = NTS_vars) %>%
   mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * time + (1|id)"))) %>%
   mutate(fit = map(formula, ~lmer(formula = as.formula(.),
-                                  data = s1e_df_long)))  %>% 
+                                  data = s1e_df_long)))  %>%
   mutate(tidy = map(fit, broom::tidy)) %>%
   mutate(described = map(fit, describe.glm))
 
@@ -6994,22 +6989,22 @@ s1e_across_time_caption <- paste(sep = "\n",
                                  "Participants completed the confederate desire manipulation before Time 3 and the rejection essay before Time 5",
                                  "Errorbars represent 95% confidence intervals")
 ## Belonging
-s1e_nts_belonging_across_time_plot <- s1e_df_long %>% 
+s1e_nts_belonging_across_time_plot <- s1e_df_long %>%
   s1e_plot_across_time(y = nts_belonging_mean, ylab = "NTS Belonging")
 ## Self-Esteem
-s1e_nts_esteem_across_time_plot <- s1e_df_long %>% 
+s1e_nts_esteem_across_time_plot <- s1e_df_long %>%
   s1e_plot_across_time(y = nts_esteem_mean, ylab = "NTS Self-Esteem")
 ## Control
-s1e_nts_control_across_time_plot <- s1e_df_long %>% 
+s1e_nts_control_across_time_plot <- s1e_df_long %>%
   s1e_plot_across_time(y = nts_control_mean, ylab = "NTS Control")
 ## Meaningful Existence
-s1e_nts_meaning_across_time_plot <- s1e_df_long %>% 
+s1e_nts_meaning_across_time_plot <- s1e_df_long %>%
   s1e_plot_across_time(y = nts_meaning_mean, ylab = "NTS Meaningful Existence")
 ## Combine all plots
 s1e_nts_across_time_plot <- ggarrange(s1e_nts_belonging_across_time_plot,
                                       s1e_nts_esteem_across_time_plot,
                                       s1e_nts_control_across_time_plot,
-                                      s1e_nts_meaning_across_time_plot, common.legend = T) %>% 
+                                      s1e_nts_meaning_across_time_plot, common.legend = T) %>%
   annotate_figure(fig.lab = s1e_across_time_caption,
                   fig.lab.pos = "bottom.right",
                   fig.lab.size = 7) +
@@ -7024,66 +7019,66 @@ s1e_T5_moderation_by_esteem <- s1e_df %>%
 
 plot_fit <- function(fit, fig.lab){
   control_plot <- fit %>%
-    sjPlot::plot_model(terms = c("esteem_mean", "desires_dummy", "rejection[0]"), type = "pred") + 
+    sjPlot::plot_model(terms = c("esteem_mean", "desires_dummy", "rejection[0]"), type = "pred") +
     #scale_x_continuous(labels = c("Low Part-Low Conf", "High Part-High Conf", "High Part-Low Conf", "Low Part-High Conf")) +
     labs(y = "Heart Manikin after Social Rejection (Time 5)", color = "Self-Esteem (Mean, +-1SD)",
          x = "Conditions", title = "Control") +
     theme(axis.text.x = element_text(angle = 45))
-  
+
   rejection_plot <- fit %>%
-    sjPlot::plot_model(terms = c("esteem_mean", "desires_dummy", "rejection[1]"), type = "pred") + 
+    sjPlot::plot_model(terms = c("esteem_mean", "desires_dummy", "rejection[1]"), type = "pred") +
     #scale_x_continuous(labels = c("Low Part-Low Conf", "High Part-High Conf", "High Part-Low Conf", "Low Part-High Conf")) +
     labs(y = "Heart Manikin after Social Rejection (Time 5)", color = "Self-Esteem (Mean, +-1SD)",
          x = "Conditions", title = "Rejection") +
     theme(axis.text.x = element_text(angle = 45))
-  
+
   aggregated_plot <- ggarrange(control_plot,
                                rejection_plot,
-                               common.legend = TRUE) %>% 
+                               common.legend = TRUE) %>%
     annotate_figure(fig.lab = fig.lab)
   return(aggregated_plot)
 }
 plot_fit <- function(fit, fig.lab){
   control_plot <- fit %>%
-    sjPlot::plot_model(terms = c( "desires_dummy", "esteem_mean", "rejection[0]"), type = "pred") + 
+    sjPlot::plot_model(terms = c( "desires_dummy", "esteem_mean", "rejection[0]"), type = "pred") +
     #scale_x_continuous(labels = c("Low Part-Low Conf", "High Part-High Conf", "High Part-Low Conf", "Low Part-High Conf")) +
     labs(y = "Heart Manikin after Social Rejection (Time 5)", color = "Self-Esteem (Mean, +-1SD)",
          x = "Conditions", title = "Control") +
     theme(axis.text.x = element_text(angle = 45))
-  
+
   rejection_plot <- fit %>%
-    sjPlot::plot_model(terms = c("desires_dummy", "esteem_mean",  "rejection[1]"), type = "pred") + 
+    sjPlot::plot_model(terms = c("desires_dummy", "esteem_mean",  "rejection[1]"), type = "pred") +
     scale_x_continuous(labels = c("Low Part-Low Conf", "High Part-High Conf", "High Part-Low Conf", "Low Part-High Conf")) +
     labs(y = "Heart Manikin after Social Rejection (Time 5)", color = "Self-Esteem (Mean, +-1SD)",
          x = "Conditions", title = "Rejection") +
     theme(axis.text.x = element_text(angle = 45))
-  
+
   aggregated_plot <- ggarrange(control_plot,
                                rejection_plot,
-                               common.legend = TRUE) %>% 
+                               common.legend = TRUE) %>%
     annotate_figure(fig.lab = fig.lab)
   return(aggregated_plot)
 }
 
 s1e_T5_moderation_esteem_x_rejection_plot <- s1e_T5_moderation_by_esteem %>%
-  sjPlot::plot_model(terms = c("esteem_mean", "rejection"), type = "pred") + 
+  sjPlot::plot_model(terms = c("esteem_mean", "rejection"), type = "pred") +
   scale_x_continuous()
 
-s1e_NTS_moderation_by_esteem_df <- tibble(outcome = s1e_NTS_T5_vars) %>% 
+s1e_NTS_moderation_by_esteem_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
   mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * esteem_mean"))) %>%
   mutate(fit = map(formula, ~lm(formula = as.formula(.),
-                                data = s1e_df))) %>% 
-  mutate(tidy = map(fit, tidy)) %>% 
-  mutate(described = map(fit, describe.glm)) %>% 
+                                data = s1e_df))) %>%
+  mutate(tidy = map(fit, tidy)) %>%
+  mutate(described = map(fit, describe.glm)) %>%
   mutate(plot = map2(.x = fit, .y = outcome, ~plot_fit(.x, .y)))
 
-s1e_NTS_moderation_by_esteem_nocond_df <- tibble(outcome = s1e_NTS_T5_vars) %>% 
-  mutate(labels = c("Belonging (T5)", "Self-Esteem (T5)", "Control (T5)", "Meaningful Existence (T5)", "Overall NTS (T5)")) %>% 
+s1e_NTS_moderation_by_esteem_nocond_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
+  mutate(labels = c("Belonging (T5)", "Self-Esteem (T5)", "Control (T5)", "Meaningful Existence (T5)", "Overall NTS (T5)")) %>%
   mutate(formula = (paste0(outcome, " ~ rejection * esteem_mean"))) %>%
   mutate(fit = map(formula, ~lm(formula = as.formula(.),
-                                data = s1e_df))) %>% 
-  mutate(tidy = map(fit, tidy)) %>% 
-  mutate(described = map(fit, describe.glm)) %>% 
+                                data = s1e_df))) %>%
+  mutate(tidy = map(fit, tidy)) %>%
+  mutate(described = map(fit, describe.glm)) %>%
   mutate(plot = map2(fit, labels, function(x = .x, title = .y){
     sjPlot::plot_model(x, terms = c("esteem_mean", "rejection"), type = "pred") +
       labs(title = title, x = "Self-Esteem", y = title)
@@ -7094,7 +7089,7 @@ s1e_NTS_T5_modbyesteem_plot <- ggarrange(s1e_NTS_moderation_by_esteem_nocond_df$
                                          s1e_NTS_moderation_by_esteem_nocond_df$plot[[3]],
                                          s1e_NTS_moderation_by_esteem_nocond_df$plot[[4]],
                                          common.legend = TRUE,
-                                         labels = "AUTO") + 
+                                         labels = "AUTO") +
   ggsave(here("figure", "s1e_nts_T5_mod_by_esteem.png"))
 ```
 
@@ -7114,45 +7109,45 @@ s1e_NTS_T5_modbyesteem_plot + ggsave(here("figure", "s1e_nts_T5_mod_by_esteem.pn
 #### Correlations Table
 
 ```{r s2-correlations-table}
-# Calculate means and standard deviations 
-s2_outcomes <- c("Heart (T1)"= "T1_Heart_1", "Heart (T2)" = "T2_Heart_1", 
+# Calculate means and standard deviations
+s2_outcomes <- c("Heart (T1)"= "T1_Heart_1", "Heart (T2)" = "T2_Heart_1",
                  "Valence (T1)" = "T1_Valence_1", "Valence (T2)" = "T2_Valence_1",
                  "Arousal (T1)" = "T1_Arousal_1", "Arousal (T2)" = "T2_Arousal_1",
                  "Dominance (T1)" = "T1_Dominance_1", "Dominance (T2)" = "T2_Dominance_1")
 s2_continuous_predictors <- c("IOS" = "IOS", "PSI" = "PSI",
-                              "Narrative Eng." = "Narrative_Engagement", 
+                              "Narrative Eng." = "Narrative_Engagement",
                               "Immersion" = "Single_Immersion",
                               "Social World" = "OTF_Social_World", "Enjoyment" = "Enjoyment")
-# Vector of variable names 
+# Vector of variable names
 s2_target_vars <- c(s2_outcomes, s2_continuous_predictors)
 # Create a target columns-only df with renamed columns via `select`
 s2_target_cols <- s2_df %>%
   filter(attention_all_correct, followed_VGinstructions == "Yes") %>%
   select(all_of(s2_target_vars))
-# N, Mean, SD Table 
+# N, Mean, SD Table
 s2_mnsdcor <- s2_target_cols %>% get_nmsd_cor_table()
 # Render
-s2_mnsdcor %>% as_tibble() %>% 
+s2_mnsdcor %>% as_tibble() %>%
   render_APA_kable(title = "Bivariate Correlations Among the Measures in Study 2",
                    footnote = "IOS = Inclusion of the Other in Self Scale. PSI = Parasocial Interactrion-Process Scale. Narrative Eng. = Narrative Engagement. The Ns for IOS and PSI are smaller since only people who indicated they interacted with a non-player character saw these questions.",
-                   col1_width = "1.5in") %>% 
+                   col1_width = "1.5in") %>%
   kable_styling_cortable()
 ```
 
 #### Bivariate Scatter Plot Matrix
 ```{r s2-matplot, fig.cap = "Matrix Plot for Study 2 Variables", fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
-# Study 2 - Matrix Plot 
-s2_df %>% 
+# Study 2 - Matrix Plot
+s2_df %>%
   select(essay_condition, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
          T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
-         IOS, PSI, Single_Immersion,Narrative_Engagement, 
-         OTF_Social_World, Enjoyment) %>% 
+         IOS, PSI, Single_Immersion,Narrative_Engagement,
+         OTF_Social_World, Enjoyment) %>%
   # Rename variables
   rename("Essay" = essay_condition, "T1 Heart" = T1_Heart_1, "T1 Valence" = T1_Valence_1,
          "T1 Arousal" = T1_Arousal_1, "T1 Dominance" = T1_Dominance_1,
-         "T2 Heart" = T2_Heart_1, "T2 Valence" = T2_Valence_1, 
+         "T2 Heart" = T2_Heart_1, "T2 Valence" = T2_Valence_1,
          "T2 Arousal" = T2_Arousal_1, "T2 Dominance" = T2_Dominance_1,
-         "IOS" = IOS, "PSI" = PSI, "Immersion" = Single_Immersion, 
+         "IOS" = IOS, "PSI" = PSI, "Immersion" = Single_Immersion,
          "NE" = Narrative_Engagement,
          "Social World" = OTF_Social_World, "Enjoyment" = Enjoyment) %>%
   ggpairs(progress = FALSE,
@@ -7170,13 +7165,13 @@ s2_game_names <- s2_df %>%
   filter(followed_VGinstructions == "Yes") %>%
   unnest_tokens(word, target_game_name_cl, token = "lines",
                 to_lower = FALSE) %>%
-  group_by(essay_condition) %>% count(word, sort = TRUE) %>% 
+  group_by(essay_condition) %>% count(word, sort = TRUE) %>%
   mutate(proportion = n/sum(n))
 
 set.seed(2021)
 # Word cloud for Social Surrogacy Condition
-s2_game_names %>% 
-  filter(essay_condition == "Social Surrogacy") %>% 
+s2_game_names %>%
+  filter(essay_condition == "Social Surrogacy") %>%
   with(wordcloud(word, n, rot.per = 0, min.freq = 1,
                  scale = c(4, .8), random.color = TRUE,
                  colors = brewer.pal(5, "Set2")))
@@ -7184,8 +7179,8 @@ s2_game_names %>%
 
 ```{r s2-word-cloud-nonsurrogate, fig.cap='Word Cloud for Game Titles for the Non-Social Surrogate Condition', fig.width=10, fig.height=9}
 # Word cloud for Non-Social Surrogacy Condition
-s2_game_names %>% 
-  filter(essay_condition == "Non-Social Surrogacy") %>% 
+s2_game_names %>%
+  filter(essay_condition == "Non-Social Surrogacy") %>%
   with(wordcloud(word, n, rot.per = 0, min.freq = 1,
                  scale = c(4, .8), random.color = TRUE,
                  colors = brewer.pal(5, "Set2")))
@@ -7196,7 +7191,7 @@ s2_game_names %>%
 ```{r s2-main-analysis-with-excluded}
 # Welch's t-test on T2 Belonging comparing non-social surrogacy vs. social surrogacy groups
 # Main Analysis t-test
-t_results_all <- s2_df %>% 
+t_results_all <- s2_df %>%
   # t-test comparing the T2 belonging between the essay conditions
   t.test(formula = T2_Heart_1 ~ essay_condition,
          data = .)
@@ -7235,21 +7230,21 @@ heart2_txt_all <- append(heart2_txt_all,
                               surrogate_msd = to_msd(heart2_txt_all$surrogate_mean,
                                                      heart2_txt_all$surrogate_sd)))
 # Plot
-plot_T2_Heart <- s2_df %>% 
+plot_T2_Heart <- s2_df %>%
   ggplot(aes(x = essay_condition, color = essay_condition,
              y = T2_Heart_1)) +
   # Violin, errorbar, datapoints
-  default_violin + 
-  # Remove legend 
-  guides(color = FALSE) + 
+  default_violin +
+  # Remove legend
+  guides(color = FALSE) +
   # Labels
   labs(y = "Heart Manikin (Time 2)",
        x = "Essay Condition",
-       caption = paste("Errorbars represent 95% confidence intervals", 
+       caption = paste("Errorbars represent 95% confidence intervals",
                        paste(heart2_txt_all$t_results, heart2_txt$cohen_d_APA95, sep = ", "),
-                       sep = "<br>")) + 
+                       sep = "<br>")) +
   scale_x_discrete(labels = str_to_title) +
-  # save 
+  # save
   ggsave(here("plot","s2_heart2_plot.png"), width = 6, height = 4)
 ```
 
@@ -7257,16 +7252,16 @@ In the main analysis, I excluded participants based on the preregistered exclusi
 
 #### Natural Language Processsing for Essays
 
-I used natural language processing to explore words used in the video game essays. Figure \@ref(fig:s2-nlp-plot) shows the proportion of the words used within each essay conditions. 
-Words such as "character" and "story" appeared more frequently in the social surrogate essays compared to non-social surrogate essays. On the other hand, words such as "cards", "goal" appeared more frequently in the non-social surrogate essays than in social surrogate essays. 
+I used natural language processing to explore words used in the video game essays. Figure \@ref(fig:s2-nlp-plot) shows the proportion of the words used within each essay conditions.
+Words such as "character" and "story" appeared more frequently in the social surrogate essays compared to non-social surrogate essays. On the other hand, words such as "cards", "goal" appeared more frequently in the non-social surrogate essays than in social surrogate essays.
 ```{r s2-nlp}
 # Load Public text file - Anonymous
 s2_VG_txt <- read_rds(here("data_public", "Study2_VG_txt.rds"))
 # Convert to wide, one row is now condition x word
-s2_VG_txt_wide <- s2_VG_txt %>% select(-n) %>% 
+s2_VG_txt_wide <- s2_VG_txt %>% select(-n) %>%
   pivot_wider(names_from = essay_condition,
               values_from = proportion)
-# Create a frequency plot 
+# Create a frequency plot
 s2_VG_word_freq_plot <- s2_VG_txt %>%
   filter(n > 50) %>%
   mutate(word = reorder(word, n)) %>%
@@ -7286,7 +7281,7 @@ s2_VG_txt_wide %>%
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
-  scale_color_gradient(limits = c(0, 0.001), 
+  scale_color_gradient(limits = c(0, 0.001),
                        low = "darkslategray4", high = "gray75") +
   theme(legend.position="none") +
   labs(y = "Social Surrogacy", x = "Non-Social Surrogacy")
@@ -7298,8 +7293,8 @@ Participants saw two debrief questions, one referring to the purpose of the stud
 
 ```{r s2-exit-questions}
 # Summary df with means
-s2_exit_q_summary <- s2_df %>% 
-  describe_by_factor(Exit_Q_Order, vars = c(Share_Anything_Len, Study_Purpose_Len)) %>% 
+s2_exit_q_summary <- s2_df %>%
+  describe_by_factor(Exit_Q_Order, vars = c(Share_Anything_Len, Study_Purpose_Len)) %>%
   # User func
   get_APA_from_msd
 # T tests may not be optimal given that the distribution is positively skewed
@@ -7309,21 +7304,21 @@ s2_exit_q_summary <- s2_df %>%
 
 ```{r s2-exit-questions-plot, fig.cap='Study 2 - Lengths of Participant Answers to Exit Questions Across Question Order'}
 # Share anything
-s2_share_anything_plot <- s2_df %>% filter(!is.na(Exit_Q_Order)) %>% 
+s2_share_anything_plot <- s2_df %>% filter(!is.na(Exit_Q_Order)) %>%
   ggplot(aes(y = Share_Anything_Len, x = Exit_Q_Order, color = Exit_Q_Order)) +
   default_violin +
   ylab("Answer to 'Share Anything' Question\n(Number of Characters)") +
   xlab("Question Order") +
   labs(color = "Question Order")
 # Study Purpose
-s2_study_purpose_plot <- s2_df %>% filter(!is.na(Exit_Q_Order)) %>% 
+s2_study_purpose_plot <- s2_df %>% filter(!is.na(Exit_Q_Order)) %>%
   ggplot(aes(y = Study_Purpose_Len, x = Exit_Q_Order, color = Exit_Q_Order)) +
   default_violin +
   ylab("Answer to 'Study Purpose' Question\n(Number of Characters)") +
   xlab("Question Order") +
   labs(color = "Question Order")
-# Arrange the plots 
-ggarrange(s2_share_anything_plot, s2_study_purpose_plot, 
+# Arrange the plots
+ggarrange(s2_share_anything_plot, s2_study_purpose_plot,
           common.legend = TRUE)
 ```
 
@@ -7332,8 +7327,8 @@ ggarrange(s2_share_anything_plot, s2_study_purpose_plot,
 #### Correlations Table
 
 ```{r appendix-s3-correlations-table}
-# Calculate means and standard deviations 
-s3_outcomes <- c("Heart (T1)"= "T1_Heart_1", "Heart (T2)" = "T2_Heart_1", 
+# Calculate means and standard deviations
+s3_outcomes <- c("Heart (T1)"= "T1_Heart_1", "Heart (T2)" = "T2_Heart_1",
                  "Valence (T1)" = "T1_Valence_1", "Valence (T2)" = "T2_Valence_1",
                  "Arousal (T1)" = "T1_Arousal_1", "Arousal (T2)" = "T2_Arousal_1",
                  "Dominance (T1)" = "T1_Dominance_1", "Dominance (T2)" = "T2_Dominance_1")
@@ -7344,35 +7339,35 @@ s3_continuous_predictors <- c("IOS" = "IOS", "Immersion" = "Single_Immersion",
 s3_target_vars <- c(s3_outcomes, s3_continuous_predictors)
 # Target columns
 s3_target_cols <- s3_df %>% filter(attention_all_correct) %>% select(s3_target_vars)
-# N, Mean, SD Table 
+# N, Mean, SD Table
 s3_nmsd_table <- s3_target_cols %>% summarise_descriptives()
 # Correlation Table with stars
 s3_cortable <- s3_target_cols %>% corstarsl
 # Combine the two tables
 s3_mnsdcor <- s3_nmsd_table %>% cbind(s3_cortable)
 # Render
-s3_mnsdcor %>% as_tibble() %>% 
+s3_mnsdcor %>% as_tibble() %>%
   render_APA_kable(title = "Bivariate Correlations among the Measures in Study 3",
-                   footnote = "*p .05. IOS = Inclusion of the Other in Self Scale. The N of IOS is smaller since only those interacted with an NPC answered this question. The Ns for dominance, social world, identification, and enjoyment are smaller due to programming errors and participants skipping questions.") %>% 
+                   footnote = "*p .05. IOS = Inclusion of the Other in Self Scale. The N of IOS is smaller since only those interacted with an NPC answered this question. The Ns for dominance, social world, identification, and enjoyment are smaller due to programming errors and participants skipping questions.") %>%
   kable_styling_cortable()
 ```
 
 #### Bivariate Scatter Matrix
 ```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE}
 # GG Pairs for Study 3
-s3_df %>% 
+s3_df %>%
   select(parasocial, social_world, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
          T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
-         IOS, Single_Immersion, 
+         IOS, Single_Immersion,
          OTF_Social_World,
-         PC_Identification) %>% 
+         PC_Identification) %>%
   # Rename variables
   rename("Parasocial" = parasocial, "Social World" = social_world,
          "Heart T1" = T1_Heart_1, "Valence T1" = T1_Valence_1,
          "Arousal T1" = T1_Arousal_1, "Dominance T1" = T1_Dominance_1,
-         "Heart T2" = T2_Heart_1, "Valence T2" = T2_Valence_1, 
+         "Heart T2" = T2_Heart_1, "Valence T2" = T2_Valence_1,
          "Arousal T2" = T2_Arousal_1, "Dominance T2" = T2_Dominance_1,
-         "IOS" = IOS, "Immersion" = Single_Immersion, 
+         "IOS" = IOS, "Immersion" = Single_Immersion,
          "OTF SW" = OTF_Social_World,
          "PCID" = PC_Identification) %>%
   ggpairs(progress = FALSE,

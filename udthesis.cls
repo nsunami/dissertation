@@ -181,15 +181,15 @@
      \bfseries \uppercase{#2}\par}%
     \@endpart}
     
-\renewcommand{\appendix}{\if\app0\def\@chapapp{Appendix}
-\setcounter{chapter}{0}
-\def\thechapter{\Alph{chapter}}\gdef\app{1}\fi
-\setcounter{section}{0}
-\setcounter{equation}{0}
-\setcounter{figure}{0}
-\setcounter{table}{0}
-\clearpage \thispagestyle{plain} \global\@topnum\z@
-\@afterindenttrue \secdef\@appendix\@sappendix}
+% \renewcommand{\appendix}{\if\app0\def\@chapapp{Appendix}
+% \setcounter{chapter}{0}
+% \def\thechapter{\Alph{chapter}}\gdef\app{1}\fi
+% \setcounter{section}{0}
+% \setcounter{equation}{0}
+% \setcounter{figure}{0}
+% \setcounter{table}{0}
+% \clearpage \thispagestyle{plain} \global\@topnum\z@
+% \@afterindenttrue \secdef\@appendix\@sappendix}
 
 \def\@appendix[#1]#2{\ifnum \c@secnumdepth >\m@ne
  \refstepcounter{chapter}

@@ -19,6 +19,7 @@ library(here)
 library(tidyverse)
 library(labelled) # Handling variable labels
 library(codebook)
+source(here("r", "namifunc.r"))
 
 # User functions
 add_labels_nts <- function(x) {
@@ -292,7 +293,7 @@ RPR_public <- RPR_public %>%
 RPR_public <- RPR_public %>%
   mutate_at(paste0(CESD_rev_vars, "R"), reverse_labelled_values)
 
-# Interpersonal Reactivity Scale - Reverse Code
+# Interpersonal Reactivity Scale - Reverse Code (4 subscles)
 reactivity_rev_vars <- paste0("reactivity", c(3, 4, 7, 12, 13, 14, 15, 18, 19))
 RPR_public <- RPR_public %>% 
   # Add R
@@ -372,19 +373,49 @@ RPR_public$bio_diff_mean <- RPR_public %>%
   aggregate_and_document_scale # Mean
 
 # Interpersonal Reactivity Index
+## https://fetzer.org/sites/default/files/images/stories/pdf/selfmeasures/EMPATHY-InterpersonalReactivityIndex.pdf
 reactivity_rev <- c(3, 4, 7, 12, 13, 14, 15, 18, 19) # Items to be reverse-coded
 reactivity_non_rev <- (1:28)[!(1:28 %in% reactivity_rev)] # Other Items
 reactivity_vars <- paste0("reactivity",
                           c(paste0(reactivity_rev, "R"),
                             reactivity_non_rev)) # Combine
-# RPR_public <- RPR_public %>% 
-#   rowwise() %>%
-#   mutate(reactivity_mean = mean(c_across(all_of(reactivity_vars))))
 
+## Reacivity total score is not informative (Fred pointed this out) 
 RPR_public$reactivity_mean <- RPR_public %>% 
   select(all_of(reactivity_vars)) %>%
   aggregate_and_document_scale()
 
+## Perspective-taking (items: 3(R), 8, 10, 11, 15(R), 21, 25, 28)
+reactivity_perspective_vars <- paste0("reactivity", 
+                                       c(c(8, 10, 11, 21, 25, 28),
+                                       paste0(c(3, 15), "R")))
+RPR_public$reactivity_perspective <- RPR_public %>% 
+  select(all_of(reactivity_perspective_vars)) %>%
+  aggregate_and_document_scale()
+
+## Fantasy (items: 1, 5, 7(R), 12(R), 16, 23, 26)
+reactivity_fantasy_vars <- paste0("reactivity", 
+                                       c(c(1, 5, 16, 23, 26),
+                                       paste0(c(7, 12), "R")))
+RPR_public$reactivity_fantasy <- RPR_public %>% 
+  select(all_of(reactivity_fantasy_vars)) %>%
+  aggregate_and_document_scale()
+
+## Empathic concern (items: 2, 4(R), 9, 14(R), 18(R), 20, 22)
+reactivity_empathy_vars <- paste0("reactivity", 
+                                       c(c(2, 9, 20, 22),
+                                       paste0(c(4, 14, 18), "R")))
+RPR_public$reactivity_empathy <- RPR_public %>% 
+  select(all_of(reactivity_empathy_vars)) %>%
+  aggregate_and_document_scale()
+
+## Personal distress (items: 6, 13(R), 17, 19(R), 24, 27)
+reactivity_distress_vars <- paste0("reactivity", 
+                                       c(c(6, 17, 24, 27),
+                                       paste0(c(13, 19), "R")))
+RPR_public$reactivity_reactivity <- RPR_public %>% 
+  select(all_of(reactivity_distress_vars)) %>%
+  aggregate_and_document_scale()
 
 # Self-Monitoring Scale
 RPR_public$self_monitoring_sum <- RPR_public %>% 

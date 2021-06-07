@@ -259,12 +259,12 @@ render_APA_kable <- function(df,
                              footnote = NA,
                              col1_width = "1.2in"){
   df %>% kbl(booktabs = TRUE, escape = FALSE,
-             longtable = TRUE, col.names = colnames, align = align,
+             col.names = colnames, align = align,
              digits = digits, caption = title) %>%
     footnote(
       general_title = "Note.",
       general = footnote,
-      threeparttable = TRUE,
+      threeparttable = FALSE,
       footnote_as_chunk = TRUE,
       escape = FALSE
     ) %>%

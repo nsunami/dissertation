@@ -1,7 +1,8 @@
 ---
 always_allow_html: true
 ---
-# References
-::: {#refs}
-:::
 
+
+# References {-}
+
+<div id="refs"></div>

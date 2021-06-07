@@ -304,11 +304,11 @@ null results. Possibilities of the null results include ineffective
 manipulations of social surrogacy, Type II error, and unexplained
 boundary conditions.
 
-Although the current studies provide ambiguous results, I did not
-observe any negative effects of playing video games previously reported 
-[for discussion, see @anderson2010; @hilgard2017]. On the contrary,
-many participants indicated that they enjoyed writing about their
-experience playing a video game in open-ended responses. I hope my
+I note that many past studies in social psychology focused on investigating
+negative effects of playing video games  
+[for discussion, see @anderson2010; @hilgard2017]. I took a different perspective 
+and focused on possible positive influence of the gameplay (see @adachiVideoGamesPromote2013; @granicBenefitsPlayingVideo2014 for 
+similar perspectives). I hope my
 dissertation contributes towards a more nuanced understanding of video games
 and how they influence social well-being.
 

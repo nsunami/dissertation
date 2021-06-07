@@ -240,7 +240,7 @@ independently manipulate parasocial relationships and social worlds.
 Participants spent on the average of `r s3_playtime$mean_playtime`
 minutes to play the game (`r s3_playtime$APA`).
 
-```{r s3-screenshots, fig.cap='Screenshots from the Custom Video Game, Shadows of Gaki. In the high parasocial relationship conditions (Panels A and B), participants saw a non-player character (Sashu) who followed the player throughout the gameplay. In the low parasocial relationship conditions (Panels B and D), the non-player character is absent. In the high social world conditions (Panels A and B), participants will learn about the story that Higra answered the Emperor\'s call to be a Samga and to reunite with Mother. In the low social world condition, participants will not learn about the story.'}
+```{r s3-screenshots, out.width='90%', fig.cap='Screenshots from the Custom Video Game, Shadows of Gaki. In the high parasocial relationship conditions (Panels A and B), participants saw a non-player character (Sashu) who followed the player throughout the gameplay. In the low parasocial relationship conditions (Panels B and D), the non-player character was absent. In the high social world conditions (Panels A and B), participants learned about the story that Higra answered the Emperor\'s call to be a Samga and to reunite with Mother. In the low social world condition, participants will not learn about the story.'}
 knitr::include_graphics(here("images", "sog-screenshots.png"))
 ```
 
