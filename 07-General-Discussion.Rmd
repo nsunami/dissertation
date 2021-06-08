@@ -77,31 +77,29 @@ parasocial relationships and social worlds, Since the game was new, I
 was able to avoid any influence from participants' previous exposure to
 the game's characters or stories.
 
-Yet, I did not observe results consistent with the social
-surrogacy hypothesis. To explore the effectiveness of the manipulations,
-I used exploratory manipulation checks. Results for the manipulation
-checks were inconsistent across Studies 2 and 3. In Study 2,
-participants reported higher parasocial relationships and social worlds
-in the social surrogacy condition, compared with the non-social
-surrogacy condition. In Study 3, participants reported similar levels of
-parasocial interactions and social worlds, regardless of the type of the
-video game they played. Overall, I do not conclude about the
-effectiveness of the manipulations given that the manipulation check
-items were never used to validate manipulations. Future studies should
-investigate how we effectively induce social surrogacy (parasocial
-relationships and social worlds) and how we can measure these constructs
-in a validated manner.
+Yet, I did not observe results consistent with the social surrogacy
+hypothesis. To explore the effectiveness of the manipulations, I used
+exploratory manipulation checks. Results for the manipulation checks
+were inconsistent across Studies 2 and 3. In Study 2, participants
+reported higher parasocial relationships and social worlds in the social
+surrogacy condition, compared with the non-social surrogacy condition.
+In Study 3, participants reported similar levels of parasocial
+interactions and social worlds, regardless of the type of the video game
+they played. Overall, I do not conclude about the effectiveness of the
+manipulations given that the manipulation check items were never used to
+validate manipulations. Future studies should investigate how we
+effectively induce social surrogacy (parasocial relationships and social
+worlds) and how we can measure these constructs in a validated manner.
 
 **Type II Error.** An absence of an effect does not mean that the true
 effect is absent---it can mean Type II error, missing a true effect.
 But, I suggest that Type II error is unlikely since (a) I ensured that
 all studies were powered to detect an effect of (*d* =
 `r Cohen_d_target`), and (b) the null findings are consistent across
-studies. That said, the current studies could only capture an
-effect size that is larger than (*d* = `r Cohen_d_target`). If 
-the true effect of social surrogacy on belonging was smaller than
-this hypothesized effect size, the current
-studies could not detect the effect.
+studies. That said, the current studies could only capture an effect
+size that is larger than (*d* = `r Cohen_d_target`). If the true effect
+of social surrogacy on belonging was smaller than this hypothesized
+effect size, the current studies could not detect the effect.
 
 **Towards Refining the Theory.** Another possibility is that the social
 surrogacy hypothesis may not be robust in its current form, and the
@@ -123,36 +121,48 @@ experimental studies have tested this possibility, and the current
 studies offered initial experimental tests of this possibility.
 
 The current null results did not find that participants satisfied
-belonging (relatedness needs) by writing about video games
-(Study 2) or by playing one (Study 3). However, I did find that
-participants reported forming more parasocial relationships with
-non-player characters, more immersion, more engagement with the
-narrative, more social world, and more enjoyment for a social surrogacy
-game (e.g., a role-playing game), compared with a non-social surrogacy
-game in Study 2. Moreover, people who enjoyed their video game more
-reported feeling more belonged and happier, forming more 
-parasocial relationships with characters, engaged more with the
-narrative, and immersed more into the story (see the bivariate correlation analysis in Study 3).
-These results at minimum suggest that belonging, paraoscial relationships, social worlds, and enjoyment are interrelated in video games.
+belonging (relatedness needs) by writing about video games (Study 2) or
+by playing one (Study 3). However, I did find that participants reported
+forming more parasocial relationships with non-player characters, more
+immersion, more engagement with the narrative, more social world, and
+more enjoyment for a social surrogacy game (e.g., a role-playing game),
+compared with a non-social surrogacy game in Study 2. Moreover, people
+who enjoyed their video game more reported feeling more belonged and
+happier, forming more parasocial relationships with characters, engaged
+more with the narrative, and immersed more into the story (see the
+bivariate correlation analysis in Study 3). These results at minimum
+suggest that belonging, paraoscial relationships, social worlds, and
+enjoyment are interrelated in video games.
 
 ## Possible Impact on Society
 
 All humans have a fundamental need to belong, and when this need is
 threatened, people experience adverse mental and physical health
 outcomes [@cacioppo2006; @hawkley2010; @jaremka2013]. People experience
-threats to belonging in everyday life [@nezlek2012].
-Identifying an effective strategy to replenish belonging after social
-rejection will help efforts to develop interventions to protect
-belonging, and ultimately improve mental and physical well-being. One step for identifying such intervention is to measure belonging in a quick and effective way. The Heart Manikin validated in my dissertation can be an ideal tool for a large-scale research that requires less cost per participant.
+threats to belonging in everyday life [@nezlek2012]. Identifying an
+effective strategy to replenish belonging after social rejection will
+help efforts to develop interventions to protect belonging, and
+ultimately improve mental and physical well-being. One step for
+identifying such intervention is to measure belonging in a quick and
+effective way. The Heart Manikin validated in my dissertation can be an
+ideal tool for a large-scale research that requires less cost per
+participant.
 
-The current null results for the social surrogacy hypothesis do not offer clear strategies 
-to reduce threats to belonging. However, I did find that participants who enjoyed a video game reported higher belonging compared with those who did not enjoy across studies. Future studies could explore whether playing an enjoyable video game has a positive impact on belonging vs playing an unenjoyable video game. Such evidence could add to the broader conversation about the benefits of
+The current null results for the social surrogacy hypothesis do not
+offer clear strategies to reduce threats to belonging. However, I did
+find that participants who enjoyed a video game reported higher
+belonging compared with those who did not enjoy across studies. Future
+studies could explore whether playing an enjoyable video game has a
+positive impact on belonging vs playing an unenjoyable video game. Such
+evidence could add to the broader conversation about the benefits of
 playing a video game [@granicBenefitsPlayingVideo2014].
 
 ## Constraints on Generality and Future Directions
 
-I discuss the constraints on generality  of the present findings
-[@simons2017] to highlight any design or sample characteristics that can impose constraints on interpretation of the results and future directions in this section.
+I discuss the constraints on generality of the present findings
+[@simons2017] to highlight any design or sample characteristics that can
+impose constraints on interpretation of the results and future
+directions in this section.
 
 ### Social Surrogates in Non-Rejected People
 
@@ -200,29 +210,29 @@ reminders of others includes the parasocial relationship and social
 worlds. People can play video games to remind themselves of past
 parasocial relationships and social worlds experienced previously in
 video games---especially those multiple releases over time. For example,
-long-time players of the Animal Crossing series can play a newly released 
-Animal Crossing: New Horizons in 2020 [@nintendo2020a], and 
-remember about the parasocial relationships they formed with the older game
-such as Animal Crossing: New Leaf in 2012 [@nintendo2012a]. Similarly, playing Witcher
-3 in 2015 [@cdprojektred2015] can remind the player of their time
-immersed in the social world in the first Witcher in 2007
-[@cdprojektred2007]. Future studies can examine whether people can
-replenish belonging via remainders of the parasocial relationships or
-social worlds.
+long-time players of the Animal Crossing series can play a newly
+released Animal Crossing: New Horizons in 2020 [@nintendo2020a], and
+remember about the parasocial relationships they formed with the older
+game such as Animal Crossing: New Leaf in 2012 [@nintendo2012a].
+Similarly, playing Witcher 3 in 2015 [@cdprojektred2015] can remind the
+player of their time immersed in the social world in the first Witcher
+in 2007 [@cdprojektred2007]. Future studies can examine whether people
+can replenish belonging via remainders of the parasocial relationships
+or social worlds.
 
-As mentioned in Study 2, I speculate that people may have replenished 
-belonging by remembering their memories of playing a single-player video game in the presence 
-of a close other. For
-example, people can feel loved by simply remembering their time playing Tetris 
-in front of their friends. This way, people replenish belonging, not
-because of the content of the game, but because of the time shared with
-their friends. Future studies that focus on single-player video game can 
-ask participants to report how much they spend playing a video game in front of others
-(e.g., passing controllers to each other, or simply letting someone
-watch the game). A novel hypothesis is that participants can replenish
-their belonging by remembering a video game that they shared playing
-with close others, similar to replenishing belonging via comfort food
-[@troisi2011; @troisi2015].
+As mentioned in Study 2, I speculate that people may have replenished
+belonging by remembering their memories of playing a single-player video
+game in the presence of a close other. For example, people can feel
+loved by simply remembering their time playing Tetris in front of their
+friends. This way, people replenish belonging, not because of the
+content of the game, but because of the time shared with their friends.
+Future studies that focus on single-player video game can ask
+participants to report how much they spend playing a video game in front
+of others (e.g., passing controllers to each other, or simply letting
+someone watch the game). A novel hypothesis is that participants can
+replenish their belonging by remembering a video game that they shared
+playing with close others, similar to replenishing belonging via comfort
+food [@troisi2011; @troisi2015].
 
 ### Character Identification
 
@@ -242,8 +252,8 @@ attached to the player character and thus may replenish their sense of
 belonging. Indeed, theoretical discussions suggest that players can form
 parasocial relationships with player characters with established
 backgrounds (e.g., Lara Croft from the Tomb Raider series), but not with
-the avatars that they create themselves
-[e.g., the player character in Skyrim; @kavli2012; @lewis2008].
+the avatars that they create themselves [e.g., the player character in
+Skyrim; @kavli2012; @lewis2008].
 
 I explored the role of player character identification in Study 3. In
 general, identification with the player character was unrelated to
@@ -252,11 +262,12 @@ parasocial relationship target, those identifying more with the player
 character reported higher belonging than those identifying less with the
 player character. This association was absent among participants who
 played a game with a parasocial relationship target. One possible
-explanation for these results is that participants identifying with
-the player character (Higra) were more likely to experience higher belonging in an absence of 
-the parasocial target (Sashu) since the player can focus more on the player character.
-On the other hand, in the higher parasocial relationship condition, players' attention was 
-divided between the player character and the parasocial relationship target.
+explanation for these results is that participants identifying with the
+player character (Higra) were more likely to experience higher belonging
+in an absence of the parasocial target (Sashu) since the player can
+focus more on the player character. On the other hand, in the higher
+parasocial relationship condition, players' attention was divided
+between the player character and the parasocial relationship target.
 Future studies can investigate whether players benefit form from certain
 player characters to form parasocial relationships and immerse
 themselves in the social worlds.
@@ -278,21 +289,26 @@ Fantasy. Having shared parasocial relationships or social worlds may
 benefit real social relationships. Indeed, couples who consume media
 together tend to have better relationship quality, and thus higher
 belonging [@gomillion2017]. Taken together, I expect that people who
-experience social surrogates together with close others will report higher
-belonging than those who experience them alone.
+experience social surrogates together with close others will report
+higher belonging than those who experience them alone.
 
 ### Mechanisms
 
 In the proposal, I planned to speculate on possible mechanisms if I find
 that rejected people replenished their belonging via social surrogates
-in video games. I speculated that a video game player can experience positive
-emotions, which can facilitate replenishing belonging [@williamsOstracismTemporalNeedthreat2009].
-Or, they can experience a sense of confidence and self-esteem in playing
-a video game, and this increase in self-esteem could increase belonging
-consistent with the sociometer hypothesis [@learySelfesteemInterpersonalMonitor1995]. Rejected people
-can also play a single-player video game to simply distract themselves,
-and distraction can replenish belonging [@hales2016; @nadzan2019;
-@wesselmann2013]. However, I did not find that rejected people replenished belonging by social surrogates in the current studies in the first place. Future research should investigate whether social surrogates in video games can replenish belonging first before investigating mechanisms. 
+in video games. I speculated that a video game player can experience
+positive emotions, which can facilitate replenishing belonging
+[@williamsOstracismTemporalNeedthreat2009]. Or, they can experience a
+sense of confidence and self-esteem in playing a video game, and this
+increase in self-esteem could increase belonging consistent with the
+sociometer hypothesis [@learySelfesteemInterpersonalMonitor1995].
+Rejected people can also play a single-player video game to simply
+distract themselves, and distraction can replenish belonging
+[@hales2016; @nadzan2019; @wesselmann2013]. However, I did not find that
+rejected people replenished belonging by social surrogates in the
+current studies in the first place. Future research should investigate
+whether social surrogates in video games can replenish belonging first
+before investigating mechanisms.
 
 ## Conclusion
 
@@ -304,13 +320,14 @@ null results. Possibilities of the null results include ineffective
 manipulations of social surrogacy, Type II error, and unexplained
 boundary conditions.
 
-I note that many past studies in social psychology focused on investigating
-negative effects of playing video games  
-[for discussion, see @anderson2010; @hilgard2017]. I took a different perspective 
-and focused on possible positive influence of the gameplay (see @adachiVideoGamesPromote2013; @granicBenefitsPlayingVideo2014 for 
-similar perspectives). I hope my
-dissertation contributes towards a more nuanced understanding of video games
-and how they influence social well-being.
+I note that many past studies in social psychology focused on
+investigating negative effects of playing video games [for discussion,
+see @anderson2010; @hilgard2017]. I took a different perspective and
+focused on possible positive influence of the gameplay [see
+@adachiVideoGamesPromote2013; @granicBenefitsPlayingVideo2014 for
+similar perspectives]. I hope my dissertation contributes towards a more
+nuanced understanding of video games and how they influence social
+well-being.
 
 Despite the technological advances to connect us better, social
 rejection continues to be an everyday experience of modern human life. I

@@ -404,7 +404,9 @@ included the valence item.
 ```{r s1a-correlations, include=FALSE}
 s1a_target_vars <- s1a_df %>% 
   select(heart, valence, CESD_sum, social_isolation_mean, bio_diff_mean,
-         reactivity_mean, self_monitoring_sum, paradoxical_mindset_mean,
+         reactivity_mean, reactivity_perspective, reactivity_fantasy,
+         reactivity_empathy, reactivity_distress,
+         self_monitoring_sum, paradoxical_mindset_mean,
          integrative_complexity_mean,
          multiple_identity_mean) %>% 
   rename("Heart" = heart,
@@ -412,7 +414,12 @@ s1a_target_vars <- s1a_df %>%
          "CESD" = CESD_sum,
          "Isolation" = social_isolation_mean,
          "Biological Beliefs" = bio_diff_mean,
+         # Reactivity vars
          "Reactivity" = reactivity_mean,
+         "Perspective" = reactivity_perspective,
+         "Fantasy" = reactivity_fantasy,
+         "Empathy" = reactivity_empathy,
+         "Distress" = reactivity_distress,
          "Monitoring" = self_monitoring_sum,
          "Paradox" = paradoxical_mindset_mean,
          "Complexity" = integrative_complexity_mean,
@@ -424,7 +431,11 @@ s1a_var_types <- c(valence = "Convergent",
                    CESD_sum = "Convergent (R)",
                    social_isolation_mean = "Convergent (R)",
                    bio_diff_mean = "Discriminant",
-                   reactivity_mean = "Discriminant", 
+                   reactivity_mean = "Discriminant",
+                   reactivity_perspective = "Discriminant",
+reactivity_fantasy = "Discriminant",
+reactivity_empathy = "Discriminant",
+reactivity_distress = "Discriminant",
                    self_monitoring_sum = "Discriminant",
                    paradoxical_mindset_mean = "Discriminant", 
                    integrative_complexity_mean = "Discriminant",
@@ -466,11 +477,11 @@ Valence Manikin (`r s1a_txt$Valence`), social isolation
 (`r s1a_txt$Isolation`), CESD (`r s1a_txt$CESD`).
 
 For the discriminant validity, I found mixed results. As predicted, the
-Heart Manikin scores did not correlate with the measures of
-interpersonal reactivity (`r s1a_txt$Reactivity`), paradoxical mindset
+Heart Manikin scores did not correlate with the measures of overall
+interpersonal reactivity (`r s1a_txt$Reactivity`), perspective taking (`r s1a_txt$Perspective`), fantasy (`r s1a_txt$Fantasy`), paradoxical mindset
 (`r s1a_txt$Paradox`), or integrative complexity
 (`r s1a_txt$Complexity`). However, the Heart Manikin scores correlated
-with the measures of multiple identity
+with the measures of empathy (`r s1a_txt$Empathy`), distress (`r s1a_txt$Distress`), multiple identity
 (`r s1a_txt$'Multiple Identity'`), social monitoring
 (`r s1a_txt$Monitoring`), and beliefs in biological differences between
 Black and White people (`r s1a_txt$'Biological Beliefs'`), contrary to

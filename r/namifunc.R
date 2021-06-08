@@ -6,7 +6,7 @@ devtools::install_github('achetverikov/apastats',subdir='apastats')
 
 # Pacmac Package Management Tool Required
 # install.packages("pacman")
-pacman::p_load(emmeans, tidytext, scales, lme4, GGally, ggpubr,
+pacman::p_load(wordcloud, emmeans, tidytext, scales, lme4, GGally, ggpubr,
                here, broom, codebook, ggtext, apastats, kableExtra,
                effectsize,
                tidyverse)
@@ -19,6 +19,9 @@ SESOI_r <- .17
 ROPE_r <- c(-SESOI_r, SESOI_r)
 # Dodge width
 my_dodge_width <- 0.5
+
+
+
 
 # Summary Statistics ------------------------------------------------------------
 
@@ -258,17 +261,21 @@ render_APA_kable <- function(df,
                              title = NA,
                              footnote = NA,
                              col1_width = "1.2in"){
-  df %>% kbl(booktabs = TRUE, escape = FALSE,
+  out_kbl <- df %>% kbl(booktabs = TRUE, escape = FALSE,
              col.names = colnames, align = align,
-             digits = digits, caption = title) %>%
+             digits = digits, caption = title)
+
+  if(!is.na(footnote)){
+    out_kbl <- out_kbl %>% 
     footnote(
       general_title = "Note.",
       general = footnote,
       threeparttable = FALSE,
       footnote_as_chunk = TRUE,
       escape = FALSE
-    ) %>%
-    row_spec(row = 0, align = "c") %>%
+    )} 
+  
+  out_kbl <- out_kbl %>%  row_spec(row = 0, align = "c") %>%
     column_spec(column = 1, width = col1_width) 
 }
 
@@ -298,8 +305,11 @@ s1_render_kable <- function(df, studykey = " "){
     select(Measure, Time, Construct, Validity, Citation) %>%
     kbl(caption = paste0("Summary of Measures for Study", " 1", studykey),
         booktabs = TRUE) %>%
-    column_spec(3, width = "2cm") %>% 
-    column_spec(4, width = "4cm") %>% 
+    column_spec(1, width = "5cm") %>%
+    column_spec(2, width = "2cm") %>% 
+    # column_spec(3, width = "4cm") %>% 
+    column_spec(4, width = "2cm") %>% 
+    column_spec(5, width = "3cm") %>% 
     row_spec(0, bold = T) %>% 
     kable_classic(full_width = F, html_font = "Cambria") %>%
     footnote(general_title = "Note.",

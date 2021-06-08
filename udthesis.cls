@@ -309,23 +309,23 @@ mu.\mkern
  \@dotsep mu$}\hfill \nobreak \hbox to\@pnumwidth{\bfseries\hfil #2}\par
  \endgroup}
 
-\newcommand*{\l@appendix}[2]{\pagebreak[3]
- \@tempdima 1.5em
- \let\previouslevel=\currentlevel
- \let\currentlevel=6
- \if\currentlevel\previouslevel\relax\else\vspace*{\baselineskip}\fi
- \begingroup
- \parindent \z@
- \parfillskip -\@pnumwidth
- \if\firstapp0{\bfseries Appendix}\\
- \vspace*{\baselineskip}\gdef\firstapp{1}%
-    \else\relax\fi
- \hangindent\@tempdima
- \leavevmode
- {\uppercase{\bfseries #1}}\nobreak\leaders\hbox{$\m@th \mkern \@dotsep
-mu.\mkern
- \@dotsep mu$}\hfill \nobreak \hbox to\@pnumwidth{\bfseries\hfil #2}\par
- \endgroup}
+% \newcommand*{\l@appendix}[2]{\pagebreak[3]
+%  \@tempdima 1.5em
+%  \let\previouslevel=\currentlevel
+%  \let\currentlevel=6
+%  \if\currentlevel\previouslevel\relax\else\vspace*{\baselineskip}\fi
+%  \begingroup
+%  \parindent \z@
+%  \parfillskip -\@pnumwidth
+%  \if\firstapp0{\bfseries Appendix}\\
+%  \vspace*{\baselineskip}\gdef\firstapp{1}%
+%     \else\relax\fi
+%  \hangindent\@tempdima
+%  \leavevmode
+%  {\uppercase{\bfseries #1}}\nobreak\leaders\hbox{$\m@th \mkern \@dotsep
+% mu.\mkern
+%  \@dotsep mu$}\hfill \nobreak \hbox to\@pnumwidth{\bfseries\hfil #2}\par
+%  \endgroup}
 
 \newcommand*{\l@oneappendix}[2]{\pagebreak[3]
  \@tempdima 1.5em

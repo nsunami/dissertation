@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 	warning = FALSE
 )
 # Load packages --------------------------------------------------------------
-library(wordcloud) # for creating word cloud
 library(tidytext)
 library(broom)
 library(tidyverse)
@@ -58,7 +57,7 @@ descriptives_table <- s2_df %>%
 ## Convert descriptives to long via ad-hoc function
 descriptives_long <- descriptives_table %>%  get_desc_db()
 # e.g.,: get_stats("Non-Social Surrogacy", "Enjoyment", "sd")
-get_stats = function(..., d = descriptives_long) d[list(...), value]
+get_stats <- function(..., d = descriptives_long) d[list(...), value]
 
 ## Build APA descriptives 
 descriptives_APA <- descriptives_long %>% 

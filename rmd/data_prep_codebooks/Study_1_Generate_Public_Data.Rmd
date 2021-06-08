@@ -413,7 +413,7 @@ RPR_public$reactivity_empathy <- RPR_public %>%
 reactivity_distress_vars <- paste0("reactivity", 
                                        c(c(6, 17, 24, 27),
                                        paste0(c(13, 19), "R")))
-RPR_public$reactivity_reactivity <- RPR_public %>% 
+RPR_public$reactivity_distress <- RPR_public %>% 
   select(all_of(reactivity_distress_vars)) %>%
   aggregate_and_document_scale()
 
