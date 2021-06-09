@@ -13,9 +13,11 @@ engaged--disengaged dimensions. Social and Personality Psychology
 Compass. <https://doi.org/10.1111/spc3.12497>.
 
 <center>
+\begin{center}
 
 Abstract
 
+\end{center}
 </center>
 
 Responses to interpersonal rejection vary widely in form and function.
@@ -37,13 +39,16 @@ a new light within the bi-dimensional rejection taxonomy. We conclude by
 suggesting how the taxonomy inspires innovative questions for future
 research.
 
+\newpage
 <center>
+\begin{center}
 
 The Bi-Dimensional Rejection Taxonomy:
 
 Organizing Responses to Interpersonal Rejection along
 Antisocial--Prosocial and Engaged--Disengaged Dimensions
 
+\end{center}
 </center>
 
 Traveling with an incomplete map is not very efficient---a traveler may

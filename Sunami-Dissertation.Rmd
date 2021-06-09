@@ -27,11 +27,15 @@ output:
     pandoc_args: --top-level-division=chapter
     toc: no
     toc_appendix: yes
+  bookdown::word_document2:
+    toc: no
+    toc_appendix: yes
 bibliography: ["references.bib", "references-exported.bib"]
 csl: "apa.csl"
 link-citations: true
 github-repo: "nsunami/dissertation"
 delete_merged_file: false
+always_allow_html: true
 ---
 
 ```{r bidr-setup, message=FALSE, warning=FALSE, include=FALSE}
@@ -106,9 +110,11 @@ engaged--disengaged dimensions. Social and Personality Psychology
 Compass. <https://doi.org/10.1111/spc3.12497>.
 
 <center>
+\begin{center}
 
 Abstract
 
+\end{center}
 </center>
 
 Responses to interpersonal rejection vary widely in form and function.
@@ -131,12 +137,14 @@ suggesting how the taxonomy inspires innovative questions for future
 research.
 
 <center>
+\begin{center}
 
 The Bi-Dimensional Rejection Taxonomy:
 
 Organizing Responses to Interpersonal Rejection along
 Antisocial--Prosocial and Engaged--Disengaged Dimensions
 
+\end{center}
 </center>
 
 Traveling with an incomplete map is not very efficient---a traveler may
@@ -7187,7 +7195,7 @@ s2_mnsdcor %>% as_tibble() %>%
 ```
 
 ### Bivariate Scatter Plot Matrix
-```{r s2-matplot, fig.cap = "Matrix Plot for Study 2 Variables", fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
+```{r s2-matplot, fig.cap = "Matrix Plot for Study 2 Variables", fig.height=15, fig.width=15, message=FALSE, warning=FALSE, cache=TRUE}
 # Study 2 - Matrix Plot
 s2_df %>%
   select(essay_condition, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
@@ -7402,7 +7410,7 @@ s3_mnsdcor %>% as_tibble() %>%
 ```
 
 ### Bivariate Scatter Matrix
-```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE}
+```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE, cache=TRUE}
 # GG Pairs for Study 3
 s3_df %>%
   select(parasocial, social_world, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,

@@ -698,7 +698,7 @@ s2_mnsdcor %>% as_tibble() %>%
 ```
 
 ### Bivariate Scatter Plot Matrix
-```{r s2-matplot, fig.cap = "Matrix Plot for Study 2 Variables", fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
+```{r s2-matplot, fig.cap = "Matrix Plot for Study 2 Variables", fig.height=15, fig.width=15, message=FALSE, warning=FALSE, cache=TRUE}
 # Study 2 - Matrix Plot
 s2_df %>%
   select(essay_condition, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
@@ -913,7 +913,7 @@ s3_mnsdcor %>% as_tibble() %>%
 ```
 
 ### Bivariate Scatter Matrix
-```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE}
+```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE, cache=TRUE}
 # GG Pairs for Study 3
 s3_df %>%
   select(parasocial, social_world, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
