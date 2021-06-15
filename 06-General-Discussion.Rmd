@@ -1,0 +1,337 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# General Discussion
+
+In my dissertation studies, I examined whether playing a single-player
+video game alone replenishes belonging after social rejection, a
+potential disengaged--prosocial response to social rejection in the
+bi-dimensional rejection taxonomy [@sunami2019a]. In Study 1, I
+validated a single-item measure of belonging, the Hart Manikin, used as
+the primary outcome for the subsequent studies. In Study 2, I examined
+whether recalling one's time playing a social surrogate video game vs. a
+non-social surrogate video game can replenish belonging after social
+rejection. Lastly in Study 3, I examined whether rejected people who
+play a video game with varying degrees of parasocial relationship and
+social world contents can replenish their belonging. The results of the
+studies did not support the social surrogacy hypothesis. I discuss the
+implications of the current nulls results below.
+
+## Impact on the Social Rejection and Video Games Literature
+
+### Heart Manikin as a Quick Measure of Belonging
+
+In Study 1, I attempted to validate the Heart Manikin. Results indicated
+a strong evidence for the convergent validity of the heart manikin with
+belonging-related measures, including a sense of belonging, self-esteem,
+control, and meaningful existence. The Heart Manikin scores also
+converged consistently with measures of positive affect. On the other
+hand, I found moderate evidence for the discriminant validity of the
+Heart Manikin. The Heart Manikin scores did not correlate with unrelated
+constructs, such as interpersonal reactivity, paradoxical mindset, sleep
+quality, abuse perpetration, food craving, body image, and subjective
+socioeconomic status. However, the measure did not show discriminant
+validity against measures of arousal and dominance. Overall, I suggest
+that the Heart Manikin has a strong convergent validity with measures of
+belonging and positive valence. Future studies in social rejection
+research could use this measure to efficiently measure state belonging.
+Given the moderate discriminant validity of this measure, I recommend
+researchers to use other concurrent measure if they wish to measure
+belonging that is independent from arousal, dominance, and possibly
+subjective socioeconomic status.
+
+I also tested whether the Heart Manikin scores were sensitive to the
+laboratory manipulation of social rejection. Across Studies 1c, 1d, and
+1e, I observed that participants in the rejected condition reported
+lower Heart Manikin scores than those in the non-rejected condition,
+supporting the sensitivity of this measure. I suggest that the Heart
+Manikin can be a useful, quick tool to check an effectiveness of a
+social rejection manipulation.
+
+### Possible Explanations for the Null Results and Implications to Social Surrogacy Hypothesis
+
+The current results are not consistent with the social surrogacy
+hypothesis on surface [@gabriel2017]. In two studies, I observed that
+rejected participants did not replenish their belonging after writing
+about a video game with social surrogates (compared with writing about a
+video game without them), and after playing a novel video game with
+higher parasocial relationships and social world content (vs. low
+parasocial relationships and social world content). Below I speculate
+why I observed null results.
+
+**Ineffective Manipulations on Social Surrogacy.** The manipulations for
+the social surrogates used in Studies 2 and 3 were new, and thus they
+have never been validated to manipulate social surrogacy. That being
+said, I expected that these manipulations were reasonable to induce
+social surrogacy for the following reasons.
+
+In Study 2, I used a role-playing game for social surrogacy essay since
+role-playing games often present strong relatable characters and
+immersive stories and social world. I contrasted these games with non
+role-playing games that usually do not have these components. In Study
+3, I developed a novel role-playing game to independently manipulate
+parasocial relationships and social worlds, Since the game was new, I
+was able to avoid any influence from participants' previous exposure to
+the game's characters or stories.
+
+Yet, I did not observe results consistent with the social surrogacy
+hypothesis. To explore the effectiveness of the manipulations, I used
+exploratory manipulation checks. Results for the manipulation checks
+were inconsistent across Studies 2 and 3. In Study 2, participants
+reported higher parasocial relationships and social worlds in the social
+surrogacy condition, compared with the non-social surrogacy condition.
+In Study 3, participants reported similar levels of parasocial
+interactions and social worlds, regardless of the type of the video game
+they played. Overall, I do not conclude about the effectiveness of the
+manipulations given that the manipulation check items were never used to
+validate manipulations. Future studies should investigate how we
+effectively induce social surrogacy (parasocial relationships and social
+worlds) and how we can measure these constructs in a validated manner.
+
+**Type II Error.** An absence of an effect does not mean that the true
+effect is absent---it can mean Type II error, missing a true effect.
+But, I suggest that Type II error is unlikely since (a) I ensured that
+all studies were powered to detect an effect of (*d* =
+`r Cohen_d_target`), and (b) the null findings are consistent across
+studies. That said, the current studies could only capture an effect
+size that is larger than (*d* = `r Cohen_d_target`). If the true effect
+of social surrogacy on belonging was smaller than this hypothesized
+effect size, the current studies could not detect the effect.
+
+**Towards Refining the Theory.** Another possibility is that the social
+surrogacy hypothesis may not be robust in its current form, and the
+theory needs to identify boundary conditions and expected effect sizes
+of social surrogates on belonging. Empirical evidence supporting the
+social surrogacy hypothesis has mainly come from studies on books and TV
+programs, but not video games. One possibility is that the social
+surrgacy hypothesis operates better in reading books and watching TV
+programs, but apply less to playing video games. Future studies should
+examine these possibilities.
+
+### Implications to Video Game Studies
+
+In the video games literature, accumulating theoretical work and
+qualitative evidence suggest that video game players can feel being
+connected with characters in the game, and thus satisfying relatedness
+needs [@bopp2019; @burgess2020a; @poretski2019; @tyack2017]. However, no
+experimental studies have tested this possibility, and the current
+studies offered initial experimental tests of this possibility.
+
+The current null results did not find that participants satisfied
+belonging (relatedness needs) by writing about video games (Study 2) or
+by playing one (Study 3). However, I did find that participants reported
+forming more parasocial relationships with non-player characters, more
+immersion, more engagement with the narrative, more social world, and
+more enjoyment for a social surrogacy game (e.g., a role-playing game),
+compared with a non-social surrogacy game in Study 2. Moreover, people
+who enjoyed their video game more reported feeling more belonged and
+happier, forming more parasocial relationships with characters, engaged
+more with the narrative, and immersed more into the story (see the
+bivariate correlation analysis in Study 3). These results at minimum
+suggest that belonging, paraoscial relationships, social worlds, and
+enjoyment are interrelated in video games.
+
+## Possible Impact on Society
+
+All humans have a fundamental need to belong, and when this need is
+threatened, people experience adverse mental and physical health
+outcomes [@cacioppo2006; @hawkley2010; @jaremka2013]. People experience
+threats to belonging in everyday life [@nezlek2012]. Identifying an
+effective strategy to replenish belonging after social rejection will
+help efforts to develop interventions to protect belonging, and
+ultimately improve mental and physical well-being. One step for
+identifying such intervention is to measure belonging in a quick and
+effective way. The Heart Manikin validated in my dissertation can be an
+ideal tool for a large-scale research that requires less cost per
+participant.
+
+The current null results for the social surrogacy hypothesis do not
+offer clear strategies to reduce threats to belonging. However, I did
+find that participants who enjoyed a video game reported higher
+belonging compared with those who did not enjoy across studies. Future
+studies could explore whether playing an enjoyable video game has a
+positive impact on belonging vs playing an unenjoyable video game. Such
+evidence could add to the broader conversation about the benefits of
+playing a video game [@granicBenefitsPlayingVideo2014].
+
+## Constraints on Generality and Future Directions
+
+I discuss the constraints on generality of the present findings
+[@simons2017] to highlight any design or sample characteristics that can
+impose constraints on interpretation of the results and future
+directions in this section.
+
+### Social Surrogates in Non-Rejected People
+
+Across the current studies (Studies 2 and 3), all participants
+experienced acute social rejection before seeing social surrogates.
+Thus, the current studies did not test whether non-rejected people can
+increase belonging, or whether people with chronic feelings of social
+rejection (e.g., loneliness) could replenish belonging via social
+surrogacy in video games, both important directions for future
+investigations.
+
+### Negative Parasocial Relationships and Social Worlds
+
+The current studies only examined positive parasocial relationships and
+social worlds. In Study 2, participants recalled their parasocial
+relationships and social worlds in their favorite game. In Study 3,
+participants experienced a friendly parasocial target and a positive
+social world. The results of the current study may not generalize to
+other video games where people have a negative parasocial relationship
+with characters, or negative experience being immersed in a social
+world. People can hate characters in TV programs [@chory2013;
+@jennings2016]---likewise, people can hate non-player characters and
+form a negative parasocial relationship. People can also immerse
+themselves in negative social worlds---social worlds that are immoral or
+ethically unjust, such as ones described in many horror films (e.g., the
+Saw Franchise, the Texas Chain Saw Massacre, etc.). Future research
+should carefully consider the nature of the parasocial relationships and
+the social worlds in video games, and whether they can replenish or even
+hurt belonging.
+
+### Another Type of Social Surrogacy: Reminders of Others
+
+The social surrogacy hypothesis identifies three types of social
+surrogates: parasocial relationships, social worlds, and reminders of
+others [@gabriel2017]. In my dissertation, I focused on parasocial
+relationships and social worlds but not reminders of others---remnants
+of real social relationships, such as photographs of close others,
+comfort foods prepared by loved ones. I did not focus on the remainder
+of others because the current definition of reminders of others requires
+a real preexisting social relationship that is absent in single-player
+video games.
+
+A new avenue for research may be to examine if the definition of
+reminders of others includes the parasocial relationship and social
+worlds. People can play video games to remind themselves of past
+parasocial relationships and social worlds experienced previously in
+video games---especially those multiple releases over time. For example,
+long-time players of the Animal Crossing series can play a newly
+released Animal Crossing: New Horizons in 2020 [@nintendo2020a], and
+remember about the parasocial relationships they formed with the older
+game such as Animal Crossing: New Leaf in 2012 [@nintendo2012a].
+Similarly, playing Witcher 3 in 2015 [@cdprojektred2015] can remind the
+player of their time immersed in the social world in the first Witcher
+in 2007 [@cdprojektred2007]. Future studies can examine whether people
+can replenish belonging via remainders of the parasocial relationships
+or social worlds.
+
+As mentioned in Study 2, I speculate that people may have replenished
+belonging by remembering their memories of playing a single-player video
+game in the presence of a close other. For example, people can feel
+loved by simply remembering their time playing Tetris in front of their
+friends. This way, people replenish belonging, not because of the
+content of the game, but because of the time shared with their friends.
+Future studies that focus on single-player video game can ask
+participants to report how much they spend playing a video game in front
+of others (e.g., passing controllers to each other, or simply letting
+someone watch the game). A novel hypothesis is that participants can
+replenish their belonging by remembering a video game that they shared
+playing with close others, similar to replenishing belonging via comfort
+food [@troisi2011; @troisi2015].
+
+### Character Identification
+
+In the present dissertation, I focused on parasocial relationships with
+the non-player characters in video games. However, existing studies
+suggest that players can be emotionally attached to the player
+characters they control---such as Commander Sheperd in Mass Effect and
+Geralt of Rivia in Witcher [@bopp2019a]. According to the current
+definition of a parasocial relationship, the relationship between the
+player and the player character may not be considered as parasocial
+since the relationship can be two-sided: the player can control and
+influence the player character's behavior, which in turn influences the
+player's behavior [@banks2015; @banks2016; @cohen2014]. Thus, the
+relationship players form with the player character may not fall under
+the concept of social surrogates. However, players can be emotionally
+attached to the player character and thus may replenish their sense of
+belonging. Indeed, theoretical discussions suggest that players can form
+parasocial relationships with player characters with established
+backgrounds (e.g., Lara Croft from the Tomb Raider series), but not with
+the avatars that they create themselves [e.g., the player character in
+Skyrim; @kavli2012; @lewis2008].
+
+I explored the role of player character identification in Study 3. In
+general, identification with the player character was unrelated to
+belonging. However, among participants who played a game without a
+parasocial relationship target, those identifying more with the player
+character reported higher belonging than those identifying less with the
+player character. This association was absent among participants who
+played a game with a parasocial relationship target. One possible
+explanation for these results is that participants identifying with the
+player character (Higra) were more likely to experience higher belonging
+in an absence of the parasocial target (Sashu) since the player can
+focus more on the player character. On the other hand, in the higher
+parasocial relationship condition, players' attention was divided
+between the player character and the parasocial relationship target.
+Future studies can investigate whether players benefit form from certain
+player characters to form parasocial relationships and immerse
+themselves in the social worlds.
+
+### Multiplayer Gameplay
+
+The current dissertation focused on solo gameplay because of its focus
+on social surrogates---non-human entities that can satisfy the belonging
+need [@gabriel2017]. Accordingly, the current results do not generalize
+to multiplayer gameplay. One unexamined avenue for future research is to
+understand the impact of a common social surrogate shared by two real
+players. For example, two players can form a parasocial relationship
+with the same non-player character or immerse in the same social worlds
+[@gabriel2016]. For example, two players of the Massively-Online
+Multiplayer Game, Final Fantasy XIV [@enix2010a] can simultaneously form
+a parasocial relationship with Gigi or become members of the same guild.
+Similarly, these players also share knowledge about the stories of Final
+Fantasy. Having shared parasocial relationships or social worlds may
+benefit real social relationships. Indeed, couples who consume media
+together tend to have better relationship quality, and thus higher
+belonging [@gomillion2017]. Taken together, I expect that people who
+experience social surrogates together with close others will report
+higher belonging than those who experience them alone.
+
+### Mechanisms
+
+In the proposal, I planned to speculate on possible mechanisms if I find
+that rejected people replenished their belonging via social surrogates
+in video games. I speculated that a video game player can experience
+positive emotions, which can facilitate replenishing belonging
+[@williamsOstracismTemporalNeedthreat2009]. Or, they can experience a
+sense of confidence and self-esteem in playing a video game, and this
+increase in self-esteem could increase belonging consistent with the
+sociometer hypothesis [@learySelfesteemInterpersonalMonitor1995].
+Rejected people can also play a single-player video game to simply
+distract themselves, and distraction can replenish belonging
+[@hales2016; @nadzan2019; @wesselmann2013]. However, I did not find that
+rejected people replenished belonging by social surrogates in the
+current studies in the first place. Future research should investigate
+whether social surrogates in video games can replenish belonging first
+before investigating mechanisms.
+
+## Conclusion
+
+My dissertation examined whether people can replenish their belonging
+following social rejection by playing a single-player video game with
+social surrogates. The results did not support the social surrogacy
+hypothesis. I do not have a strong evidence that can explain the current
+null results. Possibilities of the null results include ineffective
+manipulations of social surrogacy, Type II error, and unexplained
+boundary conditions.
+
+I note that many past studies in social psychology focused on
+investigating negative effects of playing video games [for discussion,
+see @anderson2010; @hilgard2017]. I took a different perspective and
+focused on possible positive influence of the gameplay [see
+@adachiVideoGamesPromote2013; @granicBenefitsPlayingVideo2014 for
+similar perspectives]. I hope my dissertation contributes towards a more
+nuanced understanding of video games and how they influence social
+well-being.
+
+Despite the technological advances to connect us better, social
+rejection continues to be an everyday experience of modern human life. I
+hope my dissertation contributes the way for future efforts to better
+understand the role of video game in belonging, and eventually
+contributes to developing ways to mitigate the detrimental effects of
+social rejection.

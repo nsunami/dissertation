@@ -6,7 +6,7 @@ devtools::install_github('achetverikov/apastats',subdir='apastats')
 
 # Pacmac Package Management Tool Required
 # install.packages("pacman")
-pacman::p_load(wordcloud, emmeans, tidytext, scales, lme4, GGally, ggpubr,
+pacman::p_load(english, wordcloud, emmeans, tidytext, scales, lme4, GGally, ggpubr,
                here, broom, codebook, ggtext, apastats, kableExtra,
                effectsize,
                tidyverse)
