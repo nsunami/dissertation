@@ -24,13 +24,13 @@ output:
     includes:
       in_header: "latex/preamble.tex"
       before_body: "latex/approval-page.tex"
-    pandoc_args: --top-level-division=chapter
+    pandoc_args: [--top-level-division=chapter]
     toc: no
     toc_appendix: yes
   bookdown::word_document2:
     toc: no
     toc_appendix: yes
-bibliography: ["references.bib", "references-exported.bib"]
+bibliography: [references.bib, packages.bib]
 csl: "apa.csl"
 link-citations: true
 github-repo: "nsunami/dissertation"
@@ -75,12 +75,12 @@ question: Can a player replenish their belonging even when they play
 alone themselves? I designed my dissertation to answer this question.
 
 I structure my dissertation as follows. In Chapter 2, I present my
-published work on the bi-dimensional rejection taxonomy [@sunami2019a]
+published work on the bi-dimensional rejection taxonomy [@sunamiBIDimensionalRejectionTaxonomy2020]
 to highlight the need for more evidence on the disengaged-prosocial
 responses: indirect, and hands-off attempts that increase belonging. In
 Chapter 3, I suggest that playing a video game in a single-player mode
 is an unexamined disengaged-prosocial response to social rejection. I
-draw from the social surrogacy hypothesis [@gabriel2017] and the video
+draw from the social surrogacy hypothesis [@gabrielSocialSurrogatesRejection2017] and the video
 games literature to suggest that solo plays can fulfill belonging. In
 Chapter 4 (Study 1), I first validated the Heart Self-Assessment Manikin
 (Heart Manikin), a single-item pictorial measure of belonging that I

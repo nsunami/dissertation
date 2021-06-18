@@ -10,20 +10,20 @@ Does Solo Gameplay Replenish Belonging After Social Rejection?
 
 The bi-dimensional rejection taxonomy identifies disengaged-prosocial
 responses as an emerging category of behavioral responses to social
-rejection [@sunami2019a]. Since this category is novel, identifying new
+rejection [@sunamiBIDimensionalRejectionTaxonomy2020]. Since this category is novel, identifying new
 disengaged-prosocial responses benefits the literature. One potential
 unexamined disengaged-prosocial response is solo gameplay: gameplays
 without any other human players. Solo gameplay is disengaged and
 prosocial since players play alone by themselves and satisfy belonging
 in an indirect, passive, hands-off manner from the non-human entities in
-a game [@sunami2019a]. Theoretically, solo gameplay should replenish
-belonging via social surrogates [@gabriel2017]. However, no quantitative
+a game [@sunamiBIDimensionalRejectionTaxonomy2020]. Theoretically, solo gameplay should replenish
+belonging via social surrogates [@gabrielSocialSurrogatesRejection2017]. However, no quantitative
 studies have tested this possibility. In my dissertation, I examined
 whether solo gameplay can replenish belonging after social rejection.
 
 In this chapter, I discuss a theoretical foundation for the hypothesis
 that solo gameplay can replenish belonging following social rejection. I
-first discuss the social surrogacy hypothesis [@gabriel2017]. This
+first discuss the social surrogacy hypothesis [@gabrielSocialSurrogatesRejection2017]. This
 hypothesis suggests that people can fulfill belonging from *social
 surrogates*: targets with only psychological bonds without actual social
 interactions. I focus on two types of social surrogates relevant to
@@ -40,12 +40,12 @@ romantic partner, family members, and friends [@baumeisterNeedBelongDesire1995].
 However, an interaction with a real person is not the only way to
 satisfy belonging---people can replenish belonging via
 disengaged-prosocial behaviors such as feeling connected with fictional
-characters in books [@gabriel2017]. Just as people have used substitutes
+characters in books [@gabrielSocialSurrogatesRejection2017]. Just as people have used substitutes
 to satisfy other fundamental needs (e.g., coca leaves for hunger,
 caffeine for sleep), people can use *social surrogates* to substitute
 real social connections. Social surrogates are human or non-human
 targets to which people form symbolic bonds without actual social
-interactions [@derrick2009; @gabriel2017]. The social surrogacy
+interactions [@derrickSocialSurrogacyHow2009; @gabrielSocialSurrogatesRejection2017]. The social surrogacy
 hypothesis suggests three types of social surrogates: parasocial
 relationships (e.g., feeling connected to a favorite TV character),
 social worlds (e.g., feeling like a member of a collective in a fantasy
@@ -61,8 +61,8 @@ solo gameplay.
 ### Definition
 
 Parasocial relationships refer to one-way emotional bonds and feelings
-of intimacy without an actual social interaction [@gabriel2017;
-@knowles2013]. People sometimes feel like they are friends with
+of intimacy without an actual social interaction [@gabrielSocialSurrogatesRejection2017;
+@knowlesBelongingRegulationUse2013]. People sometimes feel like they are friends with
 celebrities (e.g., Cardi B) or fictional characters (e.g., Derrick
 Morgan from Criminal Minds); they feel like they "know" the person and
 are psychologically connected to them. People even become romantically
@@ -160,16 +160,16 @@ relationship content.
 ### Definition
 
 Social worlds are stories, narratives, and collectives to which people
-assimilate [@gabriel2017]. When consuming a narrative (e.g., reading or
+assimilate [@gabrielSocialSurrogatesRejection2017]. When consuming a narrative (e.g., reading or
 watching), people immerse themselves in the story and transport
 themselves into the social world described in the narrative
-[@gabriel2011]. As a result, people can assimilate themselves as a
+[@gabrielBecomingVampireBeing2011]. As a result, people can assimilate themselves as a
 member of the collective in the story---a process called narrative
-collective-assimilation [@gabriel2017; @gerrig1993; @green2004;
+collective-assimilation [@gabrielSocialSurrogatesRejection2017; @gerrig1993; @green2004;
 @mar2008]. For example, participants who read a passage from Harry
 Potter reported that they felt like a member of the magical world of
 Harry Potter---people felt like being British, able to move an object,
-and able to make themselves disappear magically [@gabriel2011]. On the
+and able to make themselves disappear magically [@gabrielBecomingVampireBeing2011]. On the
 other hand, participants who read a passage from Twilight identified
 themselves as a vampire---people felt like having sharper teeth and
 being able to jump higher and stay awake longer. Thus, people can
@@ -179,7 +179,7 @@ belong are more likely to immerse themselves in stories than those with
 a lower need to belong [@greenwood2009]. Socially rejected people who
 recalled their favorite TV program (providing social worlds) reported
 higher belonging than those who recalled a non-favorite TV program
-[@derrick2009].
+[@derrickSocialSurrogacyHow2009].
 
 Researchers have used different terms to describe the process by which
 people immerse in a social world, such as *transportation*, *flow*,
@@ -262,7 +262,7 @@ dominance), but this was not the main goal of this dissertation.
 
 The social surrogacy hypothesis suggests that parasocial relationships
 and social worlds are distinct processes, relatively independent from
-each other [@gabriel2017]. Theoretical discussions in the communications
+each other [@gabrielSocialSurrogatesRejection2017]. Theoretical discussions in the communications
 literature support this independence. People can immerse themselves in a
 story without forming a parasocial relationship; conversely, people can
 form a parasocial relationship without immersing themselves in a story

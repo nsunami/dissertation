@@ -166,9 +166,6 @@ s1e_cronbach_APA <- get_cronbach_alphas(s1e_realiablities) %>% map(~f.round(., 2
 
 ### Study 1a
 
-#### Correlations Table
-
-
 
 ```{r}
 knitr::write_bib(c(.packages(), "bookdown"), "packages.bib")
@@ -197,8 +194,6 @@ s1a_mnsdcor %>% as_tibble() %>%
 
 
 ### Study 1b
-
-#### Correlations Table
 
 ```{r appendix-s1b-correlations-table}
 # N, Mean, SD Table
@@ -253,8 +248,6 @@ ggplot(s1b_cor_CIs,
 
 ### Study 1c (ARv1)
 
-#### Correlations Table
-
 ```{r appendix-s1c-correlations-table}
 s1c_footnote <- "Heart = the Heart Manikin, SES = Subjective Socioeconomic Status, IOS = Inclusion of the Other in the Self Scale, NTS = the Need-Threat Scale"
 
@@ -269,8 +262,6 @@ s1c_mnsdcor %>% as_tibble() %>%
            footnote_as_chunk = TRUE, threeparttable = TRUE) %>% 
   kable_styling_cortable()
 ```
-
-#### Forestplot
 
 ```{r appendix-s1c-all-cors-plot, fig.cap='Study 1c - Forestplot of Correlation Coefficients between the Measured Variabels with the Heart Manikin', fig.width=9, fig.height=5}
 # Forestplot - all correlations, except the ones for the mixed model
@@ -299,8 +290,6 @@ s1c_cor_CIs %>%
     # caption
   labs(caption = s1_caption_errorbars9095)
 ```
-
-#### Heart & Valence Manikins Across Time
 
 I explored whether the heart manikin scores changed across time by condition in a mixed model.
 
@@ -364,8 +353,6 @@ ggarrange(s1c_heart_across_time_plot,
 
 ### Study 1d (EVv1)
 
-#### Correlations Table
-
 ```{r appendix-s1d-correlations-table}
 s1d_footnote <- "Heart = the Heart Manikin, NTS = the Need-Threat Scale"
 
@@ -377,8 +364,6 @@ s1d_mnsdcor %>% as_tibble() %>%
                    footnote = s1d_footnote) %>%
   kable_styling_cortable()
 ```
-
-#### Forestplot
 
 ```{r appendix-s1d-all-forestplot, fig.cap='Study 1d - Forestplot of Correlation Coefficients between the Measured Scores and the Heart Manikin',fig.width=10, fig.height=12}
 ## Forestplot
@@ -410,8 +395,6 @@ s1d_cor_CIs %>%
                        "Rejection Manipulation happened between Times 2 and 3."))
 ```
 
-#### Heart Manikin Across Time
-
 ```{r appendix-s1d-sensitivity-plot, fig.cap='Study 1d - Heart Manikin Across Time', fig.width=8, fig.height=6}
 # s1d Plot - Heart by Condition across time
 s1d_heart_across_time_plot <- s1d_dfC_long %>%
@@ -442,8 +425,6 @@ s1d_heart_across_time_plot
 
 ### Study 1e (NPSv2)
 
-#### Correlations Table
-
 ```{r appendix-s1e-correlations-table}
 # Footnote
 s1e_footnote <- "Heart = the Heart Manikin, NTS = the Need-Threat Scale"
@@ -455,8 +436,6 @@ s1e_mnsdcor %>% as_tibble() %>%
                    footnote = s1e_footnote) %>%
   kable_styling_cortable()
 ```
-
-#### Forestplot
 
 ```{r appendix-s1e-cor-forestplot, fig.cap='Study 1e - Forestplot of Correlations between the Measured Variables and the Heart Manikin Scores', fig.width = 14, fig.height = 14}
 # Study 1e - Correlations Forest Plot
@@ -487,8 +466,6 @@ s1e_cor_CIs %>%
   # caption
   labs(caption = s1_caption_errorbars9095)
 ```
-
-#### Heart Manikin Scores Across Time
 
 I explored whether participants reported different levels of belonging across time, depending on the experimental conditions. Figure \@ref(fig:appendix-s1e-belonging-plot) shows the Heart Manikin scores across time and the conditions.
 
@@ -666,8 +643,6 @@ s1e_NTS_T5_modbyesteem_plot + ggsave(here("figure", "s1e_nts_T5_mod_by_esteem.pn
 
 ## Study 2
 
-### Correlations Table
-
 ```{r s2-correlations-table}
 # Calculate means and standard deviations
 s2_outcomes <- c("Heart (T1)"= "T1_Heart_1", "Heart (T2)" = "T2_Heart_1",
@@ -718,8 +693,6 @@ s2_df %>%
                                        size = .1)))
 ```
 
-
-### World Cloud for Reported games
 
 ```{r s2-word-cloud, fig.cap='Word Cloud for Game Titles for the Social Surrogate Condition', fig.width=10, fig.height=9}
 ## Word Cloud
@@ -881,8 +854,6 @@ ggarrange(s2_share_anything_plot, s2_study_purpose_plot,
 
 ## Study 3
 
-### Correlations Table
-
 ```{r appendix-s3-correlations-table}
 # Calculate means and standard deviations
 s3_outcomes <- c("Heart (T1)"= "T1_Heart_1", "Heart (T2)" = "T2_Heart_1",
@@ -912,7 +883,6 @@ s3_mnsdcor %>% as_tibble() %>%
   kable_styling_cortable()
 ```
 
-### Bivariate Scatter Matrix
 ```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE, cache=TRUE}
 # GG Pairs for Study 3
 s3_df %>%
@@ -935,12 +905,23 @@ s3_df %>%
                                        size = .1)))
 ```
 
+# Software Programs Used 
+
+```{r}
+# List softwares used
+knitcitations::cite_options(citation_format = "pandoc")
+sotwares_used <- knitcitations::read.bibtex("packages.bib")
+```
+In writing my dissertation, I used R packages and software programs developed by the following authors: `r knitcitations::citet(sotwares_used)`
+
+
+
 # Instituional Review Board Approval Letters
 
-```{r, out.width='100%', fig.height='300px'}
+```{r, out.width='100%'}
 knitr::include_graphics("IRB_letters/letter1.pdf")
 ```
 
-```{r}
+```{r, out.width='100%'}
 knitr::include_graphics("IRB_letters/letter2.pdf")
 ```

@@ -6,9 +6,12 @@ devtools::install_github('achetverikov/apastats',subdir='apastats')
 
 # Pacmac Package Management Tool Required
 # install.packages("pacman")
-pacman::p_load(english, wordcloud, emmeans, tidytext, scales, lme4, GGally, ggpubr,
+pacman::p_load(english, wordcloud,
+               car, # Type III ANOVA
+               emmeans, tidytext, scales, lme4, GGally, ggpubr, ggmosaic,
+               ggtext, # element_markdown
                here, broom, codebook, ggtext, apastats, kableExtra,
-               effectsize,
+               effectsize, # for equivalence tests and effect size estimation
                tidyverse)
 
 # Project-Specific Parameters
@@ -19,8 +22,6 @@ SESOI_r <- .17
 ROPE_r <- c(-SESOI_r, SESOI_r)
 # Dodge width
 my_dodge_width <- 0.5
-
-
 
 
 # Summary Statistics ------------------------------------------------------------

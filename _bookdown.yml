@@ -1,5 +1,7 @@
 delete_merged_file: false
 output_dir: "docs"
 # built few for testing
-# rmd_files: ["index.Rmd", "02-Bi-DR.Rmd", "08-References.Rmd", "09-Appendix.Rmd"]
+# rmd_files: ["index.Rmd", "01-Bi-DR.Rmd", "07-References.Rmd", "08-Appendix.Rmd"]
+# rmd_files: ["index.Rmd", "01-Bi-DR.Rmd", "07-References.Rmd"]
+
 book_filename: "Sunami-Dissertation.Rmd"

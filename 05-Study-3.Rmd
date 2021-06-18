@@ -89,14 +89,6 @@ knitr::opts_chunk$set(
 
 # Load packages
 library(here)
-library(car) # for the type III SS in ANOVA
-library(emmeans)
-library(effectsize) # for equivalence tests and effect size estimation
-library(GGally) # for ggpairs
-library(apastats)
-library(ggmosaic)
-library(ggpubr)
-library(ggtext) # element_markdown
 source(here("r", "namifunc.R")) # Read User-Defined Functions
 
 # Load Public Data  ----------------------------------------
@@ -324,7 +316,7 @@ the on-the-fly measure of social world.
 
 **Player Character Identification - Similarity Subscale.** I used the
 identification similarity subscale from the Player Character
-Identification Scale [@vanlooy2012]. The subscale consisted of 6
+Identification Scale [@vanlooyPlayerIdentificationOnline2012]. The subscale consisted of 6
 statements on the similarities between the player and the player
 character (e.g., "My character is like me in many ways"). I modified
 the scale so that they refer to the video game in the study (e.g., "My
@@ -1250,14 +1242,14 @@ I also found the two-way Immersion x Time
 effect 
 (`r s3_mod_mc_APA$Heart$Single_Immersion_c$"Single_Immersion_c:time1"`).
 Follow-up tests showed that the slope of immersion scores predicting
-belonging was greater at Time 2 than at time 1 scores at Time 2 (Time 1:
+belonging was greater at Time 2 than Time 1 (Time 1:
 `r s3_imm_time_APA$T1`; Time 2: `r s3_imm_time_APA$T2`). I also found
 the four-way Immersion x Parasocial Relationship x Social World x Time
 interaction 
 (`r s3_mod_mc_APA$Heart$Single_Immersion_c$"Single_Immersion_c:parasocial1:social_world1:time1"`).
 Follow-up tests suggested that, among the high parasocial and high
 social world condition, the relationship between immersion and belonging
-was greater at Time 2 than at Time 1 (Time 1:
+was greater at Time 2 than Time 1 (Time 1:
 `r s3_imm_para_soc_time_APA$"High Parasocial_High Social World_T1"`;
 Time 2:
 `r s3_imm_para_soc_time_APA$"High Parasocial_High Social World_T2"`).

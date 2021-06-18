@@ -126,7 +126,7 @@ further research.
 In proposing the taxonomy, we rely on existing work demonstrating that
 self-protective and belonging needs are fundamental to human nature, and
 that interpersonal rejection threatens these needs, motivating
-behavioral responses [@baumeisterNeedBelongDesire1995; @maslow1943; @murray2008;
+behavioral responses [@baumeisterNeedBelongDesire1995; @maslow1943; @murrayBalancingConnectednessSelfprotection2008;
 @richmanReactionsDiscriminationStigmatization2009; @williamsOstracismTemporalNeedthreat2009]. Throughout this paper, we use
 interpersonal rejection as an overarching phrase that encompasses
 threats to belonging, including social exclusion, social rejection,
@@ -173,10 +173,10 @@ engaged--disengaged *y*-axis in the next section.
 The antisocial--prosocial *x*-axis of the bi-dimensional rejection
 taxonomy stems from prior empirical research demonstrating that
 rejection sometimes leads to antisocial behavior and, at other times,
-prosocial behavior [@dewall2010; @dewall2009;
-@romero-canyasPayingBelongWhen2010; @twenge2001; @warburton2006]. For
+prosocial behavior [@dewallLittleAcceptanceGoes2010; @dewall2009;
+@romero-canyasPayingBelongWhen2010; @twengeIfYouCan2001; @warburtonWhenOstracismLeads2006]. For
 example, rejected participants blasted louder and longer noise to a
-stranger in one study [an antisocial response; @twenge2001] and worked
+stranger in one study [an antisocial response; @twengeIfYouCan2001] and worked
 harder on a collective task in another study [a prosocial response;
 @williams1997] compared with non-rejected participants. Rejection
 scholars have developed multiple theoretical frameworks for
@@ -211,7 +211,7 @@ relationship (a form of perceived rejection) can range from destructive
 (e.g., relationship-damaging responses such as leaving the relationship;
 similar to antisocial behavior) to constructive [e.g.,
 relationship-repairing responses such as voicing a concern; similar to
-prosocial behavior; @rusbult1982]. Similarly, risk regulation theory
+prosocial behavior; @rusbultExitVoiceLoyalty1982]. Similarly, risk regulation theory
 suggests that couples' responses towards each other function to promote
 or damage the relationships [@murrayOptimizingAssuranceRisk2006], akin to antisocial and
 prosocial behavior within the romantic relationship.
@@ -228,7 +228,7 @@ similar to prosocial responses.
 These close relationships theories strongly support the existence of the
 antisocial--prosocial *x*-axis. This dimension has been identified in
 different terms: destructive--constructive in the investment model
-[@rusbult1982], self-protection--relationship promotion in risk
+[@rusbultExitVoiceLoyalty1982], self-protection--relationship promotion in risk
 regulation theory [@murrayOptimizingAssuranceRisk2006], and hostilit*y*--positivity in the
 RMICS [@heyman2004]. However, all of the terms reflect the same
 underlying concept of behaviors that reduce (antisocial) or increase
@@ -448,8 +448,7 @@ prosocial responses. Past literature showed that rejected people respond
 in ways that qualify as disengaged and prosocial, such as thinking about
 one's favorite TV program [e.g., @derrickSocialSurrogacyHow2009] and
 that people can fulfill belonging in a variety of ways, including via
-social surrogates (e.g., a fictional character; Gabriel & Valenti,
-2017). However, no existing theories have formally differentiated these
+social surrogates [e.g., a fictional character; @gabrielSocialSurrogatesRejection2017]. However, no existing theories have formally differentiated these
 types of prosocial responses from other more engaged responses (e.g.,
 seeking social support from a loved one; Murray et al., 2008). The
 bi-dimensional rejection taxonomy also differentiates disengaged
