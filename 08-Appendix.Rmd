@@ -919,9 +919,30 @@ In writing my dissertation, I used R packages and software programs developed by
 # Instituional Review Board Approval Letters
 
 ```{r, out.width='100%'}
-knitr::include_graphics("IRB_letters/letter1.pdf")
+knitr::include_graphics("pdf/IRB_letter1.pdf")
 ```
 
 ```{r, out.width='100%'}
-knitr::include_graphics("IRB_letters/letter2.pdf")
+knitr::include_graphics("pdf/IRB_letter2.pdf")
 ```
+
+
+# Permissions
+
+The current dissertation includes the following published work: Sunami, N., Nadzan, M. A., &
+Jaremka, L. M. (2019). The bi‐dimensional rejection taxonomy: Organizing
+responses to interpersonal rejection along antisocial--prosocial and
+engaged--disengaged dimensions. Social and Personality Psychology
+Compass. <https://doi.org/10.1111/spc3.12497>.  I have the right to self-archive this article to the institutional repository (under C.2.a in the attached copyright transfer agreement):
+
+> The right to self-archive the Accepted Version on: the Contributor’s personal website; the Contributor’s company/institutional repository or archive; Compliant SCNs; and not for profit subject-based repositories such as PubMed Central, all subject to an embargo period of 12 months for scientific, technical and medical (STM) journals and 24 months for social science and humanities (SSH) journals following publication of the Final Published Version.
+
+```{r, out.width='100%'}
+#knitr::include_graphics("pdf/copyright.pdf")
+
+# How to insert multiple page pdfs:
+# https://stackoverflow.com/questions/52486342/how-to-add-a-multipage-pdf-to-rmarkdown
+```
+
+
+\includepdf[pages=-,nup=1,pagecommand={}]{pdf/copyright.pdf}
