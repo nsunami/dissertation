@@ -180,7 +180,8 @@
      \fi
      \bfseries \uppercase{#2}\par}%
     \@endpart}
-    
+
+% Need to comment out otherwise crashes
 % \renewcommand{\appendix}{\if\app0\def\@chapapp{Appendix}
 % \setcounter{chapter}{0}
 % \def\thechapter{\Alph{chapter}}\gdef\app{1}\fi
@@ -191,7 +192,28 @@
 % \clearpage \thispagestyle{plain} \global\@topnum\z@
 % \@afterindenttrue \secdef\@appendix\@sappendix}
 
-\def\@appendix[#1]#2{\ifnum \c@secnumdepth >\m@ne
+% \renewcommand{\appendix}{\def\@chapapp{Appendix}
+% \setcounter{chapter}{0}
+% \def\thechapter{\Alph{chapter}}\gdef\app{1}
+% \setcounter{section}{0}
+% \setcounter{equation}{0}
+% \setcounter{figure}{0}
+% \setcounter{table}{0}
+% \clearpage \thispagestyle{plain} \global\@topnum\z@
+% \@afterindenttrue \secdef\@appendix\@sappendix}
+
+% This runs but no effect on document
+\renewcommand{\appendix}{\def\@chapapp{Appendix}
+\setcounter{chapter}{0}
+\def\thechapter{\Alph{chapter}}\gdef\app{1}
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}}
+
+
+\def\@appendix[#1]#2{
+\ifnum \c@secnumdepth >\m@ne
  \refstepcounter{chapter}
  \typeout{\@chapapp\space\thechapter.}
  \phantomsection
@@ -200,7 +222,8 @@
  \chaptermark{#1}
 \if@twocolumn \@topnewpage[\@makenchapterhead{#2}]
  \else \@makenchapterhead{#2}
- \@afterheading \fi}
+ \@afterheading \fi
+ }
 
 \def\@sappendix#1{\if@twocolumn \@topnewpage[\@makenschapterhead{#1}]
  \else \@makenschapterhead{#1}
@@ -733,6 +756,7 @@ mu.\mkern
     \endgroup}
 
 \newenvironment{approvalpage}{\newpage\thispagestyle{empty}
+\pagenumbering{gobble} % No page number
 	\begingroup\parskip 0pt
     \setbox1=\hbox{Approved:\enskip}
     \vglue 1.0in plus 1.2fil minus .5in

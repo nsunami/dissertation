@@ -6490,7 +6490,7 @@ always_allow_html: true
 always_allow_html: true
 ---
 
-# (APPENDIX) APPENDIX {-}
+# (APPENDIX) Appendix {-}
 
 ```{r appendix-setup}
 # Load package
