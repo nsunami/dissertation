@@ -61,7 +61,7 @@ meta() %>%
   meta_social(
     title = "Playing Alone, Feeling Connected: Do Single-Player Video Games with Social Surrogates Replenish Belonging After Social Rejection?",
     url = "https://nsunami.github.io/dissertation/",
-    image = "https://github.com/nsunami/dissertation/blob/2f48c254e6c6ebe7410fde51f0dcaf28e9c4779c/img/og.png",
+    image = "https://raw.githubusercontent.com/nsunami/dissertation/2f48c254e6c6ebe7410fde51f0dcaf28e9c4779c/img/og.png",
     image_alt = "The title image of the dissertation",
     og_type = "book",
     og_author = "Naoyuki Sunami",
