@@ -49,6 +49,29 @@ knitr::opts_chunk$set(
 library(rmarkdown)
 ```
 
+```{r, echo=FALSE}
+library(tidyverse)
+library(metathis)
+meta() %>%
+  meta_description(
+    "Nami Sunami's Doctoral Dissertation on Video Games and Belonging "
+  ) %>% 
+  meta_name("github-repo" = "nsunami/dissertation") %>% 
+  meta_viewport() %>% 
+  meta_social(
+    title = "Playing Alone, Feeling Connected: Do Single-Player Video Games with Social Surrogates Replenish Belonging After Social Rejection?",
+    url = "https://nsunami.github.io/dissertation/",
+    image = "img/og.png",
+    image_alt = "The title image of the dissertation",
+    og_type = "book",
+    og_author = "Naoyuki Sunami",
+    twitter_card_type = "summary",
+    twitter_creator = "@n_sunami"
+  )
+
+```
+
+
 
 # Overview
 
