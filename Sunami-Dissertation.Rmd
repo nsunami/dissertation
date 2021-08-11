@@ -3727,7 +3727,21 @@ have decided to use the rejection procedure in Study 1c instead of Study
 
 ## Discussion
 
-Across 5 studies, I examined the convergent validity, discriminant
+```{r}
+# participants across studies 
+s1a_n <- s1a_df %>% complete.cases() %>% sum
+s1b_n <- s1b_df %>% distinct(id) %>% nrow(.)
+s1c_n <- s1c_df$id %>% length()
+s1d_n <- s1d_df$id %>% length()
+# Total participants
+s1_n_total <- s1a_n + s1b_n + s1c_n + s1d_n
+# round function
+round_down100 <- function(x) x - x %% 100
+
+s1_n_total_rounded <- round_down100(s1_n_total)
+```
+
+Across 5 studies (`r s1_n_total_rounded`+ participants), I examined the convergent validity, discriminant
 validity, test-retest reliability, and
 sensitivity to social rejection manipulation the Heart Manikin. Overall, I found a strong support for the convergent validity and sensitivity to social rejection manipulation. On the other hand, I found mixed evidence for discriminant validity.
 
