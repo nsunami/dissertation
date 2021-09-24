@@ -6178,13 +6178,25 @@ editor_options:
     wrap: 72
 ---
 
+```{r}
+# calculating the total number of participants
+# Study 1
+# s1_n_total_rounded
+# Study 2
+# s2_attention_APA$total
+# Study 3
+# s3_attention_df$"TRUE"
+total_n <- s1_n_total_rounded + s2_attention_APA$total + s3_attention_df$"TRUE"
+```
+
+
 # General Discussion
 
-In my dissertation studies, I examined whether playing a single-player
+In my dissertation studies (total N = `r total_n`), I examined whether playing a single-player
 video game alone replenishes belonging after social rejection, a
 potential disengaged--prosocial response to social rejection in the
 bi-dimensional rejection taxonomy [@sunamiBIDimensionalRejectionTaxonomy2020]. In Study 1, I
-validated a single-item measure of belonging, the Hart Manikin, used as
+validated a single-item measure of belonging, the Heart Manikin, used as
 the primary outcome for the subsequent studies. In Study 2, I examined
 whether recalling one's time playing a social surrogate video game vs. a
 non-social surrogate video game can replenish belonging after social
