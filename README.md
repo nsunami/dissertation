@@ -16,7 +16,7 @@ index.Rmd                 | Dissertation Body - Metadata & Abstract | Human Edit
 
 
 ## Contact
-Nami Sunami (naoyuki.sunami@gmail.com)
+Nami Sunami (nsunami@pm.me)
 
 <!--  You can consider adding the following to this file:                    -->
 <!--  * A citation reference for your project                                -->
