@@ -14,6 +14,11 @@ README.md                 | Description of project           | Human editable
 LICENSE                   | User permissions                 | Read only     
 index.Rmd                 | Dissertation Body - Metadata & Abstract | Human Editable 
 
+## Video game
+
+In Study 3, I developed a video game and asked participants to play it.
+The video game is currently hosted on [itch.io (Shadow of Gaki)](https://nsunami.itch.io/shadow-of-gaki).
+
 
 ## Contact
 Nami Sunami (nsunami@pm.me)
