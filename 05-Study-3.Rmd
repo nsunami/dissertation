@@ -585,9 +585,10 @@ s3_heart2_plot <- s3_included %>%
        color = "Social World",
        caption = "Errorbars represent 95% confidence intervals.") + 
   # Color Palette 
-  scale_color_brewer(palette = "Set2") + 
-  # Save Plot 
-  ggsave(here("plot","s3_heart2_plot.png"), width = 6, height = 4)
+  scale_color_brewer(palette = "Set2") 
+
+  # # Save Plot 
+  # ggsave(here("plot","s3_heart2_plot.png"), width = 6, height = 4)
 
 # Cohen's d forestplot 
 ggarrange(s3_heart2_plot,
