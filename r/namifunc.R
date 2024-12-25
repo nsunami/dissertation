@@ -1,20 +1,26 @@
 # Project-Wide Functions for the Dissertation by Nami Sunami
 # Thanks for this blog post: https://kdestasio.github.io/post/r_best_practices/
 # Apa stats not on CRAN
-# install.packages("devtools")
-# devtools::install_github('achetverikov/apastats',subdir='apastats')
-
-# Pacmac Package Management Tool Required
-# install.packages("pacman")
-pacman::p_load(
-  english, wordcloud,
-  car, # Type III ANOVA
-  emmeans, tidytext, scales, lme4, GGally, ggpubr, ggmosaic,
-  ggtext, # element_markdown
-  here, broom, codebook, ggtext, apastats, kableExtra,
-  effectsize, # for equivalence tests and effect size estimation
-  tidyverse
-)
+# install.packages("remotes")
+# remotes::install_github('achetverikov/apastats',subdir='apastats')
+library(english)
+library(wordcloud)
+library(car) # Type III ANOVA
+library(emmeans)
+library(tidytext)
+library(scales)
+library(lme4)
+library(GGally)
+library(ggpubr)
+library(ggmosaic)
+library(here)
+library(broom)
+library(codebook)
+library(ggtext)
+library(apastats)
+library(kableExtra)
+library(effectsize) # for equivalence tests and effect size estimation
+library(tidyverse)
 
 # Project-Specific Parameters
 ## SESOI for ROPE in the equivalence test
