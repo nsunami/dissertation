@@ -540,9 +540,9 @@ s1e_nts_across_time_plot <- ggarrange(s1e_nts_belonging_across_time_plot,
                                       s1e_nts_meaning_across_time_plot, common.legend = T) %>%
   annotate_figure(fig.lab = s1e_across_time_caption,
                   fig.lab.pos = "bottom.right",
-                  fig.lab.size = 7) +
-  ggsave(here("figure", "s1e_nts_across_time_plots.png"),
-         width = 10, height = 8)
+                  fig.lab.size = 7) 
+  # ggsave(here("figure", "s1e_nts_across_time_plots.png"),
+        # width = 10, height = 8)
 
 
 
@@ -626,8 +626,8 @@ s1e_NTS_T5_modbyesteem_plot <- ggarrange(s1e_NTS_moderation_by_esteem_nocond_df$
                                          s1e_NTS_moderation_by_esteem_nocond_df$plot[[3]],
                                          s1e_NTS_moderation_by_esteem_nocond_df$plot[[4]],
                                          common.legend = TRUE,
-                                         labels = "AUTO") +
-  ggsave(here("figure", "s1e_nts_T5_mod_by_esteem.png"))
+                                         labels = "AUTO") 
+#  ggsave(here("figure", "s1e_nts_T5_mod_by_esteem.png"))
 ```
 
 ```{r s1e-nts-across-time-plot, fig.cap='Need-Threat Scores Across Time and Condition', fig.width=10, fig.height=8}
@@ -638,7 +638,9 @@ s1e_nts_across_time_plot
 I explored whether participants with higher (vs. lower) self-esteem reported different levels of need-threat at Time 5 (after rejection) in a regression model (predictors: the main effect of rejection, the main effect of self-esteem, and the interaction between rejection and self-esteem). Figure \@ref(fig:s1e-nts-t5-mod-by-esteem) shows the results. I did not find evidence of moderation by self-esteem for the effect of social rejection.
 
 ```{r s1e-nts-t5-mod-by-esteem, fig.cap='Study 1e - Self-Esteem as a Possible Moderator for the Effect of Rejection on Need-Threat'}
-s1e_NTS_T5_modbyesteem_plot + ggsave(here("figure", "s1e_nts_T5_mod_by_esteem.png"))
+s1e_NTS_T5_modbyesteem_plot 
+
+# ggsave(here("figure", "s1e_nts_T5_mod_by_esteem.png"))
 ```
 
 ## Study 2
@@ -773,9 +775,9 @@ plot_T2_Heart <- s2_df %>%
        caption = paste("Errorbars represent 95% confidence intervals",
                        paste(heart2_txt_all$t_results, heart2_txt_all$cohen_d_APA95, sep = ", "),
                        sep = "<br>")) +
-  scale_x_discrete(labels = str_to_title) +
+  scale_x_discrete(labels = str_to_title) 
   # save
-  ggsave(here("plot","s2_heart2_plot.png"), width = 6, height = 4)
+  # ggsave(here("plot","s2_heart2_plot.png"), width = 6, height = 4)
 ```
 
 In the main analysis, I excluded participants based on the preregistered exclusion procedure. Here, I report results including all participants. I used the entire dataset including excluded participats to perform Welch's *t*-test to compare the post-esaay Heart Manikin scores (Time 2) between the participants who wrote about the social surrogacy video game and those who wrote about the non-social surrogacy video game. Results were consistent with the analysis without the exculuded participants: participants who wrote about the social surrogacy game (`r heart2_txt_all$surrogate_msd`) reported similar levels of belonging compared with those who wrote about a non-surrogacy game (`r heart2_txt_all$non_surrogate_msd`, `r heart2_txt_all$t_results`).

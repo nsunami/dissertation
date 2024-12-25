@@ -238,9 +238,9 @@ plot_T2_Heart <- s2_df %>%
        caption = paste("Errorbars represent 95% confidence intervals", 
                        paste(heart2_txt$t_results, heart2_txt$cohen_d_APA95, sep = ", "),
                        sep = "<br>")) + 
-  scale_x_discrete(labels = str_to_title) +
-  # save 
-  ggsave(here("plot","s2_heart2_plot.png"), width = 6, height = 4)
+  scale_x_discrete(labels = str_to_title)
+  # # save 
+  # ggsave(here("plot","s2_heart2_plot.png"), width = 6, height = 4)
 ```
 
 **Main Analysis.** I performed Welch's _t_-test to compare the post-essaay Heart Manikin scores (Time 2) between the participants who wrote about the social surrogacy video game and those who wrote about the non-social surrogacy video game. Based on the social surrogacy hypothesis, I expected that participants who wrote about the social surrogacy video game would have higher belonging than those who wrote about the non-social surrogacy video game. Contrary to this expectation, participants who wrote about the social surrogacy game (`r heart2_txt$surrogate_msd`) reported similar levels of belonging compared with those who wrote about a non-surrogacy game (`r heart2_txt$non_surrogate_msd`, `r heart2_txt$t_results`, see Figure \@ref(fig:heart2)).
@@ -533,9 +533,9 @@ ggarrange(plot_PSI, plot_immersion,
   annotate_figure(bottom = text_grob("Errorbars represent 95% confidence intervals.", color = "black",
                                      hjust = 1, x = 1, size = 10),
                   fig.lab = "", fig.lab.face = "bold") +
-  rremove("xlab") + 
-  # save 
-  ggsave(here("plot","s2_exp_plots.png"), width = 6, height = 6)
+  rremove("xlab")
+  # # save 
+  # ggsave(here("plot","s2_exp_plots.png"), width = 6, height = 6)
 ```
 
 To explore the effectiveness of the video game essay in inducing social worlds, I ran a Welch's *t*-test to compare the scores of the Single-Item Immersion Scale [@reysenInitialValidationReliability2019], the Narrative Engagement Scale [@busselleMeasuringNarrativeEngagement2009], and the on-the-fly measure of social world, between social surrogate vs. non-social surrogate video game essay conditions. I expected that rejected participants who wrote about the social surrogacy video game would report higher immersion and social worlds compared with those who wrote about their non-social surrogacy video game. Results were consistent with these predictions. Participants in the social surrogate essay condition reported higher immersion (`r imemrsion_txt$surrogacy_msd`) than those in the non-social surrogate essay condition (`r imemrsion_txt$nonsurrogacy_msd`, `r imemrsion_txt$t_APA`, Figure \@ref(fig:exp-plots), Panel B). Participants in the social surrogate essay condition reported higher narrative engagement (`r NE_txt$surrogacy_msd`) than those in the non-surrogacy essay condition (`r NE_txt$nonsurrogacy_msd`, `r NE_txt$t_APA`, Figure \@ref(fig:exp-plots), Panel C). Participants in the social surrogate essay condition reported higher social worlds (`r OTF_txt$surrogacy_msd`) than those in the non-social surrogate essay condition (`r OTF_txt$nonsurrogacy_msd`, `r OTF_txt$t_APA`, Figure \@ref(fig:exp-plots), Panel D).
@@ -701,9 +701,9 @@ Below I report analyses that I did not plan in the proposal of this dissertation
 manikin12_plots %>%
   # Add caption
   annotate_figure(bottom = text_grob("Errorbars represent 95% confidence intervals.", color = "black",
-                                     hjust = 1, x = 1, size = 10)) + 
-  # Save
-  ggsave(here("plot","s2_manikin12_plots.png"), width = 6, height = 6) 
+                                     hjust = 1, x = 1, size = 10))
+  # # Save
+  # ggsave(here("plot","s2_manikin12_plots.png"), width = 6, height = 6) 
 ```
 ```{r s2-moderation}
 # Target outcome variables and moderators

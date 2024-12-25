@@ -1,0 +1,10 @@
+services:
+  rstudio:
+    build: .
+    ports:
+      - 8787:8787
+    volumes:
+      - ./:/home/rstudio/dissertation/
+    environment:
+      - PASSWORD=changeme # default username is rstudio
+

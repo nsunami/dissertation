@@ -1891,7 +1891,7 @@ s1e_var_types <- c(
 ) %>% 
   tibble(predictor = names(.), type = .) %>% 
   mutate(predictor = fct_inorder(predictor),
-         type = fct_relevel(type, levels = c("Convergent", "Convergent (R)", "Discriminant")))
+         type = factor(type, levels = c("Convergent", "Convergent (R)", "Discriminant")))
 
 # Subset the data to target variables only
 s1e_df_target_only <- s1e_df %>%

@@ -1,4 +1,4 @@
-delete_merged_file: false
+delete_merged_file: true
 output_dir: "docs"
 # built few for testing
 # rmd_files: ["index.Rmd", "01-Bi-DR.Rmd", "07-References.Rmd", "08-Appendix.Rmd"]
