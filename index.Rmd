@@ -34,7 +34,7 @@ bibliography: [references.bib, packages.bib]
 csl: "apa.csl"
 link-citations: true
 github-repo: "nsunami/dissertation"
-delete_merged_file: false
+delete_merged_file: true
 always_allow_html: true
 ---
 
