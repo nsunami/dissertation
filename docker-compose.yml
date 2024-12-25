@@ -4,7 +4,7 @@ services:
     ports:
       - 8787:8787
     volumes:
-      - ./:/home/rstudio/
+      - ./:/home/rstudio/dissertation/
     environment:
       - PASSWORD=changeme # default username is rstudio
 
