@@ -39,8 +39,7 @@ RUN install2.r -e readr
 RUN install2.r -e stringr
 RUN install2.r -e purrr
 RUN install2.r -e tinytex
-RUN apt-get -y install texlive-publishers texlive-fonts-extra texlive-latex-extra texlive-humanities lmodern
-RUN Rscript -e "remotes::install_github('crsh/papaja')"
+
 
 RUN apt-get -y install libcairo2-dev libharfbuzz-dev libfribidi-dev
 RUN apt-get -y install libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
@@ -67,3 +66,22 @@ RUN install2.r -e sjlabelled
 RUN install2.r -e sjPlot
 RUN install2.r -e ggh4x
 RUN install2.r -e knitcitations
+
+
+RUN install2.r -e wordcloud
+RUN install2.r -e emmeans
+RUN install2.r -e tidytext
+RUN install2.r -e ggmosaic
+RUN install2.r -e broom
+RUN install2.r -e codebook
+RUN install2.r -e effectsize
+
+# Install tinytex as the rstudio user
+USER rstudio
+RUN Rscript -e "tinytex::install_tinytex(force = TRUE)"
+ENV PATH="${PATH}:/home/rstudio/bin"
+
+# Start the RStudio server as root
+USER root
+ENV USER=rstudio
+CMD ["/usr/lib/rstudio-server/bin/rserver","--server-daemonize=0","--auth-none=1"]
