@@ -34,6 +34,7 @@ library(ggtext)
 
 source(here("r", "namifunc.R"))
 source(here("r", "create_s1_measures_table.R"))
+source(here::here("r", "upsert_rds.R"))
 
 # Load Datasets  ---------------------------------------------------------------
 # s1a
@@ -390,7 +391,7 @@ s1a_target_vars <- s1a_df %>%
          "Multiple Identity" = multiple_identity_mean)
 
 # Export Target Variable DF for the plots in Appendix
-write_rds(s1a_target_vars, here("data_public/subset", "Study1a_public_target.rds"))
+upsert_rds(s1a_target_vars, here("data_public/subset", "Study1a_public_target.rds"))
 
 # Assign variable types
 s1a_var_types <- c(valence = "Convergent",
