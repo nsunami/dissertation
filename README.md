@@ -5,16 +5,6 @@
 This is Nami Sunami's dissertation. Other materials are available on the OSF project: https://osf.io/hydxk/
 The project uses the `bookdown` package.
 
-## Project structure
-
-<!--  You can add rows to this table, using "|" to separate columns.         -->
-
-| File      | Description                             | Usage          |
-| --------- | --------------------------------------- | -------------- |
-| README.md | Description of project                  | Human editable |
-| LICENSE   | User permissions                        | Read only      |
-| index.Rmd | Dissertation Body - Metadata & Abstract | Human Editable |
-
 ## How to run the project
 
 1. Make sure that [Docker](https://www.docker.com/) is installed.
