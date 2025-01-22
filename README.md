@@ -15,11 +15,15 @@ The project uses the `bookdown` package.
 | LICENSE   | User permissions                        | Read only      |
 | index.Rmd | Dissertation Body - Metadata & Abstract | Human Editable |
 
-## How to build the project
+## How to run the project
 
-```r
-rmarkdown::render_site(encoding = 'UTF-8')
-```
+1. Make sure that [Docker](https://www.docker.com/) is installed.
+
+2. Clone the repo to local
+
+3. Open Terminal, go to the cloned repository directory, and run `docker compose up`. This will pull the pre-built image, and start a RStudio server with the dependencies.
+
+4. Go to http://localhost:8787/ to access the web version of RStudio. Navigate to the `~/dissertation` directory and open the .Rproject file there.
 
 ## Video game
 
