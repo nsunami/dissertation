@@ -34,12 +34,6 @@ The video game is currently hosted on [itch.io (Shadow of Gaki)](https://nsunami
 
 Nami Sunami (nsunami@pm.me)
 
-<!--  You can consider adding the following to this file:                    -->
-<!--  * A citation reference for your project                                -->
-<!--  * Contact information for questions/comments                           -->
-<!--  * How people can offer to contribute to the project                    -->
-<!--  * A contributor code of conduct, https://www.contributor-covenant.org/ -->
-
 ## Contribution
 
 If you spot any errors etc., feel free to place pull requests.
