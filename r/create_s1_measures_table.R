@@ -2,7 +2,7 @@ create_s1_measures_table <- function() {
   # get data
   s1_measures_path <- here("data_public", "Study1_measures.csv")
   s1_measures_tbl <- read_csv(s1_measures_path)
-  # add ronames
+  # add row names
   s1_measures_tbl <- s1_measures_tbl %>% mutate(id = row_number())
   # abbreviate the labels
   s1_measures_tbl <- s1_measures_tbl %>%
