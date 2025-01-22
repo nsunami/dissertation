@@ -1,6 +1,6 @@
 services:
   rstudio:
-    build: .
+    image: "ghcr.io/nsunami/dissertation:main"
     ports:
       - 8787:8787
     volumes:
