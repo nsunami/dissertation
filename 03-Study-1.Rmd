@@ -31,8 +31,6 @@ library(apastats) # Formatting stats in to APA
 library(ggpubr)
 library(ggtext)
 source(here("r", "namifunc.R"))
-# Facet nested
-# devtools::install_github("teunbrand/ggh4x")
 
 # Load Datasets  ---------------------------------------------------------------
 # s1a
