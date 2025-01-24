@@ -708,9 +708,10 @@ enjoyment_plot <- s2_df %>%
     ))
 ```
 
-**Exploratory Analysis of Enjoyment across Social Surrogacy vs. Non-Social Surrogacy Games.** To explore whether levels of enjoyment differed for social Surrogacy vs. non-social Surrogacy video conditions, I performed Welch's *t*-test. I did not have a priori hypothesis for this analysis. Participants in the social surrogate condition (`r enjoyment_txt$surrogacy_msd`) reported more enjoyment in playing a game in their essay than those in the non-social surrogate condition (`r enjoyment_txt$non_surrogacy_msd`, `r enjoyment_txt$enjoyment_t`, Figure \@ref(fig:enjoyment-plot)).
+**Exploratory Analysis of Enjoyment across Social Surrogacy vs. Non-Social Surrogacy Games.** To explore whether levels of enjoyment differed for social Surrogacy vs. non-social Surrogacy video conditions, I performed Welch's *t*-test. I did not have a priori hypothesis for this analysis. Participants in the social surrogate condition (`r enjoyment_txt$surrogacy_msd`) reported more enjoyment in playing a game in their essay than those in the non-social surrogate condition (`r enjoyment_txt$non_surrogacy_msd`, `r enjoyment_txt$enjoyment_t`, @fig-enjoyment-plot).
 
 ```{r enjoyment-plot, fig.cap = "Study 2 - Enjoyment across Essay Conditions", fig.width=6, fig.height=5}
+#| label: fig-enjoyment-plot
 enjoyment_plot
 ```
 
