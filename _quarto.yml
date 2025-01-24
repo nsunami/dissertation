@@ -12,6 +12,7 @@ book:
     - 03-Study-1.qmd
     - 04-Study-2.qmd
     - 05-Study-3.qmd
+    - 06-General-Discussion.qmd
 
 bibliography: references.bib
 
