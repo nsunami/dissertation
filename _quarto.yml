@@ -8,6 +8,7 @@ book:
   chapters:
     - index.qmd
     - 01-Bi-DR.qmd
+    - 02-Current-Dissertation.qmd
 
 bibliography: references.bib
 
@@ -18,4 +19,3 @@ format:
     documentclass: scrreprt
 
 editor: source
-
