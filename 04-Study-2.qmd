@@ -1,9 +1,3 @@
----
-output: 
-  bookdown::html_document2: 
-    code_folding: hide
----
-
 # Study 2: Can Recalling A Game with Social Surrogates Replenish Belonging?
 
 In this study, I contrasted video games with social surrogates (social surrogacy games) and those without (non-social surrogacy games) to examine if socially rejected people can replenish their belonging by remembering about a time playing a social surrogacy game vs. a non-social surrogacy game. I modeled the procedure after an existing study investigating the effect of recalling a favorite vs. non-favorite TV program on belonging after social rejection [@derrickSocialSurrogacyHow2009, Study 3]. Based on the social surrogacy hypothesis, I expected that rejected people who write about a social surrogacy video game would have higher belonging than those who write about a non-social surrogacy video game (Hypothesis 1).
