@@ -1350,11 +1350,13 @@ Relationships, the 2-way Moderator x Social World interaction, the 2-way
 Time x Parasocial Relationships, and the 2-way Time x Social World
 interaction, the 3-way Moderator x Parasocial Relationships x Social
 World interaction, and the 3-way Parasocial Relatioships x Social World
-x Time. (Figure \@ref(fig:s3-mod-plots)) Below, I only report positive
+x Time. (@fig-s3-mod-plots) Below, I only report positive
 results (*p* \< .05) for the heart manikin here for brevity. Note that
 these results were not preregistered and thus prone to Type I error.
 
 ```{r s3-mod-plots, fig.cap="Study 3 - Regression Coefficients Across Models Examining Moderation by Parasocial Relationships, Social World, Enjoyment, and Player Character Identification", fig.height=18, fig.width=15}
+#| label: fig-s3-mod-plots
+
 ggarrange(
     plotlist = s3_mod_plots,
     ncol = 2, nrow = 3, labels = "AUTO"
@@ -1382,22 +1384,20 @@ For the analysis treating parasocial relationship group as a moderator,
 I found the three-way interaction among parasocial relationships
 condition, social world condition and time
 (`r s3_mod_mc_APA$Heart$parasocial_MC_group$"parasocial1:social_world1:time1"`; 
-Figure \@ref(fig:s3-mod-plots), Panel A).
+@fig-s3-mod-plots, Panel A).
 However, follow-up tests showed that the group means were not different
 from each other.
 
 For the analysis treating the Inclusion of the Other in Self as a
 moderator, I found the main effect of the Inclusion of the Other in Self
-scores (`r s3_mod_mc_APA$Heart$IOS_c$IOS_c`; Figure
-\@ref(fig:s3-mod-plots), Panel B). These results suggest that
+scores (`r s3_mod_mc_APA$Heart$IOS_c$IOS_c`; @fig-s3-mod-plots, Panel B). These results suggest that
 participants with higher Inclusion of the Other in Self scores reported
 higher Heart Manikin sores across conditions and time.
 
 For the analysis treating the Single-Item Immersion scale as a
 moderator, I found the main effect of the immersion scores, such that
 participants reporting higher immersion also reported higher belonging
-(`r s3_mod_mc_APA$Heart$Single_Immersion_c$Single_Immersion_c`; Figure
-\@ref(fig:s3-mod-plots), Panel C). I found the two-way Immersion x
+(`r s3_mod_mc_APA$Heart$Single_Immersion_c$Single_Immersion_c`; @fig-s3-mod-plots, Panel C). I found the two-way Immersion x
 Parasocial Relationship Condition effect (
 `r s3_mod_mc_APA$Heart$Single_Immersion_c$"Single_Immersion_c:parasocial1"`).
 Follow-up tests suggested that the relationship between immersion and belonging was 
@@ -1423,8 +1423,7 @@ For the analysis treating the On-the-Fly Measure of Social World (OTF
 Social World) as a moderator, I found the main effect of the On-the-Fly
 Measure of Social World, such that participants reporting higher scores
 of social world also reported higher belonging
-(`r s3_mod_mc_APA$Heart$OTF_Social_World_c$OTF_Social_World_c`; Figure
-\@ref(fig:s3-mod-plots), Panel D). I also
+(`r s3_mod_mc_APA$Heart$OTF_Social_World_c$OTF_Social_World_c`; @fig-s3-mod-plots, Panel D). I also
 found the main effect of social world, such that participants in the
 high social world condition reported lower belonging than those in the
 low social world condition
@@ -1447,8 +1446,7 @@ Time 2:
 For the analysis treating the enjoyment as a moderator, I found the main
 effect of enjoyment, such that participants with higher scores of
 enjoyment reported higher belonging
-(`r s3_mod_mc_APA$Heart$Enjoyment_c$Enjoyment_c`; Figure
-\@ref(fig:s3-mod-plots), Panel E). I also found the
+(`r s3_mod_mc_APA$Heart$Enjoyment_c$Enjoyment_c`; @fig-s3-mod-plots, Panel E). I also found the
 2-way Enjoyment x Time interaction
 (`r s3_mod_mc_APA$Heart$Enjoyment_c$"Enjoyment_c:time1"`). Follow-up
 tests suggested that the relationship between enjoyment and belonging
@@ -1475,8 +1473,7 @@ Lastly, for the analysis treating the identification with the player
 character as a moderator, I found the main effect of the player character
 identification, such that participants who identified more with the
 player character reported higher belonging across conditions and time
-(`r s3_mod_mc_APA$Heart$PC_Identification_c$PC_Identification_c`; Figure
-\@ref(fig:s3-mod-plots), Panel F). I
+(`r s3_mod_mc_APA$Heart$PC_Identification_c$PC_Identification_c`; @fig-s3-mod-plots, Panel F). I
 also found the main effect of Social World, such that participants in the
 High Social World condition reported lower belonging
 (`r s3_mod_mc_APA$Heart$PC_Identification_c$social_world1`). The two-way
