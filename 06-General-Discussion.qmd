@@ -1,22 +1,10 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
-```{r}
-# calculating the total number of participants
-# Study 1
-# s1_n_total_rounded
-# Study 2
-# s2_attention_APA$total
-# Study 3
-# s3_attention_df$"TRUE"
-total_n <- s1_n_total_rounded + s2_attention_APA$total + s3_attention_df$"TRUE"
-```
-
-
 # General Discussion
+
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+source(here::here("r", "count_total_participants.R"))
+# Calculating the total number of participants
+total_n <- count_total_participants()
+```
 
 In my dissertation studies (total N = `r total_n`), I examined whether playing a single-player
 video game alone replenishes belonging after social rejection, a
