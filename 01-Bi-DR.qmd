@@ -533,7 +533,7 @@ two-dimensional space, broadly categorized into four quadrants: engaged
 antisocial responses (Quadrant 1), engaged prosocial responses (Quadrant
 2), disengaged antisocial responses (Quadrant 3), and disengaged
 prosocial responses (Quadrant 4). We present a hypothetical exemplar for
-each dimension in @bidr-exemplars to illustrate the
+each dimension in @fig-bidr-exemplars to illustrate the
 differences among quadrants and help the reader understand each
 quadrant. We also discuss existing research that falls into each
 quadrant in this section. Since no past studies included both of these
@@ -551,9 +551,6 @@ has extensively discussed responses in Quadrant 1 and Quadrant 2 (i.e.,
 engaged antisocial and prosocial responses, as discussed above), we
 highlight only one representative example for these quadrants.
 
-```{r bidr-exemplars,  out.width = '100%', fig.cap='Summary of exemplar responses across quadrants. For each exemplar, we present reasons why we characterize them as antisocial versus prosocial and engaged versus disengaged.'}
-knitr::include_graphics("images/bidr-exemplars.png")
-```
 
 ![Summary of exemplar responses across quadrants. For each exemplar, we present reasons why we characterize them as antisocial versus prosocial and engaged versus disengaged.](images/bidr-exemplars.png){#fig-bidr-exemplars fig-alt="The bi-dimensional rejection taxonomy highlights types of responses that have been understudied in the literature (e.g., passive aggressive behavior and nostalgia). To better illustrate these new kinds of responses, we discuss multiple examples for Quadrants 3 and 4 (i.e., disengaged antisocial and prosocial responses). Since past literature has extensively discussed responses in Quadrant 1 and Quadrant 2 (i.e., engaged antisocial and prosocial responses, as discussed above), we highlight only one representative example for these quadrants."}
 
