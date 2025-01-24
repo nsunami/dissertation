@@ -4,7 +4,7 @@ In this study, I contrasted video games with social surrogates (social surrogacy
 
 ## Method
 
-```{r s2-setup, message=FALSE, warning=FALSE}
+```{r s2-setup, message=FALSE, warning=FALSE, include = FALSE}
 knitr::opts_chunk$set(
 	echo = FALSE,
 	message = FALSE,
