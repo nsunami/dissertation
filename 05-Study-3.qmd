@@ -571,8 +571,8 @@ compared the belonging scores of those in the Low Parasocial
 Relationships and Low Social Worlds condition to those in the High
 Parasocial Relationships and High Social Worlds condition to test
 Hypothesis 4. Results did not show a difference in Heart Manikin Scores
-at Time 2 (`r s3_contrats_td_APA$"HPHSW-LPLSW"`; Figure
-\@ref(fig:s3-heart2-plot) A).
+at Time 2 (`r s3_contrats_td_APA$"HPHSW-LPLSW"`; 
+@fig-s3-heart2-plot A).
 
 Since the obtained p-values were greater than .05 for the analyses for
 Hypotheses 2, 3, and 4, I performed the two one-sided test of
