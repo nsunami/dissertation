@@ -690,7 +690,7 @@ non-social surrogacy condition) indicated they interacted with NPCs
 than they did not interact with non-player characters (Group 1). Results
 did not show any differences in forming parasocial relatioships between
 the Higher vs. Lower Parasocial Relationships conditions
-(`r s3_manicheck_APA$parasocial_chi`).
+(`r s3_manicheck_APA$parasocial_chi`; @fig-s3-exp-manip-check-plot A).
 
 To explore the effectiveness of the social world manipulation, I ran
 Welch's *t*-test to compare the scores of the Single-Item Immersion
@@ -698,8 +698,8 @@ Scale (Reysen et al., 2019) and the on-the-fly measure of social world
 between the High vs. Low social worlds conditions. Results showed that
 participants in the Higher Social World condition reported similar
 levels of immersion and social world compared with those in the Lower
-Social World condition (for immersion, `r s3_manicheck_APA$immersion`;
-for social world measure, `r s3_manicheck_APA$OTFWorld`).
+Social World condition (for immersion, `r s3_manicheck_APA$immersion`, @fig-s3-exp-manip-check-plot B;
+for social world measure, `r s3_manicheck_APA$OTFWorld`, @fig-s3-exp-manip-check-plot C).
 
 Overall the results of the exploratory manipulation check suggested that
 the manipulations may not have affected the target constructs. As
@@ -707,6 +707,8 @@ planned, I treat the analyses as exploratory, and do not conclude the
 effectiveness of the manipulation based on these analysis.
 
 ```{r s3-exp-manip-check-plot, fig.cap="Study 3 - Exploratory Manipulation Check", fig.width=11, fig.height=13}
+#| label: fig-s3-exp-manip-check-plot
+
 # Parasocial Relationship Manipulation Check plot
 s3_parasocial_plot <- s3_df %>%
     filter(attention_all_correct == TRUE) %>%
