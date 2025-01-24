@@ -26,4 +26,6 @@ load_s1c <- function() {
   if (!("Rejected by Stranger" %in% df$grouping_dummy)) {
     stop("Rejected by Stranger was not found in the dummies")
   }
+
+  return(df)
 }
