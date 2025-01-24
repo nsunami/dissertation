@@ -11,6 +11,7 @@ book:
     - 02-Current-Dissertation.qmd
     - 03-Study-1.qmd
     - 04-Study-2.qmd
+    - 05-Study-3.qmd
 
 bibliography: references.bib
 
