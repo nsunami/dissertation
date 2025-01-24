@@ -1,12 +1,3 @@
----
-output: 
-  bookdown::html_document2: 
-    code_folding: hide
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Study 3: Can Playing a Single-Player Video Game Replenish Belonging via Parasocial Relationships and Social Worlds?
 
 Study 2 tested whether recalling about a time playing a social surrogacy
