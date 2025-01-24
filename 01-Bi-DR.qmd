@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # The Bi-Dimensional Rejection Taxonomy
 
 This chapter has been published as, Sunami, N., Nadzan, M. A., &
