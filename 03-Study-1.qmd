@@ -1710,12 +1710,13 @@ x Rejection. I interpret the coefficient for the measured score as
 evidence for convergent or discriminant validity after controlling for
 the manipulations and timing of measurements. Results showed that
 valence scores predicted the Heart Manikin scores
-(`r s1d_mixed_txt$valence`, Figure \@ref(fig:s1d-mixed-plot)), consistent with
+(`r s1d_mixed_txt$valence`, @fig-s1d-mixed-plot), consistent with
 the hypothesized convergence. Contrary to the prediction, arousal
 (`r s1d_mixed_txt$arousal`) and dominance (`r s1d_mixed_txt$dominance`)
 also predicted the Heart manikin scores in these models.
 
 ```{r s1d-mixed-plot, fig.cap='Study 1d - Standardized Regression Coefficients Predicting Heart Manikin Scores after Controlling for Manipulations and Time', fig.height=3, fig.width=7}
+#| label: fig-s1d-mixed-plot
 # Forestplot
 ggplot(
     s1d_mixed_df,
@@ -1771,9 +1772,10 @@ comparing the rejected and accepted participants at Time 3. Results
 showed that rejected participants (`r s1d_sensitivity_APA$Rejection`)
 reported lower Heart Manikin scores than accepted participants
 (`r s1d_sensitivity_APA$Acceptance`, `r s1d_sensitivity_APA$t`; see
-Figure \@ref(fig:s1d-sensitivity-plot)). Also, see Figure \@ref(fig:appendix-s1e-belonging-plot) in [Appendix] for the Heart Manikin scores over time across conditions.
+@fig-s1d-sensitivity-plot). Also, see @fig-appendix-s1e-belonging-plot in [Appendix] for the Heart Manikin scores over time across conditions.
 
 ```{r s1d-sensitivity-plot, fig.cap='Study 1d - Sensitivity of Heart Manikin to Rejection Manipulation. Rejected participants reported lower Heart Manikin scores than accepted participants.', fig.width=8, fig.height=5}
+#| label: fig-s1d-sensitivity-plot
 # Study 1d (EVv1) - Outcome: heart T3
 s1d_T3heart_plot <- s1d_df %>%
     ggplot(aes(x = rejection, y = heart_T3, color = rejection)) +
