@@ -76,7 +76,7 @@ for the power analysis.
 and the low social world condition (depicted as zero). The error bars
 represent +/-1 SD from the estimate.
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r setup, message=FALSE, warning=FALSE, include=FALSE, include=FALSE}
 # Chunk Options
 knitr::opts_chunk$set(
     echo = FALSE,
