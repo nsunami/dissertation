@@ -1,0 +1,21 @@
+project:
+  type: book
+
+book:
+  title: "Playing Alone, Feeling Connected: Do Single-Player Video Games with Social Surrogates Replenish Belonging After Social Rejection?"
+  author: "Naoyuki Sunami"
+  date: "1/10/2025"
+  chapters:
+    - index.qmd
+    - 01-Bi-DR.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: source
+
