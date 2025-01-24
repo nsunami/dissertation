@@ -67,13 +67,10 @@ manipulation would each have an effect size of *d* = 0.35 (Hypotheses 2
 and 3). The resulting target sample size to achieve .90 power and .05
 alpha is 344 participants in total (86 per condition x 4 conditions).
 This sample size is enough to detect *d* = 0.50 with .90 power and .05
-alpha for the ancillary Hypothesis 4 (86 per group). See Figure
-\@ref(fig:s3-expected-means) for the expected pattern of the means used
+alpha for the ancillary Hypothesis 4 (86 per group). See @fig-s3-expected-means for the expected pattern of the means used
 for the power analysis.
 
-```{r s3-expected-means, out.width = '70%', fig.cap='Expected Patterns of the Means Used for the Power Analysis for Study 3', fig.width=6, fig.height=6}
-knitr::include_graphics("images/s3-expected-means.png")
-```
+![Expected Patterns of the Means Used for the Power Analysis for Study 3](images/s3-expected-means.png){#fig-s3-expected-means}
 
 *Note.* All Cohen's d's are relative to the low parasocial relationship
 and the low social world condition (depicted as zero). The error bars
