@@ -893,7 +893,7 @@ predicted the Heart Manikin across time for each measure in
 1--3) and the scores of a given measure (centered). I first included the
 random intercept and the random effect of Time. However, the model
 failed to converge with the Time random effect, and thus I dropped the
-Time random effect. Figure \@ref(fig:s1b-forest) shows regression
+Time random effect. @fig-s1b-forest shows regression
 coefficients for each measure predicting the Heart Manikin scores after
 controlling for the fixed effect of Time.
 
@@ -930,7 +930,7 @@ stress (`r s1b_lm_txt$stress_mean`), and narcissism
 
 For all coefficients with a *p*-value greater than .05, I ran an
 equivalence test to test if they were theoretically equivalent to zero
-(Figure \@ref(fig:s1b-forest)). Results showed that the correlation
+(@fig-s1b-forest). Results showed that the correlation
 coefficients with the measures of sleep quality, physical abuse,
 intimidation, and body image were theoretically equivalent to zero
 (using \|*r*\| = `r SESOI_r`). The correlation coefficients with the
@@ -942,6 +942,7 @@ especially against measures of sleep quality, physical abuse,
 intimidation, and body image.
 
 ```{r s1b-forest, fig.cap = "Study 1b - Forestplot Showing Correlation Coefficients with Heart Manikin Scores", fig.width=9, fig.height=10}
+#| label: fig-s1b-forest
 # Forest
 s1b_forest_title <- "Study 1b (RAIv1): Standardized Regression Coefficients Predicting Heart Manikin Scores After Controlling for Visits in a Mixed Model"
 s1b_forest <- s1b_mixed_mods_std %>%
