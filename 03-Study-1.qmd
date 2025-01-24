@@ -129,8 +129,7 @@ the effectiveness of the rejection manipulations in Studies 1c and 1e.
 To provide a suitable measure for my dissertation, I proposed the Heart
 Self-Assessment Manikin scale, a new single-item measure of belonging
 (@fig-heart-manikin). The Heart Self-Assessment Manikin is
-an adapted version of the Self-Assessment Manikin (Figure
-\@ref(fig:original-manikins)) that measures emotional valence, arousal,
+an adapted version of the Self-Assessment Manikin (@fig-original-manikins) that measures emotional valence, arousal,
 and dominance in a given moment [@bradleyMeasuringEmotionSelfAssessment1994; @langBehavioralTreatmentBiobehavioral1980]. The original
 Self-Assessment Manikin showed good convergent validity with existing
 verbal measures [@bradleyMeasuringEmotionSelfAssessment1994]. In the original Self-Assessment
@@ -149,9 +148,7 @@ participants relative to a traditional text-based questionnaire.
 scale. The body and the face of the figure is taken from the valence
 subscale of the original Self-Assessment Manikin [@langBehavioralTreatmentBiobehavioral1980].
 
-```{r original-manikins, fig.cap='The original Self-Assessment Manikin (Lang, 1980)'}
-knitr::include_graphics("images/m-original-all.png")
-```
+![The original Self-Assessment Manikin [@langBehavioralTreatmentBiobehavioral1980]](images/m-original-all.png){#fig-original-manikins}
 
 *Note*. From top to bottom, the items refer to valence, arousal, and
 dominance, respectively. Participants indicate how they feel at the
