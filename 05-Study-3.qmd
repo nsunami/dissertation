@@ -584,12 +584,13 @@ realationships (`r s3_main_effects_APA$parasocial`) and the main effect
 of social world (`r s3_main_effects_APA$social_world`). The Cohen's d
 contrasting the High Parasocial-High Social World and the Low
 Parasocial-Low Social World contained the SESOI, and thus the results
-were ambiguous (`r s3_contratsts_d_APA$"HPHS-LPLS"`; Figure
-\@ref(fig:fig:s3-heart2-plot) B). These results suggest that the main
+were ambiguous (`r s3_contratsts_d_APA$"HPHS-LPLS"`; @fig-s3-heart2-plot B). These results suggest that the main
 effects of parasocial relationships and social world were theoretically
 equivalent to zero.
 
 ```{r s3-heart2-plot, fig.cap= "Study 3 - Heart Mankin Scores at Time 2 Across Parasocial and Social World Conditions", fig.width=6, fig.height=7}
+#| label: fig-s3-heart2-plot
+
 # 2 x 2 ANOVA on Time 2 belonging
 s3_heart2_plot <- s3_included %>%
     # Only include people who got the attention check right
