@@ -513,6 +513,7 @@ validity and moderate support for the discriminant validity of the Heart
 Manikin.
 
 ```{r s1a-forest, echo=FALSE, fig.cap="Study 1a - Forestplot Showing Correlation Coefficients with Heart Manikin Scores.", fig.height=6, fig.width=9}
+#| label: fig-s1a-forest
 ## Forest plot caption
 
 s1_caption_errorbars9095 <- "Errorbars represent 90% (inner tick) and 95% (outer tick) confidence intervals"
@@ -556,10 +557,11 @@ s1a_forest
 ## Study 1b (RAIv1)
 
 This study was designed to test the relationship between interpersonal
-distress and immune function (Jaremka, unpublished). Table \@ref(tab:s1b-table)
+distress and immune function (Jaremka, unpublished). @tbl-s1b-table
 shows a summary of the measures included in the study.
 
 ```{r s1b-table}
+#| label: tbl-s1b-table
 s1_measures_dfs$b %>% s1_render_kable(studykey = "b")
 ```
 
@@ -625,7 +627,7 @@ The study had three visits (Visits 1--3) with average intervals of
 `r s1b_dates_summary$gap23_mean` days between Visits 2 and 3,
 respectively. In each visit, participants came to a group testing room
 and answered all questionnaires. The Heart Manikin was identical to the
-ones used in Study 1a. See Table \@ref(tab:s1b-table) for the summary of
+ones used in Study 1a. See @tbl-s1b-table for the summary of
 the measures and [Appendix] for detailed descriptions.
 
 The following questionnaires included questions about their current
@@ -886,8 +888,8 @@ s1b_lm_txt <- s1b_lm_df_std %>%
 ```
 
 For testing convergent validity, I constructed a mixed model that
-predicted the Heart Manikin across time for each measure in Table
-\@ref(tab:s1b-table). I included the fixed effects of Time (categorical;
+predicted the Heart Manikin across time for each measure in 
+@tbl-s1b-table. I included the fixed effects of Time (categorical;
 1--3) and the scores of a given measure (centered). I first included the
 random intercept and the random effect of Time. However, the model
 failed to converge with the Time random effect, and thus I dropped the
