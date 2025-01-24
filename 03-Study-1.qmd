@@ -1,12 +1,3 @@
----
-output: 
-  bookdown::html_document2: 
-    code_folding: hide
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Study 1: Validating The Heart Manikin and The Rejection Manipulation
 
 ```{r s1-setup, message=FALSE, warning=FALSE, include = FALSE}
