@@ -349,10 +349,11 @@ variance components, and unstructured structures.
 ## Study 1a (RPR Data)
 
 I used a cross-sectional dataset from an online mass testing session
-conducted for the psychology participant pool. See Table
-\@ref(tab:s1a-table) for the measures included in this study.
+conducted for the psychology participant pool. See 
+@tbl-s1a-table for the measures included in this study.
 
 ```{r s1a-table}
+#| label: tbl-s1a-table
 s1_measures_dfs$a %>% s1_render_kable(studykey = "a")
 ```
 
@@ -371,7 +372,7 @@ Participants answered an online questionnaire that included all the
 measures. Since the goal of Study 1 is to validate the Heart Manikin
 adapted from the Self-Assessment Manikin, I describe the Heart
 Manikin and the Self-Assessment Manikin in more detail below. For other
-measures, see Table \@ref(tab:s1a-table) for the summary and Appendix A
+measures, see @tbl-s1a-table for the summary and Appendix A
 for the detailed descriptions.
 
 **Heart Manikin.** I developed the Heart Manikin to measure a state
@@ -481,8 +482,8 @@ s1a_txt <- s1a_cor_CIs %>% select(label, APA_model95) %>%
 
 To test convergent and discriminant validities, I examined bivariate
 correlations between the Heart Manikin scores and the scores of the
-measures in Table \@ref(tab:s1a-table). Results are presented in Figure
-\@ref(fig:s1a-forest) (see [Appendix] for the bivariate correlation
+measures in @tbl-s1a-table. Results are presented in
+@fig-s1a-forest (see [Appendix] for the bivariate correlation
 table). Consistent with the prediction, the Heart Manikin scores
 correlated with the hypothesized measures for convergent validity: the
 Valence Manikin (`r s1a_txt$Valence`), social isolation
