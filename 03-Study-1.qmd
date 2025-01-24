@@ -1006,10 +1006,11 @@ measure fluctuations over time.
 
 Study 1c was designed to test whether social rejection by a close other
 threatens belonging more than social rejection by a stranger
-[@nadzan2019]. Table \@ref(tab:s1c-table) summarizes the measures used
+[@nadzan2019]. @tbl-s1c-table summarizes the measures used
 in the study.
 
 ```{r s1c-table}
+#| label: tbl-s1c-table
 s1_measures_dfs$c %>% s1_render_kable(studykey = "c")
 ```
 
@@ -1023,7 +1024,7 @@ Mechanical Turk (MTurk). Participants received \$1.50 for participation.
 The study was a 2 (Social Rejection: Rejection vs. Acceptance) x 2
 (Essay Target: Stranger vs. Close Friend) design. Participants provided
 informed consent and completed the Heart Manikin (Time 1) and the Time 1
-measures (see Table \@ref(tab:s1c-table)). Then, participants were
+measures (see @tbl-s1c-table). Then, participants were
 randomly assigned to one of the five essay conditions. In the stranger
 rejection condition, participants wrote about a time when they felt
 rejected by a stranger. In the close friend rejection condition,
@@ -1182,8 +1183,8 @@ s1c_T2_txt <- s1c_T2_mods %>%
 
 **Convergent and Discriminant Validities.** To test convergent
 discriminant validities, I first examined the bivariate correlations
-between the Heart Manikin and the included measures in Table
-\@ref(tab:s1c-table). Detailed results are available in [Appendix].
+between the Heart Manikin and the included measures in 
+@tbl-s1c-table. Detailed results are available in [Appendix].
 Here, I report the results with the socioeconomic status, since I detail
 results for the other measures in the mixed models below. Contrary to
 the prediction, the socioeconomic status scores correlated with the
