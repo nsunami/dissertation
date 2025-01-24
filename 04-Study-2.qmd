@@ -299,9 +299,10 @@ plot_T2_Heart <- s2_df %>%
 # ggsave(here("plot","s2_heart2_plot.png"), width = 6, height = 4)
 ```
 
-**Main Analysis.** I performed Welch's _t_-test to compare the post-essaay Heart Manikin scores (Time 2) between the participants who wrote about the social surrogacy video game and those who wrote about the non-social surrogacy video game. Based on the social surrogacy hypothesis, I expected that participants who wrote about the social surrogacy video game would have higher belonging than those who wrote about the non-social surrogacy video game. Contrary to this expectation, participants who wrote about the social surrogacy game (`r heart2_txt$surrogate_msd`) reported similar levels of belonging compared with those who wrote about a non-surrogacy game (`r heart2_txt$non_surrogate_msd`, `r heart2_txt$t_results`, see Figure \@ref(fig:heart2)).
+**Main Analysis.** I performed Welch's _t_-test to compare the post-essaay Heart Manikin scores (Time 2) between the participants who wrote about the social surrogacy video game and those who wrote about the non-social surrogacy video game. Based on the social surrogacy hypothesis, I expected that participants who wrote about the social surrogacy video game would have higher belonging than those who wrote about the non-social surrogacy video game. Contrary to this expectation, participants who wrote about the social surrogacy game (`r heart2_txt$surrogate_msd`) reported similar levels of belonging compared with those who wrote about a non-surrogacy game (`r heart2_txt$non_surrogate_msd`, `r heart2_txt$t_results`, see  @fig-heart2).
 
 ```{r heart2, fig.cap = "Study 2 - Heart Mankin Scores at Time 2 across Essay Conditions", echo=FALSE, fig.width=6, fig.height=5}
+#| label: fig-heart2
 plot_T2_Heart
 ```
 
