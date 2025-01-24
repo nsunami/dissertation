@@ -1824,7 +1824,6 @@ s1d_sensitivity_heart_mod_APA <- s1d_sensitivity_mixed_df %>%
     select(outcome, emm_APA) %>%
     deframe_as_list()
 
-# I also examined whether rejected participants' Heart Manikin scores fluctuated more over time than accepted participants' scores. I constructed a mixed model predicting Heart Manikin scores over time with the following fixed predictors: the main effect of rejection, the main effect of time, and the interaction between rejection and time. Results showed that rejected participants' Heart Manikin scores fluctuated more over time than accepted participants' scores (Figure \@ref(fig:)).
 
 ```
 
