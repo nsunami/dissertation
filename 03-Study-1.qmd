@@ -23,6 +23,7 @@ library(ggpubr)
 library(ggtext)
 source(here("r", "namifunc.R"))
 source(here("r", "get_s1c_sensitivity_APA.R"))
+source(here("r", "load_s1c.R"))
 # Facet nested
 # devtools::install_github("teunbrand/ggh4x")
 
@@ -32,7 +33,7 @@ s1a_df <- rio::import(here("data_public/Study1a_public.rds"))
 # s1b
 s1b_df <- rio::import(here("data_public/Study1b_public.rds"))
 # s1c
-s1c_df <- rio::import(here("data_public/Study1c_public.rds"))
+s1c_df <- load_s1c()
 # s1d
 s1d_df <- rio::import(here("data_public/Study1d_public.rds"))
 # s1e
@@ -1119,19 +1120,7 @@ s1c_bivariate_APA <- s1c_txt %>%
 
 # Time 2 Regression Analysis ------------------------------------------------
 ## Regression models predicting Time 2 Heart Manikin scores for each Time 2 measure
-# Factors should be effect-coded
-# Effect coding the factors
-s1c_df <- s1c_df %>%
-    mutate(
-        acceptanceEC = case_when(
-            acceptance == "0" ~ -0.5,
-            acceptance == "1" ~ 0.5
-        ),
-        closenessEC = case_when(
-            closeness == "0" ~ -0.5,
-            closeness == "1" ~ 0.5
-        )
-    )
+
 # For each variable, we will create a model
 s1c_T2_vars <- names(s1c_target_vars_labels) %>%
     str_ends("T2") %>%
@@ -1251,14 +1240,6 @@ s1c_T2_mods %>%
 ```
 
 ```{r s1c-mixed-model}
-# Create a grouping dummy as per proposal
-s1c_df <- s1c_df %>%
-    mutate(grouping_dummy = case_when(
-        acceptance == "0" & closeness == "0" ~ "Rejected by Stranger",
-        acceptance == "1" & closeness == "0" ~ "Accepted by Stranger",
-        acceptance == "0" & closeness == "1" ~ "Rejected by Close Other",
-        acceptance == "1" & closeness == "1" ~ "Accepted by Close Other"
-    ))
 # Target vars for the mixed model - only valence is measured three times - no looping
 s1c_df_long <- s1c_df %>%
     select(id, acceptance, closeness, grouping_dummy, heart1:heart3, valence1:valence3) %>%
@@ -1329,16 +1310,8 @@ Manikin.
 
 ```{r s1c-sensitivity}
 # Sensitivity to Rejection
-## T test
-s1c_sensitivity_mod <- t.test(formula = heart2 ~ acceptance, data = s1c_df)
-## Get Cohen's d
-s1c_sensitivity_d <- effectsize::cohens_d(heart2 ~ acceptance,
-    data = s1c_df,
-    ci = .95
-)
 # Get means and sd only for rejection vs acceptance
 s1c_sensitivity_APA <- get_s1c_sensitivity_APA(s1c_df)
-
 ```
 
 **Sensitivity to Experimental Manipulation.** To test the sensitivity of
