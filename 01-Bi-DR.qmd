@@ -555,14 +555,7 @@ highlight only one representative example for these quadrants.
 knitr::include_graphics("images/bidr-exemplars.png")
 ```
 
-![Summary of exemplar responses across quadrants. For each exemplar, we present reasons why we characterize them as antisocial versus prosocial and engaged versus disengaged.](images/bidr-exemplars.png){#fig-bidr-exemplars fig-alt="The bi-dimensional rejection taxonomy highlights types of responses that
-have been understudied in the literature (e.g., passive aggressive
-behavior and nostalgia). To better illustrate these new kinds of
-responses, we discuss multiple examples for Quadrants 3 and 4 (i.e.,
-disengaged antisocial and prosocial responses). Since past literature
-has extensively discussed responses in Quadrant 1 and Quadrant 2 (i.e.,
-engaged antisocial and prosocial responses, as discussed above), we
-highlight only one representative example for these quadrants."}
+![Summary of exemplar responses across quadrants. For each exemplar, we present reasons why we characterize them as antisocial versus prosocial and engaged versus disengaged.](images/bidr-exemplars.png){#fig-bidr-exemplars fig-alt="The bi-dimensional rejection taxonomy highlights types of responses that have been understudied in the literature (e.g., passive aggressive behavior and nostalgia). To better illustrate these new kinds of responses, we discuss multiple examples for Quadrants 3 and 4 (i.e., disengaged antisocial and prosocial responses). Since past literature has extensively discussed responses in Quadrant 1 and Quadrant 2 (i.e., engaged antisocial and prosocial responses, as discussed above), we highlight only one representative example for these quadrants."}
 
 ### Responses in Quadrant 1: Engaged Antisocial Responses
 
