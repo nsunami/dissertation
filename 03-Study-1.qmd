@@ -22,6 +22,7 @@ library(apastats) # Formatting stats in to APA
 library(ggpubr)
 library(ggtext)
 source(here("r", "namifunc.R"))
+source(here("r", "get_s1c_sensitivity_APA.R"))
 # Facet nested
 # devtools::install_github("teunbrand/ggh4x")
 
@@ -1336,21 +1337,7 @@ s1c_sensitivity_d <- effectsize::cohens_d(heart2 ~ acceptance,
     ci = .95
 )
 # Get means and sd only for rejection vs acceptance
-s1c_sensitivity_APA <- s1c_df %>%
-    describe_by_factor(acceptance, vars = heart2) %>%
-    mutate(
-        msd = to_msd(heart2_mean, heart2_sd),
-        acceptance = to_factor(acceptance)
-    ) %>%
-    select(acceptance, msd) %>%
-    deframe() %>%
-    as.list()
-# t-test and Cohen's d
-s1c_sensitivity_APA <- s1c_sensitivity_APA %>%
-    append(list(
-        t = s1c_sensitivity_mod %>% describe.ttest(),
-        d = describe_d_ci(s1c_sensitivity_d)
-    ))
+s1c_sensitivity_APA <- get_s1c_sensitivity_APA(s1c_df)
 
 ```
 
