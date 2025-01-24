@@ -6,9 +6,9 @@ In this study, I contrasted video games with social surrogates (social surrogacy
 
 ```{r s2-setup, message=FALSE, warning=FALSE, include = FALSE}
 knitr::opts_chunk$set(
-	echo = FALSE,
-	message = FALSE,
-	warning = FALSE
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE
 )
 # Load packages --------------------------------------------------------------
 library(tidyverse)
@@ -30,12 +30,14 @@ source(here("r", "load_s1c.R"))
 s2_df <- read_rds(here("data_public", "Study2_public.rds"))
 s2_df_long <- read_rds(here("data_public", "Study2_public_long.rds"))
 ## Factorize Essay Conditions
-s2_df <- s2_df %>% 
-  mutate(essay_condition = factor(essay_condition,
-                                  levels = c("Social Surrogacy", "Non-Social Surrogacy")))
+s2_df <- s2_df %>%
+    mutate(essay_condition = factor(essay_condition,
+        levels = c("Social Surrogacy", "Non-Social Surrogacy")
+    ))
 s2_df_long <- s2_df_long %>%
-  mutate(essay_condition = factor(essay_condition,
-                                  levels = c("Social Surrogacy", "Non-Social Surrogacy")))
+    mutate(essay_condition = factor(essay_condition,
+        levels = c("Social Surrogacy", "Non-Social Surrogacy")
+    ))
 
 # s1c data
 s1c_df <- load_s1c()
@@ -44,26 +46,31 @@ s1c_sensitivity_APA <- get_s1c_sensitivity_APA(s1c_df)
 # Descriptives Table ---------------------------------------------------------------------------
 ## Describe by essay cndition and get mean sd
 descriptives_table <- s2_df %>%
-  filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>% 
-  describe_by_factor(essay_condition,
-                     vars = c(T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
-                              T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
-                              IOS, PSI, Single_Immersion,Narrative_Engagement, 
-                              OTF_Social_World, Enjoyment)) %>%
-  # Clean Names
-  rename_all(.funs = ~str_replace(., "_1_", "_"))
+    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    describe_by_factor(essay_condition,
+        vars = c(
+            T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
+            T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
+            IOS, PSI, Single_Immersion, Narrative_Engagement,
+            OTF_Social_World, Enjoyment
+        )
+    ) %>%
+    # Clean Names
+    rename_all(.funs = ~ str_replace(., "_1_", "_"))
 ## Convert descriptives to long via ad-hoc function
-descriptives_long <- descriptives_table %>%  get_desc_db()
+descriptives_long <- descriptives_table %>% get_desc_db()
 # e.g.,: get_stats("Non-Social Surrogacy", "Enjoyment", "sd")
 get_stats <- function(..., d = descriptives_long) d[list(...), value]
 
-## Build APA descriptives 
-descriptives_APA <- descriptives_long %>% 
-  select(-name) %>% 
-  pivot_wider(id_cols = c(variable, essay_condition), values_from = value,
-              names_from = stat) %>% 
-  mutate(APA = to_msd(mean %>% f.round(), sd %>% f.round())) %>% 
-  data.table::setDT(key = c("essay_condition", "variable"))
+## Build APA descriptives
+descriptives_APA <- descriptives_long %>%
+    select(-name) %>%
+    pivot_wider(
+        id_cols = c(variable, essay_condition), values_from = value,
+        names_from = stat
+    ) %>%
+    mutate(APA = to_msd(mean %>% f.round(), sd %>% f.round())) %>%
+    data.table::setDT(key = c("essay_condition", "variable"))
 get_s2_msd <- function(..., d = descriptives_APA) d[list(...), APA]
 
 ```
@@ -76,33 +83,57 @@ Instead, I again used an average effect size estimate (*r* = .21) across 474 met
 
 ```{r s2-participants}
 # Total number of participants by attention check
-s2_attention_APA <- s2_df %>% summarise(across(.cols = c(attention_rejection_correct,
-                             attention_VG_correct,
-                             attention_all_correct),
-                           .fns = list(correct = sum,
-                                   failed = ~sum(!.)))) %>% as.list() %>% 
-  #append total N
-  append(., list(total = nrow(s2_df)))
+s2_attention_APA <- s2_df %>%
+    summarise(across(
+        .cols = c(
+            attention_rejection_correct,
+            attention_VG_correct,
+            attention_all_correct
+        ),
+        .fns = list(
+            correct = sum,
+            failed = ~ sum(!.)
+        )
+    )) %>%
+    as.list() %>%
+    # append total N
+    append(., list(total = nrow(s2_df)))
 # Total number of participants that followed the VG Instructions
-followed_VG_inst <- s2_df %>% group_by(followed_VGinstructions) %>% 
-  summarise(n = n()) %>% deframe_as_list() 
+followed_VG_inst <- s2_df %>%
+    group_by(followed_VGinstructions) %>%
+    summarise(n = n()) %>%
+    deframe_as_list()
 ## Append the overall rater agreement
-followed_VG_inst <- followed_VG_inst %>% 
-  append(list(agreement = s2_df$agree_overall_percent[[1]] %>% {. * 100} %>% f.round(),
-              exclusion_rate = ((followed_VG_inst$No)/(followed_VG_inst$Yes+ followed_VG_inst$No) * 100) %>% f.round()))
+followed_VG_inst <- followed_VG_inst %>%
+    append(list(
+        agreement = s2_df$agree_overall_percent[[1]] %>%
+            {
+                . * 100
+            } %>% f.round(),
+        exclusion_rate = ((followed_VG_inst$No) / (followed_VG_inst$Yes + followed_VG_inst$No) * 100) %>% f.round()
+    ))
 
 # Analysis N
-s2_analytic_N <- s2_df %>% filter((attention_all_correct == TRUE) & (followed_VGinstructions == "Yes")) %>%
-  nrow()
+s2_analytic_N <- s2_df %>%
+    filter((attention_all_correct == TRUE) & (followed_VGinstructions == "Yes")) %>%
+    nrow()
 # Demographics (Age, number of gender identities, the number of egender )
-s2_age_mean <- s2_df %>% filter((attention_all_correct == TRUE) & (followed_VGinstructions == "Yes")) %>% 
-  dplyr::summarize(m = mean(Age) %>% round(2), sd = sd(Age)) %>% mutate(msd = to_msd(m, sd))
+s2_age_mean <- s2_df %>%
+    filter((attention_all_correct == TRUE) & (followed_VGinstructions == "Yes")) %>%
+    dplyr::summarize(m = mean(Age) %>% round(2), sd = sd(Age)) %>%
+    mutate(msd = to_msd(m, sd))
 # Gender identity
-s2_gender_id <- s2_df %>% group_by(Gender_Identity_3GP) %>% summarise(n = n()) %>% deframe_as_list()
+s2_gender_id <- s2_df %>%
+    group_by(Gender_Identity_3GP) %>%
+    summarise(n = n()) %>%
+    deframe_as_list()
 # Racial Identity (8 groups)
-s2_race8_id <- s2_df %>% group_by(Race_8GP) %>% summarise(n = n()) %>% deframe_as_list()
+s2_race8_id <- s2_df %>%
+    group_by(Race_8GP) %>%
+    summarise(n = n()) %>%
+    deframe_as_list()
 # Racial identity (all questions)
-s2_race_multi <- s2_df %>% summarise(across(starts_with("Race"), ~is.na(.) %>% sum))
+s2_race_multi <- s2_df %>% summarise(across(starts_with("Race"), ~ is.na(.) %>% sum()))
 ```
 
 ### Participants
@@ -143,10 +174,14 @@ After completing the video game essay, participants completed the Heart Manikin 
 
 ```{r s2-reliabilities}
 # reliabilties
-s2_reliabilities <- read_rds(here("data_public", "reliability",
-                                  "s2_reliability.rds"))
+s2_reliabilities <- read_rds(here(
+    "data_public", "reliability",
+    "s2_reliability.rds"
+))
 # Get the list of cronbach's alpha (lapply to preserve names)
-s2_cronbach <- s2_reliabilities %>% get_cronbach_alphas() %>% lapply(f.round)
+s2_cronbach <- s2_reliabilities %>%
+    get_cronbach_alphas() %>%
+    lapply(f.round)
 ```
 
 The Heart Manikin was identical to the one used in Study 1a.
@@ -178,26 +213,32 @@ I excluded any participants who did not complete the entire study or failed the 
 ```{r main_analysis}
 # Welch's t-test on T2 Belonging comparing non-social surrogacy vs. social surrogacy groups
 # Main Analysis t-test
-t_results <- s2_df %>% 
-  # Include only those who passed the attention check 
-  filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>% 
-  # t-test comparing the T2 belonging between the essay conditions
-  t.test(formula = T2_Heart_1 ~ essay_condition,
-         data = .)
+t_results <- s2_df %>%
+    # Include only those who passed the attention check
+    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    # t-test comparing the T2 belonging between the essay conditions
+    t.test(
+        formula = T2_Heart_1 ~ essay_condition,
+        data = .
+    )
 
 # Cohen's d - 90%CI
 main_cohens_d_95 <- s2_df %>%
-  # Include only those who passed the attention check 
-  filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>% 
-  effectsize::cohens_d(x = T2_Heart_1 ~ essay_condition,
-           data = ., ci = .95)
+    # Include only those who passed the attention check
+    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    effectsize::cohens_d(
+        x = T2_Heart_1 ~ essay_condition,
+        data = ., ci = .95
+    )
 
 # Cohen's d - 90%CI
 main_cohens_d <- s2_df %>%
-  # Include only those who passed the attention check 
-  filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>% 
-  effectsize::cohens_d(x = T2_Heart_1 ~ essay_condition,
-           data = ., ci = .90)
+    # Include only those who passed the attention check
+    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    effectsize::cohens_d(
+        x = T2_Heart_1 ~ essay_condition,
+        data = ., ci = .90
+    )
 
 # Equivalence Testing
 # Equivalence test using d (`equivalence_test.effectsize_table`)
@@ -207,40 +248,55 @@ equivalence_results <- equivalence_test(main_cohens_d, range = c(-Cohen_d_target
 descriptives_list <- descriptives_table %>% as.list()
 
 # Main Results List APA Text
-heart2_txt <- list(t_results = describe.ttest(t_results),
-                   non_surrogate_mean = get_stats("Non-Social Surrogacy", "T2_Heart", "mean"),
-                   non_surrogate_sd = get_stats("Non-Social Surrogacy", "T2_Heart", "sd"),
-                   surrogate_mean = get_stats("Social Surrogacy", "T2_Heart", "mean"),
-                   surrogate_sd = get_stats("Social Surrogacy", "T2_Heart", "sd"),
-                   cohen_d = main_cohens_d$Cohens_d %>% round(2),
-                   cohen_d_low = main_cohens_d$CI_low %>% round(2),
-                   cohen_d_high = main_cohens_d$CI_high %>% round(2),
-                   cohen_d_APA = describe_d_ci(main_cohens_d),
-                   cohen_d_APA95 = describe_d_ci(main_cohens_d_95))
-heart2_txt <- append(heart2_txt,
-                     list(non_surrogate_msd = to_msd(heart2_txt$non_surrogate_mean,
-                                                     heart2_txt$non_surrogate_sd),
-                          surrogate_msd = to_msd(heart2_txt$surrogate_mean,
-                                                 heart2_txt$surrogate_sd)))
+heart2_txt <- list(
+    t_results = describe.ttest(t_results),
+    non_surrogate_mean = get_stats("Non-Social Surrogacy", "T2_Heart", "mean"),
+    non_surrogate_sd = get_stats("Non-Social Surrogacy", "T2_Heart", "sd"),
+    surrogate_mean = get_stats("Social Surrogacy", "T2_Heart", "mean"),
+    surrogate_sd = get_stats("Social Surrogacy", "T2_Heart", "sd"),
+    cohen_d = main_cohens_d$Cohens_d %>% round(2),
+    cohen_d_low = main_cohens_d$CI_low %>% round(2),
+    cohen_d_high = main_cohens_d$CI_high %>% round(2),
+    cohen_d_APA = describe_d_ci(main_cohens_d),
+    cohen_d_APA95 = describe_d_ci(main_cohens_d_95)
+)
+heart2_txt <- append(
+    heart2_txt,
+    list(
+        non_surrogate_msd = to_msd(
+            heart2_txt$non_surrogate_mean,
+            heart2_txt$non_surrogate_sd
+        ),
+        surrogate_msd = to_msd(
+            heart2_txt$surrogate_mean,
+            heart2_txt$surrogate_sd
+        )
+    )
+)
 # Plot
-plot_T2_Heart <- s2_df %>% 
-  # Only include people who got the attention check right
-  filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>% 
-  ggplot(aes(x = essay_condition, color = essay_condition,
-             y = T2_Heart_1)) +
-  # Violin, errorbar, datapoints
-  default_violin + 
-  # Remove legend 
-  guides(color = FALSE) + 
-  # Labels
-  labs(y = "Heart Manikin (Time 2)",
-       x = "Essay Condition",
-       caption = paste("Errorbars represent 95% confidence intervals", 
-                       paste(heart2_txt$t_results, heart2_txt$cohen_d_APA95, sep = ", "),
-                       sep = "<br>")) + 
-  scale_x_discrete(labels = str_to_title)
-  # # save 
-  # ggsave(here("plot","s2_heart2_plot.png"), width = 6, height = 4)
+plot_T2_Heart <- s2_df %>%
+    # Only include people who got the attention check right
+    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    ggplot(aes(
+        x = essay_condition, color = essay_condition,
+        y = T2_Heart_1
+    )) +
+    # Violin, errorbar, datapoints
+    default_violin +
+    # Remove legend
+    guides(color = FALSE) +
+    # Labels
+    labs(
+        y = "Heart Manikin (Time 2)",
+        x = "Essay Condition",
+        caption = paste("Errorbars represent 95% confidence intervals",
+            paste(heart2_txt$t_results, heart2_txt$cohen_d_APA95, sep = ", "),
+            sep = "<br>"
+        )
+    ) +
+    scale_x_discrete(labels = str_to_title)
+# # save
+# ggsave(here("plot","s2_heart2_plot.png"), width = 6, height = 4)
 ```
 
 **Main Analysis.** I performed Welch's _t_-test to compare the post-essaay Heart Manikin scores (Time 2) between the participants who wrote about the social surrogacy video game and those who wrote about the non-social surrogacy video game. Based on the social surrogacy hypothesis, I expected that participants who wrote about the social surrogacy video game would have higher belonging than those who wrote about the non-social surrogacy video game. Contrary to this expectation, participants who wrote about the social surrogacy game (`r heart2_txt$surrogate_msd`) reported similar levels of belonging compared with those who wrote about a non-surrogacy game (`r heart2_txt$non_surrogate_msd`, `r heart2_txt$t_results`, see Figure \@ref(fig:heart2)).
@@ -255,64 +311,83 @@ Since the obtained *p*-value was greater than .05, I performed the two one-sided
 # Probing Effectiveness of Rejection Induction.
 # T-test
 effectivenss <- s2_df %>%
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes", 
-         essay_condition == "Non-Social Surrogacy") %>%
-  t.test(formula = Pair(T1_Heart_1, T2_Heart_1) ~ 1, data = .)
+    filter(
+        attention_all_correct == TRUE, followed_VGinstructions == "Yes",
+        essay_condition == "Non-Social Surrogacy"
+    ) %>%
+    t.test(formula = Pair(T1_Heart_1, T2_Heart_1) ~ 1, data = .)
 
-# Cohen's d with 95% CI 
-effectivenss_d_95 <- effectsize::cohens_d(s2_df$T1_Heart_1, s2_df$T2_Heart_1, paird = TRUE,
-                              ci = .95)
+# Cohen's d with 95% CI
+effectivenss_d_95 <- effectsize::cohens_d(s2_df$T1_Heart_1, s2_df$T2_Heart_1,
+    paird = TRUE,
+    ci = .95
+)
 # Cohen's d with 90%CI
-effectivenss_d <- effectsize::cohens_d(s2_df$T1_Heart_1, s2_df$T2_Heart_1, paird = TRUE,
-                           ci = .90)
+effectivenss_d <- effectsize::cohens_d(s2_df$T1_Heart_1, s2_df$T2_Heart_1,
+    paird = TRUE,
+    ci = .90
+)
 # Equivalence test with 90%CI
 effectivenss_equivalence <- equivalence_test(effectivenss_d, range = c(-Cohen_d_target, Cohen_d_target))
 
-# Text 
-heart12_txt <- list(t_results = describe.ttest(effectivenss),
-                    non_surrogate_T1mean = get_stats("Non-Social Surrogacy", "T1_Heart", "mean"),
-                    non_surrogate_T1sd = get_stats("Non-Social Surrogacy", "T1_Heart", "sd"),
-                    non_surrogate_T2mean = get_stats("Non-Social Surrogacy", "T2_Heart", "mean"),
-                    non_surrogate_T2sd = get_stats("Non-Social Surrogacy", "T2_Heart", "sd"),
-                    surrogate_T1mean = get_stats("Social Surrogacy", "T1_Heart", "mean"),
-                    surrogate_T1sd = get_stats("Social Surrogacy", "T1_Heart", "sd"),
-                    surrogate_T2mean = get_stats("Social Surrogacy", "T2_Heart", "mean"),
-                    surrogate_T2sd = get_stats("Social Surrogacy", "T2_Heart", "sd"),
-                    cohen_d = effectivenss_d$Cohens_d %>% round(2),
-                    cohen_d_low = effectivenss_d$CI_low %>% round(2),
-                    cohen_d_high = effectivenss_d$CI_high %>% round(2),
-                    cohen_d_APA = describe_d_ci(effectivenss_d),
-                    cohen_d_APA95 = describe_d_ci(effectivenss_d_95))
+# Text
+heart12_txt <- list(
+    t_results = describe.ttest(effectivenss),
+    non_surrogate_T1mean = get_stats("Non-Social Surrogacy", "T1_Heart", "mean"),
+    non_surrogate_T1sd = get_stats("Non-Social Surrogacy", "T1_Heart", "sd"),
+    non_surrogate_T2mean = get_stats("Non-Social Surrogacy", "T2_Heart", "mean"),
+    non_surrogate_T2sd = get_stats("Non-Social Surrogacy", "T2_Heart", "sd"),
+    surrogate_T1mean = get_stats("Social Surrogacy", "T1_Heart", "mean"),
+    surrogate_T1sd = get_stats("Social Surrogacy", "T1_Heart", "sd"),
+    surrogate_T2mean = get_stats("Social Surrogacy", "T2_Heart", "mean"),
+    surrogate_T2sd = get_stats("Social Surrogacy", "T2_Heart", "sd"),
+    cohen_d = effectivenss_d$Cohens_d %>% round(2),
+    cohen_d_low = effectivenss_d$CI_low %>% round(2),
+    cohen_d_high = effectivenss_d$CI_high %>% round(2),
+    cohen_d_APA = describe_d_ci(effectivenss_d),
+    cohen_d_APA95 = describe_d_ci(effectivenss_d_95)
+)
 heart12_txt <- heart12_txt %>%
-  append(list(non_surrogate_T1msd = to_msd(heart12_txt$non_surrogate_T1mean,
-                                           heart12_txt$non_surrogate_T1sd),
-              surrogate_T1msd = to_msd(heart12_txt$surrogate_T1mean,
-                                       heart12_txt$surrogate_T1sd),
-              non_surrogate_T2msd = to_msd(heart12_txt$non_surrogate_T2mean,
-                                           heart12_txt$non_surrogate_T2sd),
-              surrogate_T2msd = to_msd(heart12_txt$surrogate_T2mean,
-                                       heart12_txt$surrogate_T2sd)))
+    append(list(
+        non_surrogate_T1msd = to_msd(
+            heart12_txt$non_surrogate_T1mean,
+            heart12_txt$non_surrogate_T1sd
+        ),
+        surrogate_T1msd = to_msd(
+            heart12_txt$surrogate_T1mean,
+            heart12_txt$surrogate_T1sd
+        ),
+        non_surrogate_T2msd = to_msd(
+            heart12_txt$non_surrogate_T2mean,
+            heart12_txt$non_surrogate_T2sd
+        ),
+        surrogate_T2msd = to_msd(
+            heart12_txt$surrogate_T2mean,
+            heart12_txt$surrogate_T2sd
+        )
+    ))
 
 ```
 
 **Probing Effectiveness of Rejection Induction.** I probed the effectiveness of the rejection induction by comparing the Heart Manikin scores at Times 1 and 2 among the participants in the non-social surrogate game condition. If the rejection induction was effective, I expected that these participants would report lower belonging after the rejection induction (Time 2) compared with the baseline (Time 1). To test this possibility, I ran a paired-samples _t_-test comparing the Heart Manikin scores at Times 1 vs. 2. Contrary to the prediction, participants in the non-surrogate essay condition reported similar levels of belonging at Times 1 (baseline, `r heart12_txt$non_surrogate_T1msd`) and 2 (after two essays, `r heart12_txt$non_surrogate_T2msd`), `r heart12_txt$t_results`, see Figure \@ref(fig:heart12). Given the non-significant results, I performed the TOST consistent with the main analysis. Results indicated that the obtained confidence interval fell within the SESOI (`r heart12_txt$cohen_d_APA`), and thus I consider the effect size as theoretically equivalent to zero. Note that this analysis does not conclude the effectiveness of the rejection induction. The rejection induction could have been effective at first, but participants might have replenished their belonging due to passing of time--a point that I explore in more detail in the Discussion section below.
 
 ```{r heart12, fig.cap = "Study 2 - Heart Mankin Scores at Times 1 & 2 among the Non-Surrogate Group", echo=FALSE , fig.width=6, fig.height=5}
-# Plot among the non-social surrogate 
+# Plot among the non-social surrogate
 nonsurrogate_heart12 <- s2_df_long %>%
-  filter(essay_condition == "Non-Social Surrogacy") %>%
-  # Start the ggplot 2 (data from the above)
-  ggplot(aes(x = Time, y = Heart, color = Time)) + 
-  # Violin, errorbar, datapoints
-  default_violin + 
-  # Labels
-  scale_y_continuous(name = "Heart Manikin") +
-  labs(caption = paste("Errorbars represent 95% confidence intervals", 
-                       "Only data from the non-social surrogacy condition are plotted", 
-                       paste(heart12_txt$t_results, heart12_txt$cohen_d_APA95, sep = ", "),
-                       sep = "<br>")) +
-  # Remove Legends
-  guides(color = FALSE)
+    filter(essay_condition == "Non-Social Surrogacy") %>%
+    # Start the ggplot 2 (data from the above)
+    ggplot(aes(x = Time, y = Heart, color = Time)) +
+    # Violin, errorbar, datapoints
+    default_violin +
+    # Labels
+    scale_y_continuous(name = "Heart Manikin") +
+    labs(caption = paste("Errorbars represent 95% confidence intervals",
+        "Only data from the non-social surrogacy condition are plotted",
+        paste(heart12_txt$t_results, heart12_txt$cohen_d_APA95, sep = ", "),
+        sep = "<br>"
+    )) +
+    # Remove Legends
+    guides(color = FALSE)
 
 nonsurrogate_heart12
 ```
@@ -320,206 +395,243 @@ nonsurrogate_heart12
 ```{r exp_checks, echo=FALSE, message=FALSE, warning=FALSE}
 # Exploratory Manipulation Checks
 # Parasocial Relationships Manipulation Check ------------------------------
-# Chi-square test 
-parasocial_MC_results <- s2_df %>% 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  {chisq.test(x = .$essay_condition,
-              y = .$parasocial_MC_group)}
+# Chi-square test
+parasocial_MC_results <- s2_df %>%
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    {
+        chisq.test(
+            x = .$essay_condition,
+            y = .$parasocial_MC_group
+        )
+    }
 # Summary table
-parasocial_MC_results_df <- s2_df %>% 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  group_by(essay_condition_title, parasocial_MC_group) %>%
-  summarise(n = n()) %>%
-  mutate(prop_per_cond = n/sum(n),
-         percent_per_cond = prop_per_cond * 100 %>% round(2))
+parasocial_MC_results_df <- s2_df %>%
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    group_by(essay_condition_title, parasocial_MC_group) %>%
+    summarise(n = n()) %>%
+    mutate(
+        prop_per_cond = n / sum(n),
+        percent_per_cond = prop_per_cond * 100 %>% round(2)
+    )
 
 # Parasocial Interaction Manipulation Check -----------------------------------
 # Welch's t-test
-PSI_MC_results <- s2_df %>% 
-  # Exclude those failed attention check
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  t.test(formula = PSI ~ essay_condition, data = .)
+PSI_MC_results <- s2_df %>%
+    # Exclude those failed attention check
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    t.test(formula = PSI ~ essay_condition, data = .)
 # Cohen's d
-PSI_d_95 <- s2_df %>% 
-  # Exclude those failed attention check
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  effectsize::cohens_d(x = PSI ~ essay_condition, data = ., ci = .95)
+PSI_d_95 <- s2_df %>%
+    # Exclude those failed attention check
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    effectsize::cohens_d(x = PSI ~ essay_condition, data = ., ci = .95)
 # Plot
-plot_PSI <- s2_df %>% 
-  # Exclude those failed attention check 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  ggplot(aes(x = essay_condition, y = PSI, color = essay_condition)) +
-  # Violin with errorbar
-  default_violin + 
-  # Remove legend 
-  guides(color = FALSE) +
-  # Labels 
-  ylab("Parasocial Interaction") +
-  xlab("Essay Condition") +
-  labs(caption =  "_Note._ Only participants who indicated <br>interacting with an NPC answered this question.") +
-  theme(plot.caption = element_markdown(lineheight = 1.2)) +
-  # Condition value labels to title case
-  scale_x_discrete(labels = str_to_title)
+plot_PSI <- s2_df %>%
+    # Exclude those failed attention check
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    ggplot(aes(x = essay_condition, y = PSI, color = essay_condition)) +
+    # Violin with errorbar
+    default_violin +
+    # Remove legend
+    guides(color = FALSE) +
+    # Labels
+    ylab("Parasocial Interaction") +
+    xlab("Essay Condition") +
+    labs(caption = "_Note._ Only participants who indicated <br>interacting with an NPC answered this question.") +
+    theme(plot.caption = element_markdown(lineheight = 1.2)) +
+    # Condition value labels to title case
+    scale_x_discrete(labels = str_to_title)
 
 # Single-Item Immersion Manipulation Check -----------------------------------
 # Welch's t-test for Immersion Scale
-immersion_MC_results <- s2_df %>% 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  t.test(formula = Single_Immersion ~ essay_condition, data = .)
+immersion_MC_results <- s2_df %>%
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    t.test(formula = Single_Immersion ~ essay_condition, data = .)
 # Cohen's d
-immersion_d_95 <- s2_df %>% 
-  # Exclude those failed attention check
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  effectsize::cohens_d(x = Single_Immersion ~ essay_condition, data = ., ci = .95)
-# Plot 
-plot_immersion <- s2_df %>% 
-  # Exclude those failed attention check 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  ggplot(aes(x = essay_condition, y = Single_Immersion, color = essay_condition)) +
-  # Violin with errorbar
-  default_violin + 
-  # Remove legend 
-  guides(color = FALSE) +
-  # Labels 
-  ylab("Immersion") +
-  xlab("Essay Condition") +
-  # Condition value labels to title case
-  scale_x_discrete(labels = str_to_title)
+immersion_d_95 <- s2_df %>%
+    # Exclude those failed attention check
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    effectsize::cohens_d(x = Single_Immersion ~ essay_condition, data = ., ci = .95)
+# Plot
+plot_immersion <- s2_df %>%
+    # Exclude those failed attention check
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    ggplot(aes(x = essay_condition, y = Single_Immersion, color = essay_condition)) +
+    # Violin with errorbar
+    default_violin +
+    # Remove legend
+    guides(color = FALSE) +
+    # Labels
+    ylab("Immersion") +
+    xlab("Essay Condition") +
+    # Condition value labels to title case
+    scale_x_discrete(labels = str_to_title)
 
 # Narrative Engagement Scale Manipulation Check -----------------------------------
-NE_MC_results <- s2_df %>% 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  t.test(formula = Narrative_Engagement ~ essay_condition, data = .)
-# Plot 
-plot_NE <- s2_df %>% 
-  # Exclude those failed attention check 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  ggplot(aes(x = essay_condition, y = Narrative_Engagement, color = essay_condition)) +
-  # Violin with errorbar
-  default_violin + 
-  # Remove legend 
-  guides(color = FALSE) +
-  # Labels 
-  ylab("Narrative Engagement") +
-  xlab("Essay Condition") +
-  # Condition value labels to title case
-  scale_x_discrete(labels = str_to_title)
+NE_MC_results <- s2_df %>%
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    t.test(formula = Narrative_Engagement ~ essay_condition, data = .)
+# Plot
+plot_NE <- s2_df %>%
+    # Exclude those failed attention check
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    ggplot(aes(x = essay_condition, y = Narrative_Engagement, color = essay_condition)) +
+    # Violin with errorbar
+    default_violin +
+    # Remove legend
+    guides(color = FALSE) +
+    # Labels
+    ylab("Narrative Engagement") +
+    xlab("Essay Condition") +
+    # Condition value labels to title case
+    scale_x_discrete(labels = str_to_title)
 
 
 # Narrative Engagement Scale Manipulation Check -----------------------------------
-OTFWorld_MC_results <- s2_df %>% 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  t.test(formula = OTF_Social_World ~ essay_condition, data = .)
-# Plot 
-plot_OTFWorld <- s2_df %>% 
-  # Exclude those failed attention check 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  ggplot(aes(x = essay_condition, y = OTF_Social_World, color = essay_condition)) +
-  # Violin with errorbar
-  default_violin + 
-  # Remove legend 
-  guides(color = FALSE) +
-  # Labels 
-  ylab("Social World") +
-  xlab("Essay Condition") +
-  # Condition value labels to title case
-  scale_x_discrete(labels = str_to_title)
+OTFWorld_MC_results <- s2_df %>%
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    t.test(formula = OTF_Social_World ~ essay_condition, data = .)
+# Plot
+plot_OTFWorld <- s2_df %>%
+    # Exclude those failed attention check
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    ggplot(aes(x = essay_condition, y = OTF_Social_World, color = essay_condition)) +
+    # Violin with errorbar
+    default_violin +
+    # Remove legend
+    guides(color = FALSE) +
+    # Labels
+    ylab("Social World") +
+    xlab("Essay Condition") +
+    # Condition value labels to title case
+    scale_x_discrete(labels = str_to_title)
 
 # APA compatible results -----
 # Parasocial MC
 parasocial_MC_txt <- list(
-  chisq_glance = broom::glance(parasocial_MC_results),
-  results_df = parasocial_MC_results_df
+    chisq_glance = broom::glance(parasocial_MC_results),
+    results_df = parasocial_MC_results_df
 )
 parasocial_MC_txt <- parasocial_MC_txt %>%
-  append(list(
-    chisq_txt = sprintf("X<sup>2</sup>(%s, _N_ = %s) = %s, _p_ < .001",
-                        parasocial_MC_txt$chisq_glance$parameter  %>% round(2),
-                        parasocial_MC_results$observed %>% sum,
-                        parasocial_MC_txt$chisq_glance$statistic  %>% round(2),
-                        parasocial_MC_txt$chisq_glance$p.value %>% round(2)),
-    nonsurrogacy_noint = parasocial_MC_results_df %>% 
-      filter(essay_condition_title == "Non-Social Surrogacy" & 
-               parasocial_MC_group == "No Interaction with NPC") %>%
-      pull(percent_per_cond) %>% round(2),
-    nonsurrogacy_noPSR = parasocial_MC_results_df %>% 
-      filter(essay_condition_title == "Non-Social Surrogacy" & 
-               parasocial_MC_group == "No Parasocial Relationship with NPC") %>%
-      pull(percent_per_cond) %>% round(2),
-    nonsurrogacy_yesPSR = parasocial_MC_results_df %>% 
-      filter(essay_condition_title == "Non-Social Surrogacy" &
-               parasocial_MC_group == "Formed Parasocial Relationship with NPC") %>%
-      pull(percent_per_cond) %>% round(2),
-    surrogacy_noint = parasocial_MC_results_df %>% 
-      filter(essay_condition_title == "Social Surrogacy" &
-               parasocial_MC_group == "No Interaction with NPC") %>%
-      pull(percent_per_cond) %>% round(2),
-    surrogacy_noPSR = parasocial_MC_results_df %>% 
-      filter(essay_condition_title == "Social Surrogacy" &
-               parasocial_MC_group == "No Parasocial Relationship with NPC") %>%
-      pull(percent_per_cond) %>% round(2),
-    surrogacy_yesPSR = parasocial_MC_results_df %>% 
-      filter(essay_condition_title == "Social Surrogacy" & 
-               parasocial_MC_group == "Formed Parasocial Relationship with NPC") %>%
-      pull(percent_per_cond) %>% round(2)    
-  ))
+    append(list(
+        chisq_txt = sprintf(
+            "X<sup>2</sup>(%s, _N_ = %s) = %s, _p_ < .001",
+            parasocial_MC_txt$chisq_glance$parameter %>% round(2),
+            parasocial_MC_results$observed %>% sum(),
+            parasocial_MC_txt$chisq_glance$statistic %>% round(2),
+            parasocial_MC_txt$chisq_glance$p.value %>% round(2)
+        ),
+        nonsurrogacy_noint = parasocial_MC_results_df %>%
+            filter(essay_condition_title == "Non-Social Surrogacy" &
+                parasocial_MC_group == "No Interaction with NPC") %>%
+            pull(percent_per_cond) %>% round(2),
+        nonsurrogacy_noPSR = parasocial_MC_results_df %>%
+            filter(essay_condition_title == "Non-Social Surrogacy" &
+                parasocial_MC_group == "No Parasocial Relationship with NPC") %>%
+            pull(percent_per_cond) %>% round(2),
+        nonsurrogacy_yesPSR = parasocial_MC_results_df %>%
+            filter(essay_condition_title == "Non-Social Surrogacy" &
+                parasocial_MC_group == "Formed Parasocial Relationship with NPC") %>%
+            pull(percent_per_cond) %>% round(2),
+        surrogacy_noint = parasocial_MC_results_df %>%
+            filter(essay_condition_title == "Social Surrogacy" &
+                parasocial_MC_group == "No Interaction with NPC") %>%
+            pull(percent_per_cond) %>% round(2),
+        surrogacy_noPSR = parasocial_MC_results_df %>%
+            filter(essay_condition_title == "Social Surrogacy" &
+                parasocial_MC_group == "No Parasocial Relationship with NPC") %>%
+            pull(percent_per_cond) %>% round(2),
+        surrogacy_yesPSR = parasocial_MC_results_df %>%
+            filter(essay_condition_title == "Social Surrogacy" &
+                parasocial_MC_group == "Formed Parasocial Relationship with NPC") %>%
+            pull(percent_per_cond) %>% round(2)
+    ))
 
 # PSI - APA Text
 PSI_txt <- list(
-  t_test = PSI_MC_results %>% broom::tidy(),
-  t_APA = PSI_MC_results %>% describe.ttest(),
-  surrogacy_msd = to_msd(get_stats("Social Surrogacy", "PSI", "mean"),
-                         get_stats("Social Surrogacy", "PSI", "sd")),
-  non_surrogacy_msd = to_msd(get_stats("Non-Social Surrogacy", "PSI", "mean"),
-                             get_stats("Non-Social Surrogacy", "PSI", "sd")),
-  cohens_d_95 = describe_d_ci(PSI_d_95)
+    t_test = PSI_MC_results %>% broom::tidy(),
+    t_APA = PSI_MC_results %>% describe.ttest(),
+    surrogacy_msd = to_msd(
+        get_stats("Social Surrogacy", "PSI", "mean"),
+        get_stats("Social Surrogacy", "PSI", "sd")
+    ),
+    non_surrogacy_msd = to_msd(
+        get_stats("Non-Social Surrogacy", "PSI", "mean"),
+        get_stats("Non-Social Surrogacy", "PSI", "sd")
+    ),
+    cohens_d_95 = describe_d_ci(PSI_d_95)
 )
-# Immersion 
-imemrsion_txt <-list(t_test = immersion_MC_results %>% broom::tidy(),
-                     t_APA = immersion_MC_results %>% describe.ttest(),
-                     surrogacy_msd = to_msd(get_stats("Social Surrogacy", "Single_Immersion", "mean"),
-                                            get_stats("Social Surrogacy", "Single_Immersion", "sd")),
-                     nonsurrogacy_msd = to_msd(get_stats("Non-Social Surrogacy", "Single_Immersion", "mean"),
-                                               get_stats("Non-Social Surrogacy", "Single_Immersion", "sd")))
+# Immersion
+imemrsion_txt <- list(
+    t_test = immersion_MC_results %>% broom::tidy(),
+    t_APA = immersion_MC_results %>% describe.ttest(),
+    surrogacy_msd = to_msd(
+        get_stats("Social Surrogacy", "Single_Immersion", "mean"),
+        get_stats("Social Surrogacy", "Single_Immersion", "sd")
+    ),
+    nonsurrogacy_msd = to_msd(
+        get_stats("Non-Social Surrogacy", "Single_Immersion", "mean"),
+        get_stats("Non-Social Surrogacy", "Single_Immersion", "sd")
+    )
+)
 # Narrative Engagement
-NE_txt <- list(t_test = NE_MC_results %>% broom::tidy(),
-               t_APA = NE_MC_results %>% describe.ttest(),
-               surrogacy_msd = to_msd(get_stats("Social Surrogacy", "Narrative_Engagement", "mean"),
-                                      get_stats("Social Surrogacy", "Narrative_Engagement", "sd")),
-               nonsurrogacy_msd = to_msd(get_stats("Non-Social Surrogacy", "Narrative_Engagement", "mean"),
-                                         get_stats("Non-Social Surrogacy", "Narrative_Engagement", "sd")))
+NE_txt <- list(
+    t_test = NE_MC_results %>% broom::tidy(),
+    t_APA = NE_MC_results %>% describe.ttest(),
+    surrogacy_msd = to_msd(
+        get_stats("Social Surrogacy", "Narrative_Engagement", "mean"),
+        get_stats("Social Surrogacy", "Narrative_Engagement", "sd")
+    ),
+    nonsurrogacy_msd = to_msd(
+        get_stats("Non-Social Surrogacy", "Narrative_Engagement", "mean"),
+        get_stats("Non-Social Surrogacy", "Narrative_Engagement", "sd")
+    )
+)
 # OTF Social World
-OTF_txt <- list(t_APA = OTFWorld_MC_results %>% describe.ttest(),
-                surrogacy_msd = to_msd(get_stats("Social Surrogacy", "OTF_Social_World", "mean"),
-                                       get_stats("Social Surrogacy", "OTF_Social_World", "sd")),
-                nonsurrogacy_msd = to_msd(get_stats("Non-Social Surrogacy", "OTF_Social_World", "mean"),
-                                          get_stats("Non-Social Surrogacy", "OTF_Social_World", "sd")))
+OTF_txt <- list(
+    t_APA = OTFWorld_MC_results %>% describe.ttest(),
+    surrogacy_msd = to_msd(
+        get_stats("Social Surrogacy", "OTF_Social_World", "mean"),
+        get_stats("Social Surrogacy", "OTF_Social_World", "sd")
+    ),
+    nonsurrogacy_msd = to_msd(
+        get_stats("Non-Social Surrogacy", "OTF_Social_World", "mean"),
+        get_stats("Non-Social Surrogacy", "OTF_Social_World", "sd")
+    )
+)
 ```
 
 **Exploratory Manipulation Check.** To explore the effectiveness of the video game essay manipulation in inducing parasocial relationships, I used the combination of two sources of information: the yes/no question about the presence of parasocial interaction (i.e., whether participants interacted with the non-player characters in their essay), and the modified Inclusion of Self in the Other Scale (Aron et al., 1992). I coded each participant into three groups as follows. If a participant indicated that they did not interact with non-player characters (answering no to the yes/no question), they were coded as "did not interact with non-player characters" (Group 1). If they indicated yes, and they scored 0 on the modified Inclusion of Self in the Other Scale [@aronInclusionOtherSelf1992], they were coded as "interacted with non-player characters but did not form parasocial relationships" (Group 2). All others received a code "interacted with non-player characters and formed parasocial relationships" (Group 3). I ran a two-way chi-square test (Essay: Social Surrogacy vs. Non-Social Surrogacy x Groups: 1, 2, vs. 3) to examine whether those in the social surrogacy essay condition (vs. the non-social surrogacy condition) indicated they interacted with an NPC (Group 2) and formed parasocial relationships (Group 3) rather than they did not interact with non-player characters (Group 1). This procedure allowed participants to indicate that they did not interact with non-player characters, a response option not available in the modified Inclusion of Self in the Other Scale [@aronInclusionOtherSelf1992]. Participants reported different levels of parasocial relationships across the essay conditions (`r parasocial_MC_txt$chisq_txt`, see Figure \@ref(fig:exp-mosaic)). Among the participants who wrote about a social surrogacy game, the majority reported forming a parasocial relationship with an NPC (`r parasocial_MC_txt$surrogacy_yesPSR`%), than not forming a parasocial relationship (`r parasocial_MC_txt$surrogacy_noPSR`%), or not interacting with an NPC at all (`r parasocial_MC_txt$surrogacy_noint`%). In contrast, among the participants who wrote about a non-social surrogacy game, the majority reported not interacting with an NPC at all (`r parasocial_MC_txt$nonsurrogacy_noint`%), followed by not forming a parasocial relationship (`r parasocial_MC_txt$nonsurrogacy_noPSR`), or forming a parasocial relationship with an NPC (`r parasocial_MC_txt$nonsurrogacy_yesPSR`%).
 
 ```{r exp-mosaic, fig.cap = "Study 2 - Proportions of Participabts who Reported experiencing Parasocial Relationships with an NPC across Conditions", echo=FALSE}
-# Plot - Mosaic Plot 
+# Plot - Mosaic Plot
 plot_para_chi <- s2_df %>%
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  mutate(parasocial_MC_group_shortlabel = 
-           case_when(parasocial_MC_group == "No Interaction with NPC" ~ "No Interaction",
-                     parasocial_MC_group == "No Parasocial Relationship with NPC" ~ "Interacted, but no PSR",
-                     parasocial_MC_group == "Formed Parasocial Relationship with NPC" ~ "Formed PSR"),
-         parasocial_MC_group_shortlabel = factor(parasocial_MC_group_shortlabel,
-                                                 ordered = TRUE,
-                                                 levels = c(
-                                                   "No Interaction",
-                                                   "Interacted, but no PSR",
-                                                   "Formed PSR"
-                                                 ))) %>%
-  ggplot() +
-  geom_mosaic(aes(x = product(parasocial_MC_group_shortlabel, essay_condition),
-                  fill = parasocial_MC_group_shortlabel)) + 
-  ylab("Group") +
-  xlab("Essay Condition") + 
-  scale_fill_brewer(name = "Group", palette = "Set2") +
-  scale_x_productlist()
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    mutate(
+        parasocial_MC_group_shortlabel =
+            case_when(
+                parasocial_MC_group == "No Interaction with NPC" ~ "No Interaction",
+                parasocial_MC_group == "No Parasocial Relationship with NPC" ~ "Interacted, but no PSR",
+                parasocial_MC_group == "Formed Parasocial Relationship with NPC" ~ "Formed PSR"
+            ),
+        parasocial_MC_group_shortlabel = factor(parasocial_MC_group_shortlabel,
+            ordered = TRUE,
+            levels = c(
+                "No Interaction",
+                "Interacted, but no PSR",
+                "Formed PSR"
+            )
+        )
+    ) %>%
+    ggplot() +
+    geom_mosaic(aes(
+        x = product(parasocial_MC_group_shortlabel, essay_condition),
+        fill = parasocial_MC_group_shortlabel
+    )) +
+    ylab("Group") +
+    xlab("Essay Condition") +
+    scale_fill_brewer(name = "Group", palette = "Set2") +
+    scale_x_productlist()
 plot_para_chi
 ```
 
@@ -528,14 +640,19 @@ To further probe the effectiveness of the manipulation on inducing parasocial re
 ```{r exp-plots, fig.cap = "Study 2: Exploratory manipulation check items across essay conditions.", fig.height=6, fig.width=8}
 # figure of the manipulation check variables -- consider ggpubr::garrange()
 ggarrange(plot_PSI, plot_immersion,
-          plot_NE,plot_OTFWorld,
-          labels = c("A", "B", "C", "D")) %>% 
-  annotate_figure(bottom = text_grob("Errorbars represent 95% confidence intervals.", color = "black",
-                                     hjust = 1, x = 1, size = 10),
-                  fig.lab = "", fig.lab.face = "bold") +
-  rremove("xlab")
-  # # save 
-  # ggsave(here("plot","s2_exp_plots.png"), width = 6, height = 6)
+    plot_NE, plot_OTFWorld,
+    labels = c("A", "B", "C", "D")
+) %>%
+    annotate_figure(
+        bottom = text_grob("Errorbars represent 95% confidence intervals.",
+            color = "black",
+            hjust = 1, x = 1, size = 10
+        ),
+        fig.lab = "", fig.lab.face = "bold"
+    ) +
+    rremove("xlab")
+# # save
+# ggsave(here("plot","s2_exp_plots.png"), width = 6, height = 6)
 ```
 
 To explore the effectiveness of the video game essay in inducing social worlds, I ran a Welch's *t*-test to compare the scores of the Single-Item Immersion Scale [@reysenInitialValidationReliability2019], the Narrative Engagement Scale [@busselleMeasuringNarrativeEngagement2009], and the on-the-fly measure of social world, between social surrogate vs. non-social surrogate video game essay conditions. I expected that rejected participants who wrote about the social surrogacy video game would report higher immersion and social worlds compared with those who wrote about their non-social surrogacy video game. Results were consistent with these predictions. Participants in the social surrogate essay condition reported higher immersion (`r imemrsion_txt$surrogacy_msd`) than those in the non-social surrogate essay condition (`r imemrsion_txt$nonsurrogacy_msd`, `r imemrsion_txt$t_APA`, Figure \@ref(fig:exp-plots), Panel B). Participants in the social surrogate essay condition reported higher narrative engagement (`r NE_txt$surrogacy_msd`) than those in the non-surrogacy essay condition (`r NE_txt$nonsurrogacy_msd`, `r NE_txt$t_APA`, Figure \@ref(fig:exp-plots), Panel C). Participants in the social surrogate essay condition reported higher social worlds (`r OTF_txt$surrogacy_msd`) than those in the non-social surrogate essay condition (`r OTF_txt$nonsurrogacy_msd`, `r OTF_txt$t_APA`, Figure \@ref(fig:exp-plots), Panel D).
@@ -543,37 +660,47 @@ To explore the effectiveness of the video game essay in inducing social worlds, 
 Note that the Inclusion of Self in the Other Scale [@aronInclusionOtherSelf1992], the Single-Item Immersion Scale [@reysenInitialValidationReliability2019], and the on-the-fly measure of social world have never been validated to measure social surrogates in video games, and thus I treat these analyses as exploratory. In the proposal, I pointed out that a failed manipulation check in this context can be ambiguous---such results can imply that (a) the manipulation was ineffective to induce parasocial relationships and social worlds, or (b) the measures were ineffective to capture the manipulated constructs. Even with the current positive results, I cannot rule out the latter possibility that the measures were ineffective in capturing social surrogates in video games. Accordingly, I do not conclude the effectiveness of the manipulation based on these exploratory analyses.
 
 ```{r enjoyment}
-# Exploratory Analysis of Enjoyment across Social Surrogacy vs. Non-Social Surrogacy Games. 
+# Exploratory Analysis of Enjoyment across Social Surrogacy vs. Non-Social Surrogacy Games.
 # t-test
-enjoyment_results <- s2_df %>% 
-  # Exclude attention fails 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  t.test(formula = Enjoyment ~ essay_condition,
-         data = .)
+enjoyment_results <- s2_df %>%
+    # Exclude attention fails
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    t.test(
+        formula = Enjoyment ~ essay_condition,
+        data = .
+    )
 
 # Pull APA compatible results
-enjoyment_txt <- list(enjoyment_t = describe.ttest(enjoyment_results),
-                      non_surrogacy_msd = to_msd(get_stats("Non-Social Surrogacy", "Enjoyment", "mean"),
-                                                 get_stats("Non-Social Surrogacy", "Enjoyment", "sd")),
-                      surrogacy_msd = to_msd(get_stats("Social Surrogacy", "Enjoyment", "mean"),
-                                             get_stats("Social Surrogacy", "Enjoyment", "sd")))
+enjoyment_txt <- list(
+    enjoyment_t = describe.ttest(enjoyment_results),
+    non_surrogacy_msd = to_msd(
+        get_stats("Non-Social Surrogacy", "Enjoyment", "mean"),
+        get_stats("Non-Social Surrogacy", "Enjoyment", "sd")
+    ),
+    surrogacy_msd = to_msd(
+        get_stats("Social Surrogacy", "Enjoyment", "mean"),
+        get_stats("Social Surrogacy", "Enjoyment", "sd")
+    )
+)
 
 
 # Plot
-enjoyment_plot <- s2_df %>% 
-  # Exclude attention fails 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  ggplot(aes(x = essay_condition, y = Enjoyment, color = essay_condition)) + 
-  # Default Violin
-  default_violin + 
-  # Labels
-  xlab("Essay Condition") +
-  guides(color = FALSE) +
-  # Sentence case condition labels 
-  scale_x_discrete(labels = str_to_title) + 
-  labs(caption = paste(sep = "\n",
-                       "Errorbars represent 95% confidence intervals",
-                       enjoyment_txt$enjoyment_t))
+enjoyment_plot <- s2_df %>%
+    # Exclude attention fails
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    ggplot(aes(x = essay_condition, y = Enjoyment, color = essay_condition)) +
+    # Default Violin
+    default_violin +
+    # Labels
+    xlab("Essay Condition") +
+    guides(color = FALSE) +
+    # Sentence case condition labels
+    scale_x_discrete(labels = str_to_title) +
+    labs(caption = paste(
+        sep = "\n",
+        "Errorbars represent 95% confidence intervals",
+        enjoyment_txt$enjoyment_t
+    ))
 ```
 
 **Exploratory Analysis of Enjoyment across Social Surrogacy vs. Non-Social Surrogacy Games.** To explore whether levels of enjoyment differed for social Surrogacy vs. non-social Surrogacy video conditions, I performed Welch's *t*-test. I did not have a priori hypothesis for this analysis. Participants in the social surrogate condition (`r enjoyment_txt$surrogacy_msd`) reported more enjoyment in playing a game in their essay than those in the non-social surrogate condition (`r enjoyment_txt$non_surrogacy_msd`, `r enjoyment_txt$enjoyment_t`, Figure \@ref(fig:enjoyment-plot)).
@@ -584,111 +711,139 @@ enjoyment_plot
 
 ```{r s2-manikins-across-time}
 # T-tests across manikin variables
-manikin_ttests <- s2_df %>% 
-  filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-  summarise(across(starts_with(c("T1", "T2")),
-                   list(ttest = function(x){list(t.test(x ~ essay_condition))}))) %>% 
-  # fix names
-  rename_all(~gsub("_1", "", .x)) %>% 
-  # pivot longer so that one row is about one variable
-  pivot_longer(everything())
+manikin_ttests <- s2_df %>%
+    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    summarise(across(
+        starts_with(c("T1", "T2")),
+        list(ttest = function(x) {
+            list(t.test(x ~ essay_condition))
+        })
+    )) %>%
+    # fix names
+    rename_all(~ gsub("_1", "", .x)) %>%
+    # pivot longer so that one row is about one variable
+    pivot_longer(everything())
 
 
 # Extract APA ttests
 manikin_ttests <- manikin_ttests %>%
-  mutate(tidy = map(value, ~broom::tidy(.)),
-         APA = map_chr(value, ~describe.ttest(.))) %>% 
-  unnest(tidy)
+    mutate(
+        tidy = map(value, ~ broom::tidy(.)),
+        APA = map_chr(value, ~ describe.ttest(.))
+    ) %>%
+    unnest(tidy)
 
 
 # Two-way Mixed ANOVA Comparing Manikin Scores Across Time x Essay Conditions
-manikin_mixed_ANOVAs <- s2_df_long %>% 
-  summarise(across(c("Heart", "Valence", "Arousal", "Dominance"),
-                   list(ANOVA = function(x){
-                     rstatix::anova_test(data = cur_data(),
-                                wid = PID, dv = cur_column(),
-                                within = Time, between = essay_condition) %>% list()},
-                     pairTimed = function(x){
-                       rstatix::cohens_d(cur_data(),
-                                formula = formula(paste(cur_column(), "Time", sep = "~")),
-                                paired = TRUE) %>% list()}
-                     ))) %>% 
-  pivot_longer(everything()) %>% 
-  # Conver to a format with one row = one variable
-  mutate(Variable = str_extract(name, "^[^_].+(?=_)"),
-         Stat = str_match(name, "(?:[^_](?!_))+$")) %>% 
-  # Then pivot wider  
-  pivot_wider(id_cols = Variable, 
-              names_from = Stat)
+manikin_mixed_ANOVAs <- s2_df_long %>%
+    summarise(across(
+        c("Heart", "Valence", "Arousal", "Dominance"),
+        list(
+            ANOVA = function(x) {
+                rstatix::anova_test(
+                    data = cur_data(),
+                    wid = PID, dv = cur_column(),
+                    within = Time, between = essay_condition
+                ) %>% list()
+            },
+            pairTimed = function(x) {
+                rstatix::cohens_d(cur_data(),
+                    formula = formula(paste(cur_column(), "Time", sep = "~")),
+                    paired = TRUE
+                ) %>% list()
+            }
+        )
+    )) %>%
+    pivot_longer(everything()) %>%
+    # Conver to a format with one row = one variable
+    mutate(
+        Variable = str_extract(name, "^[^_].+(?=_)"),
+        Stat = str_match(name, "(?:[^_](?!_))+$")
+    ) %>%
+    # Then pivot wider
+    pivot_wider(
+        id_cols = Variable,
+        names_from = Stat
+    )
 
 # Extract Relevant Stats from the anova object
-manikin_ANOVA_DT <- manikin_mixed_ANOVAs %>% 
-  mutate(ANOVA = map(ANOVA, ~as_tibble(.))) %>% 
-  unnest(ANOVA) %>% select(Variable:ges, -`p<.05`) %>% 
-  # Create the APA-compliant text
-  mutate(APA = sprintf("_F_(%s,%s) = %s, _p_ %s, $\\eta^2_{G}$ %s",
-                       DFn, DFd, `F` %>% apastats::f.round(2), apastats::round.p(p),
-                       apastats::round.p(ges))) %>%
-  data.table::setDT(key = c("Variable", "Effect"))
-# Function to get descriptive stats: 
-get_manikin_ANOVA_APA = function(..., d = manikin_ANOVA_DT) d[list(...), APA]
+manikin_ANOVA_DT <- manikin_mixed_ANOVAs %>%
+    mutate(ANOVA = map(ANOVA, ~ as_tibble(.))) %>%
+    unnest(ANOVA) %>%
+    select(Variable:ges, -`p<.05`) %>%
+    # Create the APA-compliant text
+    mutate(APA = sprintf(
+        "_F_(%s,%s) = %s, _p_ %s, $\\eta^2_{G}$ %s",
+        DFn, DFd, `F` %>% apastats::f.round(2), apastats::round.p(p),
+        apastats::round.p(ges)
+    )) %>%
+    data.table::setDT(key = c("Variable", "Effect"))
+# Function to get descriptive stats:
+get_manikin_ANOVA_APA <- function(..., d = manikin_ANOVA_DT) d[list(...), APA]
 
-# T-test Results 
+# T-test Results
 manikin_ttests_DT <- manikin_mixed_ANOVAs %>%
-  select(Variable, pairTimed) %>% 
-  unnest(pairTimed)
+    select(Variable, pairTimed) %>%
+    unnest(pairTimed)
 
 # Function to Plot Manikin
-plot_manikin_time12 <- function(dataset, y_variable){
-  var <- enquo(y_variable)
-  var_char <- quo_name(var)
-  # Start the ggplot 2 (data from the above)
-  ggplot(dataset, aes(x = Time, y = !!var, color = essay_condition)) + 
-    # Add violin plot
-    geom_violin(position = position_dodge(width = 1)) + 
-    # Add actual data points 
-    geom_point(size = .6,
-               position = "jitter") +
-    # Add confidence intervals
-    stat_summary(fun.data = mean_cl_normal, 
-                 fun.args = list(conf.int = .95),
-                 geom = "errorbar", width = .2,
-                 position = dodge_pos, 
-                 color = "black") + 
-    # Add the mean 
-    geom_point(stat = "summary", fun.data = mean_cl_normal, shape = 21,
-               position = dodge_pos, fill = "white", color = "black") +
-    # Labels
-    scale_y_continuous(name = sprintf("%s Manikin", var_char)) +
-    # labs(caption = "Errorbars represent 95% confidence intervals") + 
-    theme_minimal() + 
-    # Remove Legends
-    guides(fill = FALSE, color = FALSE) + 
-    scale_x_discrete(labels = str_to_title) + 
-    facet_wrap(. ~ essay_condition) + 
-    scale_color_brewer(palette="Set2", name = "Essay Condition")
+plot_manikin_time12 <- function(dataset, y_variable) {
+    var <- enquo(y_variable)
+    var_char <- quo_name(var)
+    # Start the ggplot 2 (data from the above)
+    ggplot(dataset, aes(x = Time, y = !!var, color = essay_condition)) +
+        # Add violin plot
+        geom_violin(position = position_dodge(width = 1)) +
+        # Add actual data points
+        geom_point(
+            size = .6,
+            position = "jitter"
+        ) +
+        # Add confidence intervals
+        stat_summary(
+            fun.data = mean_cl_normal,
+            fun.args = list(conf.int = .95),
+            geom = "errorbar", width = .2,
+            position = dodge_pos,
+            color = "black"
+        ) +
+        # Add the mean
+        geom_point(
+            stat = "summary", fun.data = mean_cl_normal, shape = 21,
+            position = dodge_pos, fill = "white", color = "black"
+        ) +
+        # Labels
+        scale_y_continuous(name = sprintf("%s Manikin", var_char)) +
+        # labs(caption = "Errorbars represent 95% confidence intervals") +
+        theme_minimal() +
+        # Remove Legends
+        guides(fill = FALSE, color = FALSE) +
+        scale_x_discrete(labels = str_to_title) +
+        facet_wrap(. ~ essay_condition) +
+        scale_color_brewer(palette = "Set2", name = "Essay Condition")
 }
 
 # Combine plots for all manikins by essay and time
 manikin12_plots <- ggarrange(plot_manikin_time12(s2_df_long, Heart),
-                             plot_manikin_time12(s2_df_long, Valence),
-                             plot_manikin_time12(s2_df_long, Arousal),
-                             plot_manikin_time12(s2_df_long, Dominance),
-                             labels = "AUTO")
+    plot_manikin_time12(s2_df_long, Valence),
+    plot_manikin_time12(s2_df_long, Arousal),
+    plot_manikin_time12(s2_df_long, Dominance),
+    labels = "AUTO"
+)
 
 manikin_APA <- list(
-  ANOVA_Heart_Essay = get_manikin_ANOVA_APA("Heart", "essay_condition"),
-  ANOVA_Heart_Time = get_manikin_ANOVA_APA("Heart", "Time"),
-  ANOVA_Heart_Int = get_manikin_ANOVA_APA("Heart", "essay_condition:Time"),
-  ANOVA_Valence_Essay = get_manikin_ANOVA_APA("Valence", "essay_condition"),
-  ANOVA_Valence_Time = get_manikin_ANOVA_APA("Valence", "Time"),
-  ANOVA_Valence_Int = get_manikin_ANOVA_APA("Valence", "essay_condition:Time"),
-  ANOVA_Arousal_Essay = get_manikin_ANOVA_APA("Arousal", "essay_condition"),
-  ANOVA_Arousal_Time = get_manikin_ANOVA_APA("Arousal", "Time"),
-  ANOVA_Arousal_Int = get_manikin_ANOVA_APA("Arousal", "essay_condition:Time"),
-  ANOVA_Dominance_Essay = get_manikin_ANOVA_APA("Dominance", "essay_condition"),
-  ANOVA_Dominance_Time = get_manikin_ANOVA_APA("Dominance", "Time"),
-  ANOVA_Dominance_Int = get_manikin_ANOVA_APA("Dominance", "essay_condition:Time")
+    ANOVA_Heart_Essay = get_manikin_ANOVA_APA("Heart", "essay_condition"),
+    ANOVA_Heart_Time = get_manikin_ANOVA_APA("Heart", "Time"),
+    ANOVA_Heart_Int = get_manikin_ANOVA_APA("Heart", "essay_condition:Time"),
+    ANOVA_Valence_Essay = get_manikin_ANOVA_APA("Valence", "essay_condition"),
+    ANOVA_Valence_Time = get_manikin_ANOVA_APA("Valence", "Time"),
+    ANOVA_Valence_Int = get_manikin_ANOVA_APA("Valence", "essay_condition:Time"),
+    ANOVA_Arousal_Essay = get_manikin_ANOVA_APA("Arousal", "essay_condition"),
+    ANOVA_Arousal_Time = get_manikin_ANOVA_APA("Arousal", "Time"),
+    ANOVA_Arousal_Int = get_manikin_ANOVA_APA("Arousal", "essay_condition:Time"),
+    ANOVA_Dominance_Essay = get_manikin_ANOVA_APA("Dominance", "essay_condition"),
+    ANOVA_Dominance_Time = get_manikin_ANOVA_APA("Dominance", "Time"),
+    ANOVA_Dominance_Int = get_manikin_ANOVA_APA("Dominance", "essay_condition:Time")
 )
 ```
 
@@ -698,95 +853,125 @@ Below I report analyses that I did not plan in the proposal of this dissertation
 **Self-Assessment Manikin Scores by Conditions and Time**. To probe whether participants experienced different arousal, valence, dominance, after writing a social surrogate vs. non-surrogate essay, I ran 2 (Essay Condition: Social Surrogacy vs. Non-Social Surrogacy) x 2 (Time: Time 1 vs. Time 2) Mixed ANOVAs on the Self-Assessment Manikin Scores. For the Heart Manikin scores, there was no main effect of the Essay (`r manikin_APA$ANOVA_Heart_Essay`), no main effect of Time (`r manikin_APA$ANOVA_Heart_Time`), and no Essay Type x Time interaction interaction (`r manikin_APA$ANOVA_Heart_Int`). For the original Self-Assessment Manikins (Valence, Arousal, and Dominance), there were no main effect of the Essay type (`r manikin_APA$ANOVA_Valence_Essay` for valence, `r manikin_APA$ANOVA_Arousal_Essay` for arousal, and `r manikin_APA$ANOVA_Dominance_Essay` for dominance) or no Essay x Time interaction (`r manikin_APA$ANOVA_Valence_Int` for valence, `r manikin_APA$ANOVA_Arousal_Int` for arousal, and `r manikin_APA$ANOVA_Dominance_Int` for dominance). However, there were main effects of Time across these measures (`r manikin_APA$ANOVA_Valence_Time` for valence, `r manikin_APA$ANOVA_Arousal_Time` for arousal, and `r manikin_APA$ANOVA_Dominance_Time` for dominance), suggesting that participants reported higher valence, arousal, and dominance at Time 2 than Time 1.
 
 ```{r manikin12-plot, fig.cap = "Study 2 - Manikin Scores Across Conditions", fig.height=6, fig.width=8}
+
+
 manikin12_plots %>%
-  # Add caption
-  annotate_figure(bottom = text_grob("Errorbars represent 95% confidence intervals.", color = "black",
-                                     hjust = 1, x = 1, size = 10))
-  # # Save
-  # ggsave(here("plot","s2_manikin12_plots.png"), width = 6, height = 6) 
+    # Add caption
+    annotate_figure(bottom = text_grob("Errorbars represent 95% confidence intervals.",
+        color = "black",
+        hjust = 1, x = 1, size = 10
+    ))
+# # Save
+# ggsave(here("plot","s2_manikin12_plots.png"), width = 6, height = 6)
 ```
+
 ```{r s2-moderation}
 # Target outcome variables and moderators
 s2_outcomes <- c("Heart", "Valence", "Arousal", "Dominance")
-s2_mc_indices <- c("parasocial_MC_group", "IOS_num", "PSI",
-                   "Narrative_Engagement", "Single_Immersion_num",
-                   "OTF_Social_World", "Enjoyment")
+s2_mc_indices <- c(
+    "parasocial_MC_group", "IOS_num", "PSI",
+    "Narrative_Engagement", "Single_Immersion_num",
+    "OTF_Social_World", "Enjoyment"
+)
 # Prepare Labels for Reporting
-s2_var_labels <- tribble(~varname, ~varlabel,
-                         "parasocial_MC_group", "Parasocial Group",
-                         "IOS_num", "IOS",
-                         "PSI", "PSI",
-                         "Narrative_Engagement", "Narrative Engagement",
-                         "Single_Immersion_num", "Immersion",
-                         "OTF_Social_World", "Social World",
-                         "Enjoyment", "Enjoyment")
+s2_var_labels <- tribble(
+    ~varname, ~varlabel,
+    "parasocial_MC_group", "Parasocial Group",
+    "IOS_num", "IOS",
+    "PSI", "PSI",
+    "Narrative_Engagement", "Narrative Engagement",
+    "Single_Immersion_num", "Immersion",
+    "OTF_Social_World", "Social World",
+    "Enjoyment", "Enjoyment"
+)
 s2_var_nv <- s2_var_labels$varlabel
 names(s2_var_nv) <- s2_var_labels$varname
 # Get all combinations
-s2_mod_by_mc <- expand_grid(outcome = s2_outcomes,
-                            moderator = s2_mc_indices)
+s2_mod_by_mc <- expand_grid(
+    outcome = s2_outcomes,
+    moderator = s2_mc_indices
+)
 # Join labels
 s2_mod_by_mc <- s2_mod_by_mc %>% left_join(s2_var_labels, by = c("moderator" = "varname"))
 # Turn off ordered factor
 s2_df_long <- s2_df_long %>%
-  mutate(parasocial_MC_group = fct_inorder(parasocial_MC_group, ordered = FALSE))
+    mutate(parasocial_MC_group = fct_inorder(parasocial_MC_group, ordered = FALSE))
 # IOS, immersion to continuous
-s2_df_long <- s2_df_long %>% 
-  mutate(IOS_num = as.character(IOS) %>% as.numeric(),
-         Single_Immersion_num = Single_Immersion %>% as.character() %>% as.numeric())
+s2_df_long <- s2_df_long %>%
+    mutate(
+        IOS_num = as.character(IOS) %>% as.numeric(),
+        Single_Immersion_num = Single_Immersion %>% as.character() %>% as.numeric()
+    )
 # Update labels
 s2_df_long <- s2_df_long %>%
-  sjlabelled::var_labels("essay_condition" = "Condition",
-                         "parasocial_MC_group" = "Parasocial Group",
-                         "IOS_num" = "IOS",
-                         "PSI" = "PSI",
-                         "Narrative_Engagement" = "Narrative Engagement",
-                         "Single_Immersion_num" = "Immersion",
-                         "OTF_Social_World" = "Social World",
-                         "Enjoyment" = "Enjoyment")
+    sjlabelled::var_labels(
+        "essay_condition" = "Condition",
+        "parasocial_MC_group" = "Parasocial Group",
+        "IOS_num" = "IOS",
+        "PSI" = "PSI",
+        "Narrative_Engagement" = "Narrative Engagement",
+        "Single_Immersion_num" = "Immersion",
+        "OTF_Social_World" = "Social World",
+        "Enjoyment" = "Enjoyment"
+    )
 
 # Mean-Centering the moderators
 s2_df_long <- s2_df_long %>%
-  # group by time will actually grand-mean center since the moderators are between scales
-  group_by(Time) %>%
-  mutate(across(all_of(s2_mc_indices[-1]),
-                .fns = list(c = function(x) x - mean(x, na.rm = TRUE)))) %>% 
-  ungroup()
+    # group by time will actually grand-mean center since the moderators are between scales
+    group_by(Time) %>%
+    mutate(across(all_of(s2_mc_indices[-1]),
+        .fns = list(c = function(x) x - mean(x, na.rm = TRUE))
+    )) %>%
+    ungroup()
 
 
 # add "_c" to moderator names
-s2_mod_by_mc <- s2_mod_by_mc %>% 
-  mutate(moderator = case_when(moderator == "parasocial_MC_group" ~ moderator,
-                            TRUE ~ paste0(moderator, "_c")))
+s2_mod_by_mc <- s2_mod_by_mc %>%
+    mutate(moderator = case_when(
+        moderator == "parasocial_MC_group" ~ moderator,
+        TRUE ~ paste0(moderator, "_c")
+    ))
 
-# Prepare formula 
-s2_mod_by_mc <- s2_mod_by_mc %>% 
-  mutate(formula = paste0(outcome, " ~ ", moderator, " * essay_condition * Time + (1|PID)")) %>% 
-  mutate(contrasts = case_when(moderator == "parasocial_MC_group" ~ list(parasocial_MC_group = contr.sum,
-                                                                       essay_condition = contr.sum,
-                          Time = contr.sum) %>% list(),
-                          TRUE ~ list(essay_condition = contr.sum,
-                          Time = contr.sum) %>% list())) %>%
-  # run mixed model - contrasts 
-  mutate(model = map2(formula, contrasts, ~lmer(formula = .x, data = s2_df_long, contrasts = .y))) %>%
-  # tidy the model results 
-  mutate(tidy = map(model, broom.mixed::tidy),
-         APA = map(model, ~describe.glm(., dtype = 3))) 
+# Prepare formula
+s2_mod_by_mc <- s2_mod_by_mc %>%
+    mutate(formula = paste0(outcome, " ~ ", moderator, " * essay_condition * Time + (1|PID)")) %>%
+    mutate(contrasts = case_when(
+        moderator == "parasocial_MC_group" ~ list(
+            parasocial_MC_group = contr.sum,
+            essay_condition = contr.sum,
+            Time = contr.sum
+        ) %>% list(),
+        TRUE ~ list(
+            essay_condition = contr.sum,
+            Time = contr.sum
+        ) %>% list()
+    )) %>%
+    # run mixed model - contrasts
+    mutate(model = map2(formula, contrasts, ~ lmer(formula = .x, data = s2_df_long, contrasts = .y))) %>%
+    # tidy the model results
+    mutate(
+        tidy = map(model, broom.mixed::tidy),
+        APA = map(model, ~ describe.glm(., dtype = 3))
+    )
 
 # Output as a list
-s2_mod_mc_APA <- s2_mod_by_mc %>% 
-  mutate(APA = map(APA, function(x){ x %>% select(eff, str) %>% deframe_as_list})) %>% 
-  select(outcome, moderator, APA) %>%
-  # Group by outcome to perform deframe as list only among each group
-  group_by(outcome) %>% 
-  # Create a named list of moderator and the APA results, grouped by outcome 
-  mutate(APA = cur_data() %>% select(moderator, APA) %>% deframe_as_list()) %>% 
-  # nest so that each row will be outcome. data column is a tibble of moderator and APA
-  nest(data = c(moderator, APA)) %>% 
-  # For each data tibble, deframe as list
-  mutate(data = map(data, ~deframe_as_list(.))) %>% 
-  # Deframe the entire tibble as list
-  deframe_as_list()
+s2_mod_mc_APA <- s2_mod_by_mc %>%
+    mutate(APA = map(APA, function(x) {
+        x %>%
+            select(eff, str) %>%
+            deframe_as_list()
+    })) %>%
+    select(outcome, moderator, APA) %>%
+    # Group by outcome to perform deframe as list only among each group
+    group_by(outcome) %>%
+    # Create a named list of moderator and the APA results, grouped by outcome
+    mutate(APA = cur_data() %>% select(moderator, APA) %>% deframe_as_list()) %>%
+    # nest so that each row will be outcome. data column is a tibble of moderator and APA
+    nest(data = c(moderator, APA)) %>%
+    # For each data tibble, deframe as list
+    mutate(data = map(data, ~ deframe_as_list(.))) %>%
+    # Deframe the entire tibble as list
+    deframe_as_list()
 
 ```
 
@@ -800,13 +985,18 @@ For the model with the Inclusion of the Other in Self scores as a moderator, the
 #| label: fig-s2-mod-plot
 
 # Coefficients predicting Heart
-s2_mod_plots <- s2_mod_by_mc %>% filter(outcome == "Heart") %>% pull(model) %>% 
-  map(plot_s2_moderation)
-ggarrange(plotlist = s2_mod_plots, ncol = 2, nrow = 4, labels = "AUTO") %>% 
-  annotate_figure(fig.lab = "",
-                  fig.lab.pos = "bottom.right",
-                  bottom = text_grob("The reference group for the Essay Condition was the Non-Social Surrogacy Condition.\nThe reference group for the Time predictor was Time 1.\nAll moderators are centered to the grand mean.",
-                                  hjust = 1, x = 1, size = 10))
+s2_mod_plots <- s2_mod_by_mc %>%
+    filter(outcome == "Heart") %>%
+    pull(model) %>%
+    map(plot_s2_moderation)
+ggarrange(plotlist = s2_mod_plots, ncol = 2, nrow = 4, labels = "AUTO") %>%
+    annotate_figure(
+        fig.lab = "",
+        fig.lab.pos = "bottom.right",
+        bottom = text_grob("The reference group for the Essay Condition was the Non-Social Surrogacy Condition.\nThe reference group for the Time predictor was Time 1.\nAll moderators are centered to the grand mean.",
+            hjust = 1, x = 1, size = 10
+        )
+    )
 ```
 
 
@@ -821,7 +1011,7 @@ ggarrange(plotlist = s2_mod_plots, ncol = 2, nrow = 4, labels = "AUTO") %>%
 #   labs(color = "Time")
 # Get emtrends
 s2_mod_IOS <- s2_mod_by_mc$model[[2]] %>%
-  emtrends(pairwise ~ Time, var = "IOS_num_c")
+    emtrends(pairwise ~ Time, var = "IOS_num_c")
 
 # Slopes are different Time 1 vs Time 2 but none of the slopes were statistically significant
 
@@ -833,8 +1023,9 @@ s2_mod_IOS <- s2_mod_by_mc$model[[2]] %>%
 #   labs(color = "Time")
 # Get emtrends
 s2_mod_PSI <- s2_mod_by_mc$model[[3]] %>%
-  emtrends(pairwise ~ Time, var = "PSI_c") %>% .$emtrends %>%
-  tidy
+    emtrends(pairwise ~ Time, var = "PSI_c") %>%
+    .$emtrends %>%
+    tidy()
 # Slopes are different Time 1 vs Time 2 but none of the slopes were statistically significant
 ```
 
