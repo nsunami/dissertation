@@ -1861,11 +1861,12 @@ planned to use for the subsequent studies.
 The original research question of this study was to test the
 reconnection hypothesis---whether the prospect of fulfilling belonging
 influences social responses to rejection [@sunamiDoesProspectFulfilling2019]. The study was
-pre-registered before data collection (<https://osf.io/xpr6b>). Table
-\@ref(tab:s1e-table) shows a summary of the measures included in this
+pre-registered before data collection (<https://osf.io/xpr6b>). 
+@tbl-s1e-table shows a summary of the measures included in this
 study.
 
 ```{r s1e-table}
+#| label: tbl-s1e-table
 s1_measures_dfs$e %>% s1_render_kable(studykey = "e")
 ```
 
@@ -1890,8 +1891,7 @@ Desire, low vs. high) x 2 (Social Rejection, rejection vs. control)
 design. I only describe the procedure and measures relevant to the
 current validation in detail here. More detailed descriptions are
 available in a published study [@sunamiDoesProspectFulfilling2019]. On Day 1, participants
-answered the Heart Manikin and the Time 1 questionnaires (see Table
-\@ref(tab:s1e-table)). Then, participants completed the manipulation for
+answered the Heart Manikin and the Time 1 questionnaires (see @tbl-s1e-table). Then, participants completed the manipulation for
 the participants' desire to affiliate with the confederate (Participant
 Desire) and answered the Heart Manikin and the Self-Assessment Manikin
 (Time 2). Participants then completed the manipulation of the
@@ -2135,8 +2135,7 @@ s1e_txt_90 <- s1e_cor_CIs %>%
 
 **Convergent and Discriminant Validities.** To test convergent and
 discriminant validities, I first examined bivariate correlations between
-the Heart Manikin scores and scores of the measures (Table
-\@ref(tab:s1e-table)). I focus on the results for the subjective
+the Heart Manikin scores and scores of the measures (@tbl-s1e-table)). I focus on the results for the subjective
 socioeconomic status here since the results for the other repeated
 measures are reported in more detail in the mixed model analyses below.
 Results showed that the subjective
@@ -2342,9 +2341,10 @@ social rejection manipulation at Time 5 (right after the social rejection manipu
 rejected participants (`r s1e_sensitivity_APA$Rejection`) reported lower
 Heart Manikin scores than the control participants
 (`r s1e_sensitivity_APA$Control`, `r s1e_sensitivity_APA$t` ,
-`r s1e_sensitivity_APA$d`, see Figure \@ref(fig:s1e-belonging-plot)).
+`r s1e_sensitivity_APA$d`, see @fig-s1e-belonging-plot).
 
 ```{r s1e-belonging-plot, fig.cap='Study 1e - Heart Manikin Scores. ', fig.width=8, fig.height=5}
+#| label: fig-s1e-belonging-plot
 # Study 1e (EVv1) - Outcome: Heart Manikin at Time 5
 s1e_T5_heart <- s1e_df %>%
     mutate(rejection = to_factor(rejection)) %>%
@@ -2439,14 +2439,15 @@ s1e_NTS_APA <- s1e_NTS_APA %>%
 **Effectiveness of Rejection Manipulation on Belonging.** To test the
 effectiveness of the rejection manipulation on belonging, I performed a
 series of Welch's *t*-tests on the belonging subscale of the Need-Threat
-Scale at Time 5 (Figure \@ref(fig:s1e-NTS-plot)). Results showed that
+Scale at Time 5 (@fig-s1e-NTS-plot). Results showed that
 participants in the rejection condition reported lower belonging
 (`r s1e_NTS_APA$Rnts_T5_belonging`) than those in the control condition
 (`r s1e_NTS_APA$Cnts_T5_belonging`,
 `r s1e_NTS_APA$nts_T5_belonging_mean`), indicating that the manipulation
-was effective. See Figure \@ref(fig:appendix-s1e-belonging-plot) in [Appendix] for the Heart Manikin scores over time across conditions.
+was effective. See @fig-appendix-s1e-belonging-plot in [Appendix] for the Heart Manikin scores over time across conditions.
 
 ```{r s1e-NTS-plot, fig.cap="Study 1e - Need-Threat Scores Across Rejection and Control Conditions", fig.height=5, fig.width=8}
+#| label: fig-s1e-NTS-plot
 # Study 1e - NTS scores by rejection condition
 s1e_NTS_long <- s1e_df %>%
     pivot_longer(matches("T5.+mean")) %>%
