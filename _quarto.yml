@@ -10,6 +10,7 @@ book:
     - 01-Bi-DR.qmd
     - 02-Current-Dissertation.qmd
     - 03-Study-1.qmd
+    - 04-Study-2.qmd
 
 bibliography: references.bib
 
