@@ -1,0 +1,1017 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# The Bi-Dimensional Rejection Taxonomy
+
+This chapter has been published as, Sunami, N., Nadzan, M. A., &
+Jaremka, L. M. (2019). The bi‐dimensional rejection taxonomy: Organizing
+responses to interpersonal rejection along antisocial--prosocial and
+engaged--disengaged dimensions. Social and Personality Psychology
+Compass. <https://doi.org/10.1111/spc3.12497>.
+
+<center>
+
+\begin{center}
+
+Abstract
+
+\end{center}
+
+</center>
+
+Responses to interpersonal rejection vary widely in form and function.
+Existing theories of interpersonal rejection have exclusively focused on
+organizing these responses on a single antisocial--prosocial dimension.
+Accumulating evidence suggests a gap in this approach: variability in
+social responses to rejection cannot solely be explained by the
+antisocial--prosocial dimension alone. To fill this gap, we propose the
+bi-dimensional rejection taxonomy, consisting of the
+antisocial--prosocial *x*-axis and engaged-disengaged *y*-axis, a novel
+contribution to the literature. We demonstrate that both the *x*- and
+*y*-axes are necessary for understanding interpersonal responses to
+rejection and avoiding erroneous conclusions. We also show how this new
+framework allows researchers to generate more nuanced and accurate
+hypotheses about how people respond when rejected. We further
+demonstrate how existing research about individual differences and
+situational factors that predict responses to rejection can be viewed in
+a new light within the bi-dimensional rejection taxonomy. We conclude by
+suggesting how the taxonomy inspires innovative questions for future
+research.
+
+\newpage
+
+<center>
+
+\begin{center}
+
+The Bi-Dimensional Rejection Taxonomy:
+
+Organizing Responses to Interpersonal Rejection along
+Antisocial--Prosocial and Engaged--Disengaged Dimensions
+
+\end{center}
+
+</center>
+
+Traveling with an incomplete map is not very efficient---a traveler may
+end up in the wrong place because they are unsure where they are going.
+This analogy can also be applied to scientific research---a researcher
+is likely to arrive at an incorrect conclusion because they are using an
+incomplete theoretical framework. In this paper, we suggest that the
+rejection literature is operating with an incomplete theoretical
+framework for understanding responses to interpersonal rejection.
+Existing theories have already advanced our understanding of how people
+respond to rejection, primarily focusing on a single
+antisocial--prosocial dimension. Although this dimension is important,
+we suggest that not all antisocial and prosocial responses are
+identical. To account for this unexplained variability, we incorporate a
+second dimension, the engaged--disengaged dimension, adopted from the
+coping literature [@carverPersonalityCoping2010;
+@dijkstraEngagingRatherDisengaging2016]. Accordingly, we propose the
+bi-dimensional rejection taxonomy, consisting of an
+antisocial--prosocial *x*-axis and an engaged--disengaged *y*-axis
+(@fig-bidr-all). Adding this second dimension provides a more
+thorough theoretical framework for understanding responses to rejection,
+equipping researchers with a more complete map for generating new
+hypotheses.
+
+![Conceptual figure of the bi-dimensional rejection taxonomy. The
+antisocial--prosocial \*x\*-axis refers to rejection responses that
+function to reduce (antisocial) or promote (prosocial) social
+connection. The engaged--disengaged \*y\*-axis represents engaged
+(direct, active, "hands-on", approach-based) and disengaged (indirect,
+passive, "hands-off", avoidance-based) attempts to cope with the
+stressor (the current or future need-threat elicited by the rejection
+experience). The numbers in the figure represent quadrants: Quadrant 1
+(engaged antisocial responses), Quadrant 2 (engaged prosocial
+responses), Quadrant 3 (disengaged antisocial responses), and Quadrant 4
+(disengaged prosocial
+responses).](images/bidr-all.png){#fig-bidr-all fig-alt="alt text"}
+
+Our new taxonomy benefits the rejection literature in three ways. First,
+it provides a unified map for researchers to organize belonging-relevant
+responses to interpersonal rejection. Without this map, researchers
+would solely rely on the antisocial--prosocial *x*-axis, leading to
+inaccurate conclusions about rejection-elicited responses, as
+highlighted throughout the paper. For example, if a researcher only
+assessed engaged prosocial responses to rejection, and rejected
+participants didn't preferentially display these responses, the
+researcher might erroneously conclude that rejection doesn't lead to
+prosocial responses at all. Using the bi-dimensional rejection taxonomy,
+we can see that rejected participants could still display prosocial
+behavior, but in a disengaged manner. Thus, the engaged--disengaged
+*y*-axis of the bi-dimensional rejection taxonomy creates a cohesive
+framework, preventing researchers from reaching inaccurate conclusions
+about rejection-elicited responses.
+
+Second, having a bi-dimensional framework allows researchers to generate
+more nuanced and accurate predictions about responses to rejection. In
+the past, researchers focused exclusively on how rejection affected
+antisocial and prosocial behavior (the *x*-axis) without differentiating
+types of behavior within these categories. As a result, existing
+hypotheses were limited in specificity. With the bi-dimensional
+rejection taxonomy, researchers can generate more nuanced and innovative
+hypotheses that incorporate both the antisocial--prosocial *x*-axis and
+the engaged--disengaged *y*-axis. For example, without the taxonomy, a
+researcher might hypothesize that both Situation A and Situation B lead
+to prosocial responses following rejection. However, with the new
+taxonomy, researchers can hypothesize that Situation A leads to engaged
+prosocial responses (e.g., reaching out to close others for connection),
+whereas Situation B leads to disengaged prosocial responses (e.g.,
+watching their favorite TV program to feel socially connected). This
+hypothesis highlights potential differences between Situation A and B
+that would not be apparent without the taxonomy. Thus, the taxonomy arms
+researchers with a comprehensive framework of potential response
+options. Researchers can then use existing theoretical and empirical
+work to generate more nuanced and accurate hypotheses.
+
+Third, the bi-dimensional rejection taxonomy highlights types of
+responses that are understudied in the rejection literature. As we
+discuss later, the bulk of rejection research has focused on engaged
+antisocial and prosocial responses. Using the lens of the bi-dimensional
+rejection taxonomy, we can see that many disengaged responses are yet to
+be examined in the context of rejection, highlighting the need for
+further research.
+
+In proposing the taxonomy, we rely on existing work demonstrating that
+self-protective and belonging needs are fundamental to human nature, and
+that interpersonal rejection threatens these needs, motivating
+behavioral responses [@baumeisterNeedBelongDesire1995; @maslow1943;
+@murrayBalancingConnectednessSelfprotection2008;
+@richmanReactionsDiscriminationStigmatization2009;
+@williamsOstracismTemporalNeedthreat2009]. Throughout this paper, we use
+interpersonal rejection as an overarching phrase that encompasses
+threats to belonging, including social exclusion, social rejection,
+ostracism, and relational devaluation---referring to experiences when a
+person feels like they aren't loved, cared for, or accepted
+[@learySelfesteemInterpersonalMonitor1995]. [^01-bi-dr-1]
+
+[^01-bi-dr-1]: While being denied a desired opportunity (e.g.,
+    employment, publication, etc.) is commonly referred to as rejection
+    in lay terms, those types of experiences are outside the scope of
+    this paper because they are not forms of interpersonal rejection;
+    they do not convey to a person that they are uncared for or unloved.
+    Similarly, intergroup rejection (a group excluded by a group) is
+    outside the scope of this paper.
+
+We exclusively focus on responses to rejection that are purposeful and
+voluntary (in contrast to automatic and involuntary responses) since our
+goal is to describe how people cope with rejection. This focus is
+consistent with the coping literature (on which the *y*-axis is heavily
+based) that defines coping as purposeful and conscious attempts to deal
+with the stressor [@connor-smithResponsesStressAdolescence2000].
+Automatic or involuntary responses (e.g., attentional bias to smiling
+faces) are outside the scope of the taxonomy and thus outside the scope
+of this paper.
+
+We divide the current paper into two parts. In the first half, we review
+previous research supporting the antisocial--prosocial *x*-axis and
+introduce a novel engaged--disengaged *y*-axis. In the second half, we
+highlight how the taxonomy allows researchers to see existing published
+work through a new lens and discuss new directions for future research.
+
+## Existing Dimension: The Antisocial--Prosocial *x*-Axis
+
+In this section, we review existing empirical and theoretical literature
+supporting the antisocial-prosocial *x*-axis. This dimension has been
+discussed extensively elsewhere [e.g.,
+@murrayOptimizingAssuranceRisk2006;
+@richmanReactionsDiscriminationStigmatization2009;
+@williamsOstracismTemporalNeedthreat2009]. Accordingly, we briefly
+highlight relevant work on interpersonal rejection and close
+relationships to support our use of the antisocial-prosocial *x*-axis.
+We discuss the novel engaged--disengaged *y*-axis in the next section.
+
+### Foundational Theories in the Rejection Literature
+
+The antisocial--prosocial *x*-axis of the bi-dimensional rejection
+taxonomy stems from prior empirical research demonstrating that
+rejection sometimes leads to antisocial behavior and, at other times,
+prosocial behavior [@dewallLittleAcceptanceGoes2010; @dewall2009;
+@romero-canyasPayingBelongWhen2010; @twengeIfYouCan2001;
+@warburtonWhenOstracismLeads2006]. For example, rejected participants
+blasted louder and longer noise to a stranger in one study [an
+antisocial response; @twengeIfYouCan2001] and worked harder on a
+collective task in another study [a prosocial response; @williams1997]
+compared with non-rejected participants. Rejection scholars have
+developed multiple theoretical frameworks for understanding these
+interpersonal responses to rejection that fall along the
+antisocial-prosocial *x*-axis. We refer readers to other theoretical
+papers for more extensive discussions of this dimension
+[@richmanReactionsDiscriminationStigmatization2009;
+@williamsOstracismTemporalNeedthreat2009] and summarize relevant
+theories here to support the antisocial-prosocial *x*-axis of the
+bi-dimensional rejection taxonomy.
+
+Many previous theories commonly highlight the existence of the
+antisocial--prosocial *x*-axis. For example, the multimotive model
+defines antisocial responses as those that function to diminish
+belonging whereas prosocial responses as those that function to enhance
+belonging [@richmanReactionsDiscriminationStigmatization2009]. The
+need-threat model also identifies aggression (antisocial responses) and
+prosocial responses as primary categories of responses to cope with
+interpersonal rejection [@williamsOstracismTemporalNeedthreat2009].
+Similarly, the reconnection hypothesis and the resource redistribution
+model both agree that responses to rejection range in function from
+antisocial to prosocial [@dewall2011; @shilling2015]. These theories all
+agree that motives to self-protect or regain control predict antisocial
+responses, and motives to obtain belonging predict prosocial responses
+[@dewall2011; @shilling2015; @williamsOstracismTemporalNeedthreat2009].
+In sum, rejection theories strongly support the existence of the
+antisocial--prosocial dimension.
+
+### Foundational Theories in the Close Relationships Literature
+
+Close relationships researchers also support the existence of an
+antisocial-prosocial *x*-axis. For instance, the investment model
+suggests that responses to relationship decline within a romantic
+relationship (a form of perceived rejection) can range from destructive
+(e.g., relationship-damaging responses such as leaving the relationship;
+similar to antisocial behavior) to constructive [e.g.,
+relationship-repairing responses such as voicing a concern; similar to
+prosocial behavior; @rusbultExitVoiceLoyalty1982]. Similarly, risk
+regulation theory suggests that couples' responses towards each other
+function to promote or damage the relationships
+[@murrayOptimizingAssuranceRisk2006], akin to antisocial and prosocial
+behavior within the romantic relationship.
+
+The rapid marital coding system (RMICS) also supports the existence of
+the antisocial-prosocial *x*-axis. The RMICS describes behaviors that
+partners display towards each other on a continuum ranging from
+hostility to positivity [@heyman2004]. On the left end of the continuum,
+hostile responses function to reduce connection between partners,
+similar to antisocial responses. On the right side of the continuum,
+positive responses function to increase connection between partners,
+similar to prosocial responses.
+
+These close relationships theories strongly support the existence of the
+antisocial--prosocial *x*-axis. This dimension has been identified in
+different terms: destructive--constructive in the investment model
+[@rusbultExitVoiceLoyalty1982], self-protection--relationship promotion
+in risk regulation theory [@murrayOptimizingAssuranceRisk2006], and
+hostilit*y*--positivity in the RMICS [@heyman2004]. However, all of the
+terms reflect the same underlying concept of behaviors that reduce
+(antisocial) or increase (prosocial) connection with others. In
+addition, similar to the rejection literature, risk regulation theory
+argues that antisocial behaviors are motivated by self-protection
+concerns whereas prosocial responses are motivated by belonging needs
+[@murrayOptimizingAssuranceRisk2006].
+
+### Defining Antisocial and Prosocial Responses
+
+As discussed above, multiple theories in the rejection and close
+relationships literatures strongly support an antisocial--prosocial
+dimension for understanding interpersonal responses to rejection. This
+consensus provides a strong foundation for the *x*-axis in the
+bi-dimensional rejection taxonomy. All theories consistently discuss how
+antisocial responses function to reduce social connection between the
+self and others, motivated by self-protection needs, and how prosocial
+responses function to promote social connection, motivated by belonging
+needs. Accordingly, we adopt these definitions in the bi-dimensional
+rejection taxonomy. Telling someone "I hate you" would thus be an
+antisocial response because it functions to reduce social connection
+with the other person. On the other hand, telling someone "I love you"
+would be a prosocial response because it functions to promote social
+connection.
+
+Note that the word prosocial is sometimes used to denote altruistic
+behaviors that benefit the welfare of others---these behaviors may or
+may not function to promote connection with others
+[@batsonAltruismProsocialBehavior2003]. In this paper, we use the label
+prosocial to refer to behaviors that promote social connection with
+others, consistent with typical uses of the word in rejection research
+[@blackhartRejectionImpactSelfdefeating2006;
+@richmanReactionsDiscriminationStigmatization2009;
+@williamsReactingOstracismRetaliation2005].
+
+## A New Dimension: The Engaged--Disengaged *y*-Axis
+
+A close inspection of existing empirical work reveals that there is
+significant variability within antisocial and prosocial
+responses---reflecting heterogeneous strategies for responding to
+interpersonal rejection. For example, prior research demonstrated that
+rejection sometimes leads to direct and active attempts to connect with
+others [e.g., spending money to garner acceptance from others;
+@manerDoesSocialExclusion2007; @romero-canyasPayingBelongWhen2010]. At
+other times, rejection leads to indirect and passive attempts to connect
+with others [e.g., experiencing nostalgia;
+@derrickSocialSurrogacyHow2009]. No existing theories of interpersonal
+rejection can distinguish between these varied responses---both types of
+responses are categorized as prosocial in the context of existing
+theories. The bi-dimensional rejection taxonomy makes a novel claim that
+the antisocial--prosocial *x*-axis captures only one dimension of
+responses, and that a new dimension is needed to fully understand
+responses to rejection. In this section, we first review foundational
+theories that suggest an additional possible dimension. Then, we define
+our new engaged--disengaged *y*-axis at the end of this section.
+
+### Foundational Theories
+
+To understand the variation within antisocial and prosocial responses,
+we rely on theoretical and empirical work in the coping literature. This
+extensive literature describes the ways in which people cope with (i.e.,
+voluntarily and purposefully respond to) stressors; thus, this
+literature provides a rich foundation for building our *y*-axis.
+
+Coping researchers have proposed various ways to classify coping
+responses, including emotion-focused, problem-focused, proactive, and
+meaning-focused coping [@aspinwallStitchTimeSelfregulation1997;
+@lazarusStressAppraisalCoping1984;
+@skinnerSearchingStructureCoping2003]. Using factor analyses and
+theoretical discussions, researchers identified an engaged--disengaged
+dimension as the critical factor underlying the majority of coping
+responses [@carverPersonalityCoping2010;
+@compasEffortfulInvoluntaryResponses1997;
+@connor-smithResponsesStressAdolescence2000;
+@dijkstraEngagingRatherDisengaging2016;
+@scheierCopingStressDivergent1986; @skinnerSearchingStructureCoping2003;
+@tobinHierarchicalFactorStructure1989]. According to this literature,
+engaged coping strategies are direct and active behaviors that confront
+the stressor with a "hands-on" approach. A person has used an engaged
+coping strategy when they act out their frustrations on others (e.g.,
+aggression), seek social support, or behave in other active and direct
+ways [@carverPersonalityCoping2010;
+@dijkstraEngagingRatherDisengaging2016]. On the other hand, disengaged
+coping strategies refer to indirect and passive behaviors that aim to
+avoid the stressor. Examples of disengaged coping are social withdrawal,
+denial, and wishful thinking [@carverPersonalityCoping2010].
+
+We can easily apply the distinction between engaged and disengaged
+coping to understand how people respond to interpersonal rejection. In
+the context of rejection, the stressor that people are coping with is
+the threat to belonging and self-protection/control experienced by the
+rejected person. As noted earlier, these need-threats are
+well-documented consequences of experiencing rejection
+[@williamsOstracismTemporalNeedthreat2009]. The threats to belonging or
+self-protection/control can be present-oriented, when a person is trying
+to cope with the current need-threat, or it can be future-oriented, when
+a person is trying to pre-emptively cope with a potential future
+need-threat. In coping with those stressors, people can respond in ways
+that are more engaged versus disengaged. We adopt these ideas in
+defining the *y*-axis, as described in the next section.
+
+Although no past theories have explicitly differentiated responses to
+rejection as engaged or disengaged, some researchers have implied the
+existence of this distinction by separating social withdrawal from other
+antisocial responses. For example, the multimotive model identifies
+social withdrawal as a subtype of antisocial (belonging-diminishing)
+responses that are separate from more overt antisocial responses such as
+aggression [@richmanReactionsDiscriminationStigmatization2009].
+Attachment theory also differentiated social withdrawal from other overt
+forms of behavior (e.g., aggression) as a response to prolonged
+rejection from an attachment figure [@bowlbySeparationAnxietyAnger2000;
+@horneyNeuroticPersonalityOur1964]. These theories both support the
+distinction proposed by the coping literature: disengaged antisocial
+responses are different from engaged antisocial responses. As we
+describe later, a benefit of formally defining the engaged--disengaged
+*y*-axis is that it highlights additional forms of disengaged antisocial
+responses that have been neglected by existing theories.
+
+Another theory that supports differentiating antisocial and prosocial
+responses is the investment model, a widel*y*-used theoretical model in
+the romantic relationships literature. The investment model uses a
+two-dimensional space, characterizing how romantic partners behave when
+their romantic relationship is in decline [@rusbultExitVoiceLoyalty1982;
+@rusbultInterdependenceAnalysisAccommodation1991;
+@rusbultResponsesDissatisfactionClose1987]. Specifically, the investment
+model proposes the destructive--constructive dimension (similar to our
+antisocial--prosocial *x*-axis, as described previously) and the
+active--passive dimension (similar to, but also different from, our
+engaged--disengaged *y*-axis). Before discussing similarities and
+differences between the multimotive model, the investment model, and our
+new taxonomy, we first define the disengaged--engaged *y*-axis so that
+the reader has a complete understanding of these terms. Then, in the
+following section, we discuss how our model contributes over and above
+existing work in advancing our understanding of responses to
+interpersonal rejection.
+
+### Defining Engaged--Disengaged Responses to Rejection
+
+Based on the literature reviewed above, we propose the
+engaged--disengaged *y*-axis that describes whether a response to
+rejection represents an engaged or disengaged attempt to cope with the
+stressor. Again, the stressor in the context of rejection is the current
+or future need-threat [i.e., the threat to self-protection/control or
+affiliation needs; @baumeisterNeedBelongDesire1995;
+@williamsOstracismTemporalNeedthreat2009]. We define engaged responses
+as direct and active attempts to deal with the stressor. They are
+"hands-on", approach-based strategies to confront and face the stressor.
+An example of an engaged antisocial response is behaving aggressively
+towards one's romantic partner, because exerting control over one's
+partner actively and directly replenishes the sense of
+self-protection/control thwarted by rejection. An example of an engaged
+prosocial response is seeking support from a loved one because this
+response actively and directly replenishes the sense of belonging
+thwarted by rejection [@murrayBalancingConnectednessSelfprotection2008;
+@murrayWhenRejectionStings2002].
+
+In contrast, we define disengaged responses as indirect and passive
+attempts to handle the stressor. They are "hands-off", avoidance-based
+strategies to evade and divert from the stressor. These responses help
+to avoid threats to belonging or self-protection/control. An example of
+a disengaged antisocial response is social withdrawal, because
+withdrawing is a hands-off strategy that allows a person to avoid
+further rejection (and thus further threats to belonging or
+self-protection/control). An example of a disengaged prosocial response
+is relying on social surrogates (e.g., parasocial relationships)---such
+as watching one's favorite TV show or passively browsing social media to
+obtain social connection. This qualifies as disengaged because social
+surrogates allow people to passively and indirectly replenish belonging
+while avoiding future rejection.
+
+Importantly, the engaged--disengaged *y*-axis is defined by whether the
+response itself is engaged (direct, active, hands-on) or disengaged
+(indirect, passive, hands-off); it is not defined by the situation or
+environment in which it occurs. At the same time, recognizing the
+situation in which the response occurs is important because the
+situation limits possible response options. In a person's da*y*-to-day
+life, there is often a lot of flexibility in responding. For example, a
+rejected person can choose whether to seek social support (an engaged
+response) or watch their favorite TV show (a disengaged response) even
+if they are in the same situation (e.g., at home with their romantic
+partner on a Friday after work). This response flexibility is usually
+absent among lab studies where participants are given only one option to
+respond (e.g., participating in a noise blast task and deciding how much
+noise to blast, but not being given any other response options). Thus,
+the situation has the potential to constrain responses to be either
+engaged or disengaged, especially in laboratory studies. Using the
+engaged--disengaged *y*-axis, researchers can design studies that
+include diverse response options, as we highlight in the future
+directions section towards the end of the paper.
+
+Together with the antisocial--prosocial *x*-axis, the
+engaged--disengaged *y*-axis completes the bi-dimensional rejection
+taxonomy. These two dimensions both describe the function of a given
+response: whether a response functions to reduce or promote connection
+(*x*-axis) and whether a response functions as a direct, active,
+hands-on way of coping versus an indirect, passive, hands-off way of
+coping with the stressor (*y*-axis). In the next section, we discuss how
+the bi-dimensional rejection taxonomy compares with the existing
+theories of social behavior. Then, we provide examples of responses
+within each quadrant, demonstrating how the two dimensions are
+independent from each other.
+
+## Comparisons with Existing Theories
+
+The bi-dimensional rejection taxonomy provides a novel lens through
+which to view responses to rejection, incorporating both the
+antisocial--prosocial and engaged--disengaged dimensions. How does the
+taxonomy compare with other theories? In this section, we discuss the
+advantages of the bi-dimensional rejection taxonomy over existing
+theories in the rejection and close relationships literatures.
+
+Compared with existing rejection theories, the bi-dimensional rejection
+taxonomy provides a more nuanced and accurate depiction of responses to
+interpersonal rejection. The main advantage of the taxonomy is its power
+to differentiate engaged and disengaged responses, particularly
+prosocial responses. Past literature showed that rejected people respond
+in ways that qualify as disengaged and prosocial, such as thinking about
+one's favorite TV program [e.g., @derrickSocialSurrogacyHow2009] and
+that people can fulfill belonging in a variety of ways, including via
+social surrogates [e.g., a fictional character;
+@gabrielSocialSurrogatesRejection2017]. However, no existing theories
+have formally differentiated these types of prosocial responses from
+other more engaged responses (e.g., seeking social support from a loved
+one; Murray et al., 2008). The bi-dimensional rejection taxonomy also
+differentiates disengaged antisocial responses. Among disengaged
+responses, social withdrawal is the only form of disengaged antisocial
+responses currently described by existing rejection theories, such as
+the multimotive model
+[@richmanReactionsDiscriminationStigmatization2009]. With the current
+taxonomy, we can see that there are additional types of disengaged
+antisocial responses not described by the multimotive model or any other
+existing theory (e.g., passive aggressive behavior, as we describe in
+detail later). The bi-dimensional rejection taxonomy thus accounts for
+more responses than any other framework available in the rejection
+literature.
+
+The bi-dimensional rejection taxonomy also offers advantages over the
+investment model in the close relationships literature. The investment
+model suggests that responses to romantic relationship decline range
+along a two-dimensional space: the destructive--constructive (i.e., how
+a response damages or nurtures the romantic relationship) and
+active--passive (i.e., how a response overtly or indirectly affects the
+romantic relationship) dimensions [@rusbultExitVoiceLoyalty1982]. On the
+surface, the bi-dimensional rejection taxonomy seems similar to the
+investment model. However, the bi-dimensional rejection taxonomy is more
+advantageous than the investment model in considering broader sources of
+rejection and targets of the response. The investment model
+characterizes situations when the romantic relationship partner is the
+source of relationship decline, and it only characterizes responses
+towards an existing relationship partner [@rusbultExitVoiceLoyalty1982].
+The bi-dimensional rejection taxonomy captures threats to belonging from
+any source while also characterizing responses towards any target, not
+just the romantic partner. Finally, the engaged-disengaged *y*-axis of
+the bi-dimensional rejection taxonomy more accurately captures variation
+among antisocial and prosocial responses evident in the rejection
+literature. Whereas saying "I hate you" to one's partner is a passive
+response (on the bottom half of the *y*-axis) according to the
+investment model [@rusbultExitVoiceLoyalty1982], this behavior would
+quality as engaged (on the top half of the *y*-axis) according to the
+bi-dimensional rejection taxonomy. The *y*-axis of the taxonomy is
+founded on decades of work in the coping literature
+[@carverPersonalityCoping2010; @compasEffortfulInvoluntaryResponses1997;
+@connor-smithResponsesStressAdolescence2000;
+@dijkstraEngagingRatherDisengaging2016;
+@scheierCopingStressDivergent1986; @skinnerSearchingStructureCoping2003;
+@tobinHierarchicalFactorStructure1989], and is also consistent with the
+way existing rejection research classifies responses
+[@richmanReactionsDiscriminationStigmatization2009].
+
+## Plotting Existing Studies in a Bi-Dimensional Space
+
+In the previous sections, we reviewed literature supporting the
+antisocial--prosocial *x*-axis and introduced the engaged-disengaged
+*y*-axis to the rejection literature. We also compared this taxonomy
+with existing theories, and demonstrated that the taxonomy presents many
+advantages. In this section, we discuss select evidence demonstrating
+that interpersonal responses to rejection can be plotted in this
+two-dimensional space, broadly categorized into four quadrants: engaged
+antisocial responses (Quadrant 1), engaged prosocial responses (Quadrant
+2), disengaged antisocial responses (Quadrant 3), and disengaged
+prosocial responses (Quadrant 4). We present a hypothetical exemplar for
+each dimension in @bidr-exemplars to illustrate the
+differences among quadrants and help the reader understand each
+quadrant. We also discuss existing research that falls into each
+quadrant in this section. Since no past studies included both of these
+new dimensions in their studies, we infer which quadrant a response
+falls into based on the properties of the response. We begin by
+reviewing existing empirical work that falls into Quadrant 1, and then
+move to Quadrants 2, 3, and 4.
+
+The bi-dimensional rejection taxonomy highlights types of responses that
+have been understudied in the literature (e.g., passive aggressive
+behavior and nostalgia). To better illustrate these new kinds of
+responses, we discuss multiple examples for Quadrants 3 and 4 (i.e.,
+disengaged antisocial and prosocial responses). Since past literature
+has extensively discussed responses in Quadrant 1 and Quadrant 2 (i.e.,
+engaged antisocial and prosocial responses, as discussed above), we
+highlight only one representative example for these quadrants.
+
+```{r bidr-exemplars,  out.width = '100%', fig.cap='Summary of exemplar responses across quadrants. For each exemplar, we present reasons why we characterize them as antisocial versus prosocial and engaged versus disengaged.'}
+knitr::include_graphics("images/bidr-exemplars.png")
+```
+
+![Summary of exemplar responses across quadrants. For each exemplar, we present reasons why we characterize them as antisocial versus prosocial and engaged versus disengaged.](images/bidr-exemplars.png){#fig-bidr-exemplars fig-alt="The bi-dimensional rejection taxonomy highlights types of responses that
+have been understudied in the literature (e.g., passive aggressive
+behavior and nostalgia). To better illustrate these new kinds of
+responses, we discuss multiple examples for Quadrants 3 and 4 (i.e.,
+disengaged antisocial and prosocial responses). Since past literature
+has extensively discussed responses in Quadrant 1 and Quadrant 2 (i.e.,
+engaged antisocial and prosocial responses, as discussed above), we
+highlight only one representative example for these quadrants."}
+
+### Responses in Quadrant 1: Engaged Antisocial Responses
+
+Past studies have demonstrated that rejected people respond in ways that
+qualify as engaged and antisocial. For example, rejected people
+allocated more hot sauce to a bystander who disliked spicy food,
+compared with non-rejected people
+[@aydukIndividualDifferencesRejection2008;
+@dewallLittleAcceptanceGoes2010]. This response is antisocial because it
+functions to reduce connection with others
+[@warburtonWhenOstracismLeads2006;
+@williamsOstracismTemporalNeedthreat2009]. It also qualifies as engaged
+because it is a hands-on, approach-based and direct attempt to
+re-establish threatened self-protection/control needs by exercising
+dominance or control over others [@warburtonWhenOstracismLeads2006].
+
+### Responses in Quadrant 2: Engaged Prosocial Responses
+
+Past studies showed that people seek their romantic partner's support
+when faced with potential rejection from that partner, especially among
+people with higher self-esteem
+[@murrayBalancingConnectednessSelfprotection2008;
+@murrayWhenRejectionStings2002]. Applying our proposed taxonomy, we
+suggest that this behavior qualifies as an engaged prosocial response
+because seeking social support from a romantic partner functions to
+increase social connection (a prosocial response) and actively confronts
+the current threat to belonging by directly seeking social connection.
+
+### Responses in Quadrant 3: Disengaged Antisocial Responses
+
+One advantage of the taxonomy is that it highlights disengaged
+antisocial responses that are not accounted for by existing theories; we
+discuss several examples within this quadrant. Compared with
+non-rejected participants, rejected participants desired to withdraw
+from subsequent social interactions [@renEvidenceAnotherResponse2015].
+This response functions to reduce social connection by avoiding further
+social contact. In light of our taxonomy, they are disengaged responses
+because they avoid future threats to belonging and
+self-protection/control by isolating oneself from others.
+
+In addition to withdrawing socially, rejected people can structure their
+environment to prevent social encounters. For instance, rejected people
+preferred room configurations that hindered social interactions,
+presumably to avoid interacting with other people
+[@meagherSeekingSafetySociofugal2017]. This response is antisocial since
+doing so reduces opportunities for social connection, and the response
+is disengaged since it functions to evade future belonging threats.
+
+Another example of a disengaged antisocial response is being
+passive-aggressive by not engaging in a behavior that can prevent harm
+to another person [@parrottAddressingCriterionProblem2007;
+@southrichardsonEverydayAggressionTakes2014]. For example, a rejected
+person might intentionally not speak up to defend their partner when the
+partner is insulted by others. This behavior is antisocial since doing
+so reduces connection with the partner. It is also a disengaged response
+since passive forms of aggression are "hands-off" and indirect means of
+dealing with the stressor.
+
+People who feel socially rejected are more prone to stop caring for
+themselves by neglecting basic needs, a behavior called self-neglect,
+another form of a disengaged antisocial response. Self-neglect refers to
+inattention to personal hygiene and health (e.g., not showering or
+wearing deodorant), often accompanied by behaviors such as hoarding and
+refusal of help from others
+[@abramsPredictorsSelfNeglectCommunityDwelling2002;
+@dongCrosssectionalPopulationbasedStudy2010]. People who engage in
+self-neglecting behavior often report desires to avoid losing control
+[@band-wintersteinElderSelfNeglect2012;
+@bozinovskiOlderSelfNeglectersInterpersonal2000]. Thus, self-neglect is
+a disengaged antisocial response because neglecting one's hygiene or
+habitat functions to reduce social connection with others, and it is an
+indirect and passive way to avoid future threat to
+self-protection/control needs.
+
+### Responses in Quadrant 4: Disengaged Prosocial Responses
+
+Many disengaged prosocial responses involve the use of social
+surrogates---human or non-human targets with a psychological, but not
+physical, connection [@gabrielSocialSurrogatesRejection2017;
+@gabrielSocialSurrogatesSocial2016]. People turn to social surrogates to
+obtain belonging [@gabrielSocialSurrogatesRejection2017;
+@gabrielSocialSurrogatesSocial2016]. For example, remembering a fight
+with a close other (i.e., perceived rejection) led people to think
+longer about their favorite TV program (vs. a non-favorite TV program),
+interpreted as a prosocial attempt to restore belonging
+[@derrickSocialSurrogacyHow2009]. The bi-dimensional rejection taxonomy
+regards this response as disengaged and prosocial, since relying on
+social surrogates helps people passively avoid future threats to
+belonging or control while simultaneously increasing perceived
+connection with others.
+
+Another disengaged prosocial response is experiencing nostalgia---a
+sentimental yearning for the past and memories of social connections
+[@abeytaLookingBackMove2015; @wildschutNostalgiaRepositorySocial2010].
+Rejected participants experienced more nostalgia compared with accepted
+participants [@wildschutNostalgiaRepositorySocial2010]. Nostalgia is a
+disengaged prosocial response because it functions to increase perceived
+social connection with other people, but it does so in a hands-off way
+that allows people to avoid additional threats to belonging or
+self-control.
+
+Taken together, responses to interpersonal rejection can be placed into
+the four quadrants of the bi-dimensional rejection taxonomy. Recognizing
+these quadrants is important in planning and conducting studies. For
+example, if a researcher provides engaged antisocial response options
+and finds that rejected participants do not behave more antisocially
+than included participants, they may incorrectly conclude that rejection
+does not lead to antisocial responses. This conclusion may be inaccurate
+because rejected participants may have instead used disengaged
+antisocial responses if they were provided with the option to do so.
+Researchers who incorporate the bi-dimensional rejection taxonomy can
+avoid faulty conclusions and reach a more calibrated interpretation of
+their findings.
+
+## Using the Bi-Dimensional Rejection Taxonomy to Frame Existing Research
+
+The bi-dimensional rejection taxonomy provides researchers with a more
+nuanced and accurate understanding of responses to rejection.
+Previously, researchers were constrained to conclude that certain
+individual difference or situational factors caused either antisocial or
+prosocial behavior following rejection, without the appropriate language
+for specifying the type of antisocial or prosocial behavior being
+displayed. In this section, we view past research within the new lens of
+the taxonomy to look for individual differences and situational factors
+that appear to predict variation along the engaged--disengaged *y*-axis.
+In doing so, we make inferences about the *y*-axis post-hoc based on the
+available evidence, since the *y*-axis was not a part of the lexicon at
+the time those studies were conducted. We omit factors exclusively
+predicting variation along the antisocial--prosocial *x*-axis, such as
+need fortification [e.g., @williamsOstracismTemporalNeedthreat2009],
+because they have been extensively discussed elsewhere
+[@learyInterpersonalRejectionDeterminant2006;
+@richmanReactionsDiscriminationStigmatization2009;
+@williamsOstracismTemporalNeedthreat2009]. We divide this section into
+two parts. The first part focuses on variation in engaged and disengaged
+antisocial responses, and the second focuses on variation in engaged and
+disengaged prosocial responses.
+
+### Factors Predicting Engaged versus Disengaged Antisocial Responses (Figure \@ref(fig:bidr-antisocial))
+
+```{r bidr-antisocial, out.width = '100%', fig.cap='Representative individual differences and situational factors predicting engaged and disengaged antisocial responses. For illustrative purposes, only the antisocial hemisphere is depicted in this diagram. Higher interpersonal sensitivity to rejection (assessed via rejection sensitivity or low self-esteem) predicts engaged antisocial responses. Social phobia and history of repeated prior rejection experiences predict disengaged antisocial responses.'}
+knitr::include_graphics("images/bidr-antisocial.png")
+```
+
+**Interpersonal Sensitivity to Rejection (Rejection Sensitivity and
+Self-Esteem).** Some people worry about being rejected more than others.
+This tendency is present among people with higher rejection sensitivity
+and lower self-esteem [@downeyImplicationsRejectionSensitivity1996;
+@feldmanRejectionSensitivityMediator1994;
+@learySelfesteemInterpersonalMonitor1995]. Although these constructs
+have important differences, they share significant conceptual
+underpinnings representing an overlapping construct, sensitivity to
+rejection [@crockerCostlyPursuitSelfesteem2004;
+@parkResponsesSelfthreatLinking2010]. For these reasons, we label this
+construct as *interpersonal sensitivity to rejection* and discuss the
+construct in reference to both indices.
+
+People with higher interpersonal sensitivity to rejection may be more
+likely to use engaged antisocial responses rather than disengaged
+antisocial responses (Figure \@ref(fig:bidr-antisocial)). Specifically,
+past evidence has demonstrated a consistent link between higher
+interpersonal sensitivity and engaged antisocial behavior, such as
+aggression [@aydukIndividualDifferencesRejection2008;
+@downeyRejectionSensitivityChildren1998;
+@downeyRejectionSensitivityMale2000;
+@downeySelffulfillingProphecyClose1998; @murrayWhenRejectionStings2002].
+A review of the rejection sensitivity literature concludes that people
+high in rejection sensitivity respond to rejection in hostile and
+overtly aggressive ways [@romero-canyasPayingBelongWhen2010]. Also,
+following a romantic relationship threat, people with lower self-esteem
+derogated their romantic partner as being more lazy and thoughtless
+relative to those with higher self-esteem
+[@murrayWhenRejectionStings2002]. These engaged antisocial responses may
+be the result of a self-fulfilling prophec*y*---people fearfully
+expecting rejection can act in ways that provoke rejection from others,
+such as putting down their romantic partner during face-to-face
+interactions or perpetrating intimate partner violence
+[@downeyRejectionSensitivityMale2000;
+@downeySelffulfillingProphecyClose1998].
+
+**Social Phobia.** While the literature reviewed above consistently
+demonstrates that people with higher interpersonal sensitivity to
+rejection behave in engaged antisocial ways following rejection, related
+literature shows the opposite pattern. Specifically, people with a
+social phobia, an extreme form of interpersonal sensitivity to
+rejection, often behave in disengaged antisocial ways. For example,
+people with a social phobia often ruminate about social interactions
+without engaging in them and avoid interacting with people (and thus
+potential rejection) at all costs
+[@clarkCognitivePerspectiveSocial2001]. In addition, people with a
+social phobia tend to avoid eye contact and emotionally distance
+themselves from others when experiencing interpersonal problems
+[@aldenInterpersonalProcessesSocial2004]. Thus, at least some forms of
+interpersonal sensitivity to rejection, in this case social phobia,
+actually predict disengaged rather than engaged antisocial responses.
+
+These subtle differences highlight the importance of the bi-dimensional
+rejection taxonomy. Without the taxonomy, researchers would conclude
+that people who are highly sensitive to rejection (both in terms of
+rejection sensitivity, low self-esteem, and social phobia) behave in
+antisocial ways following rejection. Using the bi-dimensional rejection
+taxonomy, we can see that the most extreme form of sensitivity to
+rejection (social phobia) leads to disengaged antisocial behavior,
+whereas other forms of sensitivity to rejection (e.g., low self-esteem)
+lead to engaged antisocial behavior. Noticing this subtle yet important
+difference in responses allows researchers to begin asking why a
+difference exists. For example, armed with the bi-dimensional rejection
+taxonomy, we could begin asking whether methodological differences could
+explain why interpersonal sensitivity led to engaged versus disengaged
+antisocial responses (e.g., did each study provide participants with
+both engaged and disengaged antisocial response options?). We could also
+begin wondering whether there is something qualitatively different
+between a more extreme, clinical interpersonal sensitivity versus those
+in the normative range. Without the bi-dimensional rejection taxonomy
+that differentiates disengaged and engaged antisocial responses,
+researchers wouldn't be able to ask these important questions. The
+taxonomy thus sheds light on an existing gap in our knowledge, spurring
+future research.
+
+**History of Repeated Rejection Experiences.** Another related
+literature about repeated rejection experiences also highlights the
+importance of the bi-dimensional rejection taxonomy. People have
+different histories of being rejected---some have experienced rejection
+more often than others (e.g., students who were bullied vs. those who
+were not). A repeated history of rejection plays an important role in
+promoting antisocial responses to rejection, as highlighted by existing
+theories [@bowlbySeparationAnxietyAnger2000;
+@horneyNeurosisHumanGrowth1991]. For example, children who experience
+prolonged rejection from an attachment figure develop hostile views
+towards others, which then promotes expression of anger and aggression
+[@bowlbySeparationAnxietyAnger2000]. In addition, a history of repeated
+rejection can foster a sensitivity to interpersonal rejection
+[@londonSocialCausesConsequences2007], which leads to antisocial
+responses. Thus, a researcher might conclude that both a repeated
+history of rejection and an interpersonal sensitivity to rejection lead
+to antisocial responses following rejection. This conclusion would be
+reasonable prior to the existence of the bi-dimensional rejection
+taxonomy. However, a close inspection of the literature, viewed through
+the lens of the taxonomy, paints a different picture. Specifically,
+repeated rejection results in feelings of helplessness, unworthiness,
+submission, withdrawal, and avoidance of social interactions, described
+as "going into a little shell" [@rivaChronicSocialExclusion2017;
+@williamsOstracismTemporalNeedthreat2009;
+@zadroOstracismEmpiricalStudies2004]. Thus, people who experienced
+repeated rejection use more disengaged antisocial responses to rejection
+(e.g., withdrawing from others), rather than engaged antisocial
+responses (e.g., attacking others; Figure \@ref(fig:bidr-antisocial)).
+Why would people with a history of repeated rejection behave in
+disengaged antisocial ways, whereas those with high rejection
+sensitivity behave in engaged antisocial ways---particularly because a
+history of rejection can lead to rejection sensitivity? The
+bi-dimensional rejection taxonomy offers a more nuanced understanding of
+antisocial responses, identifies this knowledge gap, and allows
+researchers to ask questions that would previously not have been
+possible. Although the taxonomy itself does not directly answer these
+questions, it provides researchers with the language needed to ask these
+questions in the first place.
+
+### Factors Predicting Engaged versus Disengaged Prosocial Responses (Figure \@ref(fig:bidr-prosocial))
+
+```{r bidr-prosocial, out.width = '100%', fig.cap='Representative individual differences and situational factors predicting prosocial engaged and disengaged responses. Only the prosocial dimension is depicted in this diagram for illustrative purposes. Approach-oriented tendencies and individualistic cultural backgrounds predict engaged prosocial responses. On the other hand, avoidance-oriented tendencies and collectivistic cultural backgrounds predict disengaged prosocial responses.'}
+knitr::include_graphics("images/bidr-prosocial.png")
+```
+
+**Approach-Avoidance Tendency.** People differ in their tendency to
+approach or avoid a social outcome. In general, people with
+approach-oriented tendencies actively pursue desirable outcomes, whereas
+people with avoidance-oriented tendencies avoid undesirable outcomes
+[@elliotApproachAvoidanceMotivation2006]. In the context of rejection,
+the desired outcome is re-establishing belonging, and the undesired
+outcome is experiencing further rejection. Ultimately, people must
+balance these two goals to maintain meaningful interpersonal
+relationships [e.g., @murrayOptimizingAssuranceRisk2006]. Prior to the
+bi-dimensional rejection taxonomy, researchers would predict that
+avoidance-oriented people would not display prosocial responses
+following rejection, because the types of prosocial responses typically
+studied have risks of further rejection (e.g., actively seeking
+acceptance from another person). With the taxonomy, we can see that this
+hypothesis may not be accurate. Theoretically, people with higher
+avoidance tendencies would display prosocial responses, but they would
+do so in disengaged ways (e.g., relying on social surrogates) because
+this response style matches their general tendency to use hands-off,
+avoidance-oriented strategies.
+
+**Cultural Orientation.** Cultural contexts influence how people rely on
+social support, a form of prosocial behavior motivated by a need for
+affiliation [@choenaromRoleSenseBelonging2005;
+@hagertyEffectsSenseBelonging1999; @kimCultureSocialSupport2008].
+Compared with people with individualistic backgrounds (e.g., European
+Americans), those with collectivistic backgrounds (e.g., Asian
+Americans) sought more *implicit* forms of social support---emotional
+comfort obtained through the existing social network without directly
+discussing one's problems [@kimCultureSocialSupport2008]. Implicit
+support seeking is disengaged because it is a passive behavior that
+allows a person to avoid potential rejection and thus future threats to
+belonging. On the other hand, explicit support seeking is engaged
+because it involves direct communication of the need for support to
+close others. Taken together, people with collectivistic backgrounds may
+use more disengaged rather than engaged prosocial responses to
+rejection, and people with individualistic backgrounds may use more
+engaged rather than disengaged prosocial responses to rejection (Figure
+\@ref(fig:bidr-prosocial)).
+
+These cultural predictions further highlight the risk of neglecting the
+engaged-disengaged *y*-axis, and how doing so could lead to incorrect
+conclusions. If a researcher measures only engaged prosocial responses
+(i.e., explicit support seeking), they would reach the erroneous
+conclusion that people from a collectivistic background do not engage in
+prosocial behavior following rejection. However, they theoretically
+behave prosocially following rejection, but they do so in disengaged
+ways (e.g., implicit support seeking). Considering both dimensions of
+the bi-dimensional rejection taxonomy will prevent such faulty
+conclusions.
+
+## Using the Bi-Dimensional Rejection Taxonomy to Inspire New and More Accurate Hypotheses
+
+As we highlight throughout the paper, the bi-dimensional rejection
+taxonomy is an important advancement to the rejection literature because
+it helps researchers generate more nuanced and accurate hypotheses and
+prevents inaccurate conclusions. The taxonomy draws on available
+theories to make predictions about which individual and situational
+characteristics will predict when people will respond in one way or
+another. In doing so, the taxonomy allows researchers to generate
+innovative hypothesis incorporating all possible response options. In
+this section, we discuss how the bi-dimensional rejection taxonomy
+inspires new directions for future research. In contrast to the previous
+sections that demonstrated how existing evidence could be viewed through
+the lens of the taxonomy, this section purposefully highlights more
+speculative and innovative avenues for new research that have yet to be
+tested. Thus, the reader should take these future directions with a
+grain of salt; they are meant to inspire new and exciting ways to apply
+the taxonomy.
+
+### Spontaneous Reactions to Rejection
+
+Past rejection studies relied on laboratory experiments where behavioral
+and self-reported response options were constrained. For example, in the
+hot-sauce paradigm, participants had no choice but to allocate some
+amount of hot sauce to a stranger without an option to respond
+differently (Lieberman, Solomon, Greenberg, & McGregor, 1999). Questions
+remain as to how rejected participants respond in real-life settings
+where other response options are readily available (e.g., rejected
+people can watch their favorite TV show, approach a friend, lash out
+against the perpetrator, or withdraw from others). In addition, people
+experiencing rejection may use multiple responses simultaneously (e.g.,
+watching favorite TV shows and talking to friends after getting dumped).
+The existing literature has not investigated which responses people
+commonly use following rejection in the real world---an important next
+step to advance the literature. One concrete recommendation is to have
+at least four types of response options in rejection studies. For
+example, daily diary or experience sampling studies could assess whether
+rejection occurred that day, and if so, could ask how the participant
+responded, ensuring that response options from each quadrant are
+included.
+
+Without the bi-dimensional rejection taxonomy, researchers interested in
+prosocial responses may inadvertently fail to measure disengaged
+prosocial responses (e.g., watching a favorite TV program) and may
+instead solely focus on engaged prosocial responses (e.g., approaching a
+friend). Doing so brings with it the danger of concluding that prosocial
+responses do not happen in response to everyday rejection whereas, in
+reality, they may be happening, but in disengaged rather than engaged
+manners. Armed with the knowledge of the bi-dimensional rejection
+taxonomy, researchers can now avoid this pitfall and include response
+options that cover both dimensions.
+
+An unexplored possibility is that people typically react to everyday
+rejection in disengaged ways (e.g., social surrogacy and social
+withdrawal). Past research has found that interpersonal rejection is
+prevalent in everyday life, ranging from subtle ignorance in social
+situations (e.g., no eye contact and being looked-through) to more
+obvious ones [e.g., being ignored in conversations, emails, and online
+messaging; @nezlekOstracismEverydayLife2012]. People need to regularly
+cope with these rejection experiences to maintain their belonging. As
+mentioned earlier, repeated experiences of rejection may promote
+disengaged responses, particularly in the antisocial domain. We
+speculate a similar pattern for the prosocial domain---people may use
+disengaged prosocial responses, rather than engaged prosocial responses
+for repeated everyday rejection. People can replenish belonging more
+safely through disengaged prosocial responses because they function to
+avoid future need threat (i.e., further rejection). The popularity of
+TV, books, and social media may reflect people's preference in
+satisfying belonging from these disengaged prosocial activities, a
+provocative question for future research.
+
+### Neurophysiological Markers
+
+Neurophysiological correlates can provide mechanistic answers about why
+rejection leads to responses that fall within the bi-dimensional
+rejection taxonomy. Cortisol and testosterone are potentially relevant
+hormonal markers that can predict rejection responses. The combination
+of high testosterone and low cortisol levels jointly predict
+dominance-seeking behaviors, often associated with engaged antisocial
+behaviors (e.g., physical fights and violence;
+[@mehtaTestosteroneCortisolJointly2010;
+@platjeTestosteroneCortisolRelation2015;
+@romero-martinezTestosteroneCortisolRatio2013]. When cortisol levels are
+high, dominance responses are inhibited (and submission responses are
+facilitated), regardless of testosterone levels. Thus, one unexamined
+hypothesis is that high testosterone and low cortisol levels may
+facilitate engaged antisocial responses to rejection. On the other hand,
+high cortisol levels may inhibit engaged antisocial responses and may
+instead facilitate disengaged antisocial responses (e.g., social
+withdrawal and self-neglect).
+
+Considering the interaction between cortisol and testosterone highlights
+the importance of the bi-dimensional rejection taxonomy. If researchers
+study cortisol and testosterone in the absence of the taxonomy and
+measure only engaged antisocial responses, they may conclude that
+cortisol levels do not affect antisocial responses at all. In light of
+the current taxonomy, this conclusion may be unwarranted---since high
+cortisol levels should theoretically facilitate disengaged antisocial
+responses.
+
+### Applying the Bi-Dimensional Rejection Taxonomy to Other Threats to Belonging
+
+The bi-dimensional rejection taxonomy offers a blueprint for future
+researchers who study responses to social stressors that threaten
+belonging. Currently, the bi-dimensional rejection taxonomy is focused
+on the responses to interpersonal rejection (e.g., feeling uncared for
+or unloved). But, other social stressors can also threaten belonging,
+such as separation distress [e.g., feelings of missing someone;
+@diamondEveryTimeYou2008], death of a close other
+[@stroebeRoleLonelinessSocial1996], and
+discrimination[@richmanReactionsDiscriminationStigmatization2009]. One
+interesting application of the bi-dimensional rejection taxonomy would
+be to examine whether responses to these belonging threats also range
+along the antisocial--prosocial and engaged--disengaged dimensions.
+Doing so will facilitate a richer understanding of how humans respond to
+belonging threats.
+
+## Conclusion
+
+Existing theories of interpersonal rejection have exclusively focused on
+the *x*-axis, aiming to understand antisocial and prosocial responses to
+interpersonal rejection. Accumulating evidence suggests a gap in this
+approach: variability in social responses to rejection cannot solely be
+explained by the antisocial--prosocial dimension alone. To fill this
+gap, we propose the bi-dimensional rejection taxonomy, consisting of the
+antisocial--prosocial *x*-axis and engaged--disengaged *y*-axis, a novel
+contribution to the literature. This engaged--disengaged dimension
+explains variation among prosocial and antisocial responses previously
+unaccounted for, helps researchers to generate more nuanced and accurate
+hypotheses about how people respond to rejection, and sheds light on the
+types of responses that have been understudied in the literature. Thus,
+the bi-dimensional rejection taxonomy is an important step forward for
+the rejection literature. Overlooking the engaged--disengaged dimension
+could result in omnibus hypotheses that lack specificity, leading to
+erroneous and inaccurate conclusions. The bi-dimensional rejection
+taxonomy helps researchers to see nuances among responses, better
+calibrate conclusions, and test novel predictions. With this new map, we
+can move the literature to new frontiers.
