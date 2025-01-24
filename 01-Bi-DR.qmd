@@ -691,11 +691,10 @@ two parts. The first part focuses on variation in engaged and disengaged
 antisocial responses, and the second focuses on variation in engaged and
 disengaged prosocial responses.
 
-### Factors Predicting Engaged versus Disengaged Antisocial Responses (Figure \@ref(fig:bidr-antisocial))
+### Factors Predicting Engaged versus Disengaged Antisocial Responses (@fig-bidr-antisocial)
 
-```{r bidr-antisocial, out.width = '100%', fig.cap='Representative individual differences and situational factors predicting engaged and disengaged antisocial responses. For illustrative purposes, only the antisocial hemisphere is depicted in this diagram. Higher interpersonal sensitivity to rejection (assessed via rejection sensitivity or low self-esteem) predicts engaged antisocial responses. Social phobia and history of repeated prior rejection experiences predict disengaged antisocial responses.'}
-knitr::include_graphics("images/bidr-antisocial.png")
-```
+![Representative individual differences and situational factors predicting engaged and disengaged antisocial responses. For illustrative purposes, only the antisocial hemisphere is depicted in this diagram. Higher interpersonal sensitivity to rejection (assessed via rejection sensitivity or low self-esteem) predicts engaged antisocial responses. Social phobia and history of repeated prior rejection experiences predict disengaged antisocial responses.](images/bidr-antisocial.png){#fig-bidr-antisocial}
+
 
 **Interpersonal Sensitivity to Rejection (Rejection Sensitivity and
 Self-Esteem).** Some people worry about being rejected more than others.
@@ -712,7 +711,7 @@ construct in reference to both indices.
 
 People with higher interpersonal sensitivity to rejection may be more
 likely to use engaged antisocial responses rather than disengaged
-antisocial responses (Figure \@ref(fig:bidr-antisocial)). Specifically,
+antisocial responses (@fig-bidr-antisocial). Specifically,
 past evidence has demonstrated a consistent link between higher
 interpersonal sensitivity and engaged antisocial behavior, such as
 aggression [@aydukIndividualDifferencesRejection2008;
@@ -799,7 +798,7 @@ as "going into a little shell" [@rivaChronicSocialExclusion2017;
 @zadroOstracismEmpiricalStudies2004]. Thus, people who experienced
 repeated rejection use more disengaged antisocial responses to rejection
 (e.g., withdrawing from others), rather than engaged antisocial
-responses (e.g., attacking others; Figure \@ref(fig:bidr-antisocial)).
+responses (e.g., attacking others; @fig-bidr-antisocial).
 Why would people with a history of repeated rejection behave in
 disengaged antisocial ways, whereas those with high rejection
 sensitivity behave in engaged antisocial ways---particularly because a
