@@ -1326,10 +1326,10 @@ Welch's *t*-test comparing the rejection and acceptance conditions at
 Time 2. Results showed that the rejected participants reported lower
 Heart Manikin scores (`r s1c_sensitivity_APA$Rejection`) than the
 accepted participatns (`r s1c_sensitivity_APA$Acceptance`) at Time 2,
-`r s1c_sensitivity_APA$t`, `r s1c_sensitivity_APA$d` (see Figure
-\@ref(fig:s1c-sensitivity-plot)). Also, see Figure \@ref(fig:appnedix-s1c-belonging-across-time) in [Appendix] for the Heart Manikin scores over time across conditions.
+`r s1c_sensitivity_APA$t`, `r s1c_sensitivity_APA$d` (see @fig-s1c-sensitivity-plot). Also, see @fig-appnedix-s1c-belonging-across-time) in [Appendix] for the Heart Manikin scores over time across conditions.
 
 ```{r s1c-sensitivity-plot, fig.cap='Study 1c - Heart Manikin Scores across Rejection Conditions. Participants in the rejection condition reported lower Heart Manikin scores than those in the acceptance condition.', fig.width=8, fig.height=5}
+#| label: fig-s1c-sensitivity-plot
 # Time 2
 s1c_T3heart_plot <- s1c_df %>%
     ggplot(aes(x = acceptance %>% to_factor(), y = heart2, color = acceptance %>% to_factor())) +
