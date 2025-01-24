@@ -82,9 +82,9 @@ represent +/-1 SD from the estimate.
 ```{r setup, message=FALSE, warning=FALSE}
 # Chunk Options
 knitr::opts_chunk$set(
-	echo = FALSE,
-	message = FALSE,
-	warning = FALSE
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE
 )
 
 # Load packages
@@ -100,60 +100,85 @@ s3_df_attentive <- s3_df %>% filter(attention_all_correct == TRUE)
 
 ```{r participants}
 # Descriptives table - Means and SDs for measured scores by condition
-s3_df_msd <- s3_df_attentive %>%  describe_by_factor(parasocial, social_world,
-                                          vars = c(T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
-                                                   T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
-                                                   IOS, Single_Immersion, 
-                                                   OTF_Social_World, Enjoyment)) %>% 
-  # Clean Names
-  rename_all(.funs = ~str_replace(., "_1_", "_"))
+s3_df_msd <- s3_df_attentive %>% describe_by_factor(parasocial, social_world,
+    vars = c(
+        T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
+        T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
+        IOS, Single_Immersion,
+        OTF_Social_World, Enjoyment
+    )
+) %>%
+    # Clean Names
+    rename_all(.funs = ~ str_replace(., "_1_", "_"))
 # Means and Standard Devisions for Each conditions
-s3_df_msd <- get_APA_from_msd(s3_df_msd) %>% 
-  data.table::setDT(key = c("parasocial", "social_world", "variable", "APA"))
+s3_df_msd <- get_APA_from_msd(s3_df_msd) %>%
+    data.table::setDT(key = c("parasocial", "social_world", "variable", "APA"))
 
 # Play time-Based Exclusion: R_3nN7adJevbEtL0R had more than 7000 minutes playing the game
-s3_playtime_exclusion <- s3_df %>% 
-  filter(RPG_playtime > 7000)
+s3_playtime_exclusion <- s3_df %>%
+    filter(RPG_playtime > 7000)
 
 # Play time Calculation
-s3_playtime <- s3_df_attentive %>% 
-  # One record taking more  than 7000 minutes was removed from the data
-  filter(RPG_playtime < 7000) %>%
-  summarise(mean_playtime  = mean(RPG_playtime, na.rm = TRUE) %>% round(2),
-            sd_playtime = sd(RPG_playtime, na.rm = TRUE) %>% round(2)) %>% 
-  mutate(APA = to_msd(mean_playtime, sd_playtime)) %>% as.list()
+s3_playtime <- s3_df_attentive %>%
+    # One record taking more  than 7000 minutes was removed from the data
+    filter(RPG_playtime < 7000) %>%
+    summarise(
+        mean_playtime = mean(RPG_playtime, na.rm = TRUE) %>% round(2),
+        sd_playtime = sd(RPG_playtime, na.rm = TRUE) %>% round(2)
+    ) %>%
+    mutate(APA = to_msd(mean_playtime, sd_playtime)) %>%
+    as.list()
 
 # Getting participants per condition
-s3_ntable <- s3_df %>% group_by(parasocial, social_world) %>% 
-  summarise(n = n()) %>% mutate(key = str_c(str_extract(parasocial, "^."), str_extract(social_world, "^.")))
-s3_n_txt <- s3_ntable %>% ungroup %>% select(key, n) %>% deframe %>% as.list() %>% 
-  append(list(all_participated = s3_ntable$n %>% sum))
+s3_ntable <- s3_df %>%
+    group_by(parasocial, social_world) %>%
+    summarise(n = n()) %>%
+    mutate(key = str_c(str_extract(parasocial, "^."), str_extract(social_world, "^.")))
+s3_n_txt <- s3_ntable %>%
+    ungroup() %>%
+    select(key, n) %>%
+    deframe() %>%
+    as.list() %>%
+    append(list(all_participated = s3_ntable$n %>% sum()))
 # Exclusions by Attention Check
-s3_attention_df <- s3_df %>% group_by(attention_all_correct) %>% 
-  summarise(n = n()) %>% deframe_as_list()
+s3_attention_df <- s3_df %>%
+    group_by(attention_all_correct) %>%
+    summarise(n = n()) %>%
+    deframe_as_list()
 
-s3_atteion_by_group <- s3_df %>% 
-  transmute(attention_rejection_only = !attention_rejection_correct & attention_parasocial_correct & attention_social_world_correct,
-            attention_parasocial_only = attention_rejection_correct & !attention_parasocial_correct & attention_social_world_correct,
-            attention_social_world_only = attention_rejection_correct & attention_parasocial_correct & !attention_social_world_correct,
-            attention_all = !attention_rejection_correct & !attention_parasocial_correct & !attention_social_world_correct)
-s3_attntion_by_type <- s3_atteion_by_group %>% summarise(across(everything(), sum)) %>% as.list()
+s3_atteion_by_group <- s3_df %>%
+    transmute(
+        attention_rejection_only = !attention_rejection_correct & attention_parasocial_correct & attention_social_world_correct,
+        attention_parasocial_only = attention_rejection_correct & !attention_parasocial_correct & attention_social_world_correct,
+        attention_social_world_only = attention_rejection_correct & attention_parasocial_correct & !attention_social_world_correct,
+        attention_all = !attention_rejection_correct & !attention_parasocial_correct & !attention_social_world_correct
+    )
+s3_attntion_by_type <- s3_atteion_by_group %>%
+    summarise(across(everything(), sum)) %>%
+    as.list()
 
-s3_attention_by_type <- s3_df %>% 
-  filter(Finished == 1) %>% 
-  summarise(across(c(attention_rejection_correct, attention_parasocial_correct,
-                             attention_social_world_correct), 
-                                     ~sum(!.)))
+s3_attention_by_type <- s3_df %>%
+    filter(Finished == 1) %>%
+    summarise(across(
+        c(
+            attention_rejection_correct, attention_parasocial_correct,
+            attention_social_world_correct
+        ),
+        ~ sum(!.)
+    ))
 ## Excluded Participants
-s3_n_excluded <- list(all = s3_df %>% filter(Finished ==1) %>% 
-                        summarise(sum(!attention_all_correct)) %>% deframe,
-                      HH = NA,
-                      HL = NA,
-                      LH = NA,
-                      LL = NA)
+s3_n_excluded <- list(
+    all = s3_df %>% filter(Finished == 1) %>%
+        summarise(sum(!attention_all_correct)) %>% deframe(),
+    HH = NA,
+    HL = NA,
+    LH = NA,
+    LL = NA
+)
 # Get n and percent by coditions
-s3_excluded <- s3_df %>% filter(!(attention_all_correct == TRUE)) %>% 
-  get_n_pct(parasocial, social_world)
+s3_excluded <- s3_df %>%
+    filter(!(attention_all_correct == TRUE)) %>%
+    get_n_pct(parasocial, social_world)
 
 # Create a df with included participants
 s3_included <- s3_df %>% filter(attention_all_correct == TRUE)
@@ -290,11 +315,14 @@ open-ended debriefing questions.
 
 ```{r s3-measures}
 # reliabilties
-s3_reliabilities <- read_rds(here("data_public", "reliability",
-                                  "s3_reliability.rds"))
-# Get the list of cronbach's alpha 
+s3_reliabilities <- read_rds(here(
+    "data_public", "reliability",
+    "s3_reliability.rds"
+))
+# Get the list of cronbach's alpha
 s3_cronbach <- s3_reliabilities %>%
-  get_cronbach_alphas() %>% lapply(f.round)
+    get_cronbach_alphas() %>%
+    lapply(f.round)
 ```
 
 The Heart Manikin and the modified Inclusion of Ingroup in the Self
@@ -380,10 +408,14 @@ s3_att_v2change_date <- lubridate::as_datetime("2021-03-16 10:27:00")
 s3_att_v3change_date <- lubridate::as_datetime("2021-03-24 11:45:00")
 
 # ge the number of participants after this date
-s3_att <- list(v1 = s3_df %>% filter(StartDate < s3_att_v2change_date) %>% nrow(),
-               v2 =  s3_df %>% filter(StartDate > s3_att_v2change_date,
-                                      StartDate < s3_att_v3change_date) %>% nrow(),
-               v3 = s3_df %>% filter(StartDate > s3_att_v3change_date) %>% nrow())
+s3_att <- list(
+    v1 = s3_df %>% filter(StartDate < s3_att_v2change_date) %>% nrow(),
+    v2 = s3_df %>% filter(
+        StartDate > s3_att_v2change_date,
+        StartDate < s3_att_v3change_date
+    ) %>% nrow(),
+    v3 = s3_df %>% filter(StartDate > s3_att_v3change_date) %>% nrow()
+)
 
 ```
 
@@ -422,12 +454,14 @@ completed this final version.
 
 ```{r s3-ANOVA}
 # Main Analysis - Main ANOVA Model
-ANOVA_lm <- s3_df %>% 
-  # Include only those who passed the attention check 
-  filter(attention_all_correct == TRUE) %>% 
-  # 2 (Parasocial) x 2 (Social World) ANOVA on Heart Manikin Scores at Time 2
-  lm(formula = T2_Heart_1 ~ parasocial * social_world,
-     data = .)
+ANOVA_lm <- s3_df %>%
+    # Include only those who passed the attention check
+    filter(attention_all_correct == TRUE) %>%
+    # 2 (Parasocial) x 2 (Social World) ANOVA on Heart Manikin Scores at Time 2
+    lm(
+        formula = T2_Heart_1 ~ parasocial * social_world,
+        data = .
+    )
 # Summary for linear model (Type III SS)
 ANOVA_summary <- car::Anova(ANOVA_lm, type = 3)
 # Estimated Marginal MEans
@@ -435,13 +469,15 @@ ANOVA_EM <- emmeans(ANOVA_lm, pairwise ~ parasocial:social_world, level = .90)
 # Pairs contrasts
 ANOVA_EM_tibble <- ANOVA_EM$contrasts %>% as_tibble()
 # Add APA Stats Emeans
-ANOVA_EM_tibble  <- ANOVA_EM_tibble %>% 
-  mutate(APA = ANOVA_EM_tibble %>% describe.emmeans(dtype = "t"))
+ANOVA_EM_tibble <- ANOVA_EM_tibble %>%
+    mutate(APA = ANOVA_EM_tibble %>% describe.emmeans(dtype = "t"))
 # get a list of APA
-s3_contratsts_APA <- ANOVA_EM_tibble %>% select(contrast, APA) %>%
-  # abbreviate the contrast labels
-  mutate(contrast = abbreviate(contrast)) %>% 
-  deframe %>%  as.list 
+s3_contratsts_APA <- ANOVA_EM_tibble %>%
+    select(contrast, APA) %>%
+    # abbreviate the contrast labels
+    mutate(contrast = abbreviate(contrast)) %>%
+    deframe() %>%
+    as.list()
 
 
 # Plot the predicted means from the ANOVA model
@@ -456,48 +492,57 @@ s3_contratsts_APA <- ANOVA_EM_tibble %>% select(contrast, APA) %>%
 
 # Standardized effect sizes (True Cohen's d)
 ANOVA_cohen <- eff_size(ANOVA_EM, sigma(ANOVA_lm), df.residual(ANOVA_lm),
-                        level = .90)
+    level = .90
+)
 # Convert to tibble for plotting
 ANOVA_cohen_tibble <- ANOVA_cohen %>% as_tibble()
 # Shortened Labels for forestplot
 ANOVA_cohen_tibble <- ANOVA_cohen_tibble %>%
-  mutate(labels = str_split(contrast, " - "),
-         label1 = map_chr(labels, ~.[[1]]),
-         label2 = map_chr(labels, ~.[[2]])) %>% 
-  mutate(across(c(label1,label2), ~str_remove(., "\\(|\\)"))) %>% 
-  mutate(across(c(label1, label2), ~str_replace(., "Parasocial", "Para"))) %>% 
-  mutate(across(c(label1, label2), ~str_replace(., "Social World", "Social"))) %>% 
-  mutate(plot_label = paste(label1, label2, sep = " - "),
-         key = abbreviate(plot_label)) %>%
-  # APA-formatted results
-  mutate(APA = sprintf("_d_ = %s, 90%%CI [%s, %s]",
-                       effect.size %>% f.round(), lower.CL %>% f.round() , upper.CL %>% f.round()))
+    mutate(
+        labels = str_split(contrast, " - "),
+        label1 = map_chr(labels, ~ .[[1]]),
+        label2 = map_chr(labels, ~ .[[2]])
+    ) %>%
+    mutate(across(c(label1, label2), ~ str_remove(., "\\(|\\)"))) %>%
+    mutate(across(c(label1, label2), ~ str_replace(., "Parasocial", "Para"))) %>%
+    mutate(across(c(label1, label2), ~ str_replace(., "Social World", "Social"))) %>%
+    mutate(
+        plot_label = paste(label1, label2, sep = " - "),
+        key = abbreviate(plot_label)
+    ) %>%
+    # APA-formatted results
+    mutate(APA = sprintf(
+        "_d_ = %s, 90%%CI [%s, %s]",
+        effect.size %>% f.round(), lower.CL %>% f.round(), upper.CL %>% f.round()
+    ))
 
-# Cohen's d's - Forestplot - Study 3 
+# Cohen's d's - Forestplot - Study 3
 # Adding a table to the left https://stackoverflow.com/questions/12318120/adding-table-within-the-plotting-region-of-a-ggplot-in-r
-s3_cohensd_forestplot <- ANOVA_cohen_tibble %>% 
-  ggplot(aes(y = plot_label, x = effect.size,
-             xmin = lower.CL, xmax = upper.CL)) +
-  # Vertical Lines for SESOI and Zero
-  geom_zeroSEOI_d +
-  # Add data points
-  geom_point() +
-  # Add the CI error bars
-  geom_errorbarh(height = .5)+
-  # Label: x-axis 
-  scale_x_continuous(name='Cohen\'s d') +
-  # Label: y-axis
-  ylab('Contrasts') +
-  # Label: Title
-  ggtitle("Effect Sizes for Contrasts at T2 Heart Manikin Scores") +
-  labs(caption = "Errorbars represent 90% confidence intervals.\nPara = Parasocial Relationships\nSocial = Social World")
+s3_cohensd_forestplot <- ANOVA_cohen_tibble %>%
+    ggplot(aes(
+        y = plot_label, x = effect.size,
+        xmin = lower.CL, xmax = upper.CL
+    )) +
+    # Vertical Lines for SESOI and Zero
+    geom_zeroSEOI_d +
+    # Add data points
+    geom_point() +
+    # Add the CI error bars
+    geom_errorbarh(height = .5) +
+    # Label: x-axis
+    scale_x_continuous(name = "Cohen's d") +
+    # Label: y-axis
+    ylab("Contrasts") +
+    # Label: Title
+    ggtitle("Effect Sizes for Contrasts at T2 Heart Manikin Scores") +
+    labs(caption = "Errorbars represent 90% confidence intervals.\nPara = Parasocial Relationships\nSocial = Social World")
 
 # APA list for Study 3 results
 ANOVA_summary_df <- ANOVA_summary %>% broom::tidy()
 s3_results_main <- list(
-  parasocial = ANOVA_summary_df %>% filter(term == "parasocial"),
-  social_world = ANOVA_summary_df %>% filter(term == "social_world"),
-  df_res = ANOVA_summary$Df[[5]] # alternatively, use `tail(vector, n = 1)`
+    parasocial = ANOVA_summary_df %>% filter(term == "parasocial"),
+    social_world = ANOVA_summary_df %>% filter(term == "social_world"),
+    df_res = ANOVA_summary$Df[[5]] # alternatively, use `tail(vector, n = 1)`
 )
 
 # Describe by apastats and get a list of F values
@@ -507,20 +552,25 @@ s3_ANOVA_APA <- s3_ANOVA_APA %>% as.list()
 
 # Cohen's d for the main effects (Parascoial and Social World)
 s3_main_effects <- tibble(predictor = c("parasocial", "social_world")) %>%
-  mutate(formula = sprintf("T2_Heart_1 ~ %s", predictor)) %>% 
-  mutate(ci90 = map(formula, ~effectsize::cohens_d(x = formula(.), data = s3_df, ci = .90))) %>% 
-  mutate(ci95 = map(formula, ~effectsize::cohens_d(x = formula(.), data = s3_df, ci = .95))) %>% 
-  mutate(equivalence = map(ci90, ~equivalence_test(., range = c(-Cohen_d_target, Cohen_d_target)))) %>% 
-  mutate(APA = map_chr(ci90, describe_d_ci)) %>% 
-  unnest(c(ci90, ci95), .sep = "_")
+    mutate(formula = sprintf("T2_Heart_1 ~ %s", predictor)) %>%
+    mutate(ci90 = map(formula, ~ effectsize::cohens_d(x = formula(.), data = s3_df, ci = .90))) %>%
+    mutate(ci95 = map(formula, ~ effectsize::cohens_d(x = formula(.), data = s3_df, ci = .95))) %>%
+    mutate(equivalence = map(ci90, ~ equivalence_test(., range = c(-Cohen_d_target, Cohen_d_target)))) %>%
+    mutate(APA = map_chr(ci90, describe_d_ci)) %>%
+    unnest(c(ci90, ci95), .sep = "_")
 # APA results
-s3_main_effects_APA <- s3_main_effects %>% select(predictor, APA) %>% deframe %>%
-  as.list
+s3_main_effects_APA <- s3_main_effects %>%
+    select(predictor, APA) %>%
+    deframe() %>%
+    as.list()
 # Get the cohens'd and the 90% ci for APA
-s3_contratsts_d_APA <- ANOVA_cohen_tibble %>% select(key, APA) %>% deframe %>% as.list
+s3_contratsts_d_APA <- ANOVA_cohen_tibble %>%
+    select(key, APA) %>%
+    deframe() %>%
+    as.list()
 # Combine the t-test results and Cohen's d
 s3_contrats_td_APA <- paste(s3_contratsts_APA, s3_contratsts_d_APA, sep = ", ")
-names(s3_contrats_td_APA) <- s3_contratsts_APA %>% names
+names(s3_contrats_td_APA) <- s3_contratsts_APA %>% names()
 s3_contrats_td_APA <- s3_contrats_td_APA %>% as.list()
 ```
 
@@ -556,67 +606,88 @@ equivalent to zero.
 
 ```{r s3-heart2-plot, fig.cap= "Study 3 - Heart Mankin Scores at Time 2 Across Parasocial and Social World Conditions", fig.width=6, fig.height=7}
 # 2 x 2 ANOVA on Time 2 belonging
-s3_heart2_plot <- s3_included %>% 
-  # Only include people who got the attention check right
-  filter(attention_all_correct == TRUE) %>% 
-  ggplot(aes(x = parasocial, color = social_world,
-             y = T2_Heart_1)) +
-  # violin
-  geom_violin(width = default_violin_width,
-              position = dodge_pos) +
-  # Data points
-  geom_point(position = position_jitterdodge(jitter.height = 1,
-                                             jitter.width = .05, dodge.width = my_dodge_width),
-             size = .5) + 
-  # Errorbar
-  geom_errorbar(aes(group = social_world), fun.data = mean_cl_normal,
-                stat = "summary",
-                width = .1,
-                position = dodge_pos,
-                color = "black", alpha = 1) +
-  # Plot means 
-  geom_point(aes(group = social_world), stat = "summary", fun.data = mean_cl_normal,
-             shape = 21, fill = "white",
-             color = "black", position = dodge_pos) + # Remove legend 
-  
-  # Labels
-  labs(y = "Heart Manikin (Time 2)",
-       x = "Parasocial Relationship",
-       color = "Social World",
-       caption = "Errorbars represent 95% confidence intervals.") + 
-  # Color Palette 
-  scale_color_brewer(palette = "Set2") 
+s3_heart2_plot <- s3_included %>%
+    # Only include people who got the attention check right
+    filter(attention_all_correct == TRUE) %>%
+    ggplot(aes(
+        x = parasocial, color = social_world,
+        y = T2_Heart_1
+    )) +
+    # violin
+    geom_violin(
+        width = default_violin_width,
+        position = dodge_pos
+    ) +
+    # Data points
+    geom_point(
+        position = position_jitterdodge(
+            jitter.height = 1,
+            jitter.width = .05, dodge.width = my_dodge_width
+        ),
+        size = .5
+    ) +
+    # Errorbar
+    geom_errorbar(aes(group = social_world),
+        fun.data = mean_cl_normal,
+        stat = "summary",
+        width = .1,
+        position = dodge_pos,
+        color = "black", alpha = 1
+    ) +
+    # Plot means
+    geom_point(aes(group = social_world),
+        stat = "summary", fun.data = mean_cl_normal,
+        shape = 21, fill = "white",
+        color = "black", position = dodge_pos
+    ) + # Remove legend
 
-  # # Save Plot 
-  # ggsave(here("plot","s3_heart2_plot.png"), width = 6, height = 4)
+    # Labels
+    labs(
+        y = "Heart Manikin (Time 2)",
+        x = "Parasocial Relationship",
+        color = "Social World",
+        caption = "Errorbars represent 95% confidence intervals."
+    ) +
+    # Color Palette
+    scale_color_brewer(palette = "Set2")
 
-# Cohen's d forestplot 
+# # Save Plot
+# ggsave(here("plot","s3_heart2_plot.png"), width = 6, height = 4)
+
+# Cohen's d forestplot
 ggarrange(s3_heart2_plot,
-          s3_cohensd_forestplot,
-          nrow = 2, ncol = 1,
-          labels = "AUTO")
+    s3_cohensd_forestplot,
+    nrow = 2, ncol = 1,
+    labels = "AUTO"
+)
 ```
 
 ```{r s3-exploratory-manip-check}
 # Parasocial Relationships Manipulation Check ------------------------------
-# Chi-square test 
-parasocial_MC_results <- s3_df %>% 
-  filter(attention_all_correct == TRUE) %>% # Exclude those failed attention check 
-  {chisq.test(x = .$parasocial,
-              y = .$parasocial_MC_group)}
+# Chi-square test
+parasocial_MC_results <- s3_df %>%
+    filter(attention_all_correct == TRUE) %>% # Exclude those failed attention check
+    {
+        chisq.test(
+            x = .$parasocial,
+            y = .$parasocial_MC_group
+        )
+    }
 # Single-Item Immersion Manipulation Check -----------------------------------
 # Welch's t-test for Immersion Scale
-immersion_MC_results <- s3_df %>% 
-  filter(attention_all_correct == TRUE) %>% # Exclude those failed attention check 
-  t.test(formula = Single_Immersion ~ social_world, data = .)
+immersion_MC_results <- s3_df %>%
+    filter(attention_all_correct == TRUE) %>% # Exclude those failed attention check
+    t.test(formula = Single_Immersion ~ social_world, data = .)
 # OTF Social World Scale Manipulation Check -----------------------------------
-OTFWorld_MC_results <- s3_df %>% 
-  filter(attention_all_correct == TRUE) %>% # Exclude those failed attention check 
-  t.test(formula = OTF_Social_World ~ social_world, data = .)
+OTFWorld_MC_results <- s3_df %>%
+    filter(attention_all_correct == TRUE) %>% # Exclude those failed attention check
+    t.test(formula = OTF_Social_World ~ social_world, data = .)
 # APA text for the exploratyr manipulation check
-s3_manicheck_APA <- list(parasocial_chi = describe_chi_htest(parasocial_MC_results),
-                         immersion = describe.ttest(immersion_MC_results),
-                         OTFWorld = describe.ttest(OTFWorld_MC_results))
+s3_manicheck_APA <- list(
+    parasocial_chi = describe_chi_htest(parasocial_MC_results),
+    immersion = describe.ttest(immersion_MC_results),
+    OTFWorld = describe.ttest(OTFWorld_MC_results)
+)
 ```
 
 **Exploratory Manipulation Check.** To explore the effectiveness of the
@@ -650,38 +721,53 @@ planned, I treat the analyses as exploratory, and do not conclude the
 effectiveness of the manipulation based on these analysis.
 
 ```{r s3-exp-manip-check-plot, fig.cap="Study 3 - Exploratory Manipulation Check", fig.width=11, fig.height=13}
-# Parasocial Relationship Manipulation Check plot 
-s3_parasocial_plot <- s3_df %>% 
-  filter(attention_all_correct == TRUE) %>%
-  # Modify labels
-  mutate(parasocial_MC_group_shortlabel = 
-           case_when(parasocial_MC_group == "No Interaction with NPC" ~ "No Interaction",
-                     parasocial_MC_group == "No Parasocial Relationship with NPC" ~ "Interacted, but no PSR",
-                     parasocial_MC_group == "Formed Parasocial Relationship with NPC" ~ "Formed PSR"),
-         parasocial_MC_group_shortlabel = factor(parasocial_MC_group_shortlabel,
-                                                 ordered = TRUE,
-                                                 levels = c("No Interaction",
-                                                            "Interacted, but no PSR",
-                                                            "Formed PSR"))) %>%
-  ggplot() +
-  geom_mosaic(aes(x = product(parasocial_MC_group_shortlabel, parasocial), fill = parasocial_MC_group_shortlabel)) + 
-  ylab("Group") +
-  xlab("Parasocial Condition") + 
-  scale_fill_brewer(name = "Group", palette = "Set2") +
-  # Remove the legend
-  guides(fill = FALSE) + 
-  theme(plot.caption = element_markdown(lineheight = 1.2)) +
-  labs(caption = s3_manicheck_APA$parasocial_chi)
+# Parasocial Relationship Manipulation Check plot
+s3_parasocial_plot <- s3_df %>%
+    filter(attention_all_correct == TRUE) %>%
+    # Modify labels
+    mutate(
+        parasocial_MC_group_shortlabel =
+            case_when(
+                parasocial_MC_group == "No Interaction with NPC" ~ "No Interaction",
+                parasocial_MC_group == "No Parasocial Relationship with NPC" ~ "Interacted, but no PSR",
+                parasocial_MC_group == "Formed Parasocial Relationship with NPC" ~ "Formed PSR"
+            ),
+        parasocial_MC_group_shortlabel = factor(parasocial_MC_group_shortlabel,
+            ordered = TRUE,
+            levels = c(
+                "No Interaction",
+                "Interacted, but no PSR",
+                "Formed PSR"
+            )
+        )
+    ) %>%
+    ggplot() +
+    geom_mosaic(aes(x = product(parasocial_MC_group_shortlabel, parasocial), fill = parasocial_MC_group_shortlabel)) +
+    ylab("Group") +
+    xlab("Parasocial Condition") +
+    scale_fill_brewer(name = "Group", palette = "Set2") +
+    # Remove the legend
+    guides(fill = FALSE) +
+    theme(plot.caption = element_markdown(lineheight = 1.2)) +
+    labs(caption = s3_manicheck_APA$parasocial_chi)
 # facet_wrap(.~social_world)
 # Plot for the immersion
-s3_immersion_plot <- s3_draw_mc_plot(y = Single_Immersion,
-                                     ylab = "Immersion",
-                                     caption = paste("Higher vs. Lower Social World:",
-                                                     s3_manicheck_APA$immersion))
+s3_immersion_plot <- s3_draw_mc_plot(
+    y = Single_Immersion,
+    ylab = "Immersion",
+    caption = paste(
+        "Higher vs. Lower Social World:",
+        s3_manicheck_APA$immersion
+    )
+)
 # Plot - OTF World
-s3_OTFWorld_plot <- s3_draw_mc_plot(y = OTF_Social_World, ylab = "Social World",
-                                    caption = paste("Higher vs. Lower Social World:",
-                                                    s3_manicheck_APA$OTFWorld))
+s3_OTFWorld_plot <- s3_draw_mc_plot(
+    y = OTF_Social_World, ylab = "Social World",
+    caption = paste(
+        "Higher vs. Lower Social World:",
+        s3_manicheck_APA$OTFWorld
+    )
+)
 # Plot - Enjoyment
 s3_Enjoyment_plot <- s3_draw_mc_plot(y = Enjoyment, ylab = "Enjoyment")
 
@@ -689,21 +775,24 @@ s3_Enjoyment_plot <- s3_draw_mc_plot(y = Enjoyment, ylab = "Enjoyment")
 s3_PCID_plot <- s3_draw_mc_plot(y = PC_Identification, ylab = "Identification with Player Character")
 # Gather plots into one plot ------------------------------------------------
 ggarrange(s3_parasocial_plot,
-          s3_immersion_plot,
-          s3_OTFWorld_plot,
-          s3_Enjoyment_plot,
-          s3_PCID_plot,
-          labels = "AUTO",
-          ncol = 2, nrow = 3)
+    s3_immersion_plot,
+    s3_OTFWorld_plot,
+    s3_Enjoyment_plot,
+    s3_PCID_plot,
+    labels = "AUTO",
+    ncol = 2, nrow = 3
+)
 ```
 
 ```{r s3-enjoyment-analysis}
-s3_enjoyment_fit <- s3_df %>% 
-  filter(attention_all_correct == TRUE) %>% 
-  lm(formula = Enjoyment ~ parasocial*social_world)
+s3_enjoyment_fit <- s3_df %>%
+    filter(attention_all_correct == TRUE) %>%
+    lm(formula = Enjoyment ~ parasocial * social_world)
 s3_enjoyment_Anova <- s3_enjoyment_fit %>% Anova(type = 3)
 s3_enjoyment_APA_df <- summarize_Anova_with_APA(s3_enjoyment_fit)
-s3_enjoyment_txt <- s3_enjoyment_APA_df %>% select(term, APA) %>% deframe_as_list()
+s3_enjoyment_txt <- s3_enjoyment_APA_df %>%
+    select(term, APA) %>%
+    deframe_as_list()
 ```
 
 **Enjoyment Across Conditions.** I explored whether participants
@@ -720,23 +809,25 @@ relationships content or the social world content in the video game.
 
 ```{r s3-moderation-analyses}
 # Gender
-# Group to Female, Male, and Non-Female & Male. 
+# Group to Female, Male, and Non-Female & Male.
 moderation_gender_lm <- s3_df %>%
-  lm(formula = T2_Heart_1 ~ parasocial_EC*social_world_EC*Gender_Identity_2GP_EC)
+    lm(formula = T2_Heart_1 ~ parasocial_EC * social_world_EC * Gender_Identity_2GP_EC)
 ## Gender Identity 2 GP?
 
 # Race
-moderation_race_lm <- s3_df %>% 
-  lm(formula = T2_Heart_1 ~ parasocial*social_world*Race_6GP)
+moderation_race_lm <- s3_df %>%
+    lm(formula = T2_Heart_1 ~ parasocial * social_world * Race_6GP)
 
 ## Add APA-Style Texts
 ### Gender
 # emmeans(moderation_gender_lm, pairwise ~ parasocial:social_world:Gender_Identity_3GP, level = .90)
 moderation_gender_APA <- describe.glm(moderation_gender_lm, dtype = 3) %>%
-  select(eff, str) %>% deframe_as_list()
+    select(eff, str) %>%
+    deframe_as_list()
 ### Race
-moderation_race_APA <- describe.glm(moderation_race_lm, dtype = 3) %>% 
-  select(eff, str) %>% deframe_as_list()
+moderation_race_APA <- describe.glm(moderation_race_lm, dtype = 3) %>%
+    select(eff, str) %>%
+    deframe_as_list()
 ```
 
 **Exploratory Moderation Analysis.** I explored whether the gender or
@@ -771,118 +862,166 @@ social world were not moderated by gender or racial identities.
 
 ```{r s3-moderation-analyses-plots, fig.cap="Study 3 - Moderation Analysis. Panel A shows the results for gender. Panel B shows the results for gender. Results showed that gender or racial identities did not moderate the results.", fig.width=11, fig.height=9}
 # Moderation by Gender - Plot ----------------------------------------------------
-s3_mod_by_gender_plot <- s3_df %>% 
-  # Exclude those who failed attention check
-  filter(attention_all_correct == TRUE) %>%
-  # Exclude people identifying other than male or female (since htere are too few)
-  filter(Gender_Identity_3GP != "Other") %>% 
-  ggplot(aes(x = parasocial, 
-             y = T2_Heart_1, 
-             color = social_world)) +
-  # violin
-  geom_violin(width = default_violin_width,
-              position = dodge_pos) +
-  # Data points
-  geom_point(position = position_jitterdodge(jitter.height = 1,
-                                             jitter.width = .05, dodge.width = my_dodge_width),
-             size = .5) + 
-  # Errorbar
-  geom_errorbar(aes(group = social_world), fun.data = mean_cl_normal,
-                stat = "summary",
-                width = .1,
-                position = dodge_pos,
-                color = "black", alpha = 1) +
-  # Plot means 
-  geom_point(aes(group = social_world), stat = "summary", fun.data = mean_cl_normal,
-             shape = 21, fill = "white",
-             color = "black", position = dodge_pos) +
-  # Labels
-  labs(y = "Heart Manikin (Time 2)",
-       x = "Parasocial Condition",
-       color = "Social World Condition",
-       caption = "Errorbars represent 95% confidence intervals") + 
-  # Color Palette 
-      scale_color_brewer(palette = "Set2") +
-  facet_grid(. ~ Gender_Identity_3GP)
-  # Save Plot 
-  #ggsave(here("plot","s3_heart2_plot.png"), width = 6, height = 4)
+s3_mod_by_gender_plot <- s3_df %>%
+    # Exclude those who failed attention check
+    filter(attention_all_correct == TRUE) %>%
+    # Exclude people identifying other than male or female (since htere are too few)
+    filter(Gender_Identity_3GP != "Other") %>%
+    ggplot(aes(
+        x = parasocial,
+        y = T2_Heart_1,
+        color = social_world
+    )) +
+    # violin
+    geom_violin(
+        width = default_violin_width,
+        position = dodge_pos
+    ) +
+    # Data points
+    geom_point(
+        position = position_jitterdodge(
+            jitter.height = 1,
+            jitter.width = .05, dodge.width = my_dodge_width
+        ),
+        size = .5
+    ) +
+    # Errorbar
+    geom_errorbar(aes(group = social_world),
+        fun.data = mean_cl_normal,
+        stat = "summary",
+        width = .1,
+        position = dodge_pos,
+        color = "black", alpha = 1
+    ) +
+    # Plot means
+    geom_point(aes(group = social_world),
+        stat = "summary", fun.data = mean_cl_normal,
+        shape = 21, fill = "white",
+        color = "black", position = dodge_pos
+    ) +
+    # Labels
+    labs(
+        y = "Heart Manikin (Time 2)",
+        x = "Parasocial Condition",
+        color = "Social World Condition",
+        caption = "Errorbars represent 95% confidence intervals"
+    ) +
+    # Color Palette
+    scale_color_brewer(palette = "Set2") +
+    facet_grid(. ~ Gender_Identity_3GP)
+# Save Plot
+# ggsave(here("plot","s3_heart2_plot.png"), width = 6, height = 4)
 
 # Moderation by Race - Plot ----------------------------------------------------
-# Visualize 
-s3_mod_by_race_plot <- s3_df %>% 
-  # Exclude those who failed attention check
-  filter(attention_all_correct == TRUE) %>%
-  ggplot(aes(x = parasocial, 
-             y = T2_Heart_1, 
-             color = social_world)) +
-  # violin
-  geom_violin(width = default_violin_width,
-              position = dodge_pos) +
-  # Data points
-  geom_point(position = position_jitterdodge(jitter.height = 1,
-                                             jitter.width = .05, dodge.width = my_dodge_width),
-             size = .5) + 
-  # Errorbar
-  geom_errorbar(aes(group = social_world), fun.data = mean_cl_normal,
-                stat = "summary",
-                width = .1,
-                position = dodge_pos,
-                color = "black", alpha = 1) +
-  # Plot means 
-  geom_point(aes(group = social_world), stat = "summary", fun.data = mean_cl_normal,
-             shape = 21, fill = "white",
-             color = "black", position = dodge_pos) +
-  # Labels
-  labs(y = "Heart Manikin (Time 2)",
-       x = "Parasocial Condition",
-       color = "Social World Condition",
-       caption = "Errorbars represent 95% confidence intervals") + 
-  # Color Palette 
-      scale_color_brewer(palette = "Set2") +
-  # Facet by gender identity
-  facet_grid(.~Race_6GP)
+# Visualize
+s3_mod_by_race_plot <- s3_df %>%
+    # Exclude those who failed attention check
+    filter(attention_all_correct == TRUE) %>%
+    ggplot(aes(
+        x = parasocial,
+        y = T2_Heart_1,
+        color = social_world
+    )) +
+    # violin
+    geom_violin(
+        width = default_violin_width,
+        position = dodge_pos
+    ) +
+    # Data points
+    geom_point(
+        position = position_jitterdodge(
+            jitter.height = 1,
+            jitter.width = .05, dodge.width = my_dodge_width
+        ),
+        size = .5
+    ) +
+    # Errorbar
+    geom_errorbar(aes(group = social_world),
+        fun.data = mean_cl_normal,
+        stat = "summary",
+        width = .1,
+        position = dodge_pos,
+        color = "black", alpha = 1
+    ) +
+    # Plot means
+    geom_point(aes(group = social_world),
+        stat = "summary", fun.data = mean_cl_normal,
+        shape = 21, fill = "white",
+        color = "black", position = dodge_pos
+    ) +
+    # Labels
+    labs(
+        y = "Heart Manikin (Time 2)",
+        x = "Parasocial Condition",
+        color = "Social World Condition",
+        caption = "Errorbars represent 95% confidence intervals"
+    ) +
+    # Color Palette
+    scale_color_brewer(palette = "Set2") +
+    # Facet by gender identity
+    facet_grid(. ~ Race_6GP)
 
 # Arrange the gender and race plots into one
 ggarrange(s3_mod_by_gender_plot,
-          s3_mod_by_race_plot,
-          nrow = 2, legend = "top", common.legend = TRUE, labels = "AUTO")
+    s3_mod_by_race_plot,
+    nrow = 2, legend = "top", common.legend = TRUE, labels = "AUTO"
+)
 ```
 
 ```{r s3-manikins-across-time}
 # Create a long dataset for all manikin variables
 s3_df_long <- s3_df %>%
-  filter(attention_all_correct == TRUE) %>%
-  pivot_longer(cols = c(starts_with("T1"), starts_with("T2"))) %>% 
-  mutate(name = str_remove(name, "_1")) %>% 
-  mutate(time = str_extract(name, "T\\d"),
-         # Get the name followed by _
-         repvarname = str_extract(name, "(?:[^_](?!_))+$")) %>% 
-  # Pivoting to wider, one row per observation, retaining conditions labels
-  pivot_wider(id_cols = c(ResponseId, parasocial, social_world, time, parasocial_MC_group,
-                          IOS,
-                          Single_Immersion, OTF_Social_World, Enjoyment,
-                          PC_Identification), names_from = repvarname)
+    filter(attention_all_correct == TRUE) %>%
+    pivot_longer(cols = c(starts_with("T1"), starts_with("T2"))) %>%
+    mutate(name = str_remove(name, "_1")) %>%
+    mutate(
+        time = str_extract(name, "T\\d"),
+        # Get the name followed by _
+        repvarname = str_extract(name, "(?:[^_](?!_))+$")
+    ) %>%
+    # Pivoting to wider, one row per observation, retaining conditions labels
+    pivot_wider(id_cols = c(
+        ResponseId, parasocial, social_world, time, parasocial_MC_group,
+        IOS,
+        Single_Immersion, OTF_Social_World, Enjoyment,
+        PC_Identification
+    ), names_from = repvarname)
 
 # Mixed Anova model
 s3_manikins_time <- tibble(outcome = c("Heart", "Valence", "Arousal", "Dominance")) %>%
-  mutate(fit = map(outcome, 
-                   ~rstatix::anova_test(data = s3_df_long, dv = ., 
-                                        wid = ResponseId, between = c(parasocial, social_world),
-                                        within = time)),
-         APA = map(fit, function(x){as.tibble(x)})) %>% 
-  # Go through the tibble to create the APA -compatible string
-  mutate(APA = map(APA, describe_anova_test))
+    mutate(
+        fit = map(
+            outcome,
+            ~ rstatix::anova_test(
+                data = s3_df_long, dv = .,
+                wid = ResponseId, between = c(parasocial, social_world),
+                within = time
+            )
+        ),
+        APA = map(fit, function(x) {
+            as.tibble(x)
+        })
+    ) %>%
+    # Go through the tibble to create the APA -compatible string
+    mutate(APA = map(APA, describe_anova_test))
 # Time meansd
-s3_time_msd <- s3_df_long %>% 
-  describe_by_factor(time, vars = c(Heart, Valence, Arousal, Dominance)) %>% 
-  get_APA_from_msd
+s3_time_msd <- s3_df_long %>%
+    describe_by_factor(time, vars = c(Heart, Valence, Arousal, Dominance)) %>%
+    get_APA_from_msd()
 ## APA for Tiem comparisons
-s3_time_APA <-  s3_time_msd %>% mutate(label = str_c(time, variable)) %>%
-  select(label, APA) %>% deframe_as_list()
+s3_time_APA <- s3_time_msd %>%
+    mutate(label = str_c(time, variable)) %>%
+    select(label, APA) %>%
+    deframe_as_list()
 # APA
-s3_manikins_time_list <- s3_manikins_time %>% 
-  mutate(APA_def = map(APA, function(x) x %>% select(Effect, APA) %>% deframe_as_list)) %>% 
-  select(outcome, APA_def) %>% deframe_as_list()
+s3_manikins_time_list <- s3_manikins_time %>%
+    mutate(APA_def = map(APA, function(x) {
+        x %>%
+            select(Effect, APA) %>%
+            deframe_as_list()
+    })) %>%
+    select(outcome, APA_def) %>%
+    deframe_as_list()
 ```
 
 ### Unplanned Analyses
@@ -935,37 +1074,40 @@ compared with the baseline (Time 1).
 ```{r s3-manikin-across-time-plot, fig.cap="Study 3 - Mankin Scores Across Time By Conditions", fig.width=9, fig.height=8}
 # Plot the changes
 # Heart
-draw_s3_manikin_plot <- function(outcome){
-  s3_df_long %>% 
-  ggplot(aes(x = time, y = {{outcome}}, color = parasocial)) +
-  # Add Defeault violin plot
-  default_violin + 
-  # Facet
-  facet_grid(social_world ~ parasocial) +
-  # labels
-  labs(color = "Parasocial Condition",
-       x = "Time")
+draw_s3_manikin_plot <- function(outcome) {
+    s3_df_long %>%
+        ggplot(aes(x = time, y = {{ outcome }}, color = parasocial)) +
+        # Add Defeault violin plot
+        default_violin +
+        # Facet
+        facet_grid(social_world ~ parasocial) +
+        # labels
+        labs(
+            color = "Parasocial Condition",
+            x = "Time"
+        )
 }
 
 # Gather the plots into one
 ggarrange(draw_s3_manikin_plot(Heart),
-          draw_s3_manikin_plot(Valence),
-          draw_s3_manikin_plot(Arousal),
-          draw_s3_manikin_plot(Dominance),
-          labels = "AUTO", common.legend = TRUE, legend = "none")
+    draw_s3_manikin_plot(Valence),
+    draw_s3_manikin_plot(Arousal),
+    draw_s3_manikin_plot(Dominance),
+    labels = "AUTO", common.legend = TRUE, legend = "none"
+)
 
 ```
 
 ```{r s3-identification}
 # identification
 s3_identification_lm <- s3_df %>%
-  filter(attention_all_correct == TRUE) %>% 
-  lm(formula = PC_Identification ~ parasocial*social_world)
+    filter(attention_all_correct == TRUE) %>%
+    lm(formula = PC_Identification ~ parasocial * social_world)
 ## Add APA-Style Texts
 s3_identification_summary <- summarize_Anova_with_APA(s3_identification_lm)
-s3_identification_APA <- s3_identification_summary %>% 
-  select(term, APA) %>% 
-  deframe_as_list()
+s3_identification_APA <- s3_identification_summary %>%
+    select(term, APA) %>%
+    deframe_as_list()
 
 ```
 
@@ -984,109 +1126,137 @@ the player character (Higra) across the conditions.
 
 ```{r s3-moderation}
 s3_outcomes <- c("Heart", "Valence", "Arousal", "Dominance")
-s3_mc_indices <- c("parasocial_MC_group", "IOS",
-                   "Single_Immersion",
-                   "OTF_Social_World", "Enjoyment",
-                   "PC_Identification")
+s3_mc_indices <- c(
+    "parasocial_MC_group", "IOS",
+    "Single_Immersion",
+    "OTF_Social_World", "Enjoyment",
+    "PC_Identification"
+)
 # Prepare Labels for Reporting
-s3_var_labels <- tribble(~varname, ~varlabel,
-                         "parasocial_MC_group", "Parasocial Group",
-                         "IOS", "IOS",
-                         "PSI", "PSI",
-                         "Narrative_Engagement", "Narrative Engagement",
-                         "Single_Immersion", "Immersion",
-                         "OTF_Social_World", "Social World",
-                         "Enjoyment", "Enjoyment",
-                         "PC_Identification", "Player Character Identification")
+s3_var_labels <- tribble(
+    ~varname, ~varlabel,
+    "parasocial_MC_group", "Parasocial Group",
+    "IOS", "IOS",
+    "PSI", "PSI",
+    "Narrative_Engagement", "Narrative Engagement",
+    "Single_Immersion", "Immersion",
+    "OTF_Social_World", "Social World",
+    "Enjoyment", "Enjoyment",
+    "PC_Identification", "Player Character Identification"
+)
 s3_var_nv <- s3_var_labels$varlabel
 names(s3_var_nv) <- s3_var_labels$varname
 # Get all combinations
-s3_mod_by_mc <- expand_grid(outcome = s3_outcomes,
-                            moderator = s3_mc_indices)
+s3_mod_by_mc <- expand_grid(
+    outcome = s3_outcomes,
+    moderator = s3_mc_indices
+)
 # Join labels
 s3_mod_by_mc <- s3_mod_by_mc %>% left_join(s3_var_labels, by = c("moderator" = "varname"))
 # Turn off ordered factor
 s3_df_long <- s3_df_long %>%
-  mutate(parasocial_MC_group = fct_inorder(parasocial_MC_group, ordered = FALSE))
+    mutate(parasocial_MC_group = fct_inorder(parasocial_MC_group, ordered = FALSE))
 # IOS, immersion to continuous
-s3_df_long <- s3_df_long %>% 
-  mutate(IOS = as.character(IOS) %>% as.numeric(),
-         Single_Immersion = Single_Immersion %>% as.character() %>% as.numeric())
+s3_df_long <- s3_df_long %>%
+    mutate(
+        IOS = as.character(IOS) %>% as.numeric(),
+        Single_Immersion = Single_Immersion %>% as.character() %>% as.numeric()
+    )
 # Update labels
 s3_df_long <- s3_df_long %>%
-  sjlabelled::var_labels("essay_condition" = "Condition",
-                         "parasocial_MC_group" = "Parasocial Group",
-                         "IOS" = "IOS",
-                         "PSI" = "PSI",
-                         "Single_Immersion" = "Immersion",
-                         "OTF_Social_World" = "Social World",
-                         "Enjoyment" = "Enjoyment")
+    sjlabelled::var_labels(
+        "essay_condition" = "Condition",
+        "parasocial_MC_group" = "Parasocial Group",
+        "IOS" = "IOS",
+        "PSI" = "PSI",
+        "Single_Immersion" = "Immersion",
+        "OTF_Social_World" = "Social World",
+        "Enjoyment" = "Enjoyment"
+    )
 
 # Mean-Centering the moderators
 s3_df_long <- s3_df_long %>%
-  # group by time will actually grand-mean center since the moderators are between scales
-  group_by(time) %>%
-  mutate(across(all_of(s3_mc_indices[-1]),
-                .fns = list(c = function(x) x - mean(x, na.rm = TRUE)))) %>% 
-  ungroup()
+    # group by time will actually grand-mean center since the moderators are between scales
+    group_by(time) %>%
+    mutate(across(all_of(s3_mc_indices[-1]),
+        .fns = list(c = function(x) x - mean(x, na.rm = TRUE))
+    )) %>%
+    ungroup()
 # add "_c" to centered moderator
-s3_mod_by_mc <- s3_mod_by_mc %>% 
-  mutate(moderator = case_when(moderator == "parasocial_MC_group" ~ moderator,
-                            TRUE ~ paste0(moderator, "_c")))
+s3_mod_by_mc <- s3_mod_by_mc %>%
+    mutate(moderator = case_when(
+        moderator == "parasocial_MC_group" ~ moderator,
+        TRUE ~ paste0(moderator, "_c")
+    ))
 
 
-# Prepare formula 
-s3_mod_by_mc <- s3_mod_by_mc %>% 
-  mutate(formula = paste0(outcome, " ~ ", moderator, " * parasocial * social_world * time + (1|ResponseId)")) %>% 
-  mutate(contrasts = case_when(moderator == "parasocial_MC_group" ~ list(parasocial_MC_group = contr.sum,
-                                                                       social_world = contr.sum,
-                                                                       parasocial = contr.sum,
-                          time = contr.sum) %>% list(),
-                          TRUE ~ list(social_world = contr.sum,
-                                      parasocial = contr.sum,
-                          time = contr.sum) %>% list())) %>%
-  # run mixed model
-  mutate(model = map2(formula, contrasts, ~lmer(formula = .x, data = s3_df_long, contrasts = .y))) %>%
-  # tidy the model results 
-  mutate(tidy = map(model, broom.mixed::tidy),
-         APA = map(model, ~describe.glm(., dtype = 3))) 
+# Prepare formula
+s3_mod_by_mc <- s3_mod_by_mc %>%
+    mutate(formula = paste0(outcome, " ~ ", moderator, " * parasocial * social_world * time + (1|ResponseId)")) %>%
+    mutate(contrasts = case_when(
+        moderator == "parasocial_MC_group" ~ list(
+            parasocial_MC_group = contr.sum,
+            social_world = contr.sum,
+            parasocial = contr.sum,
+            time = contr.sum
+        ) %>% list(),
+        TRUE ~ list(
+            social_world = contr.sum,
+            parasocial = contr.sum,
+            time = contr.sum
+        ) %>% list()
+    )) %>%
+    # run mixed model
+    mutate(model = map2(formula, contrasts, ~ lmer(formula = .x, data = s3_df_long, contrasts = .y))) %>%
+    # tidy the model results
+    mutate(
+        tidy = map(model, broom.mixed::tidy),
+        APA = map(model, ~ describe.glm(., dtype = 3))
+    )
 
 # Output as a list
-s3_mod_mc_APA <- s3_mod_by_mc %>% 
-  mutate(APA = map(APA, function(x){ x %>% select(eff, str) %>% deframe_as_list})) %>% 
-  select(outcome, moderator, APA) %>%
-  # Group by outcome to perform deframe as list only among each group
-  group_by(outcome) %>% 
-  # Create a named list of moderator and the APA results, grouped by outcome 
-  mutate(APA = cur_data() %>% select(moderator, APA) %>% deframe_as_list()) %>% 
-  # nest so that each row will be outcome. data column is a tibble of moderator and APA
-  nest(data = c(moderator, APA)) %>% 
-  # For each data tibble, deframe as list
-  mutate(data = map(data, ~deframe_as_list(.))) %>% 
-  # Deframe the entire tibble as list
-  deframe_as_list()
+s3_mod_mc_APA <- s3_mod_by_mc %>%
+    mutate(APA = map(APA, function(x) {
+        x %>%
+            select(eff, str) %>%
+            deframe_as_list()
+    })) %>%
+    select(outcome, moderator, APA) %>%
+    # Group by outcome to perform deframe as list only among each group
+    group_by(outcome) %>%
+    # Create a named list of moderator and the APA results, grouped by outcome
+    mutate(APA = cur_data() %>% select(moderator, APA) %>% deframe_as_list()) %>%
+    # nest so that each row will be outcome. data column is a tibble of moderator and APA
+    nest(data = c(moderator, APA)) %>%
+    # For each data tibble, deframe as list
+    mutate(data = map(data, ~ deframe_as_list(.))) %>%
+    # Deframe the entire tibble as list
+    deframe_as_list()
 
 # Plot
-s3_mod_plots <- s3_mod_by_mc %>% filter(outcome == "Heart") %>% pull(model) %>% map(plot_s3_mod_bymc)
+s3_mod_plots <- s3_mod_by_mc %>%
+    filter(outcome == "Heart") %>%
+    pull(model) %>%
+    map(plot_s3_mod_bymc)
 ```
 
 ```{r s3-mod-follow-ups}
 # Parasocial Relationship Group ---------------------------------------------------------
 s3_mod_Pgrp_model <- s3_mod_by_mc$model[[1]]
 # three-way between parascoial x social world x time
-s3_mod_Pgrp_emm <- emmeans(s3_mod_Pgrp_model, pairwise ~ parasocial * social_world * time) 
+s3_mod_Pgrp_emm <- emmeans(s3_mod_Pgrp_model, pairwise ~ parasocial * social_world * time)
 # s3_mod_Pgrp_emm_plot <- s3_mod_Pgrp_model %>%
 #   sjPlot::plot_model(type = "emm",
 #                      terms = c("parasocial", "social_world", "time"),
 #                      colors = "Set2") +
 #   labs(color = "Time")
-# The follow-up tests showed that the heart manikin scores are not different from each other 
+# The follow-up tests showed that the heart manikin scores are not different from each other
 
 # Immersion ---------------------------------------------------
 s3_mod_immersion_model <- s3_mod_by_mc$model[[3]]
-## Immersion x Parasocial 
-s3_mod_immersion_para_emt <- s3_mod_immersion_model %>% 
-  emtrends(pairwise ~ parasocial, var = "Single_Immersion_c")
+## Immersion x Parasocial
+s3_mod_immersion_para_emt <- s3_mod_immersion_model %>%
+    emtrends(pairwise ~ parasocial, var = "Single_Immersion_c")
 # s3_mod_immersion_para_emt_plot <- s3_mod_immersion_model %>%
 #   sjPlot::plot_model(type = "emm",
 #                      terms = c("Single_Immersion_c", "parasocial"),
@@ -1094,8 +1264,8 @@ s3_mod_immersion_para_emt <- s3_mod_immersion_model %>%
 s3_imm_para_APA <- get_APA_from_emm(s3_mod_immersion_para_emt)
 
 ## Immersion x time
-s3_mod_immersion_time_emt <- s3_mod_immersion_model %>% 
-  emtrends(pairwise ~ time, var = "Single_Immersion_c")
+s3_mod_immersion_time_emt <- s3_mod_immersion_model %>%
+    emtrends(pairwise ~ time, var = "Single_Immersion_c")
 # s3_mod_immersion_time_emt_plot <- s3_mod_immersion_model %>%
 #   sjPlot::plot_model(type = "emm",
 #                      terms = c("Single_Immersion_c", "time"),
@@ -1103,15 +1273,15 @@ s3_mod_immersion_time_emt <- s3_mod_immersion_model %>%
 s3_imm_time_APA <- s3_mod_immersion_time_emt %>% get_APA_from_emm()
 
 ## Immersion x Parasocial x Social World x Time
-s3_mod_immersion_para_soc_emt <- s3_mod_immersion_model %>% 
-  emtrends(pairwise ~ parasocial * social_world * time, var = "Single_Immersion_c")
-# In the high parasocial and high social world condition, 
+s3_mod_immersion_para_soc_emt <- s3_mod_immersion_model %>%
+    emtrends(pairwise ~ parasocial * social_world * time, var = "Single_Immersion_c")
+# In the high parasocial and high social world condition,
 # the relationship between immersion and belonging at Time 1 was not different from zero,
 # whereas the relationship became positive at Time 2.
 
-#  High Parasocial High Social World T1 - Low Parasocial Low Social World T2   -0.52281 0.1522 465 -3.436  0.0147 
+#  High Parasocial High Social World T1 - Low Parasocial Low Social World T2   -0.52281 0.1522 465 -3.436  0.0147
 # The relationship between immersion and belonging at Time 1 among high parascoial and high social world group was smaller than the relationship between immersion and belonging at Time 2 among low parasocial and low social world group.
-#The relationship between immersion and T1 belonging in the high parascoial and high social world condition was smaller than the relationship between immersion and T2 belonging among low parasocial and low social world group (`r s3_imm_para_soc_time_APA$"High Parasocial_High Social World_T1"` vs. `r s3_imm_para_soc_time_APA$"Low Parasocial_Low Social World_T1"`). However, these slopes were not significantly different from zero.
+# The relationship between immersion and T1 belonging in the high parascoial and high social world condition was smaller than the relationship between immersion and T2 belonging among low parasocial and low social world group (`r s3_imm_para_soc_time_APA$"High Parasocial_High Social World_T1"` vs. `r s3_imm_para_soc_time_APA$"Low Parasocial_Low Social World_T1"`). However, these slopes were not significantly different from zero.
 
 # Create a plot
 # s3_mod_immersion_para_soc_time_emt_plot <- s3_mod_immersion_model %>%
@@ -1123,9 +1293,9 @@ s3_imm_para_soc_time_APA <- s3_mod_immersion_para_soc_emt %>% get_APA_from_emm()
 
 # OTF Social World ---------------------------------------------------------------
 s3_mod_OTF_model <- s3_mod_by_mc$model[[4]]
-## OTF x Time 
-s3_mod_OTF_time_emt <- s3_mod_OTF_model %>% 
-  emtrends(pairwise ~ time, var = "OTF_Social_World_c")
+## OTF x Time
+s3_mod_OTF_time_emt <- s3_mod_OTF_model %>%
+    emtrends(pairwise ~ time, var = "OTF_Social_World_c")
 # s3_mod_OTF_time_emt_plot <- s3_mod_OTF_model %>%
 #   sjPlot::plot_model(type = "emm",
 #                      terms = c("OTF_Social_World_c", "time"),
@@ -1133,8 +1303,8 @@ s3_mod_OTF_time_emt <- s3_mod_OTF_model %>%
 s3_mod_OTF_time_emt_APA <- s3_mod_OTF_time_emt %>% get_APA_from_emm()
 
 ## 4-way interaction
-s3_mod_para_soc_OTF_time_emt <- s3_mod_OTF_model %>% 
-  emtrends(pairwise ~ parasocial * social_world * time, var = "OTF_Social_World_c")
+s3_mod_para_soc_OTF_time_emt <- s3_mod_OTF_model %>%
+    emtrends(pairwise ~ parasocial * social_world * time, var = "OTF_Social_World_c")
 # s3_mod_para_soc_OTF_time_emt_plot <- s3_mod_OTF_model %>%
 #   sjPlot::plot_model(type = "emm",
 #                      terms = c("OTF_Social_World_c", "parasocial", "time", "social_world"),
@@ -1144,9 +1314,9 @@ s3_mod_para_soc_OTF_time_emt_APA <- s3_mod_para_soc_OTF_time_emt %>% get_APA_fro
 
 # Enjoyment ---------------------------------------------------------------
 s3_mod_enjoyment_model <- s3_mod_by_mc$model[[5]]
-## Enjoyment x Time 
-s3_mod_enjoyment_emt <- s3_mod_enjoyment_model %>% 
-  emtrends(pairwise ~ time, var = "Enjoyment_c")
+## Enjoyment x Time
+s3_mod_enjoyment_emt <- s3_mod_enjoyment_model %>%
+    emtrends(pairwise ~ time, var = "Enjoyment_c")
 # s3_mod_enjoyment_emt_plot <- s3_mod_enjoyment_model %>%
 #   sjPlot::plot_model(type = "emm",
 #                      terms = c("Enjoyment_c", "time"),
@@ -1154,26 +1324,26 @@ s3_mod_enjoyment_emt <- s3_mod_enjoyment_model %>%
 s3_mod_enjoyment_emt_APA <- s3_mod_enjoyment_emt %>% get_APA_from_emm()
 
 ## Enjoyment x Parasocial x Social World x Time
-s3_mod_enjoyment_parasocial_world_time_emt <- s3_mod_enjoyment_model %>% 
-  emtrends(pairwise ~ parasocial * social_world * time, var = "Enjoyment_c")
+s3_mod_enjoyment_parasocial_world_time_emt <- s3_mod_enjoyment_model %>%
+    emtrends(pairwise ~ parasocial * social_world * time, var = "Enjoyment_c")
 s3_mod_enjoyment_parasocial_world_time_APA <- s3_mod_enjoyment_parasocial_world_time_emt %>% get_APA_from_emm()
 ### High Parasocial Low Social World T1 - Low Parasocial Low Social World T2     -0.5859 0.1792 456 -3.269  0.0254
 
-###  Low Parasocial Low Social World T1 - Low Parasocial Low Social World T2      -0.4768 0.1014 334 -4.703  0.0001 
+###  Low Parasocial Low Social World T1 - Low Parasocial Low Social World T2      -0.4768 0.1014 334 -4.703  0.0001
 
 # PCID ---------------------------------------------------------------
 s3_mod_PCID_model <- s3_mod_by_mc$model[[6]]
-s3_mod_PCID_emtrends <- emtrends(s3_mod_PCID_model, ~ parasocial, var = "PC_Identification_c")
+s3_mod_PCID_emtrends <- emtrends(s3_mod_PCID_model, ~parasocial, var = "PC_Identification_c")
 s3_mod_PCID_emtrends_APA <- s3_mod_PCID_emtrends %>% get_APA_from_emm()
 
 ## Two-way - PCID x Parasocial
-s3_mod_PCID_para_emt <- s3_mod_PCID_model %>% 
-  emtrends(pairwise ~ parasocial, var = "PC_Identification_c")
+s3_mod_PCID_para_emt <- s3_mod_PCID_model %>%
+    emtrends(pairwise ~ parasocial, var = "PC_Identification_c")
 s3_mod_PCID_para_model_APA <- s3_mod_PCID_para_emt %>% get_APA_from_emm()
 
 ## Two-way - PCID x time
-s3_mod_PCID_time_emt <- s3_mod_PCID_model %>% 
-  emtrends(pairwise ~ time, var = "PC_Identification_c")
+s3_mod_PCID_time_emt <- s3_mod_PCID_model %>%
+    emtrends(pairwise ~ time, var = "PC_Identification_c")
 s3_mod_PCID_time_model_APA <- s3_mod_PCID_time_emt %>% get_APA_from_emm()
 ```
 
@@ -1197,15 +1367,21 @@ results (*p* \< .05) for the heart manikin here for brevity. Note that
 these results were not preregistered and thus prone to Type I error.
 
 ```{r s3-mod-plots, fig.cap="Study 3 - Regression Coefficients Across Models Examining Moderation by Parasocial Relationships, Social World, Enjoyment, and Player Character Identification", fig.height=18, fig.width=15}
-ggarrange(plotlist = s3_mod_plots,
-          ncol = 2, nrow = 3, labels = "AUTO") %>%  
-  # Add caption
-  annotate_figure(bottom = text_grob(paste(sep = "\n", 
-                                           "Errorbars represent 95% confidence intervals.",
-                                           "IOS = Inclusion of the Other in Self Scale",
-                                           "OTF Social World = On-the-Fly Measure of Social World"),
-                                     color = "black",
-                                     hjust = 1.1, x = 1, size = 10))
+ggarrange(
+    plotlist = s3_mod_plots,
+    ncol = 2, nrow = 3, labels = "AUTO"
+) %>%
+    # Add caption
+    annotate_figure(bottom = text_grob(
+        paste(
+            sep = "\n",
+            "Errorbars represent 95% confidence intervals.",
+            "IOS = Inclusion of the Other in Self Scale",
+            "OTF Social World = On-the-Fly Measure of Social World"
+        ),
+        color = "black",
+        hjust = 1.1, x = 1, size = 10
+    ))
 
 ```
 
