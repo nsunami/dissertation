@@ -82,21 +82,8 @@ Instead, I again used an average effect size estimate (*r* = .21) across 474 met
 
 ```{r s2-participants}
 # Total number of participants by attention check
-s2_attention_APA <- s2_df %>%
-    summarise(across(
-        .cols = c(
-            attention_rejection_correct,
-            attention_VG_correct,
-            attention_all_correct
-        ),
-        .fns = list(
-            correct = sum,
-            failed = ~ sum(!.)
-        )
-    )) %>%
-    as.list() %>%
-    # append total N
-    append(., list(total = nrow(s2_df)))
+s2_attention_APA <- s2_df |>
+    s2_count_participants_by_attention_check()
 # Total number of participants that followed the VG Instructions
 followed_VG_inst <- s2_df %>%
     group_by(followed_VGinstructions) %>%
