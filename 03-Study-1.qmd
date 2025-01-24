@@ -1421,10 +1421,11 @@ This study was designed to test whether people who expect social
 rejection show decreased cardiovascular threat response to social
 rejection (Sunami et al., unpublished). The preregistration of the
 original study is available at OSF (<https://osf.io/4xn52>) before data
-collection. Table \@ref(tab:s1d-table) summarizes the measures used in
+collection. @tbl-s1d-table summarizes the measures used in
 the study.
 
 ```{r s1d-table}
+#| label: tbl-s1d-table
 s1_measures_dfs$d %>% s1_render_kable(studykey = "d")
 ```
 
@@ -1560,7 +1561,7 @@ Participants provided informed consent and wore electrocardiograph
 electrodes and a blood pressure cuff to the participant for
 cardiovascular recording, unrelated to the current scale validation.
 Then, participants completed demographics, the Heart Manikin (Time 1),
-and the Time 1 questionnaires in Table \@ref(tab:s1d-table). Then,
+and the Time 1 questionnaires in @tbl-s1d-table. Then,
 participants completed the participant desire manipulation similar to
 Study 1c and answered the Self-Assessment Manikin and the Heart Manikin
 (Time 2). Then, participants heard an audio recording ostensibly
@@ -1572,7 +1573,7 @@ participants completed the modified Need-Threat Scale [@williamsOstracismTempora
 the Self-Assessment Manikin, and the Heart Manikin (Time 3). Then,
 participants completed a word-finding task with the confederate,
 unrelated to the current validation, the Heart Manikin (Time 4), and the
-Time 4 questionnaires in Table \@ref(tab:s1d-table). See
+Time 4 questionnaires in Table @tbl-s1d-table. See
 [Appendix] for the detailed descriptions of these measures.
 
 ### Results
@@ -1607,8 +1608,8 @@ s1d_txt <- s1d_txt %>%
 
 **Convergent and Discriminant Validities.** To test convergent and
 discriminant validities, I fist examined the bivariate correlations
-between the Heart Manikin and the included measures (Table
-\@ref(tab:s1d-table)). Detailed results are available in
+between the Heart Manikin and the included measures (
+@tab-s1d-table). Detailed results are available in
 [Appendix]. I focus on the results of the non-repeated
 measures (self-esteem and social judgment survey) here since the results
 for the measures repeated throughout the study are reported in the mixed
