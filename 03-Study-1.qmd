@@ -1208,10 +1208,11 @@ belonging (`r s1c_T2_txt$nts_belonging`), control
 (`r s1c_T2_txt$nts_mean`), supporting the convergent validity. Contrary
 to the prediction, the discriminant validity indicators also co-varied
 with the Heart Manikin as well: arousal (`r s1c_T2_txt$arousal`),
-dominance (`r s1c_T2_txt$dominance`). See Figure
-\@ref(fig:s1c-T2reg-plot) for the forest plot.
+dominance (`r s1c_T2_txt$dominance`). See @fig-s1c-T2reg-plot for the forest plot.
 
 ```{r s1c-T2reg-plot, fig.cap = 'Study 1c - Regression Coefficients at Time 2', fig.width=8, fig.height=5}
+#| label: fig-s1c-T2reg-plot
+
 # Plot - regression at T2
 s1c_T2_mods %>%
     # Reorder Names for Scales (in-order then reverse)
