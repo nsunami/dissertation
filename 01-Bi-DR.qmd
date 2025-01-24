@@ -810,11 +810,9 @@ possible. Although the taxonomy itself does not directly answer these
 questions, it provides researchers with the language needed to ask these
 questions in the first place.
 
-### Factors Predicting Engaged versus Disengaged Prosocial Responses (Figure \@ref(fig:bidr-prosocial))
+### Factors Predicting Engaged versus Disengaged Prosocial Responses (@fig-bidr-prosocial)
 
-```{r bidr-prosocial, out.width = '100%', fig.cap='Representative individual differences and situational factors predicting prosocial engaged and disengaged responses. Only the prosocial dimension is depicted in this diagram for illustrative purposes. Approach-oriented tendencies and individualistic cultural backgrounds predict engaged prosocial responses. On the other hand, avoidance-oriented tendencies and collectivistic cultural backgrounds predict disengaged prosocial responses.'}
-knitr::include_graphics("images/bidr-prosocial.png")
-```
+![Representative individual differences and situational factors predicting prosocial engaged and disengaged responses. Only the prosocial dimension is depicted in this diagram for illustrative purposes. Approach-oriented tendencies and individualistic cultural backgrounds predict engaged prosocial responses. On the other hand, avoidance-oriented tendencies and collectivistic cultural backgrounds predict disengaged prosocial responses.](images/bidr-prosocial.png){#fig-bidr-prosocial}
 
 **Approach-Avoidance Tendency.** People differ in their tendency to
 approach or avoid a social outcome. In general, people with
@@ -852,8 +850,7 @@ because it involves direct communication of the need for support to
 close others. Taken together, people with collectivistic backgrounds may
 use more disengaged rather than engaged prosocial responses to
 rejection, and people with individualistic backgrounds may use more
-engaged rather than disengaged prosocial responses to rejection (Figure
-\@ref(fig:bidr-prosocial)).
+engaged rather than disengaged prosocial responses to rejection (@fig-bidr-prosocial).
 
 These cultural predictions further highlight the risk of neglecting the
 engaged-disengaged *y*-axis, and how doing so could lead to incorrect
