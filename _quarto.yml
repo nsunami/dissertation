@@ -15,6 +15,7 @@ book:
     - 05-Study-3.qmd
     - 06-General-Discussion.qmd
     - 07-References.qmd
+    - 08-Appendix.qmd
 
 bibliography:
   - references.bib
