@@ -29,6 +29,9 @@ jobs:
         with:
           cache-version: 1
 
+      - name: Install TinyTex
+        uses: r-lib/actions/setup-tinytex@v2
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
