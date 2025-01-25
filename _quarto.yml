@@ -4,6 +4,7 @@ project:
 
 book:
   title: "Playing Alone, Feeling Connected: Do Single-Player Video Games with Social Surrogates Replenish Belonging After Social Rejection?"
+  output-file: "Sunami-Dissertation.pdf"
   author: "Naoyuki Sunami"
   date: "1/10/2025"
   chapters:
