@@ -1,3 +1,7 @@
+# Ignore for publishing
+/.quarto/
+/_site/
+
 .Rhistory
 .Rprofile
 .Rproj.user
