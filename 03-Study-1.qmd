@@ -1,0 +1,2649 @@
+# Study 1: Validating The Heart Manikin and The Rejection Manipulation
+
+```{r s1-setup, message=FALSE, warning=FALSE, include = FALSE}
+knitr::opts_chunk$set(
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE
+)
+library(Hmisc) # summarize namespace overlaps with dplyr
+library(here)
+library(tidyverse)
+library(GGally) # Corregiogram
+library(corrr)
+library(kableExtra)
+library(lme4)
+library(lmerTest) # p-values
+source(here("r", "ggcorr.R")) # I customized ggcorr to not to replace the spaces in variable names with undersocres
+library(forestplot)
+library(broom)
+library(broom.mixed)
+library(apastats) # Formatting stats in to APA
+library(ggpubr)
+library(ggtext)
+source(here("r", "namifunc.R"))
+source(here("r", "get_s1c_sensitivity_APA.R"))
+source(here("r", "load_s1c.R"))
+# Facet nested
+# devtools::install_github("teunbrand/ggh4x")
+
+# Load Datasets  ---------------------------------------------------------------
+# s1a
+s1a_df <- rio::import(here("data_public/Study1a_public.rds"))
+# s1b
+s1b_df <- rio::import(here("data_public/Study1b_public.rds"))
+# s1c
+s1c_df <- load_s1c()
+# s1d
+s1d_df <- rio::import(here("data_public/Study1d_public.rds"))
+# s1e
+s1e_df <- rio::import(here("data_public/Study1e_public.rds"))
+
+
+## Preparing the table of measures -----------------------------------------
+# get data
+s1_measures_path <- here("data_public", "Study1_measures.csv")
+s1_measures_tbl <- read_csv(s1_measures_path)
+# add ronames
+s1_measures_tbl <- s1_measures_tbl %>% mutate(id = row_number())
+# abbreviate the labels
+s1_measures_tbl <- s1_measures_tbl %>%
+    mutate(
+        Validity = str_replace(Validity, "Convergent", "Con."),
+        Validity = str_replace(Validity, "Discriminant", "Dis.")
+    )
+# Starting positions for packing
+pack_starts <- s1_measures_tbl %>%
+    mutate(rownum = row_number()) %>%
+    group_by(Study, `Main Measure`) %>%
+    mutate(Submeasure = row_number()) %>%
+    mutate(
+        start_num = case_when(Submeasure == 1 ~ rownum),
+        end_num = case_when(Submeasure == n() ~ rownum)
+    ) %>%
+    ungroup() %>%
+    fill(start_num, .direction = "down") %>%
+    fill(end_num, .direction = "up") %>%
+    filter(Submeasure == 1) %>%
+    mutate(
+        need_packing = (start_num != end_num),
+        `Subscale (if any)` = case_when(need_packing == FALSE ~ `Main Measure`)
+    ) %>%
+    mutate(labels = case_when(need_packing == TRUE ~ `Main Measure`, TRUE ~ " ")) %>%
+    mutate(intervals = end_num - start_num + 1) %>%
+    select(id, Study, labels, intervals)
+
+# Join Table
+s1_measures_tbl <- s1_measures_tbl %>%
+    left_join(pack_starts) %>%
+    rename(
+        "Measure" = `Subscale (if any)`,
+        "Construct" = `Measured Construct`
+    )
+
+# Clean NAs from the labels
+s1_measures_tbl <- s1_measures_tbl %>%
+    mutate(labels = case_when(is.na(labels) ~ "", TRUE ~ labels))
+pack_starts_nested <- s1_measures_tbl %>%
+    nest_by(Study) %>%
+    ungroup()
+
+# List of df to feed to the function in-text to render table on the spot
+s1_measures_dfs <- pack_starts_nested %>%
+    select(Study, data) %>%
+    deframe_as_list()
+```
+
+The critical outcome measure for my dissertation is a state measure of
+belonging---that captures how much participants feel accepted,
+connected, loved, and cared for at a given moment. My dissertation
+required a new scale since existing scales focus on measuring belonging
+in a group context or belonging as an individual difference. For
+example, the need-threat scale [@williamsOstracismTemporalNeedthreat2009], measures how one felt
+rejected by a group in Cyberball (e.g., "I felt the other players
+interacted with me a lot", "I felt I belonged to the group"). The UCLA
+loneliness scale [@russell1996] measures threatened belonging at the
+individual difference level, not at the state level (e.g., "How often do
+you feel that you lack companionship?"). In this study, I developed a new scale
+that is unconstrained in a group context and measures a state belonging.
+
+In Studies 2 and 3, I planned to have all participants complete a social
+rejection induction essay from previous studies [@sunamiDoesProspectFulfilling2019;
+@twengeIsnItFun2003], without a control or acceptance condition to reduce the
+number of participants and costs. Since various forms of this
+manipulation have been successfully used in many labs to induce
+rejection, I was initially confident that this manipulation would be
+effective. To further ensure that this particular social rejection
+induction was effective before running my primary studies, I examined
+the effectiveness of the rejection manipulations in Studies 1c and 1e.
+
+## The Heart Manikin
+
+To provide a suitable measure for my dissertation, I proposed the Heart
+Self-Assessment Manikin scale, a new single-item measure of belonging
+(@fig-heart-manikin). The Heart Self-Assessment Manikin is
+an adapted version of the Self-Assessment Manikin (@fig-original-manikins) that measures emotional valence, arousal,
+and dominance in a given moment [@bradleyMeasuringEmotionSelfAssessment1994; @langBehavioralTreatmentBiobehavioral1980]. The original
+Self-Assessment Manikin showed good convergent validity with existing
+verbal measures [@bradleyMeasuringEmotionSelfAssessment1994]. In the original Self-Assessment
+Manikin, participants see pictorial figures and choose a number
+corresponding to a figure that best describes their current feelings (valence, arousal, dominance).
+Likewise, the Heart Self-Assessment Manikin asks participants to
+indicate the number best reflects their current belonging. Similar to
+the original Self-Assessment Manikin, the Heart Self-Assessment Manikin
+is easy to administer, quick to complete, and easily understood by
+participants relative to a traditional text-based questionnaire.
+
+
+![The Heart Manikin](images/m-heart.png){#fig-heart-manikin}
+
+*Note.* Participants indicate how they feel at the moment on a 9-point
+scale. The body and the face of the figure is taken from the valence
+subscale of the original Self-Assessment Manikin [@langBehavioralTreatmentBiobehavioral1980].
+
+![The original Self-Assessment Manikin [@langBehavioralTreatmentBiobehavioral1980]](images/m-original-all.png){#fig-original-manikins}
+
+*Note*. From top to bottom, the items refer to valence, arousal, and
+dominance, respectively. Participants indicate how they feel at the
+moment on a 9-point scale. The scale has been validated as a state
+measure [@langBehavioralTreatmentBiobehavioral1980]. The vector drawings of the valence and arousal
+items are adopted from an existing GitHub repository at
+<https://github.com/hexa-/SAM-vectors> [@hexa-2020a]
+
+## Current Study
+
+In Study 1, I evaluated construct validity and test-retest reliability
+of the Heart Manikin, using five existing datasets (Studies 1a, 1b, 1c,
+1d, and 1e). For construct validity, I focused on convergent validity,
+discriminant validity, and the scale's sensitivity to a laboratory
+manipulation already known to affect belonging [@boateng2018]. In
+addition, I tested the effectiveness of the rejection manipulation to be
+used in the subsequent dissertation studies (Study 1e).
+
+### Convergent Validity
+
+If the Heart Manikin measures belonging, it should correlate with other
+measures of belonging. Thus, I expected that the Heart Manikin would
+converge measures of belonging [Studies 1c, 1d, and 1e; @williamsOstracismTemporalNeedthreat2009] and social isolation
+(Study 1b). I also expected that the heart Manikin scores would also converge
+with measures of depression (Study 1a) since lonely people experience
+more depressive symptoms than non-lonely people [@cacioppoLonelinessSpecificRisk2006; @jaremkaLonelinessPredictsPain2013; @jaremkaPainDepressionFatigue2014].
+
+The belonging need is pervasive---people with lower belonging may also
+experience lower self-esteem, a lower sense of control, and lower
+sense of meaning [@hartgerinkOrdinalEffectsOstracism2015; @learySelfesteemInterpersonalMonitor1995; @williamsOstracismTemporalNeedthreat2009]. Thus, I expected
+that the Heart Manikin scores converge with the measures of self-esteem,
+control, and a sense of meaning (Studies 1c, 1d, and 1e).
+
+Socially accepted people experience positive emotions; socially rejected people experience negative
+emotions [@gerberBeingRejectedMetaanalysis2009; @richmanReactionsDiscriminationStigmatization2009; @williamsOstracismTemporalNeedthreat2009]. The
+valence scores of the Self-Assessment Manikin [@bradleyMeasuringEmotionSelfAssessment1994] measures how
+positively or negatively a person is feeling at a moment. Thus, I
+expected that the Heart Manikin scores would positively correlate with
+the valence scores of the original Self-Assessment Manikin (Studies 1a,
+1b, 1c, 1d, 1e).
+
+People who expect and fear social rejection tend to report lower belonging
+than those who do not since they are prone to act in ways to elicit
+social rejection from others, akin to self-fulfilling prophecy [@downeySelffulfillingProphecyClose1998]. Thus, I
+expected that the Heart Manikin scores would negatively correlate with
+the measures of sensitivity of social rejection, including rejection
+sensitivity (Study 1e), fear of negative evaluation (Study 1e), and
+avoidant and anxious attachment styles (Study 1e).
+
+People with a caring and nurturing relationship with their romantic
+partner should report higher belonging than those who do not. Thus, I
+expected that the Heart Manikin scores would positively correlate with
+the degree of support that they receive from their partner, the
+relationship quality, and closeness to their partner, and perceived
+responsiveness of their partner (Study 1b). Conversely, the heart
+manikin scores should negatively correlate with the measures of
+conflicts, ostracism, psychological and physical abuse in a romantic
+relationship (Studies 1b and 1c).
+
+### Discriminant validity
+
+If the Heart Manikin scale measures state belonging, its scores should
+be discriminant against measures of other unrelated constructs. To
+examine discriminant validity, I explored correlations between the Heart
+Manikin scores with the following measures: arousal and dominance
+subscales of the Self-Assessment Manikin 
+[Studies 1a, 1c, 1d, and 1e; @bradleyMeasuringEmotionSelfAssessment1994; @langBehavioralTreatmentBiobehavioral1980], beliefs about
+biological differences between Black and White people 
+[Study 1a; @hoffmanRacialBiasPain2016],
+interpersonal reactivity 
+[Study 1a; @davisMultidimensionalApproachIndividual1980], self-monitoring
+tendencies [Study 1a; @snyderSelfmonitoringExpressiveBehavior1974], tendency to be
+excited by paradoxes [Study 1a; @miron-spektorMicrofoundationsOrganizationalParadox2018], capacity to
+acknowledge and integrate competing opinions of others 
+[Study 1a; @zhangParadoxicalLeaderBehaviors2015], membership
+to different social groups [Study 1a; @haslamMaintainingGroupMemberships2008],
+subjective social
+status [Studies 1b, 1c, and 1e; 
+@adlerRelationshipSubjectiveObjective2000], perpetration of
+abusive and controlling behaviors in a romantic relationship [Study 1b;
+@graham-kevanPhysicalAggressionControl2003 and @postmusAbusiveBehaviorInventory2015],
+food cravings (Study 1b), dietary social support (Study 1b), body image (Study 1b), levels of
+physical activity [Study 1b;
+@godinGodinShephardLeisureTimePhysical2011], sleep quality
+[Study 1b; @cellaPROMISAdultHealth2019], narcissism [Study
+1b; @konrathDevelopmentValidationSingle2014],
+perceived psychological stress [Study 1b;
+@cohenGlobalMeasurePerceived1983], the need for closure
+[Study 1d; @kruglanskiMotivationsJudgingKnowing1990], and adherence to
+traditional social values [Study 1d; @proulxCaseTransmogrifyingExperimenter2008; @rosenblattEvidenceTerrorManagement1989].
+
+### Scale's Sensitivity to Social Rejection Manipulation
+
+If the Heart Manikin measures state belonging, the scores should be
+sensitive to social rejection manipulations. Studies 1c, 1d, and 1e
+included variants of social rejection manipulations commonly used in
+social rejection research. Since previous studies have already demonstrated 
+that these rejection manipulations induced social rejection, I was confident that these
+manipulations would effectively manipulate the construct of belonging.
+My primary goal here was to test whether the Heart Manikin captured the
+changes in belonging due to the social rejection manipulations.
+
+For studies that included a social rejection manipulation (Studies 1c,
+1d, and 1e), I expected that rejected participants would report lower
+Heart Manikin scores than non-rejected participants immediately after
+the manipulation. Furthermore, for studies that measured the Heart
+Manikin over time before and after the manipulations, I expected an
+interaction between the manipulation and time. Scores of rejected
+participants would fluctuate more over time due to the initial decrease
+in belonging and recovery, compared with scores of the non-rejected
+participants. I expected that non-rejected participants' scores would
+remain relatively stable before and after the manipulation.
+
+### Test-Retest Reliability
+
+For studies that measured the Heart Manikin repeatedly (Studies 1b, 1c,
+1d, and 1e), I evaluated the test-retest reliability of the scale by
+calculating intraclass correlations [@kooGuidelineSelectingReporting2016; @rabe-hesketh2012a]. I did not
+make any a priori prediction about the test-retest reliability of the
+Heart Manikin for two reasons. First, I could not make an a priori
+prediction about test-retest reliability since the measure was designed
+to be a state scale and thus, by definition, should fluctuate over time.
+Second, the primary purpose of validating the Heart Manikin was to use
+it as an outcome measure after an experimental manipulation for Studies
+2 and 3. Since I was not relying on the temporal stability of the
+measure for these studies (e.g., comparing pre vs. post scores), the
+utility of the scale for my dissertation did not depend on the
+test-retest reliability of the scale. I calculated the test-retest
+reliability of the Heart Manikin to explore the psychometric property of
+the scale.
+
+### Validating the Rejection Manipulation
+
+In Studies 2 and 3, I planned to induce feelings of social rejection
+using the rejection prompt in the social rejection paradigm used in the
+study. In this paradigm, participants would be asked to write about
+their time being rejected in the past [@sunamiDoesProspectFulfilling2019; @twengeIsnItFun2003].
+I planned to use only the social rejection prompt, without an acceptance
+or neutral condition, to reduce the number of participants and thus the
+costs of the studies. The downside of this approach is that I was not
+able to test the effectiveness of the manipulation in Studies 2 and 3
+since I only used the rejection condition without a non-rejection
+condition. Thus, it was crucial to ensure that the social rejection
+manipulation used in Studies 2 and 3 was effective before conducting the
+studies. Again, many other laboratories used various forms of this
+manipulation to induce rejection [@bernsteinPreferenceGenuineSmiles2010;
+@derrickSocialSurrogacyHow2009;
+@troisiThreatenedBelongingPreference2015], adding the confidence to the
+effectiveness of the manipulation. To further ensure the effectiveness
+in our laboratory, I validated the rejection via a pilot study,
+consistent with an existing recommendation
+[@hauserAreManipulationChecks2018]. Study 1e included the essay
+rejection manipulation with the same rejection induction that I planned
+to use in Studies 2 and 3 and a control condition. Thus, I treated Study
+1e as a pilot study and examine if the rejection manipulation affected
+belonging.
+
+### General Analytic Strategy
+
+To examine convergent validity, I tested an association between the
+aforementioned measures used in the study and the Heart Manikin. I used
+an alpha of .05 as a cutoff point for statistical significance. To
+examine discriminant validity, I used an equivalence test [@lakensEquivalenceTestsPractical2017] since a
+non-significant relationship is not an absence of a relationship in a
+null-hypothesis testing. To do so, I set the smallest effect size of
+interest (SESOI) that is the minimal effect size that I consider
+theoretically meaningful. Any effect size that was lower than this
+effect size was considered theoretically negligible, and thus equivalent
+to zero. To determine the SESOI, I first used the average effect size
+(*r* = .21) derived from 474 meta-analytic effect sizes (with more than
+25,000 studies) in social psychology [@richardOneHundredYears2003]. I first transformed
+this estimate (*r* = .21) to Fisher's *z* (Fisher's *z* = .21) for normality [@borensteinEffectSizesMetaAnalysis2019]. To
+safeguard against the inflation of effect size, I consider the lower
+bound of the 60% confidence interval as the target effect size [@peruginiSafeguardPowerProtection2014].
+To calculate the confidence interval, I first calculated the standard
+error for the Fisher's *z* using the sample size of 474, treating each
+meta-analytic effect size independently [@borensteinEffectSizesMetaAnalysis2019]:
+
+$$SE_{z} = \sqrt{\frac{1}{474-3}} = 0.046$$
+
+Then, I calculated the confidence interval using the normal
+distribution. The lower bound of the 60% confidence interval was
+Fisher's *z* = 0.17 (Fisher *z* = 0.21, 60%CI[0.17, 0.25]), which was
+equivalent to *r* = 0.17 and Cohen's *d* = 0.35. Thus, I set the SESOI
+as *r* = .17. I compared any non-significant observed coefficient with
+the SESOI to see if the observed effect size was theoretically
+negligible. To examine the test-retest reliability, I calculated ICCs
+and interpreted them as poor (\<.50), moderate (.50--.75), good
+(.75--.90), and excellent (\>.90) based on existing guidelines
+[@kooGuidelineSelectingReporting2016].
+
+Studies 1b, 1c, 1d, and 1e include data where participants completed the
+Heart Manikin and other measures across multiple time points. To account
+for the dependency in data, I used a linear mixed model. I describe fixed predictors under each study section. I first included
+both random intercept and the random effect of Time. If the model did
+not converge, I removed the random effect of Time from the model. If
+the model converged, I retained the random Time effect. To determine
+the structure of the residual variance-covariance matrix (R matrix) and
+the random-effects variance-covariance structure (G matrix), I tested
+models with different structures and choose the one that fits the data
+best. For the R matrix, I tested diagonal, compound symmetry, and
+unstructured structures. For the G matrix, I tested identity,
+variance components, and unstructured structures.
+
+## Study 1a (RPR Data)
+
+I used a cross-sectional dataset from an online mass testing session
+conducted for the psychology participant pool. See 
+@tbl-s1a-table for the measures included in this study.
+
+```{r s1a-table}
+#| label: tbl-s1a-table
+s1_measures_dfs$a %>% s1_render_kable(studykey = "a")
+```
+
+### Participants
+
+All undergraduate students enrolled in an introductory psychology course
+were invited to complete a mass testing session for the psychology
+participant pool at the University of Delaware in 2018 Fall. Among those
+who accessed the survey website (1160 participants), 571 participants
+were randomly assigned to a questionnaire block that contained the Heart
+Manikin and thus included in this study.
+
+### Procedure and Materials
+
+Participants answered an online questionnaire that included all the
+measures. Since the goal of Study 1 is to validate the Heart Manikin
+adapted from the Self-Assessment Manikin, I describe the Heart
+Manikin and the Self-Assessment Manikin in more detail below. For other
+measures, see @tbl-s1a-table for the summary and Appendix A
+for the detailed descriptions.
+
+**Heart Manikin.** I developed the Heart Manikin to measure a state
+belonging: how much a person feels cared for, accepted, loved, and
+connected at a given moment (Figure 1). The measure consisted of 5
+mankins adopted from the valence item of the Self-Assessment Manikin [@langBehavioralTreatmentBiobehavioral1980]. Each figure
+has a drawing of a heart. The size of the heart and the face of the
+manikin corresponds with belonging. The bigger the heart the manikin
+has, the more belonging. The scale had a horizontal bar below the
+manikin figures that presented 9 ticks, with ticks below and between the
+5 figures. Participants were asked to indicate how they feel at the
+moment in this 9-point scale ("Please select the number that best
+corresponds to how you currently feel."). I report the reliability and
+validity of the scale in the result sections.
+
+**Self-Assessment Manikin.** The Self-Assessment Manikin is a 3-item
+measure of valence, arousal, and dominance [@bradleyMeasuringEmotionSelfAssessment1994; @langBehavioralTreatmentBiobehavioral1980]. Each scale had 5
+manikin figures representing different levels of valence, arousal, and
+dominance. Participants responded how they currently feel on a 9-point
+scale: 1 = "unhappy, annoyed, unsatisfied, and bored" to 9 = "happy,
+pleased, satisfied, and hopeful" for valence, 1 = "relaxed, calm,
+sleepy, sluggish" to 9 = "excited, frenzied, wide-awake, and aroused"
+for arousal, and 1= "submissive, influenced, controlled by others" to 9
+= "in control, important, dominant, autonomous" for dominance. The
+Self-Assessment Manikin has a good convergent validity with the existing
+verbal measures of valence, arousal, and dominance [@bradleyMeasuringEmotionSelfAssessment1994].
+Study 1a only
+included the valence item.
+
+### Results
+
+```{r s1a-correlations, include=FALSE}
+s1a_target_vars <- s1a_df %>%
+    select(
+        heart, valence, CESD_sum, social_isolation_mean, bio_diff_mean,
+        reactivity_mean, reactivity_perspective, reactivity_fantasy,
+        reactivity_empathy, reactivity_distress,
+        self_monitoring_sum, paradoxical_mindset_mean,
+        integrative_complexity_mean,
+        multiple_identity_mean
+    ) %>%
+    rename(
+        "Heart" = heart,
+        "Valence" = valence,
+        "CESD" = CESD_sum,
+        "Isolation" = social_isolation_mean,
+        "Biological Beliefs" = bio_diff_mean,
+        # Reactivity vars
+        "Reactivity" = reactivity_mean,
+        "Perspective" = reactivity_perspective,
+        "Fantasy" = reactivity_fantasy,
+        "Empathy" = reactivity_empathy,
+        "Distress" = reactivity_distress,
+        "Monitoring" = self_monitoring_sum,
+        "Paradox" = paradoxical_mindset_mean,
+        "Complexity" = integrative_complexity_mean,
+        "Multiple Identity" = multiple_identity_mean
+    )
+# Export Target Variable DF for the plots in Appendix
+write_rds(s1a_target_vars, here("data_public/subset", "Study1a_public_target.rds"))
+# Assign variable types
+s1a_var_types <- c(
+    valence = "Convergent",
+    CESD_sum = "Convergent (R)",
+    social_isolation_mean = "Convergent (R)",
+    bio_diff_mean = "Discriminant",
+    reactivity_mean = "Discriminant",
+    reactivity_perspective = "Discriminant",
+    reactivity_fantasy = "Discriminant",
+    reactivity_empathy = "Discriminant",
+    reactivity_distress = "Discriminant",
+    self_monitoring_sum = "Discriminant",
+    paradoxical_mindset_mean = "Discriminant",
+    integrative_complexity_mean = "Discriminant",
+    multiple_identity_mean = "Discriminant"
+)
+# Create a named vector of variable names (long) and their types
+s1a_var_types_long <- s1a_var_types
+names(s1a_var_types_long) <- names(s1a_target_vars)[-1]
+# Calculate correlations via the ad-hoc get_correlations()
+s1a_cor_CIs <- s1a_target_vars %>%
+    get_correlations(vars = 2:last_col(), outcome = Heart)
+## Add Types
+s1a_cor_CIs <- s1a_cor_CIs %>%
+    mutate(type = s1a_var_types_long[label])
+## Add outcome for later merging (Only Heart T1)
+s1a_cor_CIs <- s1a_cor_CIs %>%
+    mutate(outcome = "Heart T1")
+## Add Equivalence Test Results
+s1a_cor_CIs <- s1a_cor_CIs %>%
+    mutate(eq_decision = map2_chr(conf.low_model90, conf.high_model90, ~ evaluate_equivalence(.x, .y, ROPE_r))) %>%
+    mutate(eq_decision = case_when(
+        p.value_model95 >= .05 ~ eq_decision,
+        TRUE ~ ""
+    )) %>%
+    # Add labels for plot annotation
+    mutate(eq_label = case_when(
+        eq_decision == "Rejected" ~ "",
+        eq_decision == "Accepted" ~ "∗",
+        eq_decision == "Undecided" ~ "+"
+    ))
+# Markdown-formatted APA Text (95% only)
+s1a_txt <- s1a_cor_CIs %>% select(label, APA_model95) %>%
+    # `deframe()` to convert two-column df to a named vector
+    deframe_as_list()
+```
+
+To test convergent and discriminant validities, I examined bivariate
+correlations between the Heart Manikin scores and the scores of the
+measures in @tbl-s1a-table. Results are presented in
+@fig-s1a-forest (see @tbl-appendix-s1a-correlations-table for the bivariate correlation
+table). Consistent with the prediction, the Heart Manikin scores
+correlated with the hypothesized measures for convergent validity: the
+Valence Manikin (`r s1a_txt$Valence`), social isolation
+(`r s1a_txt$Isolation`), CESD (`r s1a_txt$CESD`).
+
+For the discriminant validity, I found mixed results. As predicted, the
+Heart Manikin scores did not correlate with the measures of overall
+interpersonal reactivity (`r s1a_txt$Reactivity`), perspective taking (`r s1a_txt$Perspective`), fantasy (`r s1a_txt$Fantasy`), paradoxical mindset
+(`r s1a_txt$Paradox`), or integrative complexity
+(`r s1a_txt$Complexity`). However, the Heart Manikin scores correlated
+with the measures of empathy (`r s1a_txt$Empathy`), distress (`r s1a_txt$Distress`), multiple identity
+(`r s1a_txt$'Multiple Identity'`), social monitoring
+(`r s1a_txt$Monitoring`), and beliefs in biological differences between
+Black and White people (`r s1a_txt$'Biological Beliefs'`), contrary to
+the prediction.
+
+For all correlation coefficients with a *p*-value larger than *p* = .05, I
+performed an equivalence test to examine if they were theoretically
+equivalent to zero. The 90% confidence intervals of the correlation
+coefficients for the interpersonal reactivity, paradoxical mindset, and
+integrative complexity all fell within the smallest effect size of
+interest (\|*r*\| = `r SESOI_r`). Thus, I consider these coefficients as
+theoretically equivalent to zero.
+
+Overall, these results suggest strong support for the convergent
+validity and moderate support for the discriminant validity of the Heart
+Manikin.
+
+```{r s1a-forest, echo=FALSE, fig.cap="Study 1a - Forestplot Showing Correlation Coefficients with Heart Manikin Scores.", fig.height=6, fig.width=9}
+#| label: fig-s1a-forest
+## Forest plot caption
+
+s1_caption_errorbars9095 <- "Errorbars represent 90% (inner tick) and 95% (outer tick) confidence intervals"
+s1_caption_SESOI_r <- sprintf("The vertical dashed lines represent the smallest effect size of interest (SESOI, |r| = %s)", SESOI_r)
+s1_forest_caption <- paste(
+    sep = "\n",
+    s1_caption_errorbars9095,
+    s1_caption_SESOI_r,
+    "(R) = Reversed hypothesized association. * = Equivalent to zero. + = Undecided equivalence."
+)
+
+## Forest Plot
+s1a_forest <- s1a_cor_CIs %>%
+    ggplot(aes(y = label, x = estimate, color = type, label = eq_label)) +
+    # Zero and SESOI
+    geom_zeroSESOI +
+    # Data points
+    geom_point() +
+    # CI error bars - 90%
+    geom_errorbarh(aes(xmin = conf.low_model90, xmax = conf.high_model90), height = .2) +
+    # CI error bars - 95%
+    geom_errorbarh(aes(xmin = conf.low_model95, xmax = conf.high_model95), height = .2) +
+    # x-axis limits
+    scale_x_continuous(limits = c(-1, 1), name = "Correlation Coefficient with Heart Manikin") +
+    # y-axis label
+    ylab("Variable") +
+    # Facet by Validity Type
+    facet_grid(type ~ ., scales = "free", space = "free") +
+    # Title
+    ggtitle("Study 1a (RPR): Correlation Coefficients with Heart Manikin Scores") +
+    # Change the font size on strip text (Validity Labels)
+    theme(strip.text.y = element_text(size = 8)) +
+    # Caption
+    labs(caption = s1_forest_caption) +
+    scale_color_brewer(name = "Hypothesized Validity", palette = "Set2") +
+    # legends for equivalence tests
+    geom_text(nudge_x = 0.2, show.legend = FALSE)
+s1a_forest
+```
+
+## Study 1b (RAIv1)
+
+This study was designed to test the relationship between interpersonal
+distress and immune function (Jaremka, unpublished). @tbl-s1b-table
+shows a summary of the measures included in the study.
+
+```{r s1b-table}
+#| label: tbl-s1b-table
+s1_measures_dfs$b %>% s1_render_kable(studykey = "b")
+```
+
+### Participants
+
+One-hundred and seven participants participated in the study.
+Participants were eligible to participate if they were in a romantic
+relationship at the beginning of the study. Participants were recruited
+from the psychology participant pool at the University of Delaware. They
+received partial course credits as compensation.
+
+```{r s1b-participants}
+# Get the participants who participanted more than twice in one visit
+s1b_duplicates <- s1b_df %>%
+    group_by(id, visit) %>%
+    summarise(n = n()) %>%
+    filter(n > 1)
+s1b_duplicates <- s1b_df %>%
+    group_by(id, visit) %>%
+    summarise(n = n()) %>%
+    filter(id %in% s1b_duplicates$id)
+#  s1b_df %>% filter(id == 306)
+#  s1b_df %>% filter(id == 402)
+# Print out the different dates, if needed
+# s1b_df %>% filter(id %in% s1b_duplicates$id) %>% select(id, visit, StartDate) %>% arrange(id, visit)
+s1b_df <- s1b_df %>%
+    # p 306, only include the first data point
+    filter(!(id == 306 & StartDate == lubridate::as_datetime("2016-11-18 11:34:00"))) %>%
+    filter(!(id == 402 & StartDate == lubridate::as_datetime("2016-09-22 12:31:00")))
+# filter(id == 306 | id == 402)
+s1b_dates <- s1b_df %>%
+    pivot_wider(id, names_prefix = "visit", names_from = visit, values_from = StartDate) %>%
+    mutate(
+        gap12 = visit2 - visit1,
+        gap13 = visit3 - visit1,
+        gap23 = visit3 - visit2
+    )
+# Created a summary df showing average participation gaps between visits
+s1b_dates_summary <- s1b_dates %>%
+    summarise(across(c("gap12", "gap13", "gap23"),
+        .fns = list("mean" = ~ mean(., na.rm = T) %>% round(2))
+    )) %>%
+    rowwise() %>%
+    mutate(gap_mean = mean(c(gap12_mean, gap13_mean, gap23_mean) %>% round(2)))
+```
+
+The dataset contained data from `r s1b_df %>% distinct(id) %>% nrow(.)`
+participants. Participants were eligible to participate if they were in
+a romantic relationship at the beginning of the study. Participants were
+recruited from the psychology participant pool at the University of
+Delaware. They received partial course credits as compensation. During
+the data inspection, I found that two participants had duplicate data
+points in the study One participant had 2 data points for the Visit 3 on
+the same date but no data for Visit 2. For this participant, I
+disregarded their data from later participation on that day. Another
+participant had participated twice for Visit 1 on different dates. I
+disregarded their data for the later participation for Visit 1.
+
+### Procedure and Materials
+
+The study had three visits (Visits 1--3) with average intervals of
+`r s1b_dates_summary$gap12_mean` days between Visits 1 and 2, and
+`r s1b_dates_summary$gap23_mean` days between Visits 2 and 3,
+respectively. In each visit, participants came to a group testing room
+and answered all questionnaires. The Heart Manikin was identical to the
+ones used in Study 1a. See @tbl-s1b-table for the summary of
+the measures and [Appendix] for detailed descriptions.
+
+The following questionnaires included questions about their current
+romantic partner: the Couples Satisfaction Index [@funkTestingRulerItem2007], the Inclusion of the
+Other in the Self Scale to one's current romantic partner [@aronInclusionOtherSelf1992], the Partner
+Responsiveness Scale [@gableApproachAvoidanceMotives2012], the Relationship
+Conflict Scale, the Ostracism from Romantic Partner Scale, the Abusive
+Behavior Inventory-Revised [@postmusAbusiveBehaviorInventory2015], the Controlling
+Behavior Scale [@graham-kevanPhysicalAggressionControl2003], and the Dietary
+Social Support Scale. In Visits 2 and 3, participants who are no longer
+in a relationship with a partner previously reported answered about both
+their relationship with a new romantic partner and their ex-partner.
+
+### Results
+
+```{r s1b-analyses}
+# Labels for the Table  ------------------------------------------------------------
+s1b_labels <- c(
+    "id" = "id", "Heart" = "heart",
+    "Valence" = "valence",
+    "SES" = "ladder",
+    "Social Isolation" = "PROMIS_isolation_sum",
+    "Emotional Support" = "PROMIS_emotional_sum",
+    "Informational Support" = "PROMIS_informational_sum",
+    "Couples Satisfaction" = "couples_satisfaction_mean",
+    "IOS" = "IOS",
+    "Responsiveness" = "partner_resp_mean",
+    "Conflict" = "conflict_mean",
+    "Partner Ostracism" = "ostracism_mean",
+    "Psychological Abuse" = "abuse_psychological_mean",
+    "Physical Abuse" = "abuse_physical_mean",
+    "Economic Control" = "control_economic_mean",
+    "Threats" = "control_threats_mean",
+    "Intimidation" = "control_intimidation_mean",
+    "Emotional Control" = "control_emotional_mean",
+    "Isolation Control" = "control_isolation_mean",
+    "Craving" = "craving_mean",
+    "Body Image" = "body_image",
+    "Sleep" = "sleep_sum",
+    "Narcissism" = "narcissism",
+    "Stress" = "stress_mean",
+    "CESD" = "CESD_sum"
+)
+
+s1b_var_types <- c(
+    valence = "Convergent",
+    ladder = "Discriminant",
+    PROMIS_isolation_sum = "Convergent (R)",
+    PROMIS_emotional_sum = "Convergent",
+    PROMIS_informational_sum = "Convergent",
+    couples_satisfaction_mean = "Convergent",
+    IOS = "Convergent",
+    partner_resp_mean = "Convergent",
+    conflict_mean = "Convergent (R)",
+    ostracism_mean = "Convergent (R)",
+    abuse_psychological_mean = "Discriminant",
+    abuse_physical_mean = "Discriminant",
+    control_economic_mean = "Discriminant",
+    control_threats_mean = "Discriminant",
+    control_intimidation_mean = "Discriminant",
+    control_emotional_mean = "Discriminant",
+    control_isolation_mean = "Discriminant",
+    craving_mean = "Discriminant",
+    body_image = "Discriminant",
+    sleep_sum = "Discriminant",
+    narcissism = "Discriminant",
+    stress_mean = "Discriminant",
+    CESD_sum = "Convergent (R)"
+) %>%
+    tibble(
+        predictor = names(.),
+        type = .
+    )
+
+# Select the variables that will be included in the correlation analysis
+s1b_target_variables <- s1b_df %>%
+    select(
+        id, visit,
+        heart,
+        valence,
+        ladder,
+        PROMIS_isolation_sum,
+        PROMIS_emotional_sum,
+        PROMIS_informational_sum,
+        couples_satisfaction_mean,
+        IOS,
+        partner_resp_mean,
+        conflict_mean,
+        ostracism_mean,
+        abuse_psychological_mean,
+        abuse_physical_mean,
+        control_economic_mean,
+        control_threats_mean,
+        control_intimidation_mean,
+        control_emotional_mean,
+        control_isolation_mean,
+        craving_mean,
+        body_image,
+        sleep_sum,
+        narcissism,
+        stress_mean,
+        CESD_sum
+    ) %>%
+    # Rename the variables for presentatioon
+    rename(all_of(s1b_labels))
+# Save the target variables DF for Appendix
+write_rds(s1b_target_variables, here("data_public", "subset", "Study1b_public_target.rds"))
+
+# Labels keys df for later use
+s1b_target_vars_labels_df <- tibble(
+    predictor = s1b_labels,
+    label = names(s1b_labels)
+)
+# Append to the vartypes
+s1b_var_types <- s1b_var_types %>%
+    left_join(s1b_target_vars_labels_df)
+# Create a longer version of the variable types df with labels
+# for correlation plot
+s1b_var_types_visits <- bind_rows(
+    "T1" = s1b_var_types,
+    "T2" = s1b_var_types,
+    "T3" = s1b_var_types, .id = "visit"
+) %>%
+    mutate(label = paste0(label, " ", visit))
+
+# Bivariate Correlations ----------------------------------------------------------------
+# Long to Wide
+s1b_target_wide <- s1b_target_variables %>%
+    pivot_wider(
+        id_cols = id, names_from = visit, values_from = c(-id, -visit),
+        names_sep = " ", names_prefix = "T"
+    )
+# Correlations with Heart 1-3
+s1b_cor_heart1 <- s1b_target_wide %>%
+    get_correlations(
+        vars = `Valence T1`:last_col(),
+        outcome = `Heart T1`
+    ) %>%
+    mutate(outcome = "Heart T1")
+s1b_cor_heart2 <- s1b_target_wide %>%
+    get_correlations(
+        vars = `Valence T1`:last_col(),
+        outcome = `Heart T2`
+    ) %>%
+    mutate(outcome = "Heart T2")
+s1b_cor_heart3 <- s1b_target_wide %>%
+    get_correlations(
+        vars = `Valence T1`:last_col(),
+        outcome = `Heart T3`
+    ) %>%
+    mutate(outcome = "Heart T3")
+# Correlation
+s1b_cor_heart123 <- s1b_cor_heart1 %>%
+    bind_rows(s1b_cor_heart2) %>%
+    bind_rows(s1b_cor_heart3) %>%
+    select(outcome, everything())
+
+# Add variable types and labels ----------------------------------------------------------------
+# Types (Convergent, Discriminant)
+s1b_cor_CIs <- s1b_cor_heart123 %>%
+    left_join(s1b_var_types_visits)
+# Add Times Variable
+s1b_cor_CIs <- s1b_cor_CIs %>%
+    # Extract Time
+    mutate(time = str_extract(label, "T\\d"))
+# Cache the table
+s1b_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1b_cor_CIs.rds"))
+# APA Text
+s1b_cor_txt <- s1b_cor_heart123 %>%
+    select(label, APA_model95) %>%
+    deframe() %>%
+    as.list()
+
+# MixedModel --------------------------------------------------------------------
+# Mixed Model
+# Chooosing between nlme vs lme4: https://stats.stackexchange.com/questions/5344/how-to-choose-nlme-or-lme4-r-library-for-mixed-effects-models
+## Non-Standardized Model --------------------------------------------------------------------
+# Prepare a mean-centered dataset
+s1b_dfC <- s1b_df %>%
+    # Mean Centering
+    mutate_at(
+        vars(all_of(s1b_labels[-1])),
+        ~ . - mean(., na.rm = TRUE)
+    ) %>%
+    # Visit As Factor
+    mutate(visit = as.factor(visit))
+
+# Mixed model table - (Not run)
+# s1b_lm_df <- tibble(predictor = s1b_labels[3:length(s1b_labels)]) %>%
+#   mutate(formula = paste0("heart ~ 1 + ", predictor, " + visit + (1|id)")) %>%
+#   mutate(model = map(formula, ~lmer(formula = .,
+#                                     data = s1b_dfC)),
+#          broom = map(model, ~broom.mixed::tidy(.)),
+#          target_pred = map(broom, ~.[2,])) %>%
+#   # Calculate confidence intervals - parm = 4 for the predictor
+#   mutate(ci95 = map(model, ~confint.merMod(parm = 4, ., method = "Wald", level = .95) %>%
+#                       as_tibble() %>% rename_with(~c("lower", "upper"))),
+#          ci90 = map(model, ~confint.merMod(parm = 4, ., method = "Wald", level = .90) %>% as_tibble() %>%
+#                       as_tibble() %>% rename_with(~c("lower", "upper")))) %>%
+#   unnest(target_pred) %>%
+#   unnest(c(ci95, ci90), names_sep = "_")
+
+## Standardized Model  --------------------------------------------------------------------
+# Standardize the predictors
+s1b_df_std <- s1b_dfC %>%
+    # only the
+    mutate_at(
+        vars(all_of(s1b_labels), -id),
+        ~ (scale(.) %>% as.vector())
+    ) %>%
+    # Visit As Factor
+    mutate(visit = as.factor(visit))
+# Get the table of the standardized model
+s1b_lm_df_std <- tibble(predictor = s1b_labels[3:length(s1b_labels)]) %>%
+    mutate(formula = paste0("heart ~ 1 + ", predictor, " + visit + (1|id)")) %>%
+    mutate(
+        model = map(formula, ~ lmer(
+            formula = .,
+            data = s1b_df_std
+        )),
+        broom = map(model, ~ broom.mixed::tidy(.)),
+        target_pred = map(broom, ~ .[2, ])
+    ) %>%
+    # Calculate confidence intervals - parm = 4 for the predictor, Wald to save time
+    mutate(
+        ci95 = map(model, ~ confint.merMod(parm = 4, ., method = "Wald", level = .95) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper"))),
+        ci90 = map(model, ~ confint.merMod(parm = 4, ., method = "Wald", level = .90) %>%
+            as_tibble() %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper")))
+    ) %>%
+    unnest(target_pred) %>%
+    unnest(c(ci95, ci90), names_sep = "_")
+
+# Add equivalence test
+s1b_lm_df_std <- s1b_lm_df_std %>% add_eqtest()
+# Add Types
+s1b_mixed_mods_std <- s1b_lm_df_std %>%
+    left_join(s1b_var_types)
+# Add predictor names
+s1b_mixed_mods_std <- s1b_mixed_mods_std %>% mutate(pred_label = names(predictor))
+# Add Convergent vs Discriminant Labels
+s1b_mixed_mods_std <- s1b_mixed_mods_std %>%
+    left_join(s1b_var_types)
+# Add APA
+s1b_lm_df_std <- s1b_lm_df_std %>%
+    mutate(
+        described = map(model, ~ describe.glm(., dtype = 3)),
+        APA_pred = map_chr(described, ~ .[2, "str"])
+    )
+# Get a list of APA-formatted texts
+s1b_lm_txt <- s1b_lm_df_std %>%
+    select(predictor, APA_pred) %>%
+    deframe() %>%
+    as.list()
+```
+
+For testing convergent validity, I constructed a mixed model that
+predicted the Heart Manikin across time for each measure in 
+@tbl-s1b-table. I included the fixed effects of Time (categorical;
+1--3) and the scores of a given measure (centered). I first included the
+random intercept and the random effect of Time. However, the model
+failed to converge with the Time random effect, and thus I dropped the
+Time random effect. @fig-s1b-forest shows regression
+coefficients for each measure predicting the Heart Manikin scores after
+controlling for the fixed effect of Time.
+
+**Convergent Validity**. Consistent with the predictions, all convergent
+measures showed evidence for convergent validity: valence manikin
+(`r s1b_lm_txt$valence`), partner responsiveness
+(`r s1b_lm_txt$partner_resp_mean`), inclusion of the other in the self
+(`r s1b_lm_txt$IOS`), informational support
+(`r s1b_lm_txt$PROMIS_informational_sum`), emotional support
+(`r s1b_lm_txt$PROMIS_emotional_sum`), couples satisfaction
+(`r s1b_lm_txt$couples_satisfaction_mean`), social isolation
+(`r s1b_lm_txt$PROMIS_isolation_sum`), partner ostracism
+(`r s1b_lm_txt$ostracism_mean`), relationship conflict
+(`r s1b_lm_txt$conflict_mean`), and depression
+(`r s1b_lm_txt$CESD_sum`). These results suggest a strong support for
+the convergent validity for the Heart Manikin.
+
+**Discriminant Validity.** Out of the 13 measures for the discriminant
+validity, 9 measures did not correlate with the Heart Manikin scores,
+supporting the discriminant validity: sleep quality
+(`r s1b_lm_txt$sleep`), socioeconomic status (`r s1b_lm_txt$ladder`),
+psychological abuse perpetration
+(`r s1b_lm_txt$abuse_psychological_mean`), physical abuse perpetration
+(`r s1b_lm_txt$abuse_physical_mean`), isolation control
+(`r s1b_lm_txt$control_isolation_mean`), intimidation control
+(`r s1b_lm_txt$control_intimidation_mean`), emotional control
+(`r s1b_lm_txt$control_emotional_mean`), economic control
+(`r s1b_lm_txt$control_economic_mean`), craving
+(`r s1b_lm_txt$craving_mean`), and body image
+(`r s1b_lm_txt$body_image`). Contrary to the prediction, 3 measures correlated with the
+Heart Manikin: threats control (`r s1b_lm_txt$control_emotional_mean`),
+stress (`r s1b_lm_txt$stress_mean`), and narcissism
+(`r s1b_lm_txt$narcissism`).
+
+For all coefficients with a *p*-value greater than .05, I ran an
+equivalence test to test if they were theoretically equivalent to zero
+(@fig-s1b-forest). Results showed that the correlation
+coefficients with the measures of sleep quality, physical abuse,
+intimidation, and body image were theoretically equivalent to zero
+(using \|*r*\| = `r SESOI_r`). The correlation coefficients with the
+measure of economic control, emotional control, and craving were not
+equivalent to zero or different from zero, and thus I interpret the
+results for these measures as ambiguous. Overall, the current results
+suggest a moderate discriminant validity of the Heart Manikin scores,
+especially against measures of sleep quality, physical abuse,
+intimidation, and body image.
+
+```{r s1b-forest, fig.cap = "Study 1b - Forestplot Showing Correlation Coefficients with Heart Manikin Scores", fig.width=9, fig.height=10}
+#| label: fig-s1b-forest
+# Forest
+s1b_forest_title <- "Study 1b (RAIv1): Standardized Regression Coefficients Predicting Heart Manikin Scores After Controlling for Visits in a Mixed Model"
+s1b_forest <- s1b_mixed_mods_std %>%
+    ggplot(aes(
+        y = pred_label, x = estimate,
+        color = type, label = eq_label
+    )) +
+    # SESOI and Zero
+    geom_zeroSESOI +
+    # Data points
+    geom_point() +
+    # CI error bars - 90%
+    geom_errorbarh(aes(xmin = ci90_lower, xmax = ci90_upper), height = .3) +
+    # CI error bars - 95%
+    geom_errorbarh(aes(xmin = ci95_lower, xmax = ci95_upper), height = .3) +
+    # x-axis limits and labels
+    scale_x_continuous(limits = c(-1, 1), name = "Standardized Regression Coefficient") +
+    # y-axis label
+    ylab("Variable") +
+    # Facet by validity type
+    facet_grid(type ~ ., scales = "free", space = "free") +
+    # Title
+    ggtitle(str_wrap(s1b_forest_title, 70)) +
+    # Caption
+    labs(caption = s1_forest_caption) +
+    # Color legend title and color scheme
+    scale_color_brewer(name = "Hypothesized Validity", palette = "Set2") +
+    # GEOM_text
+    geom_text(nudge_x = 0.2, show.legend = FALSE)
+s1b_forest
+```
+
+```{r s1b-test-retest}
+# Model
+s1b_test_retest_model <- lmer(
+    formula = heart ~ 1 + (1 | id),
+    data = s1b_df_std
+)
+# Calculate ICC
+s1b_test_retest_icc <- performance::icc(s1b_test_retest_model)
+# APA
+s1b_test_retest <- list(
+    icc = s1b_test_retest_icc$ICC_adjusted %>% round(2),
+    mean_interval = s1b_dates_summary$gap_mean %>% round(2)
+)
+```
+
+**Test-Retest Reliability.** To explore the test-retest reliability, I
+constructed an unconditional mixed model predicting the Heart Manikin
+scores over Time, and interpreted its intraclass correlation
+(ICC) as a measure of reliability. The obtained ICC was
+`r s1b_test_retest$icc` (average interval between visits =
+`r s1b_test_retest$mean_interval` days). The ICC indicates a poor reliability
+according to the guideline [@kooGuidelineSelectingReporting2016]. These results suggest that
+participants reported different levels of Heart Manikin scores across
+the visits. Note that the low reliability does not imply that the scale
+performed well or poorly, since the Heart Manikin scale was meant to
+measure fluctuations over time.
+
+## Study 1c (ARv1)
+
+Study 1c was designed to test whether social rejection by a close other
+threatens belonging more than social rejection by a stranger
+[@nadzan2019]. @tbl-s1c-table summarizes the measures used
+in the study.
+
+```{r s1c-table}
+#| label: tbl-s1c-table
+s1_measures_dfs$c %>% s1_render_kable(studykey = "c")
+```
+
+### Participants
+
+Two-hundred ninety-two participants were recruited from Amazon
+Mechanical Turk (MTurk). Participants received \$1.50 for participation.
+
+### Procedure and Materials
+
+The study was a 2 (Social Rejection: Rejection vs. Acceptance) x 2
+(Essay Target: Stranger vs. Close Friend) design. Participants provided
+informed consent and completed the Heart Manikin (Time 1) and the Time 1
+measures (see @tbl-s1c-table). Then, participants were
+randomly assigned to one of the five essay conditions. In the stranger
+rejection condition, participants wrote about a time when they felt
+rejected by a stranger. In the close friend rejection condition,
+participants wrote about a time when they felt rejected by a close
+friend. In the stranger acceptance condition, participants wrote about a
+time when they felt accepted by a stranger. In the close friend
+acceptance, participants wrote about a time when they felt accepted by a
+close friend. Participants wrote the essay for 5 minutes. After the
+essay task, participants answered the Heart Manikin, the original
+Self-Assessment Manikin, and the Need-Threat Scale at Time 2. Then,
+participants indicated the characteristics of the person that they
+described in the essay task, unrelated to the current scale validation.
+Next, participants answered the Heart Manikin and the valence
+Self-Assessment Manikin and further questions about the person in the
+essay task at Time 3. Then, participants again answered the valence
+Self-Assessment Manikin and the Heart Manikin, and the demographics at
+Time 4 [@bradleyMeasuringEmotionSelfAssessment1994]. See [Appendix] for the detailed
+descriptions of these measures.
+
+```{r s1c-analysis}
+# Study 1c variable labels
+# Setup ------------------------------------------------------------------------
+s1c_target_vars_labels <- c(
+    "Heart T1" = "heart1",
+    "Heart T2" = "heart2",
+    "Heart T3" = "heart3",
+    "Valence T1" = "valence1",
+    "Valence T2" = "valence2",
+    "Valence T3" = "valence3",
+    "Arousal T2" = "arousal2",
+    "Dominance T2" = "dominance2",
+    "NTS Belonging T2" = "nts_belonging_mean",
+    "NTS Self-Esteem T2" = "nts_esteem_mean",
+    "NTS Control T2" = "nts_control_mean",
+    "NTS Meaning T2" = "nts_meaning_mean",
+    "NTS Overall T2" = "nts_mean",
+    "SES T3" = "ladder"
+)
+s1c_var_types <- c(
+    valence1 = "Convergent",
+    valence2 = "Convergent",
+    valence3 = "Convergent",
+    arousal2 = "Discriminant",
+    dominance2 = "Discriminant",
+    nts_belonging_mean = "Convergent",
+    nts_esteem_mean = "Convergent",
+    nts_control_mean = "Convergent",
+    nts_meaning_mean = "Convergent",
+    nts_mean = "Convergent",
+    ladder = "Discriminant"
+) %>%
+    tibble(predictor = names(.), type = .)
+# Subset the data to target variables only
+s1c_target_vars <- s1c_df %>%
+    select(all_of(s1c_target_vars_labels))
+# Save
+s1c_target_vars %>% write_rds(here("data_public", "subset", "Study1c_public_target.rds"))
+# Labels keys df for later use
+s1c_target_vars_labels_df <- tibble(
+    predictor = s1c_target_vars_labels,
+    label = names(s1c_target_vars_labels)
+)
+# Append labels to the validity types
+s1c_var_types <- s1c_var_types %>% left_join(s1c_target_vars_labels_df)
+
+# Bivariate Correlation Analysis ------------------------------------------------
+# Correlations with Heart 1-3
+s1c_cor_heart1 <- s1c_target_vars %>%
+    get_correlations(vars = `Valence T1`:last_col(), outcome = `Heart T1`) %>%
+    mutate(outcome = "Heart T1")
+s1c_cor_heart2 <- s1c_target_vars %>%
+    get_correlations(vars = `Valence T1`:last_col(), outcome = `Heart T2`) %>%
+    mutate(outcome = "Heart T2")
+s1c_cor_heart3 <- s1c_target_vars %>%
+    get_correlations(vars = `Valence T1`:last_col(), outcome = `Heart T3`) %>%
+    mutate(outcome = "Heart T3")
+# Correlation
+s1c_cor_heart123 <- s1c_cor_heart1 %>%
+    bind_rows(s1c_cor_heart2) %>%
+    bind_rows(s1c_cor_heart3) %>%
+    select(outcome, everything())
+# Add types
+s1c_cor_CIs <- s1c_cor_heart123 %>%
+    left_join(s1c_var_types)
+# Add Times Variable
+s1c_cor_CIs <- s1c_cor_CIs %>%
+    mutate(time = str_extract(label, "T\\d"))
+s1c_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1c_cor_CIs.rds"))
+# APA text container
+s1c_txt <- s1c_cor_CIs %>%
+    mutate(outcome_shorthand = str_extract(outcome, "..$"))
+# List
+s1c_bivariate_APA <- s1c_txt %>%
+    mutate(label = paste(outcome, label)) %>%
+    select(label, APA_model95) %>%
+    deframe_as_list()
+
+
+# Time 2 Regression Analysis ------------------------------------------------
+## Regression models predicting Time 2 Heart Manikin scores for each Time 2 measure
+
+# For each variable, we will create a model
+s1c_T2_vars <- names(s1c_target_vars_labels) %>%
+    str_ends("T2") %>%
+    s1c_target_vars_labels[.]
+# Get the table of models and summary (without loop)
+s1c_T2_mods <- tibble(predictor = s1c_T2_vars[2:length(s1c_T2_vars)]) %>%
+    # Formula - use scale() to standardize on the spot
+    mutate(formula = paste0(
+        "scale(heart2) ~ scale(", predictor, ") + ",
+        "acceptanceEC + closenessEC + acceptanceEC * closenessEC"
+    )) %>%
+    mutate(model = map(formula, ~ lm(
+        formula = .,
+        # Use the standardized data for standardized coefs
+        data = s1c_df
+    )))
+# Brooming to get the summary stats
+s1c_T2_mods <- s1c_T2_mods %>% mutate(broom = map(model, ~ broom::tidy(.)))
+# Extract CI
+s1c_T2_mods <- s1c_T2_mods %>%
+    mutate(
+        ci95 = map(model, ~ confint(., parm = 2, level = 0.95) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper"))),
+        ci90 = map(model, ~ confint(., parm = 2, level = 0.90) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper")))
+    ) %>%
+    mutate(broom_scale = map(broom, ~ .[2, ])) %>%
+    unnest(broom_scale) %>%
+    unnest(c(ci95, ci90), names_sep = "_")
+# Equivalence test
+s1c_T2_mods <- s1c_T2_mods %>% add_eqtest()
+
+# Add labels for variables
+s1c_T2_mods <- s1c_T2_mods %>%
+    mutate(names = names(predictor))
+# Add Types
+s1c_T2_mods <- s1c_T2_mods %>%
+    left_join(s1c_var_types, by = "predictor")
+# Add Markdown
+s1c_T2_mods <- s1c_T2_mods %>%
+    mutate(
+        described = map(model, ~ describe.glm(., dtype = 3)),
+        APA_pred = map_chr(described, ~ .[2, "str"])
+    )
+# Deframe to get a list of Markdown text
+s1c_T2_txt <- s1c_T2_mods %>%
+    select(predictor, APA_pred) %>%
+    deframe() %>%
+    as.list()
+```
+
+### Results
+
+**Convergent and Discriminant Validities.** To test convergent
+discriminant validities, I first examined the bivariate correlations
+between the Heart Manikin and the included measures in 
+@tbl-s1c-table. Detailed results are available in [Appendix].
+Here, I report the results with the socioeconomic status, since I detail
+results for the other measures in the mixed models below. Contrary to
+the prediction, the socioeconomic status scores correlated with the
+Heart Manikin scores `r s1c_bivariate_APA$"Heart T3 SES T3"`, suggesting
+that the Heart Manikin scores did not discriminate against the subjective
+socioeconomic status.
+
+To test convergent and discriminant validities after controlling for the
+manipulations, I examined an association between the Heart Manikin
+scores and Time 2 measures. To do so, I constructed regression models
+predicting the Time 2 Heart Manikin scores for each Time 2 measure. I
+included the following predictors in the model: the given Time 2
+measure, Social Rejection (-0.5 = Rejection, 0.5 = Acceptance), Essay
+Target (-0.5 = Stranger, 0.5 = Close Friend), and Social Rejection x
+Essay Target. Results showed that all indicators for convergent validity
+all predicted the Heart Manikin Scores: the valence manikin
+(`r s1c_T2_txt$valence2`), self-esteem (`r s1c_T2_txt$nts_esteem`),
+belonging (`r s1c_T2_txt$nts_belonging`), control
+(`r s1c_T2_txt$nts_control`), meaningful existence
+(`r s1c_T2_txt$nts_meaning`), and overall need-threat
+(`r s1c_T2_txt$nts_mean`), supporting the convergent validity. Contrary
+to the prediction, the discriminant validity indicators also co-varied
+with the Heart Manikin as well: arousal (`r s1c_T2_txt$arousal`),
+dominance (`r s1c_T2_txt$dominance`). See @fig-s1c-T2reg-plot for the forest plot.
+
+```{r s1c-T2reg-plot, fig.cap = 'Study 1c - Regression Coefficients at Time 2', fig.width=8, fig.height=5}
+#| label: fig-s1c-T2reg-plot
+
+# Plot - regression at T2
+s1c_T2_mods %>%
+    # Reorder Names for Scales (in-order then reverse)
+    mutate(names = fct_inorder(names) %>% fct_rev()) %>%
+    ggplot(aes(y = names, x = estimate, color = type)) +
+    # Lines for Zero and SESOI
+    geom_zeroSESOI +
+    # Points
+    geom_point() +
+    # CI error bars - 90%
+    geom_errorbarh(aes(xmin = ci90_lower, xmax = ci90_upper), height = .3, size = .5) +
+    # CI error bars - 95%
+    geom_errorbarh(aes(xmin = ci95_lower, xmax = ci95_upper), height = .3, size = .5) +
+    # Labels
+    ## Title
+    ggtitle("Study 1c (ARv1): Time 2 Standardized Regression Coefficients \nPredicting Heart Manikin Scores After Controlling for Manipulations") +
+    ## Rescale and label the x-axis
+    scale_x_continuous(limits = c(-1, 1), name = "Standardized Regression Coefficient") +
+    ## X-axis label
+    ylab("Predictor") +
+    ## Legend labels
+    scale_color_brewer(name = "Hypothesized\nValidity", palette = "Set2") +
+    ## Caption
+    labs(caption = paste(
+        sep = "\n",
+        "Errorbars represent 90% (inner tick) and 95% (outer tick) confidence intervals",
+        sprintf("The vertical dashed line represents the smallest effect size of interest (SESOI, |r| = %s)", SESOI_r)
+    )) +
+    # Facet by Validity Type
+    facet_grid(type ~ ., scales = "free", space = "free")
+```
+
+```{r s1c-mixed-model}
+# Target vars for the mixed model - only valence is measured three times - no looping
+s1c_df_long <- s1c_df %>%
+    select(id, acceptance, closeness, grouping_dummy, heart1:heart3, valence1:valence3) %>%
+    pivot_longer(c(heart1:heart3, valence1:valence3)) %>%
+    mutate(
+        time = str_extract(name, "\\d"),
+        name = str_replace(name, "\\d", "")
+    ) %>%
+    pivot_wider(names_from = name, values_from = value)
+# Cache the long file
+s1c_df_long %>% write_rds(here("data_public", "s1c_df_long.rds"))
+# Construct a mixed model
+s1c_mixed_mod <- lmer(
+    formula = scale(heart) ~ scale(valence) + grouping_dummy * time + (1 | id),
+    data = s1c_df_long
+)
+# Create a table of formula and their associated results
+s1c_mixed_mods <- tibble(
+    predictor = "valence",
+    pred_label = "Valence",
+    model = list(s1c_mixed_mod),
+    broom = list(broom.mixed::tidy(s1c_mixed_mod))
+) %>%
+    mutate(broom_pred = map(broom, ~ .[2, ])) %>%
+    mutate(
+        ci95 = map(model, ~ confint(., parm = 4, level = 0.95) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper"))),
+        ci90 = map(model, ~ confint(., parm = 4, level = 0.90) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper")))
+    ) %>%
+    # Add labels for the variable
+    mutate(names = names(predictor)) %>%
+    # Unnest
+    unnest(broom_pred) %>%
+    unnest(c(ci95, ci90), names_sep = "_")
+# Add equivalence test
+s1c_mixed_mods <- s1c_mixed_mods %>% add_eqtest()
+# Add Convergent Discriminant Types
+s1c_mixed_mods <- s1c_mixed_mods %>%
+    mutate(type = c("Convergent"))
+# Add Markdown
+s1c_mixed_mods <- s1c_mixed_mods %>%
+    mutate(
+        described = map(model, ~ describe.glm(., dtype = 3)),
+        APA_pred = map_chr(described, ~ .[2, "str"])
+    )
+# Deframe to get a list of Markdown text
+s1c_mixed_txt <- s1c_mixed_mods %>%
+    select(predictor, APA_pred) %>%
+    deframe() %>%
+    as.list()
+
+```
+
+Since the Heart Manikin and the Valence Manikin were measured over time, I created a linear mixed model to examine convergent and discriminant
+validities of the Heart Manikin with the valence Self-Assessment Manikin
+item across Times 1--3. I created a dummy variable (Grouping Dummy)
+representing the four experimental groups in the study to facilitate
+interpretation. The fixed predictors were Time, Valence Manikin,
+Grouping Dummy, and Grouping Dummy x Time. Results showed that the
+valence scores predicted the Heart Manikin scores
+(`r s1c_mixed_txt$valence`) after controlling for the effects of
+manipulations and Time. I interpret the results as a strong support for
+the convergent validity between the Valence Manikin and the Heart
+Manikin.
+
+```{r s1c-sensitivity}
+# Sensitivity to Rejection
+# Get means and sd only for rejection vs acceptance
+s1c_sensitivity_APA <- get_s1c_sensitivity_APA(s1c_df)
+```
+
+**Sensitivity to Experimental Manipulation.** To test the sensitivity of
+the Heart Manikin scores to the social rejection manipulation, I ran a
+Welch's *t*-test comparing the rejection and acceptance conditions at
+Time 2. Results showed that the rejected participants reported lower
+Heart Manikin scores (`r s1c_sensitivity_APA$Rejection`) than the
+accepted participatns (`r s1c_sensitivity_APA$Acceptance`) at Time 2,
+`r s1c_sensitivity_APA$t`, `r s1c_sensitivity_APA$d` (see @fig-s1c-sensitivity-plot). Also, see @fig-appnedix-s1c-belonging-across-time) in [Appendix] for the Heart Manikin scores over time across conditions.
+
+```{r s1c-sensitivity-plot, fig.cap='Study 1c - Heart Manikin Scores across Rejection Conditions. Participants in the rejection condition reported lower Heart Manikin scores than those in the acceptance condition.', fig.width=8, fig.height=5}
+#| label: fig-s1c-sensitivity-plot
+# Time 2
+s1c_T3heart_plot <- s1c_df %>%
+    ggplot(aes(x = acceptance %>% to_factor(), y = heart2, color = acceptance %>% to_factor())) +
+    # Render the default violin plot
+    default_violin +
+    ggtitle("Study 1c (ARv1) - Heart Manikin Scores after Social Rejection (Time 2)") +
+    # Labels
+    xlab("Rejection Condition") +
+    ylab("Heart Manikin") +
+    scale_fill_brewer(palette = "Set2") +
+    scale_color_brewer(palette = "Set2", name = "Condition") +
+    guides(color = FALSE) +
+    labs(caption = paste(
+        sep = "<br>",
+        "Errorbars represent 95% confidence intervals",
+        paste(s1c_sensitivity_APA$t, s1c_sensitivity_APA$d, sep = ", ")
+    ))
+s1c_T3heart_plot
+```
+
+
+```{r s1c-sensitivity-mixed}
+### Mixed model
+s1c_sensitivity_mixed_df <- tibble(outcome = c("heart", "valence")) %>%
+    mutate(formula = paste0(outcome, "~  acceptance * time + (1|id)")) %>%
+    mutate(model = map(formula, ~ lmer(formula = ., data = s1c_df_long))) %>%
+    mutate(
+        tidy = map(model, ~ broom.mixed::tidy(.)),
+        APA = map(model, ~ describe.glm(.))
+    ) %>%
+    mutate(
+        emm_time_acceptance = map(model, ~ emmeans(., pairwise ~ time, by = "acceptance")),
+        emm_time_acceptance_tidy = map(emm_time_acceptance, function(x) {
+            x$contrasts %>%
+                tidy() %>%
+                mutate(APA = describe_t_val(t_stat = statistic, df = df, p_value = adj.p.value)) %>%
+                mutate(acceptance = case_when(
+                    acceptance == "0" ~ "Rejection",
+                    acceptance == "1" ~ "Acceptance"
+                )) %>%
+                unite("label", c(acceptance, contrast))
+        })
+    ) %>%
+    mutate(emm_APA = map(emm_time_acceptance_tidy, function(x) {
+        x %>%
+            select(label, APA) %>%
+            deframe_as_list()
+    }))
+# Deframe as list to get a list
+s1c_sensitivity_heart_mod_APA <- s1c_sensitivity_mixed_df %>%
+    select(outcome, emm_APA) %>%
+    deframe_as_list()
+
+#  Heart Manikin scores over time
+# I examined whether rejected participants' Heart Manikin scores fluctuated over time more than accepted participants' scores. I constructed a mixed model predicting the Heart Manikin scores over time with the following predictors: the main effect of rejection, the main effect of time, and the interaction of the rejection and time. As expected, rejected participants initially reported lowered belonging following the rejection manipulation (Time 2) but they reported higher belonging at Time 3 (`r s1c_sensitivity_heart_mod_APA$heart$"Rejection_2 - 3"`). Accepted participants reported higher belonging following the acceptance manipulation (Time 2), and their levels of belonging did not change the end of the study at Time 3 (`r s1c_sensitivity_heart_mod_APA$heart$"Acceptance_2 - 3"`). See Figure \@ref(fig:appnedix-s1c-belonging-across-time) in [Appendix].
+```
+
+
+```{r s1c-test-retest}
+# Construct a mixed model without the valence manikin
+s1c_mixed_mod_test_retest <- lmer(
+    formula = heart ~ grouping_dummy * time + (1 | id),
+    data = s1c_df_long
+)
+# Broom the object
+s1c_mixed_mod_test_retest_broom <- broom.mixed::tidy(s1c_mixed_mod_test_retest)
+# Calculate the ICC
+s1c_icc <- performance::icc(s1c_mixed_mod_test_retest)
+# RMarkdown text
+s1c_reliability_txt <- list(
+    icc = s1c_icc[[1]] %>% round(2),
+    mean_interval = NA
+)
+```
+
+
+**Test-Retest Reliability.** To test test-retest reliability after
+controlling for effects from experimental manipulations and time, I
+calculated the ICC using the same linear mixed model for testing
+convergent and discriminant validities without the valence Manikin term.
+The obtained ICC was `r s1c_reliability_txt$icc`, which indicates poor
+reliability according to the criteria [@kooGuidelineSelectingReporting2016]. These results suggest
+that the Heart Manikin scores changed across time points in the study
+even after controlling for the effects of manipulation and time. Again, poor reliability does not imply the poor quality of the measure since the Heart Manikin should be able to capture fluctuations of belonging as a state measure.
+
+## Study 1d (EVv1)
+
+This study was designed to test whether people who expect social
+rejection show decreased cardiovascular threat response to social
+rejection (Sunami et al., unpublished). The preregistration of the
+original study is available at OSF (<https://osf.io/4xn52>) before data
+collection. @tbl-s1d-table summarizes the measures used in
+the study.
+
+```{r s1d-table}
+#| label: tbl-s1d-table
+s1_measures_dfs$d %>% s1_render_kable(studykey = "d")
+```
+
+```{r s1d-analysis}
+s1d_target_vars_labels <- c(
+    "Heart T1" = "heart_T1",
+    "Heart T2" = "heart_T2",
+    "Heart T3" = "heart_T3",
+    "Heart T4" = "heart_T4",
+    "Valence T1" = "valence_T1",
+    "Valence T2" = "valence_T2",
+    "Valence T3" = "valence_T3",
+    "Valence T4" = "valence_T4",
+    "Arousal T1" = "arousal_T1",
+    "Arousal T2" = "arousal_T2",
+    "Arousal T3" = "arousal_T3",
+    "Arousal T4" = "arousal_T4",
+    "Dominance T1" = "dominance_T1",
+    "Dominance T2" = "dominance_T2",
+    "Dominance T3" = "dominance_T3",
+    "Dominance T4" = "dominance_T4",
+    # Self-Esteem
+    "Self-Esteem T1" = "esteem_mean",
+    # Need-For Closure
+    "Need for Closure T1" = "closure_mean",
+    # NTS T3
+    "NTS Belonging T3" = "nts_belonging_T3_mean",
+    "NTS Self-Esteem T3" = "nts_esteem_T3_mean",
+    "NTS Control T3" = "nts_control_T3_mean",
+    "NTS Meaning T3" = "nts_meaning_T3_mean",
+    "NTS Overall T3" = "nts_T3_mean",
+    # NTS T4
+    "NTS Belonging T4" = "nts_belonging_T4_mean",
+    "NTS Self-Esteem T4" = "nts_esteem_T4_mean",
+    "NTS Control T4" = "nts_control_T4_mean",
+    "NTS Meaning T4" = "nts_meaning_T4_mean",
+    "NTS Overall T4" = "nts_T4_mean",
+    # SJS
+    "Social Judgement Survey T4" = "SJS_bond"
+)
+
+# regex .+?( = )
+s1d_var_types <- c(
+    "valence_T1" = "Convergent",
+    "valence_T2" = "Convergent",
+    "valence_T3" = "Convergent",
+    "valence_T4" = "Convergent",
+    "arousal_T1" = "Discriminant",
+    "arousal_T2" = "Discriminant",
+    "arousal_T3" = "Discriminant",
+    "arousal_T4" = "Discriminant",
+    "dominance_T1" = "Discriminant",
+    "dominance_T2" = "Discriminant",
+    "dominance_T3" = "Discriminant",
+    "dominance_T4" = "Discriminant",
+    # Self-Esteem
+    "esteem_mean" = "Convergent",
+    # Need-For Closure
+    "closure_mean" = "Discriminant",
+    # NTS T3
+    "nts_belonging_T3_mean" = "Convergent",
+    "nts_esteem_T3_mean" = "Convergent",
+    "nts_control_T3_mean" = "Convergent",
+    "nts_meaning_T3_mean" = "Convergent",
+    "nts_T3_mean" = "Convergent",
+    # NTS T4
+    "nts_belonging_T4_mean" = "Convergent",
+    "nts_esteem_T4_mean" = "Convergent",
+    "nts_control_T4_mean" = "Convergent",
+    "nts_meaning_T4_mean" = "Convergent",
+    "nts_T4_mean" = "Convergent",
+    # SJS
+    "SJS_bond" = "Discriminant"
+) %>%
+    tibble(
+        predictor = names(.),
+        type = .
+    )
+
+# Rename the conditions
+s1d_df <- s1d_df %>%
+    mutate(confederate_desire = case_when(
+        expectancy == "Acceptance" ~ "High Confederate Desire",
+        expectancy == "Rejection" ~ "Low Confederate Desire"
+    ))
+# Subset the data to target variables only
+s1d_df_target_only <- s1d_df %>%
+    select(all_of(s1d_target_vars_labels))
+# Chache the file for Appendix
+s1d_df_target_only %>% write_rds(here("data_public", "subset", "Study1d_public_target.rds"))
+# Labels keys df for later use
+s1d_target_vars_labels_df <- tibble(
+    predictor = s1d_target_vars_labels,
+    label = names(s1d_target_vars_labels)
+)
+# Append to the vartypes
+s1d_var_types <- s1d_var_types %>%
+    left_join(s1d_target_vars_labels_df)
+# Reorder the variables (forcats::)
+s1d_var_types <- s1d_var_types %>%
+    mutate(label = fct_inorder(label))
+
+# Descriptives via my function
+s1d_descriptives <- s1d_df %>%
+    describe_by_factor(expectancy, rejection,
+        vars = s1d_target_vars_labels
+    )
+# APA Style
+s1d_desc_APA <- s1d_descriptives %>% get_APA_from_msd(group_cols = c("expectancy", "rejection"))
+s1d_msd <- s1d_desc_APA %>%
+    mutate(label = paste0(
+        str_extract(expectancy, "^."),
+        str_extract(rejection, "^."),
+        str_remove(variable, " ")
+    ))
+# List of Means and SDs (order: expectancy(A/R), rejection (A/R), and variable(A/R))
+s1d_desc_txt <- s1d_msd %>%
+    select(label, APA) %>%
+    deframe() %>%
+    as.list()
+```
+
+### Participants
+
+Two-hundred thirty-seven participants were recruited for the study. A
+debriefing coding procedure determined that 53 participants had either
+had suspicions or figured out the hypothesis of the study, and thus they
+were excluded. The final dataset consisted of 184 participants.
+
+### Procedure and Materials
+
+Participants provided informed consent and wore electrocardiograph
+electrodes and a blood pressure cuff to the participant for
+cardiovascular recording, unrelated to the current scale validation.
+Then, participants completed demographics, the Heart Manikin (Time 1),
+and the Time 1 questionnaires in @tbl-s1d-table. Then,
+participants completed the participant desire manipulation similar to
+Study 1c and answered the Self-Assessment Manikin and the Heart Manikin
+(Time 2). Then, participants heard an audio recording ostensibly
+recorded by their confederate, serving as a rejection manipulation. In
+the rejection condition, the confederate said that the participant was
+not their type. In the acceptance condition, the confederate said that
+the participant was their type. After hearing the recording,
+participants completed the modified Need-Threat Scale [@williamsOstracismTemporalNeedthreat2009],
+the Self-Assessment Manikin, and the Heart Manikin (Time 3). Then,
+participants completed a word-finding task with the confederate,
+unrelated to the current validation, the Heart Manikin (Time 4), and the
+Time 4 questionnaires in Table @tbl-s1d-table. See
+[Appendix] for the detailed descriptions of these measures.
+
+### Results
+
+```{r s1d-bivariate-cors}
+# s1d - Bivariate Correlations ---------------------------------------------------
+# Heart Manikin Variables
+s1d_heart_vars <- c("Heart T1", "Heart T2", "Heart T3", "Heart T4")
+# Tibble to gather correlation models each Time do get_correlations
+s1d_cor_CIs <- tibble(outcome = s1d_heart_vars) %>%
+    mutate(cors = map(outcome, ~ get_correlations(s1d_df_target_only,
+        vars = `Valence T1`:last_col(),
+        outcome = .
+    ))) %>%
+    unnest()
+# Add types
+s1d_cor_CIs <- s1d_cor_CIs %>% left_join(s1d_var_types)
+# Add Times Variable
+s1d_cor_CIs <- s1d_cor_CIs %>% mutate(time = str_extract(label, "T\\d"))
+# Cache the aggregate
+s1d_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1d_cor_CIs.rds"))
+# APA text container
+s1d_txt <- s1d_cor_CIs %>%
+    mutate(outcome_shorthand = str_extract(outcome, "..$")) %>%
+    mutate(var_outcome = paste(label, outcome, sep = "_") %>% str_replace_all(" ", ""))
+# Deframe to a list
+s1d_txt <- s1d_txt %>%
+    select(var_outcome, APA_model95) %>%
+    deframe() %>%
+    as.list()
+```
+
+**Convergent and Discriminant Validities.** To test convergent and
+discriminant validities, I fist examined the bivariate correlations
+between the Heart Manikin and the included measures (@tbl-s1d-table). Detailed results are available in
+[Appendix]. I focus on the results of the non-repeated
+measures (self-esteem and social judgment survey) here since the results
+for the measures repeated throughout the study are reported in the mixed
+models below. Results showed that the self-esteem scores at Time 1
+significantly correlated with the Heart Manikin scores at Time 1
+(`r s1d_txt$"Self-EsteemT1_HeartT1"`), supporting the hypothesized
+convergent validity. The social judgment survey scores at Time 4 did not
+correlate with the Heart Manikin scores at Time 4
+(`r s1d_txt$SocialJudgementSurveyT4_HeartT4`), supporting the
+hypothesized discriminant validity.
+
+```{r s1d-mixed-analysis}
+# Prepare a mean-centered dataset (grand-mean centered)
+s1d_dfC <- s1d_df %>%
+    # Mean Centering
+    mutate_at(
+        vars(all_of(s1d_target_vars_labels[c(-1, -2, -3, -4)])),
+        function(x) {
+            x - mean(x, na.rm = TRUE)
+        }
+    )
+# Effect Coding
+s1d_dfC <- s1d_dfC %>%
+    mutate(
+        confederate_desire_ec = case_when(
+            confederate_desire == "High Confederate Desire" ~ 0.5,
+            confederate_desire == "Low Confederate Desire" ~ -0.5
+        ),
+        rejection_ec = case_when(
+            rejection == "Rejection" ~ .5,
+            rejection == "Acceptance" ~ -.5
+        )
+    )
+# Prepare a long dataset
+s1d_dfC_long <- s1d_dfC %>%
+    select(
+        id, confederate_desire, rejection, confederate_desire_ec, rejection_ec,
+        heart_T1:heart_T4, valence_T1:valence_T4,
+        arousal_T1:arousal_T4, dominance_T1:dominance_T4
+    ) %>%
+    pivot_longer(matches("T[1-4]")) %>%
+    mutate(
+        time = str_extract(name, "\\d"),
+        name = str_replace(name, "_.\\d", "")
+    ) %>%
+    pivot_wider(names_from = name, values_from = value)
+# Cache
+s1d_dfC_long %>% write_rds(here("data_public", "s1d_dfC_long.rds"))
+
+# Lmer model
+s1d_mixed_preds <- c("heart", "valence", "arousal", "dominance")
+# Create a table of formula and their associated results
+s1d_mixed_df <- tibble(predictor = s1d_mixed_preds[2:length(s1d_mixed_preds)]) %>%
+    mutate(formula = paste0("scale(heart) ~ 1 + scale(", predictor, ") + time + (1|id)")) %>%
+    mutate(
+        model = map(formula, ~ lmer(formula = ., data = s1d_dfC_long)),
+        broom = map(model, ~ broom.mixed::tidy(.)),
+        target_pred = map(broom, ~ .[2, ])
+    ) %>%
+    # Calculate confidence intervals - parm = 4 for the predictor
+    mutate(
+        ci95 = map(model, ~ confint.merMod(parm = 4, ., method = "Wald", level = .95) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper"))),
+        ci90 = map(model, ~ confint.merMod(parm = 4, ., method = "Wald", level = .90) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper")))
+    ) %>%
+    unnest(target_pred) %>%
+    unnest(c(ci95, ci90), names_sep = "_")
+
+# Predictor names
+s1d_mixed_df <- s1d_mixed_df %>%
+    mutate(pred_label = c("Valence", "Arousal", "Dominance")) %>%
+    # Add Types
+    mutate(type = c("Convergent", "Discriminant", "Discriminant"))
+
+# APA
+s1d_mixed_df <- s1d_mixed_df %>%
+    mutate(
+        described = map(model, ~ describe.glm(., dtype = 3)),
+        APA_pred = map_chr(described, ~ .[2, "str"])
+    )
+# Deframe to get a list of Markdown text
+s1d_mixed_txt <- s1d_mixed_df %>%
+    select(predictor, APA_pred) %>%
+    deframe() %>%
+    as.list()
+```
+
+For the Self-Assessment Manikin items measured across Times 1--4, I
+constructed a linear mixed model predicting the Heart Manikin. I
+included the fixed effect of a measured score (centered), Time
+(categorical), Confederate Desire (.5 = high, -.5 = low), Rejection (.5
+= rejection, -.5 = acceptance), Time x Confederate Desire, Time x
+Rejection, Confederate Desire x Rejection, and Time x Confederate Desire
+x Rejection. I interpret the coefficient for the measured score as
+evidence for convergent or discriminant validity after controlling for
+the manipulations and timing of measurements. Results showed that
+valence scores predicted the Heart Manikin scores
+(`r s1d_mixed_txt$valence`, @fig-s1d-mixed-plot), consistent with
+the hypothesized convergence. Contrary to the prediction, arousal
+(`r s1d_mixed_txt$arousal`) and dominance (`r s1d_mixed_txt$dominance`)
+also predicted the Heart manikin scores in these models.
+
+```{r s1d-mixed-plot, fig.cap='Study 1d - Standardized Regression Coefficients Predicting Heart Manikin Scores after Controlling for Manipulations and Time', fig.height=3, fig.width=7}
+#| label: fig-s1d-mixed-plot
+# Forestplot
+ggplot(
+    s1d_mixed_df,
+    aes(y = pred_label, x = estimate, color = type)
+) +
+    # Add SESOI and Zero
+    geom_zeroSESOI +
+    # Points
+    geom_point() +
+    # CI error bars - 90%
+    geom_errorbarh(aes(xmin = ci90_lower, xmax = ci90_upper), height = .3, size = .5) +
+    # CI error bars - 95%
+    geom_errorbarh(aes(xmin = ci95_lower, xmax = ci95_upper), height = .3, size = .5) +
+    # x-axis
+    scale_x_continuous(limits = c(-1, 1), name = "Correlation Coefficient") +
+    # Give y-axis a  label
+    ylab("Predictor") +
+    # Color Legend Title
+    scale_color_brewer(name = "Hypothesized \nValidity", palette = "Set2") +
+    # Add a vertical dashed line indicating an effect size of zero, for reference
+    geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
+    # Labels
+    ggtitle("Study 1d (EVv1) Standardized Regression Coefficients \nPredicting Heart Manikin Scores after Controlling for \nManipulations and Time (T1-T4)") +
+    labs(caption = paste(
+        sep = "\n",
+        "Errorbars represent 90% (inner tick) and 95% (outer tick) confidence intervals",
+        sprintf("The vertical dashed line represents the smallest effect size of interest (SESOI, |r| = %s)", SESOI_r)
+    ))
+
+```
+
+```{r s1d-sensitivity}
+# Welch;s t-test comparing the rejected and accepted groups
+s1d_sensitivity_t <- t.test(formula = heart_T3 ~ rejection, data = s1d_df)
+# get means and sd only for rejection vs acceptance
+s1d_sensitivity_APA <- describe_by_factor(s1d_df, rejection, vars = heart_T3) %>%
+    mutate(msd = to_msd(heart_T3_mean, heart_T3_sd)) %>%
+    select(rejection, msd) %>%
+    deframe() %>%
+    as.list()
+s1d_sensitivity_d <- effectsize::cohens_d(x = heart_T3 ~ rejection, data = s1d_df)
+# Get the RMD object
+s1d_sensitivity_APA <- s1d_sensitivity_APA %>%
+    append(list(
+        t = describe.ttest(s1d_sensitivity_t),
+        d = describe_d_ci(s1d_sensitivity_d)
+    ))
+```
+
+**Sensitivity to Experimental Manipulation.** To test the sensitivity of
+the Heart Manikin to experimental manipulation, I ran Welch's *t*-test
+comparing the rejected and accepted participants at Time 3. Results
+showed that rejected participants (`r s1d_sensitivity_APA$Rejection`)
+reported lower Heart Manikin scores than accepted participants
+(`r s1d_sensitivity_APA$Acceptance`, `r s1d_sensitivity_APA$t`; see
+@fig-s1d-sensitivity-plot). Also, see @fig-appendix-s1e-belonging-plot in [Appendix] for the Heart Manikin scores over time across conditions.
+
+```{r s1d-sensitivity-plot, fig.cap='Study 1d - Sensitivity of Heart Manikin to Rejection Manipulation. Rejected participants reported lower Heart Manikin scores than accepted participants.', fig.width=8, fig.height=5}
+#| label: fig-s1d-sensitivity-plot
+# Study 1d (EVv1) - Outcome: heart T3
+s1d_T3heart_plot <- s1d_df %>%
+    ggplot(aes(x = rejection, y = heart_T3, color = rejection)) +
+    # Render the default violin plot
+    default_violin +
+    ggtitle("Study 1d (EVv1) - Heart Manikin Scores after Social Rejection (Time 3)") +
+    # Labels
+    xlab("Rejection Condition") +
+    ylab("Heart Manikin") +
+    scale_fill_brewer(palette = "Set2") +
+    guides(color = FALSE) +
+    labs(caption = paste(
+        sep = "<br>",
+        "Errorbars represent 95% confidence intervals",
+        paste(s1d_sensitivity_APA$t, s1d_sensitivity_APA$d, sep = ", ")
+    ))
+s1d_T3heart_plot
+```
+
+
+```{r s1d-sensitivity-mixed}
+### Mixed model
+s1d_sensitivity_mixed_df <- tibble(outcome = c("heart", "valence")) %>%
+    mutate(formula = paste0(outcome, "~  rejection * time + (1|id)")) %>%
+    mutate(model = map(formula, ~ lmer(formula = ., data = s1d_dfC_long))) %>%
+    mutate(
+        tidy = map(model, ~ broom.mixed::tidy(.)),
+        APA = map(model, ~ describe.glm(.))
+    ) %>%
+    mutate(
+        emm_time_acceptance = map(model, ~ emmeans(., pairwise ~ time, by = "rejection")),
+        emm_time_acceptance_tidy = map(emm_time_acceptance, function(x) {
+            x$contrasts %>%
+                tidy() %>%
+                mutate(APA = describe_t_val(t_stat = statistic, df = df, p_value = adj.p.value)) %>%
+                unite("label", c(rejection, contrast))
+        })
+    ) %>%
+    mutate(emm_APA = map(emm_time_acceptance_tidy, function(x) {
+        x %>%
+            select(label, APA) %>%
+            deframe_as_list()
+    }))
+# Deframe as list to get a list
+s1d_sensitivity_heart_mod_APA <- s1d_sensitivity_mixed_df %>%
+    select(outcome, emm_APA) %>%
+    deframe_as_list()
+
+
+```
+
+```{r s1d-reliability}
+# Model
+s1d_test_retest_model <- lmer(
+    formula = heart ~ 1 + confederate_desire_ec * rejection_ec * time + (1 | id),
+    data = s1d_dfC_long
+)
+# Calculate ICC
+s1d_test_retest_icc <- performance::icc(s1d_test_retest_model)
+s1d_reliability_txt <- list(
+    icc = s1d_test_retest_icc$ICC_adjusted %>% round(2),
+    mean_interval = NA
+)
+```
+
+**Test-Retest Reliability.** To test test-retest reliability, I created
+a linear mixed model predicting the Heart Manikin scores. The fixed
+predictor was the same as the model above testing convergent and
+discriminant validity except that the model did not include the measured
+score predictor. Results showed that the calculated ICC was
+`r s1d_test_retest_icc$ICC_adjusted %>% round(2)`, suggesting a
+moderate-to-good reliability of the Heart Manikin measure across Times 1
+to 4.
+
+Across Studies 1a, 1b, 1c, and 1d, I validated the Heart Manikin
+measure. In the next study, I continued the validation. In addition, I
+aimed to examine the effectiveness of the rejection manipulation that I
+planned to use for the subsequent studies.
+
+## Study 1e (NPSv2)
+
+The original research question of this study was to test the
+reconnection hypothesis---whether the prospect of fulfilling belonging
+influences social responses to rejection [@sunamiDoesProspectFulfilling2019]. The study was
+pre-registered before data collection (<https://osf.io/xpr6b>). 
+@tbl-s1e-table shows a summary of the measures included in this
+study.
+
+```{r s1e-table}
+#| label: tbl-s1e-table
+s1_measures_dfs$e %>% s1_render_kable(studykey = "e")
+```
+
+```{r s1e-date-calc}
+s1e_df <- s1e_df %>%
+    mutate(D1D2_diff = lubridate::interval(
+        StartDate_D1,
+        StartDate_D2
+    ))
+s1e_D1D2diff <- s1e_df %>%
+    summarise(mean(D1D2_diff)) %>%
+    pull() %>%
+    lubridate::as.duration() %>%
+    as.numeric("days") %>%
+    round(2)
+```
+
+### Procedure and Materials
+
+The study was a 2 (Participant Desire; low vs. high) x 2 (Confederate
+Desire, low vs. high) x 2 (Social Rejection, rejection vs. control)
+design. I only describe the procedure and measures relevant to the
+current validation in detail here. More detailed descriptions are
+available in a published study [@sunamiDoesProspectFulfilling2019]. On Day 1, participants
+answered the Heart Manikin and the Time 1 questionnaires (see @tbl-s1e-table). Then, participants completed the manipulation for
+the participants' desire to affiliate with the confederate (Participant
+Desire) and answered the Heart Manikin and the Self-Assessment Manikin
+(Time 2). Participants then completed the manipulation of the
+confederate's desire to affiliate with the participant (Confederate
+Desire) and answered the Modified Need-Threat Scale [@nadzan2019;
+@williamsOstracismTemporalNeedthreat2009], the Self-Assessment Manikin, the Heart Manikin (Time 3).
+The manipulations for Participant Desire and Confederate Desire are
+unrelated to the current validation, and details are available in a
+published study [@sunamiDoesProspectFulfilling2019].
+
+### Participants
+
+This study was a two-day study (separated by `r s1e_D1D2diff` days on average), with 674 participants on Day 1 and 605
+participants on Day 2. A debriefing coding procedure determined that 67
+participants had either had suspicions or figured out the hypothesis of
+the study, and thus they were excluded. The final analytic sample
+consisted of 538 participants.
+
+**Rejection Essay Manipulation.** On Day 2, participants completed the
+Self-Assessment Manikin and the Heart Manikin (Time 4). Then,
+participants completed the social rejection manipulation essay where
+they were randomly assigned to either a rejection condition or a control
+condition [adapted from @twengeIsnItFun2003]. All participants spent
+5 minutes writing the essay. In the rejection condition, participants
+wrote about a time when they felt rejected by a person or a group of
+their own age (excluding romantic rejection) for 5 minutes:
+
+> We'd like you to write about a time when you felt rejected or excluded
+> by a person or a group about your own age. By "felt rejected" we mean
+> that you felt like a person or persons did not value you or your
+> relationship. That is, describe an episode in which you wanted to
+> spend time with or do something with someone, and that person or
+> persons did not let you do so. Make sure to be as detailed as possible
+> and describe not only what happened, but also how you felt. If the
+> rejection is by an organized group of people, make sure it is of
+> people about your same age. For example, being rejected from a college
+> or job is NOT what we are asking about. Please do NOT describe a
+> romantic rejection, if possible.
+
+In the control condition, participants wrote about their yesterday
+morning:
+
+> We'd like you to write about your morning yesterday. Please describe
+> what you did yesterday morning. Make sure to be as detailed as
+> possible and describe not only what happened, but also how you felt.
+
+After naming their social surrogate and non-social surrogate video
+games, participants completed the social rejection essay task that I
+validate in Study 1e [@sunamiDoesProspectFulfilling2019]. All participants
+wrote about a time when they felt rejected by a person or a group of
+their own age (excluding romantic rejection) for 5 minutes:
+
+> We'd like you to write about a time when you felt rejected or excluded
+> by a person or a group about your own age. By "felt rejected" we mean
+> that you felt like a person or persons did not value you or your
+> relationship. That is, describe an episode in which you wanted to
+> spend time with or do something with someone, and that person or
+> persons did not let you do so. Make sure to be as detailed as possible
+> and describe not only what happened, but also how you felt. If the
+> rejection is by an organized group of people, make sure it is of
+> people about your same age. For example, being rejected from a college
+> or job is NOT what we are asking about. Please do NOT describe a
+> romantic rejection, if possible.
+
+After writing the essay, participants answered the Self-Assessment
+Manikin and the Heart Manikin, and the Need-Threat Scale (Time 5),
+completed experimental tasks unrelated to the current study [@sunamiDoesProspectFulfilling2019], and again
+answered the Self-Assessment Manikin and the Heart Manikin (Time 6).
+
+```{r s1e-cor-analysis}
+# Variables used for the analysis ------------------------------------------
+s1e_target_vars_labels <- c(
+    # Heart Manikin
+    "Heart T1" = "heart_T1",
+    "Heart T2" = "heart_T2",
+    "Heart T3" = "heart_T3",
+    "Heart T4" = "heart_T4",
+    "Heart T5" = "heart_T5",
+    "Heart T6" = "heart_T6",
+    # Valence Manikin
+    "Valence T1" = "valence_T1",
+    "Valence T2" = "valence_T2",
+    "Valence T3" = "valence_T3",
+    "Valence T4" = "valence_T4",
+    "Valence T5" = "valence_T5",
+    "Valence T6" = "valence_T6",
+    # Arousal Manikin
+    "Arousal T1" = "arousal_T1",
+    "Arousal T2" = "arousal_T2",
+    "Arousal T3" = "arousal_T3",
+    "Arousal T4" = "arousal_T4",
+    "Arousal T5" = "arousal_T5",
+    "Arousal T6" = "arousal_T6",
+    # Dominance Manikin
+    "Dominance T1" = "dominance_T1",
+    "Dominance T2" = "dominance_T2",
+    "Dominance T3" = "dominance_T3",
+    "Dominance T4" = "dominance_T4",
+    "Dominance T5" = "dominance_T5",
+    "Dominance T6" = "dominance_T6",
+    "Attachment Avoidance T1" = "ECR_avoidance_mean",
+    "Attachment Anxiety T1" = "ECR_anxiety_mean",
+    "Fear of Negative Evaluation T1" = "FNES_mean",
+    # Self-Esteem
+    "Self-Esteem T1" = "esteem_mean",
+    # Social Status
+    "Subjective SES T1" = "ladder",
+    # Rejection Sensitivity
+    "Rejection Sensitivity T1" = "RS_mean",
+    # Need-threat Scale (Times 3 & 5)
+    "NTS Belonging T3" = "nts_T3_belonging_mean",
+    "NTS Belonging T5" = "nts_T5_belonging_mean",
+    "NTS Self-Esteem T3" = "nts_T3_esteem_mean",
+    "NTS Self-Esteem T5" = "nts_T5_esteem_mean",
+    "NTS Control T3" = "nts_T3_control_mean",
+    "NTS Control T5" = "nts_T5_control_mean",
+    "NTS Meaning T3" = "nts_T3_meaning_mean",
+    "NTS Meaning T5" = "nts_T5_meaning_mean",
+    "NTS Overall T3" = "nts_T3_mean",
+    "NTS Overall T5" = "nts_T5_mean"
+)
+
+# regex .+?( = )
+s1e_var_types <- c(
+    # Valence Manikin
+    "valence_T1" = "Convergent",
+    "valence_T2" = "Convergent",
+    "valence_T3" = "Convergent",
+    "valence_T4" = "Convergent",
+    "valence_T5" = "Convergent",
+    "valence_T6" = "Convergent",
+    # Arousal Manikin
+    "arousal_T1" = "Discriminant",
+    "arousal_T2" = "Discriminant",
+    "arousal_T3" = "Discriminant",
+    "arousal_T4" = "Discriminant",
+    "arousal_T5" = "Discriminant",
+    "arousal_T6" = "Discriminant",
+    # Dominance Manikin
+    "dominance_T1" = "Discriminant",
+    "dominance_T2" = "Discriminant",
+    "dominance_T3" = "Discriminant",
+    "dominance_T4" = "Discriminant",
+    "dominance_T5" = "Discriminant",
+    "dominance_T6" = "Discriminant",
+    # ECR Attachment Scales
+    "ECR_avoidance_mean" = "Convergent (R)",
+    "ECR_anxiety_mean" = "Convergent (R)",
+    # Fear of Negative Evaluation
+    "FNES_mean" = "Convergent (R)",
+    # Self-Esteem
+    "esteem_mean" = "Convergent",
+    # Social Status
+    "ladder" = "Discriminant",
+    # Rejection Sensitivity
+    "RS_mean" = "Convergent (R)",
+    # Need-threat Scale (Times 3 & 5)
+    "nts_T3_belonging_mean" = "Convergent",
+    "nts_T5_belonging_mean" = "Convergent",
+    "nts_T3_esteem_mean" = "Convergent",
+    "nts_T5_esteem_mean" = "Convergent",
+    "nts_T3_control_mean" = "Convergent",
+    "nts_T5_control_mean" = "Convergent",
+    "nts_T3_meaning_mean" = "Convergent",
+    "nts_T5_meaning_mean" = "Convergent",
+    "nts_T3_mean" = "Convergent",
+    "nts_T5_mean" = "Convergent"
+) %>%
+    tibble(predictor = names(.), type = .) %>%
+    mutate(
+        predictor = fct_inorder(predictor),
+        type = factor(type, levels = c("Convergent", "Convergent (R)", "Discriminant"))
+    )
+
+# Subset the data to target variables only
+s1e_df_target_only <- s1e_df %>%
+    select(all_of(s1e_target_vars_labels))
+# Chache the file for Appendix
+s1e_df_target_only %>% write_rds(here("data_public", "subset", "Study1e_public_target.rds"))
+
+# Labels keys df for later use
+s1e_target_vars_labels_df <- tibble(
+    predictor = s1e_target_vars_labels,
+    label = names(s1e_target_vars_labels)
+)
+# Append to the vartypes
+s1e_var_types <- s1e_var_types %>%
+    left_join(s1e_target_vars_labels_df)
+
+# Correlation analysis ---------------------------------------------------------
+# Create CIs for Correlations
+# Heart Manikin Variables
+s1e_heart_vars <- c(
+    "Heart T1", "Heart T2", "Heart T3",
+    "Heart T4", "Heart T5", "Heart T6"
+)
+# Tibble to gather correlation models each Time do get_correlations
+s1e_cor_CIs <- tibble(outcome = s1e_heart_vars) %>%
+    mutate(cors = map(outcome, ~ get_correlations(s1e_df_target_only,
+        vars = `Valence T1`:`NTS Meaning T5`,
+        outcome = .
+    ))) %>%
+    unnest(cors)
+# Add validity types
+s1e_cor_CIs <- s1e_cor_CIs %>%
+    left_join(s1e_var_types)
+# Add Times Variable
+s1e_cor_CIs <- s1e_cor_CIs %>%
+    mutate(time = str_extract(label, "T\\d"))
+## Add Equivalence Test Results
+s1e_cor_CIs <- s1e_cor_CIs %>%
+    mutate(eq_decision = map2_chr(conf.low_model90, conf.high_model90, ~ evaluate_equivalence(.x, .y, ROPE_r))) %>%
+    # Delete equivalence tests for non-significant results
+    mutate(eq_decision = case_when(
+        p.value_model95 >= .05 ~ eq_decision,
+        TRUE ~ ""
+    )) %>%
+    # Add labels for plot annotation
+    mutate(eq_label = case_when(
+        eq_decision == "Rejected" ~ "",
+        eq_decision == "Accepted" ~ "∗",
+        eq_decision == "Undecided" ~ "+"
+    ))
+# Cache the df
+s1e_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1e_cor_CIs.rds"))
+# Markdown-formatted APA Text (95% only)
+s1e_txt <- s1e_cor_CIs %>%
+    mutate(label = paste(outcome, label)) %>%
+    select(label, APA_model95) %>%
+    deframe_as_list()
+## 90%CI version for equivalence test
+s1e_txt_90 <- s1e_cor_CIs %>%
+    mutate(label = paste(outcome, label)) %>%
+    select(label, APA_model90) %>%
+    deframe_as_list()
+
+
+```
+
+### Results
+
+**Convergent and Discriminant Validities.** To test convergent and
+discriminant validities, I first examined bivariate correlations between
+the Heart Manikin scores and scores of the measures (@tbl-s1e-table)). I focus on the results for the subjective
+socioeconomic status here since the results for the other repeated
+measures are reported in more detail in the mixed model analyses below.
+Results showed that the subjective
+socioeconomic status did not correlate with the Heart
+Manikin (`r s1e_txt$"Heart T1 Subjective SES T1"`). An equivalence test
+showed that the 90% confidence interval of this correlation coefficient
+fell within the smallest effect size of interest (\|*r*\| = `r SESOI_r`), suggesting that the
+observed coefficient was theoretically equivalent to zero
+(`r s1e_txt_90$"Heart T1 Subjective SES T1"`). These results support the
+hypothesized discriminant validity of the Heart Manikin against
+subjective socioeconomic status
+
+```{r s1e-mixed}
+# Standardize the dataset
+s1e_df_std <- s1e_df %>%
+    select(
+        id, participant_desire, confederate_desire, desires_dummy, rejection,
+        all_of(as.vector(s1e_target_vars_labels))
+    ) %>%
+    # Standardize
+    mutate(across(
+        all_of(as.vector(s1e_target_vars_labels)),
+        ~ scale(.) %>% as.vector()
+    ))
+# Long dataset (unstandardized)
+s1e_df_long <- s1e_df %>%
+    pivot_longer(c(
+        heart_T1:heart_T6, valence_T1:valence_T6,
+        arousal_T1:arousal_T6, dominance_T1:dominance_T6,
+        ends_with(c(
+            "_belonging_mean", "_esteem_mean",
+            "_control_mean", "_meaning_mean"
+        )),
+        matches("nts_.._mean")
+    )) %>%
+    mutate(
+        time = str_extract(name, "\\d"),
+        name = str_replace(name, "_.\\d", "")
+    ) %>%
+    pivot_wider(names_from = name, values_from = value)
+s1e_df_long %>% write_rds(here("data_public", "s1e_df_long.rds"))
+# Prepare a long dataset
+s1e_df_std_long <- s1e_df_std %>%
+    pivot_longer(c(
+        heart_T1:heart_T6, valence_T1:valence_T6,
+        arousal_T1:arousal_T6, dominance_T1:dominance_T6,
+        ends_with(c(
+            "_belonging_mean", "_esteem_mean",
+            "_control_mean", "_meaning_mean"
+        )),
+        matches("nts_.._mean")
+    )) %>%
+    mutate(
+        time = str_extract(name, "\\d"),
+        name = str_replace(name, "_.\\d", "")
+    ) %>%
+    pivot_wider(names_from = name, values_from = value)
+
+# Run Mixed Lmer model --------------------------------------------------------
+s1e_mixed_preds <- c(
+    "heart", "valence", "arousal", "dominance",
+    "nts_belonging_mean", "nts_esteem_mean",
+    "nts_control_mean", "nts_meaning_mean",
+    "nts_mean"
+)
+# Create a table of formula and their associated results
+s1e_mixed_df <- tibble(predictor = s1e_mixed_preds[2:length(s1e_mixed_preds)]) %>%
+    mutate(formula = paste0("heart ~ 1 + ", predictor, " + time + desires_dummy * rejection * time + (1|id)")) %>%
+    mutate(
+        model = map(formula, ~ lmer(formula = ., data = s1e_df_std_long)),
+        broom = map(model, ~ broom.mixed::tidy(.)),
+        target_pred = map(broom, ~ .[2, ])
+    ) %>%
+    # Calculate confidence intervals - parm = 4 for the predictor
+    mutate(
+        ci95 = map(model, ~ confint.merMod(parm = 4, ., method = "Wald", level = .95) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper"))),
+        ci90 = map(model, ~ confint.merMod(parm = 4, ., method = "Wald", level = .90) %>%
+            as_tibble() %>%
+            rename_with(~ c("lower", "upper")))
+    ) %>%
+    unnest(target_pred) %>%
+    unnest(c(ci95, ci90), names_sep = "_")
+# Add labels
+s1e_mixed_df <- s1e_mixed_df %>%
+    mutate(pred_label = c(
+        "Valence", "Arousal", "Dominance",
+        "NTS Belonging", "NTS Self-Esteem",
+        "NTS Control", "NTS Meaning", "NTS Overall"
+    ))
+# Add Type
+s1e_var_types_long <- s1e_var_types %>%
+    mutate(predictor = str_remove(predictor, "_T\\d")) %>%
+    select(-label) %>%
+    distinct()
+s1e_mixed_df <- s1e_mixed_df %>%
+    left_join(s1e_var_types_long, by = "predictor")
+# Add Plot Order for predictors
+s1e_mixed_df <- s1e_mixed_df %>%
+    mutate(plot_order = row_number())
+
+# APA
+s1e_mixed_df <- s1e_mixed_df %>%
+    mutate(
+        described = map(model, ~ describe.glm(., dtype = 3)),
+        APA_pred = map_chr(described, ~ .[2, "str"])
+    )
+# Deframe to get a list of Markdown text
+s1e_mixed_APA <- s1e_mixed_df %>%
+    select(predictor, APA_pred) %>%
+    deframe_as_list()
+```
+
+For the Self-Assessment Manikin scores measured over Times 1--6 and the
+Need-Threat scores over Times 3 and 5, I constructed a linear mixed
+model predicting the Heart Manikin scores. I created a dummy categorical
+variable (Grouping Dummy) representing the four experimental conditions
+for Participant Desire and Confederate Desire to reduce the number of
+interactions in the model (coded as 0-3). I included the fixed effects
+of the measured scores (centered), Time (categorical), Dummy for the
+Participant Desire and Confederate Desire conditions (categorical),
+social rejection (rejected = -.5, control = .5), Grouping Dummy,
+Grouping Dummy x Rejection, Rejection x Time, Rejection x Grouping
+Dummy, Rejection x Time x Grouping Dummy. Results showed that the
+Valence Manikin, belonging, self-esteem, control, and meaningful
+existence scores predicted the Heart Manikin scores after controlling
+for the manipulations and time, supporting the hypothesized convergent
+validity as expected (Valence: `r s1e_mixed_APA$valence`; Belonging:
+`r s1e_mixed_APA$nts_belonging_mean`; Control:
+`r s1e_mixed_APA$nts_control_mean`; Meaningful Existence:
+`r s1e_mixed_APA$nts_meaning_mean`; Overall Need-Threat:
+`r s1e_mixed_APA$nts_mean`). However, the Arousal and Dominance Manikin
+scores also predicted the Heart Manikin scores, contrary to the
+expectation (Arousal: `r s1e_mixed_APA$arousal`; Dominance:
+`r s1e_mixed_APA$dominance`). Overall, the mixed model analyses showed a
+strong support for the convergent validity of the Heart Manikin, but no
+support for the discriminant validity with the Arousal and Dominance
+Manikins.
+
+```{r s1e-mixed-plot, fig.cap= 'Study 1e - Forestplot Showing Regression with Heart Manikin Scores from the Mixed Model', fig.height=4, fig.width=8}
+# Forest Plot
+s1e_mixed_df %>%
+    # Order by decreasing order by validity type, and order by the scale
+    arrange(desc(type), desc(plot_order)) %>%
+    mutate(pred_label = fct_inorder(pred_label)) %>%
+    ggplot(aes(y = pred_label, x = estimate, color = type)) +
+    # Add lines for zero and SESOI
+    geom_zeroSESOI +
+    # Data points
+    geom_point() +
+    # CI error bars - 90%
+    geom_errorbarh(aes(xmin = ci90_lower, xmax = ci90_upper), height = .2, size = .5) +
+    # CI error bars - 95%
+    geom_errorbarh(aes(xmin = ci95_lower, xmax = ci95_upper), height = .2, size = .5) +
+    # x-axis limits and labels
+    scale_x_continuous(limits = c(-1, 1), name = "Standardized Regression Coefficient") +
+    # y-axis label
+    ylab("Predictor") +
+    # Legend Title
+    scale_color_brewer(name = "Hypothesized \nValidity", palette = "Set2") +
+    # Add a vertical dashed line indicating an effect size of zero, for reference
+    geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
+    # Create sub-plots (i.e., facets) based on levels of setting
+    ggtitle("Study 1e (NPSv2) - Standardized Regression Coefficients \nPredicting Heart Manikin Scores after Controlling for \nManipulations and Time") +
+    # Add caption
+    labs(caption = paste(
+        sep = "\n",
+        s1_caption_errorbars9095,
+        s1_caption_SESOI_r
+    ))
+
+```
+
+```{r s1e-sensitivity-exp}
+# Welch;s t-test comparing the rejected and accepted groups
+s1e_sensitivity_mod <- t.test(
+    formula = heart_T5 ~ rejection,
+    data = s1e_df
+)
+# get means and sd only for rejection vs acceptance
+s1e_sensitivity_APA <- describe_by_factor(s1e_df, rejection, vars = heart_T5) %>%
+    mutate(msd = to_msd(heart_T5_mean, heart_T5_sd)) %>%
+    select(rejection, msd) %>%
+    mutate(rejection = to_factor(rejection)) %>%
+    deframe() %>%
+    as.list()
+# Get the cohens d and ci
+s1e_sensitivity_dci <- effectsize::cohens_d(x = heart_T5 ~ rejection, data = s1e_df)
+# RMD
+s1e_sensitivity_APA <- s1e_sensitivity_APA %>%
+    append(list(
+        t = s1e_sensitivity_mod %>% describe.ttest(),
+        d = s1e_sensitivity_dci %>% describe_d_ci()
+    )) %>%
+    append(s1e_sensitivity_dci %>% as.list())
+```
+
+**Sensitivity to Experimental Manipulation.** To test the sensitivity of
+the Heart Manikin scores to a social rejection manipulation, I ran a
+Welch's *t*-test comparing the rejected and control groups following the
+social rejection manipulation at Time 5 (right after the social rejection manipulation). The
+rejected participants (`r s1e_sensitivity_APA$Rejection`) reported lower
+Heart Manikin scores than the control participants
+(`r s1e_sensitivity_APA$Control`, `r s1e_sensitivity_APA$t` ,
+`r s1e_sensitivity_APA$d`, see @fig-s1e-belonging-plot).
+
+```{r s1e-belonging-plot, fig.cap='Study 1e - Heart Manikin Scores. ', fig.width=8, fig.height=5}
+#| label: fig-s1e-belonging-plot
+# Study 1e (EVv1) - Outcome: Heart Manikin at Time 5
+s1e_T5_heart <- s1e_df %>%
+    mutate(rejection = to_factor(rejection)) %>%
+    ggplot(aes(x = rejection, y = heart_T5, color = rejection)) +
+    # Render the default violin plot
+    default_violin +
+    # Labels
+    ggtitle("Heart Manikin Scores after Social Rejection (Time 5)") +
+    xlab("Rejection Condition") +
+    ylab("Heart Manikin at Time 5") +
+    scale_fill_brewer(palette = "Set2") +
+    guides(color = FALSE) +
+    labs(caption = paste(
+        sep = "<br>",
+        "Errorbars represent 95% confidence intervals",
+        paste(s1e_sensitivity_APA$t, s1e_sensitivity_APA$d, sep = ", ")
+    ))
+s1e_T5_heart
+```
+
+
+```{r s1e-test-retest-reliability}
+# Model
+s1e_test_retest_model <- lmer(
+    formula = heart ~ 1 + desires_dummy * rejection * time + (1 | id),
+    data = s1e_df_std_long
+)
+# Calculate ICC
+s1e_test_retest_icc <- performance::icc(s1e_test_retest_model)
+# Text
+s1e_reliability_txt <- list(
+    icc = s1e_test_retest_icc$ICC_adjusted %>% round(2),
+    mean_interval = NA
+)
+```
+
+**Test-Retest Reliability.** To test test-retest reliability, I created
+a linear mixed model predicting the Heart Manikin scores across
+measurements. I included the same fixed effects as the model above testing the convergent and discriminant validity except that the
+model did not include a predictor for a measured score. The calculated
+ICC was `r s1e_test_retest_icc$ICC_adjusted %>% round(2)`, indicating a
+moderate test-retest reliability after controlling for the effects of
+the experimental manipulations.
+
+
+```{r s1e-NTS}
+s1e_NTS_T5_vars <- c(
+    "nts_T5_belonging_mean", "nts_T5_esteem_mean",
+    "nts_T5_control_mean", "nts_T5_meaning_mean",
+    "nts_T5_mean"
+)
+
+s1e_NTS_T5_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
+    mutate(formula = (paste0(outcome, " ~ rejection"))) %>%
+    mutate(fit = map(formula, ~ t.test(
+        formula = as.formula(.),
+        data = s1e_df
+    ))) %>%
+    mutate(
+        broom = map(fit, ~ broom::tidy(.)),
+        ci95 = map(formula, ~ effectsize::cohens_d(
+            x = as.formula(.),
+            data = s1e_df, ci = .95
+        )),
+        ci90 = map(formula, ~ effectsize::cohens_d(
+            x = as.formula(.),
+            data = s1e_df, ci = .90
+        ))
+    ) %>%
+    # Get APA
+    mutate(t_APA = map_chr(fit, describe.ttest)) %>%
+    mutate(across(c(ci95, ci90), list(APA = ~ map_chr(., describe_d_ci)))) %>%
+    mutate(td_APA = str_c(t_APA, ci95_APA, sep = ", "))
+# RMD
+s1e_NTS_APA <- s1e_NTS_T5_df %>%
+    select(outcome, td_APA) %>%
+    deframe() %>%
+    as.list()
+# Means and SDs for per conditions
+s1e_NTS_desc <- s1e_df %>%
+    describe_by_factor(rejection, vars = all_of(s1e_NTS_T5_vars)) %>%
+    mutate(rejection = to_factor(rejection)) %>%
+    get_APA_from_msd(group_cols = "rejection") %>%
+    mutate(variable = str_remove(variable, "_mean")) %>%
+    mutate(label = paste0(str_extract(rejection, "^."), variable))
+# Get the descriptives into the list format and append it to the APA list for rmd
+s1e_NTS_APA <- s1e_NTS_APA %>%
+    append(s1e_NTS_desc %>% select(label, APA) %>% deframe() %>% as.list())
+
+```
+
+**Effectiveness of Rejection Manipulation on Belonging.** To test the
+effectiveness of the rejection manipulation on belonging, I performed a
+series of Welch's *t*-tests on the belonging subscale of the Need-Threat
+Scale at Time 5 (@fig-s1e-NTS-plot). Results showed that
+participants in the rejection condition reported lower belonging
+(`r s1e_NTS_APA$Rnts_T5_belonging`) than those in the control condition
+(`r s1e_NTS_APA$Cnts_T5_belonging`,
+`r s1e_NTS_APA$nts_T5_belonging_mean`), indicating that the manipulation
+was effective. See @fig-appendix-s1e-belonging-plot in [Appendix] for the Heart Manikin scores over time across conditions.
+
+```{r s1e-NTS-plot, fig.cap="Study 1e - Need-Threat Scores Across Rejection and Control Conditions", fig.height=5, fig.width=8}
+#| label: fig-s1e-NTS-plot
+# Study 1e - NTS scores by rejection condition
+s1e_NTS_long <- s1e_df %>%
+    pivot_longer(matches("T5.+mean")) %>%
+    # labels
+    mutate(labels = fct_recode(name,
+        "Belonging" = "nts_T5_belonging_mean",
+        "Self-Esteem" = "nts_T5_esteem_mean",
+        "Control" = "nts_T5_control_mean",
+        "Meaningful Existence" = "nts_T5_meaning_mean",
+        "Overall" = "nts_T5_mean"
+    ) %>%
+        # Change Order by fct_relevel()
+        fct_relevel("Belonging", "Self-Esteem", "Control", "Meaningful Existence", "Overall"))
+# Plot
+s1e_NTS_long %>%
+    ggplot(aes(x = rejection %>% to_factor(), y = value, color = rejection %>% to_factor())) +
+    # Render the default violin plot
+    default_violin +
+    ggtitle("Study 1e - Need-Threat Scale Scores after the Rejection Manipulation (Time 5)") +
+    # Labels
+    xlab("Rejection Condition") +
+    ylab("Heart Manikin") +
+    scale_fill_brewer(palette = "Set2") +
+    scale_color_brewer(palette = "Set2", name = "Condition") +
+    guides(color = FALSE) +
+    labs(caption = paste(
+        sep = "<br>",
+        "Errorbars represent 95% confidence intervals"
+    )) +
+    facet_wrap(. ~ labels, ncol = 5)
+```
+
+
+I also ran Welch's *t*-tests on other subscales of the
+need-threat scale (self-esteem, control, and meaningful existence).
+Results showed that rejected participants and control participants did
+not report different levels of self-esteem, control, meaningful
+existence, or the overall need-threat (self-esteem:
+`r s1e_NTS_APA$nts_T5_esteem_mean`, control:
+`r s1e_NTS_APA$nts_T5_control_mean`, meaning:
+`r s1e_NTS_APA$nts_T5_meaning_mean`, overall need-threat:
+`r s1e_NTS_APA$nts_T5_mean`). These results suggest that although the
+rejection manipulation was effective in inducing lowered belonging, it
+may not have been effective in lowering self-esteem, control, meaningful
+existence, or overall fundamental need.
+
+
+```{r probing-rejection-manipulations}
+s1c_df_rej <- s1c_df %>% filter(acceptance == "0")
+s1c_heart_time_dci <- s1c_df_rej %>% effectsize::cohens_d(x = .$heart1, y = .$heart2, paired = T)
+# APA-formatted t and d values with CI's
+s1c_heart_time <- list(
+    t = s1c_df_rej %>% t.test(formula = Pair(heart1, heart2) ~ 1, data = .) %>%
+        describe.ttest(),
+    d = s1c_heart_time_dci %>% describe_d_ci()
+)
+# Append the actual values of cohens d to the list
+s1c_heart_time <- s1c_heart_time %>% append(s1c_heart_time_dci %>% as.list())
+# Study 1d
+s1d_heart_time <- s1d_df %>% t.test(formula = Pair(heart_T2, heart_T3) ~ 1, data = .)
+```
+
+## Deciding a Rejection Manipulation for Subsequent Studies
+
+The effect size for the rejection manipulation of Study 1e was small 
+(`r s1e_sensitivity_APA$d`). Also, the manipulation did not lower the
+fundamental needs that usually track with the rejection manipulations in
+the other studies [@williams2005]. These results raised a concern about
+the effectiveness of the rejection manipulation. Since I plan to use the
+rejection manipulation without a control or acceptance condition, I
+wanted to ensure the effectiveness of the manipulation. These results
+implied that the manipulation used in Study 1e may not be optimal to
+use for the purpose of this dissertation.
+
+Study 1c included a different version of the essay rejection
+manipulation, which showed a large effect size when compared with an
+acceptance condition (`r s1c_sensitivity_APA$d`). However, I cannot
+directly compare this effect size with the effect size obtained in Study
+1e since Study 1c contrasted rejection with acceptance condition. To
+make the effect size comparable as possible, I ran a pared t-test
+comparing the the Heart Manikin scores before and after the rejection
+manipulation (Times 1 vs. 2) only among the rejected participants.
+Results showed that rejected participants reported lower belonging at
+Time 2 than Time 1 (`r s1c_heart_time$t`, `r s1c_heart_time$d`). The
+obtained effect size in Study 1c's manipulation was nearly
+`r (s1c_heart_time$Cohens_d/s1e_sensitivity_APA$Cohens_d) %>% round(1)`
+times larger than the effect size of Study 1e's manipulation. Although
+the two effect sizes may not be directly comparable due to the
+difference in the study designs (within-subject for Study 1c and between
+for Study 1e), the magnitude of the difference was concerning given that
+both studies shared the same outcome measure (Heart Manikin). Overall,
+these results strongly indicated that Study 1c's manipulation was more
+effective in manipulating belonging than Study 1e. To ensure the
+effectiveness of the rejection manipulation used in Studies 2 and 3, I
+have decided to use the rejection procedure in Study 1c instead of Study
+1e's procedure.
+
+## Discussion
+
+```{r}
+# participants across studies
+s1a_n <- s1a_df %>%
+    complete.cases() %>%
+    sum()
+s1b_n <- s1b_df %>%
+    distinct(id) %>%
+    nrow(.)
+s1c_n <- s1c_df$id %>% length()
+s1d_n <- s1d_df$id %>% length()
+# Total participants
+s1_n_total <- s1a_n + s1b_n + s1c_n + s1d_n
+# round function
+round_down100 <- function(x) x - x %% 100
+
+s1_n_total_rounded <- round_down100(s1_n_total)
+```
+
+Across 5 studies (`r s1_n_total_rounded`+ participants), I examined the convergent validity, discriminant
+validity, test-retest reliability, and
+sensitivity to social rejection manipulation the Heart Manikin. Overall, I found a strong support for the convergent validity and sensitivity to social rejection manipulation. On the other hand, I found mixed evidence for discriminant validity.
+
+**Convergent Validity.** The Heart Manikin scores correlated with the
+hypothesized convergent measures: belonging, self-esteem, control, and
+meaningful existence needs (Studies 1c, 1d, and 1e), social isolation
+(Study 1a), interpersonal relationship quality and conflict (Study 1b),
+depression (Studies 1a and 1b), and valence (Studies 1a, 1b, 1c, 1d, and
+1e). The current results strongly support that the Heart Manikin scores
+ converge with belonging and its associated measures.
+
+**Discriminant Validity.** I found mixed results for the discriminant
+validity of the Heart Manikin scores. On one hand, the Heart Manikin
+scores showed evidence for discrimant validity against interpersonal
+reactivity, paradoxical mindset, self-monitoring, integrative
+complexity, sleep quality, physical abuse perpetration, intimidation
+perpetartion, emotional control, economic control, food craving, and
+body image. On the other hand, the Heart Manikin scores correlated with
+the measures of multiple identity (Study 1a), social monitoring (Study
+1a), beliefs in biological differences between Black and White people
+(Study 1a), perpetration of threats against one's partner (Study 1b),
+stress (Study 1b), narcissism (Study 1b), arousal (Studies 1c and 1e),
+and dominance (Studies 1c and 1e). The discriminant validity against the
+socioeconomic status was particularly mixed. In Studies 1b and 1e, I
+found that the Heart Manikin discriminated against socioeconomic status.
+In Study 1c, the Heart Manikin scores correlated with socioeconomic status, contrary to the prediction.
+
+Although this is result-dependent reasoning, I realize that some of
+these discriminant measures can converge with belonging. For example,
+people with multiple identities could report more belonging since they
+belong to multiple groups, people with higher social monitoring can
+cultivate social connections easily, and people who do not threaten
+their partner experience more loving interactions. I do not have
+post-hoc explanations for why people with higher Heart Manikin scores
+reported lower narcissism, less biological beliefs in differences
+between Black and White people, and higher socioeconomic status.
+
+Note that some of the observed associations can be attributed to Type I
+error. For example, I found the association between the
+socioeconomic status and the Heart Manikin in Study 1c, but not Studies 1b and 1e,
+adding to the possibility of Type I error. In contrast, this possibility
+of Type I error is less likely for arousal and dominance since I observed the associations for these
+measures across two studies (Studies 1c and 1e).
+
+**Test-Retest Reliability.** I observed test-retest reliability of
+`r s1b_test_retest$icc` in Study 1b (measured 3 times separated by
+`r s1b_test_retest$mean_interval`days on average),
+`r s1c_reliability_txt$icc` in Study 1c (measured 3 times in a 15-minute
+study), `r s1d_reliability_txt$icc` in Study 1d (EVv1) (measured 4 times
+in an 1-hour study) , and `r s1e_reliability_txt$icc` in Study 1e
+(measured 6 times in two 30-minute experimental studies separated by `r s1e_D1D2diff`
+days on average). The reliability ranged from poor to moderate, which
+suggests that the Heart Manikin scores vary relatively considerably
+across time, and thus may be suitable to be used as a state measure,
+rather than a trait measure.
+
+**Sensitivity to Social Rejection Manipulation.** In Studies 1c, 1d, and
+1e, I tested the sensitivity to social rejection of the Heart Manikin
+scores. The results showed that rejected participants reported lower
+Heart Manikin scores across the studies. I conclude that the Heart
+Manikin scores are sensitive to social rejection manipulation.
+
+Overall, I suggest that Study 1 supported the convergent validity of
+the Heart Manikin. The results for the discriminant validity was mixed.
+I suggest that the Heart Manikin scores track
+belonging well but do not necessarily distinguish belonging from other
+constructs, including general stress, arousal, and dominance.
+Given the promising results of the convergent validity,
+I decided to use the Heart Manikin sores as key outcome variable in my subsequent studies.
+
+The current study has constraints on generality. First, I used existing
+data for the current validation. As a result, the sample sizes of the
+studies were not based on a proper power analysis, making the results
+susceptible to Type I and Type II errors. In addition, the measures in
+the studies were not a priori selected to validate the Heart Manikin.
+Second, the sample demographics were limited to undergraduate students
+from an introductory psychology course at the University of Delaware.
+Most participants were young and predominantly White, and thus I do not
+know if the current results generalize to other populations with different
+characteristics.
+Despite the shortcomings, the current
+study included 65 measures from 5 studies, and thus maximizing the
+generality across measures and samples.
