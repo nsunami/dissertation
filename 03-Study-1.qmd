@@ -483,7 +483,7 @@ s1a_txt <- s1a_cor_CIs %>% select(label, APA_model95) %>%
 To test convergent and discriminant validities, I examined bivariate
 correlations between the Heart Manikin scores and the scores of the
 measures in @tbl-s1a-table. Results are presented in
-@fig-s1a-forest (see [Appendix] for the bivariate correlation
+@fig-s1a-forest (see @tbl-appendix-s1a-correlations-table for the bivariate correlation
 table). Consistent with the prediction, the Heart Manikin scores
 correlated with the hypothesized measures for convergent validity: the
 Valence Manikin (`r s1a_txt$Valence`), social isolation
