@@ -1495,8 +1495,7 @@ identification and belonging was stronger at Time 2 than at Time 1 (Time
 
 **Bivariate Correltion Analysis**. I explored associations among the
 measured variables via bivariate correlations. I only report select
-positive associations here. For the full correlation matrix, see Table
-\@ref(tab:appendix-s3-correlations-table) in [Appendix]. Note that these
+positive associations here. For the full correlation matrix, see @tbl-appendix-s3-correlations-table in [Appendix]. Note that these
 analyses were not planned a priori, and prone to Type I error. At Time
 2, participants with higher Heart Manikin scores reported higher
 parasocial relatioships, immersion, social world, player character
