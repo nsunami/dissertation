@@ -1608,8 +1608,7 @@ s1d_txt <- s1d_txt %>%
 
 **Convergent and Discriminant Validities.** To test convergent and
 discriminant validities, I fist examined the bivariate correlations
-between the Heart Manikin and the included measures (
-@tab-s1d-table). Detailed results are available in
+between the Heart Manikin and the included measures (@tbl-s1d-table). Detailed results are available in
 [Appendix]. I focus on the results of the non-repeated
 measures (self-esteem and social judgment survey) here since the results
 for the measures repeated throughout the study are reported in the mixed
