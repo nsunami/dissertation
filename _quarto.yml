@@ -15,7 +15,9 @@ book:
     - 05-Study-3.qmd
     - 06-General-Discussion.qmd
 
-bibliography: references.bib
+bibliography:
+  - references.bib
+  - packages.bib
 
 format:
   html:
