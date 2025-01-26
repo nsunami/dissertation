@@ -20,7 +20,6 @@ library(ggtext)
 library(apastats)
 library(kableExtra)
 library(effectsize) # for equivalence tests and effect size estimation
-library(tidyverse)
 
 # Project-Specific Parameters
 ## SESOI for ROPE in the equivalence test
@@ -50,8 +49,8 @@ describe_by_factor <- function(df, ..., vars) {
   # vars are target variables
   .group <- enquos(...)
   df %>%
-    select(!!!.group, {{ vars }}) %>%
-    group_by(!!!.group) %>%
+    dplyr::select(!!!.group, {{ vars }}) %>%
+    dplyr::group_by(!!!.group) %>%
     dplyr::summarise(across(
       everything(),
       list(mean = ~ mean(., na.rm = TRUE), sd = ~ sd(., na.rm = TRUE))
@@ -64,7 +63,7 @@ get_desc_db <- function(describe_by_factor_df,
   # Get descriptives table by factor and produce a query-able data frame
   descriptives_long <- describe_by_factor_df %>%
     pivot_longer(c(ends_with("mean"), ends_with("sd"))) %>%
-    mutate(
+    dplyr::mutate(
       variable = str_match(name, "^[^_].+(?=_)") %>% as.vector(),
       stat = str_match(name, "(?:[^_](?!_))+$") %>% as.vector()
     )
@@ -78,13 +77,13 @@ get_APA_from_msd <- function(describe_by_factor_df,
   descriptives_long <- describe_by_factor_df %>%
     pivot_longer(c(ends_with("mean"), ends_with("sd"))) %>%
     # Parse with underscores
-    mutate(
+    dplyr::mutate(
       variable = str_match(name, "^[^_].+(?=_)") %>% as.vector(),
       stat = str_match(name, "(?:[^_](?!_))+$") %>% as.vector()
     )
   db <- descriptives_long %>%
     pivot_wider(-name, values_from = value, names_from = stat) %>%
-    mutate(APA = to_msd(mean %>% f.round(), sd %>% f.round()))
+    dplyr::mutate(APA = to_msd(mean %>% f.round(), sd %>% f.round()))
   return(db)
 }
 
@@ -92,7 +91,7 @@ get_APA_from_msd <- function(describe_by_factor_df,
 summarise_descriptives <- function(df) {
   df %>%
     # create a summary row with _n, _nmean, _sd
-    summarise(across(
+dplyr::summarise(across(
       where(is.numeric),
       list(
         n = ~ sum(!is.na(.x)),
@@ -103,16 +102,16 @@ summarise_descriptives <- function(df) {
     # Pivot to the long format (1 column)
     pivot_longer(everything()) %>%
     # Label types using regex (get characters after "_")
-    mutate(type = str_extract(name, "[^_]*$")) %>%
+    dplyr::mutate(type = str_extract(name, "[^_]*$")) %>%
     # Repeat the scale names (since we are dealing with n, mean, sd, rep is 3)
-    mutate(scale = rep(names(df), each = 3)) %>%
+    dplyr::mutate(scale = rep(names(df), each = 3)) %>%
     # pivot to wider form. Each row is a scale, and each columns are n, mean, sd
     pivot_wider(
       names_from = type,
       id_cols = scale
     ) %>%
     # Mutate to number the variables (for correlation)
-    mutate(scale = paste0(row_number(), ". ", scale))
+    dplyr::mutate(scale = paste0(dplyr::row_number(), ". ", scale))
 }
 
 ## Get Bivariate Correlations with 90 and 95% CI's
@@ -125,7 +124,7 @@ get_correlations <- function(target_df,
   conf.level2 <- 0.90
   # Calculate correlations via cor.test()
   df <- target_df %>%
-    summarise(across(
+dplyr::summarise(across(
       !!vars,
       ~ list(
         model95 = cor.test(pull(cur_data(), !!outcome), .x, conf.level = conf.level1),
@@ -133,23 +132,23 @@ get_correlations <- function(target_df,
       )
     ))
   model_names <- df %>%
-    pull(1) %>%
+dplyr::pull(1) %>%
     names()
   df <- df %>%
-    mutate(Conf_Level = model_names) %>%
+    dplyr::mutate(Conf_Level = model_names) %>%
     pivot_longer(-Conf_Level, values_to = "model", names_to = c("label"))
   # Extract numbers from the calculated model using map()
   df <- df %>%
-    mutate(
+    dplyr::mutate(
       model_df = map(model, ~ broom::glance(.)),
       # Create an APA paragraph with
       APA = map_chr(model, ~ describe.r(., .add_CI = TRUE))
     ) %>%
     # Add Confidence Intervals XX%[XX, XX] to APA string
-    # mutate(APA = paste0(APA, ",", to_CI_str(Conf_Level, lower = conf.low, upper = conf.high))) %>%
+    # dplyr::mutate(APA = paste0(APA, ",", to_CI_str(Conf_Level, lower = conf.low, upper = conf.high))) %>%
     unnest(model_df) %>%
     # name parameter to df
-    rename(df = "parameter")
+dplyr::rename(df = "parameter")
   # Wider to create separate columns for 90 & 95% CIs
   df <- df %>%
     pivot_wider(
@@ -164,14 +163,14 @@ get_correlations <- function(target_df,
 summarize_Anova_with_APA <- function(lm, .sumtype = 3) {
   Anova_obj <- lm %>% Anova(type = .sumtype)
   output_tibble <- broom::tidy(Anova_obj) %>%
-    mutate(APA = describe.Anova(Anova_obj))
+    dplyr::mutate(APA = describe.Anova(Anova_obj))
   return(output_tibble)
 }
 
 ## Deframe and aslist
 deframe_as_list <- function(x) {
   x %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 }
 
@@ -241,7 +240,7 @@ s3_draw_mc_plot <- function(df = s3_df, y, ylab,
                             caption = "") {
   df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE) %>%
+    dplyr::filter(attention_all_correct == TRUE) %>%
     ggplot(aes(x = {{ x }}, y = {{ y }}, color = {{ color }})) +
     # Default violin, errorbar plot
     default_violin +
@@ -260,7 +259,7 @@ s3_draw_mc_plot <- function(df = s3_df, y, ylab,
 # Across-Time Plot for Study 1e
 s1e_plot_across_time <- function(df_long, y, ylab = "", caption = "", title = "") {
   df_long %>%
-    mutate(across(c(rejection, confederate_desire), to_factor)) %>%
+    dplyr::mutate(across(c(rejection, confederate_desire), to_factor)) %>%
     ggplot(aes(
       x = time, y = {{ y }}, color = paste(rejection, confederate_desire),
       group = paste(rejection, confederate_desire)
@@ -362,16 +361,16 @@ s1_render_kable <- function(df, studykey = " ") {
   # get the named list of packing
   # Filter so that only the label rows will be returned (intervals will be the length of packing)
   pack_named_index <- df %>%
-    filter(!is.na(intervals)) %>%
-    select(labels, intervals) %>%
-    deframe()
+    dplyr::filter(!is.na(intervals)) %>%
+    dplyr::select(labels, intervals) %>%
+    tibble::deframe()
   # Get the names of the named list
-  pack_named_index_names <- names(pack_named_index) %>% str_trim()
+  pack_named_index_names <- names(pack_named_index) %>% stringr::str_trim()
   # Check if Needs packing
   needs_packing <- (sum(pack_named_index_names == "") != length(pack_named_index_names))
   # Create Kable
   returned_kable <- df %>%
-    select(Measure, Time, Construct, Validity, Citation) %>%
+    dplyr::select(Measure, Time, Construct, Validity, Citation) %>%
     kbl(
       caption = paste0("Summary of Measures for Study", " 1", studykey),
       booktabs = TRUE
@@ -439,7 +438,7 @@ describe_chi_htest <- function(x) {
 ## Describe rstatix::anova_test()
 describe_anova_test <- function(x) {
   x %>%
-    mutate(APA = sprintf(
+    dplyr::mutate(APA = sprintf(
       "_F_(%s, %s) = %s, _p_ %s, $\\eta^2_{G}$ %s",
       DFn, DFd, F %>% f.round(),
       p %>% round.p(),
@@ -503,11 +502,11 @@ get_reliability_output <- function(reliability) {
 add_eqtest <- function(lm_df) {
   outdf <- lm_df %>%
     # use ci = .95 for 95% overall confidence (calculate 90% CI for estimates)
-    mutate(eq_test = map(model, ~ equivalence_test(., range = ROPE_r, ci = .95, rule = "classic"))) %>%
+    dplyr::mutate(eq_test = map(model, ~ equivalence_test(., range = ROPE_r, ci = .95, rule = "classic"))) %>%
     # Extract the results for the predictor
-    mutate(eq_pred = map_chr(eq_test, ~ .$ROPE_Equivalence[[2]])) %>%
+    dplyr::mutate(eq_pred = map_chr(eq_test, ~ .$ROPE_Equivalence[[2]])) %>%
     # Add labels for plot annotation
-    mutate(eq_label = case_when(
+    dplyr::mutate(eq_label = dplyr::case_when(
       eq_pred == "Rejected" ~ "",
       eq_pred == "Accepted" ~ "*",
       # Unicode
@@ -537,16 +536,16 @@ evaluate_equivalence <- function(lower, upper, ROPE) {
 # Get n and percent by specified group and convert it to list for formatting
 get_n_pct <- function(df, ...) {
   df %>%
-    group_by(...) %>%
-    summarise(n = n()) %>%
-    ungroup() %>%
-    mutate(pct = round(n / sum(n) * 100, 2)) %>%
+    dplyr::group_by(...) %>%
+dplyr::summarise(n =dplyr::n()) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(pct = round(n / sum(n) * 100, 2)) %>%
     pivot_longer(cols = c(n, pct)) %>%
-    nest_by(...) %>%
-    ungroup() %>% # Ungroup to avoid cannot be recycled one error
-    mutate(data = map(data, function(x) x %>% deframe_as_list())) %>%
+    dplyr::nest_by(...) %>%
+    dplyr::ungroup() %>% # Ungroup to avoid cannot be recycled one error
+    dplyr::mutate(data = map(data, function(x) x %>% deframe_as_list())) %>%
     unite("label", ...) %>%
-    select(label, data) %>%
+    dplyr::select(label, data) %>%
     deframe_as_list()
 }
 
@@ -564,11 +563,11 @@ plot_s2_moderation <- function(model) {
   # Labels function
   s2mod_relabel <- function(x) {
     x %>%
-      str_replace("parasocial_MC_group2-1", "Group [2-1]") %>%
-      str_replace("parasocial_MC_group3-2", "Group [3-2]") %>%
-      str_replace(cur_mod, cur_mod_label) %>%
-      str_replace("essay_condition1", "Essay [Surrogacy]") %>%
-      str_replace("Time1", "Time [1]") %>%
+      stringr::str_replace("parasocial_MC_group2-1", "Group [2-1]") %>%
+      stringr::str_replace("parasocial_MC_group3-2", "Group [3-2]") %>%
+      stringr::str_replace(cur_mod, cur_mod_label) %>%
+      stringr::str_replace("essay_condition1", "Essay [Surrogacy]") %>%
+      stringr::str_replace("Time1", "Time [1]") %>%
       str_replace_all(":", " x ")
   }
 
@@ -628,12 +627,12 @@ plot_s3_mod_bymc <- function(model) {
   # Function to relabel the variabels
   s3mod_relabel <- function(x) {
     x %>%
-      str_replace("parasocial_MC_group1", "Group [1]") %>%
-      str_replace("parasocial_MC_group2", "Group [2]") %>%
-      str_replace(current_moderator, current_moderator_label) %>%
-      str_replace("social_world1", "Social World [High]") %>%
-      str_replace("parasocial1", "Parasocial [High]") %>%
-      str_replace("time1", "Time [1]") %>%
+      stringr::str_replace("parasocial_MC_group1", "Group [1]") %>%
+      stringr::str_replace("parasocial_MC_group2", "Group [2]") %>%
+      stringr::str_replace(current_moderator, current_moderator_label) %>%
+      stringr::str_replace("social_world1", "Social World [High]") %>%
+      stringr::str_replace("parasocial1", "Parasocial [High]") %>%
+      stringr::str_replace("time1", "Time [1]") %>%
       str_replace_all(":", " x ")
   }
 
@@ -750,18 +749,18 @@ get_APA_from_emm <- function(emm) {
 
   stats_df <- emm %>%
     as_tibble() %>%
-    select(ends_with(".trend"):last_col())
+    dplyr::select(ends_with(".trend"):last_col())
   labels_df <- emm %>%
     as_tibble() %>%
-    select(1:ends_with(".trend")) %>%
-    select(-last_col())
+    dplyr::select(1:ends_with(".trend")) %>%
+    dplyr::select(-last_col())
   # Combine the labels as the first row
   labels_df <- labels_df %>%
     unite(col = "label")
 
   # Stats df
   stats_df <- stats_df %>%
-    mutate(APA = get_slope_APA(
+    dplyr::mutate(APA = get_slope_APA(
       b = .[[1]],
       SE = SE,
       ci.lower = lower.CL, ci.upper = upper.CL
@@ -773,6 +772,6 @@ get_APA_from_emm <- function(emm) {
 
   # Deframe as list
   APA_output <- combined_df %>%
-    select(1, APA) %>%
+    dplyr::select(1, APA) %>%
     deframe_as_list()
 }

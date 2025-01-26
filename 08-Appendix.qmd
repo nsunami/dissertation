@@ -7,7 +7,14 @@ knitr::opts_chunk$set(
     warning = FALSE
 )
 # Load package
-library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(stringr)
+library(forcats)
+library(readr)
+library(tibble)
+
 library(codebook) # to generate codebook
 library(here)
 library(car) # for the type III SS in ANOVA
@@ -199,7 +206,7 @@ s1a_mnsdcor %>% as_tibble() %>%
 
 ```{r appendix-s1b-correlations-table}
 # N, Mean, SD Table
-s1b_mnsdcor <- s1b_target_vars %>% select(-id, -visit) %>% get_nmsd_cor_table()
+s1b_mnsdcor <- s1b_target_vars %>% dplyr::select(-id, -visit) %>% get_nmsd_cor_table()
 
 # Footnote for the table
 s1b_footnote <- paste(sep = " ",
@@ -297,9 +304,9 @@ I explored whether the heart manikin scores changed across time by condition in 
 
 ```{r appendix-s1c-mixed}
 s1c_sensitivity_mixed_df <- tibble(outcome = c("heart", "valence")) %>%
-  mutate(formula = paste0(outcome, "~ grouping_dummy * time + (1|id)")) %>%
-  mutate(model = map(formula, ~lmer(formula = ., data = s1c_df_long))) %>%
-  mutate(tidy = map(model, ~broom.mixed::tidy(.)),
+  dplyr::mutate(formula = paste0(outcome, "~ grouping_dummy * time + (1|id)")) %>%
+  dplyr::mutate(model = map(formula, ~lmer(formula = ., data = s1c_df_long))) %>%
+  dplyr::mutate(tidy = map(model, ~broom.mixed::tidy(.)),
          APA = map(model, ~describe.glm(.)))
 ```
 
@@ -476,7 +483,7 @@ I explored whether participants reported different levels of belonging across ti
 #| label: fig-appendix-s1e-belonging-plot
 # s1e Plot - Heart by Condition across time
 s1e_heart_plot <- s1e_df_long %>%
-  mutate(across(c(rejection, confederate_desire), to_factor)) %>%
+  dplyr::mutate(across(c(rejection, confederate_desire), to_factor)) %>%
   ggplot(aes(x = time, y = heart, color = paste(rejection, confederate_desire),
              group = paste(rejection, confederate_desire))) +
   # Plot Data Points
@@ -514,11 +521,11 @@ NTS_vars <- c("nts_belonging_mean", "nts_esteem_mean",
               "nts_control_mean", "nts_meaning_mean",
               "nts_mean")
 s1e_rejection_NTS_df <- tibble(outcome = NTS_vars) %>%
-  mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * time + (1|id)"))) %>%
-  mutate(fit = map(formula, ~lmer(formula = as.formula(.),
+  dplyr::mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * time + (1|id)"))) %>%
+  dplyr::mutate(fit = map(formula, ~lmer(formula = as.formula(.),
                                   data = s1e_df_long)))  %>%
-  mutate(tidy = map(fit, broom::tidy)) %>%
-  mutate(described = map(fit, describe.glm))
+  dplyr::mutate(tidy = map(fit, broom::tidy)) %>%
+  dplyr::mutate(described = map(fit, describe.glm))
 
 # Create Plots
 ## caption
@@ -606,21 +613,21 @@ s1e_NTS_T5_vars <- c("nts_T5_belonging_mean", "nts_T5_esteem_mean",
                      "nts_T5_mean")
 
 s1e_NTS_moderation_by_esteem_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
-  mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * esteem_mean"))) %>%
-  mutate(fit = map(formula, ~lm(formula = as.formula(.),
+  dplyr::mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * esteem_mean"))) %>%
+  dplyr::mutate(fit = map(formula, ~lm(formula = as.formula(.),
                                 data = s1e_df))) %>%
-  mutate(tidy = map(fit, tidy)) %>%
-  mutate(described = map(fit, describe.glm)) %>%
-  mutate(plot = map2(.x = fit, .y = outcome, ~plot_fit(.x, .y)))
+  dplyr::mutate(tidy = map(fit, tidy)) %>%
+  dplyr::mutate(described = map(fit, describe.glm)) %>%
+  dplyr::mutate(plot = map2(.x = fit, .y = outcome, ~plot_fit(.x, .y)))
 
 s1e_NTS_moderation_by_esteem_nocond_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
-  mutate(labels = c("Belonging (T5)", "Self-Esteem (T5)", "Control (T5)", "Meaningful Existence (T5)", "Overall NTS (T5)")) %>%
-  mutate(formula = (paste0(outcome, " ~ rejection * esteem_mean"))) %>%
-  mutate(fit = map(formula, ~lm(formula = as.formula(.),
+  dplyr::mutate(labels = c("Belonging (T5)", "Self-Esteem (T5)", "Control (T5)", "Meaningful Existence (T5)", "Overall NTS (T5)")) %>%
+  dplyr::mutate(formula = (paste0(outcome, " ~ rejection * esteem_mean"))) %>%
+  dplyr::mutate(fit = map(formula, ~lm(formula = as.formula(.),
                                 data = s1e_df))) %>%
-  mutate(tidy = map(fit, tidy)) %>%
-  mutate(described = map(fit, describe.glm)) %>%
-  mutate(plot = map2(fit, labels, function(x = .x, title = .y){
+  dplyr::mutate(tidy = map(fit, tidy)) %>%
+  dplyr::mutate(described = map(fit, describe.glm)) %>%
+  dplyr::mutate(plot = map2(fit, labels, function(x = .x, title = .y){
     sjPlot::plot_model(x, terms = c("esteem_mean", "rejection"), type = "pred") +
       labs(title = title, x = "Self-Esteem", y = title)
   }))
@@ -668,8 +675,8 @@ s2_continuous_predictors <- c("IOS" = "IOS", "PSI" = "PSI",
 s2_target_vars <- c(s2_outcomes, s2_continuous_predictors)
 # Create a target columns-only df with renamed columns via `select`
 s2_target_cols <- s2_df %>%
-  filter(attention_all_correct, followed_VGinstructions == "Yes") %>%
-  select(all_of(s2_target_vars))
+  dplyr::filter(attention_all_correct, followed_VGinstructions == "Yes") %>%
+  dplyr::select(all_of(s2_target_vars))
 # N, Mean, SD Table
 s2_mnsdcor <- s2_target_cols %>% get_nmsd_cor_table()
 # Render
@@ -684,15 +691,16 @@ s2_mnsdcor %>% as_tibble() %>%
 ```
 
 #### Bivariate Scatter Plot Matrix
-```{r s2-matplot, fig.cap = "Matrix Plot for Study 2 Variables", fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
+```{r s2-matplot, fig.cap = "Matrix Plot for Study 2 Variables", fig.height=15, fig.width=15, message=FALSE, warning=FALSE, cache=TRUE}
+#| label: fig-s2-matplot
 # Study 2 - Matrix Plot
 s2_df %>%
-  select(essay_condition, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
+  dplyr::select(essay_condition, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
          T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
          IOS, PSI, Single_Immersion,Narrative_Engagement,
          OTF_Social_World, Enjoyment) %>%
   # Rename variables
-  rename("Essay" = essay_condition, "T1 Heart" = T1_Heart_1, "T1 Valence" = T1_Valence_1,
+dplyr::rename("Essay" = essay_condition, "T1 Heart" = T1_Heart_1, "T1 Valence" = T1_Valence_1,
          "T1 Arousal" = T1_Arousal_1, "T1 Dominance" = T1_Dominance_1,
          "T2 Heart" = T2_Heart_1, "T2 Valence" = T2_Valence_1,
          "T2 Arousal" = T2_Arousal_1, "T2 Dominance" = T2_Dominance_1,
@@ -709,16 +717,16 @@ s2_df %>%
 ## Word Cloud
 # create words df - one row = a game title
 s2_game_names <- s2_df %>%
-  filter(followed_VGinstructions == "Yes") %>%
+  dplyr::filter(followed_VGinstructions == "Yes") %>%
   unnest_tokens(word, target_game_name_cl, token = "lines",
                 to_lower = FALSE) %>%
-  group_by(essay_condition) %>% count(word, sort = TRUE) %>%
-  mutate(proportion = n/sum(n))
+  dplyr::group_by(essay_condition) %>% count(word, sort = TRUE) %>%
+  dplyr::mutate(proportion = n/sum(n))
 
 set.seed(2021)
 # Word cloud for Social Surrogacy Condition
 s2_game_names %>%
-  filter(essay_condition == "Social Surrogacy") %>%
+  dplyr::filter(essay_condition == "Social Surrogacy") %>%
   with(wordcloud(word, n, rot.per = 0, min.freq = 1,
                  scale = c(4, .8), random.color = TRUE,
                  colors = brewer.pal(5, "Set2")))
@@ -727,7 +735,7 @@ s2_game_names %>%
 ```{r s2-word-cloud-nonsurrogate, fig.cap='Word Cloud for Game Titles for the Non-Social Surrogate Condition', fig.width=10, fig.height=9}
 # Word cloud for Non-Social Surrogacy Condition
 s2_game_names %>%
-  filter(essay_condition == "Non-Social Surrogacy") %>%
+  dplyr::filter(essay_condition == "Non-Social Surrogacy") %>%
   with(wordcloud(word, n, rot.per = 0, min.freq = 1,
                  scale = c(4, .8), random.color = TRUE,
                  colors = brewer.pal(5, "Set2")))
@@ -800,13 +808,13 @@ Words such as "character" and "story" appeared more frequently in the social sur
 # Load Public text file - Anonymous
 s2_VG_txt <- read_rds(here("data_public", "Study2_VG_txt.rds"))
 # Convert to wide, one row is now condition x word
-s2_VG_txt_wide <- s2_VG_txt %>% select(-n) %>%
+s2_VG_txt_wide <- s2_VG_txt %>% dplyr::select(-n) %>%
   pivot_wider(names_from = essay_condition,
               values_from = proportion)
 # Create a frequency plot
 s2_VG_word_freq_plot <- s2_VG_txt %>%
-  filter(n > 50) %>%
-  mutate(word = reorder(word, n)) %>%
+  dplyr::filter(n > 50) %>%
+  dplyr::mutate(word = reorder(word, n)) %>%
   ggplot(aes(n, word)) +
   geom_col() +
   labs(y = NULL) +
@@ -819,7 +827,7 @@ s2_VG_word_freq_plot <- s2_VG_txt %>%
 #| 
 # expect a warning about rows with missing values being removed
 s2_VG_txt_wide %>%
-  filter(!str_detect(word, "\\d+")) %>%
+  dplyr::filter(!str_detect(word, "\\d+")) %>%
   ggplot(aes(x = `Non-Social Surrogacy`, y = `Social Surrogacy`)) +
   geom_abline(color = "gray40", lty = 2) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.3, height = 0.3) +
@@ -850,14 +858,14 @@ s2_exit_q_summary <- s2_df %>%
 ```{r s2-exit-questions-plot, fig.cap='Study 2 - Lengths of Participant Answers to Exit Questions Across Question Order'}
 #| label: fig-s2-exit-questions-plot
 # Share anything
-s2_share_anything_plot <- s2_df %>% filter(!is.na(Exit_Q_Order)) %>%
+s2_share_anything_plot <- s2_df %>% dplyr::filter(!is.na(Exit_Q_Order)) %>%
   ggplot(aes(y = Share_Anything_Len, x = Exit_Q_Order, color = Exit_Q_Order)) +
   default_violin +
   ylab("Answer to 'Share Anything' Question\n(Number of Characters)") +
   xlab("Question Order") +
   labs(color = "Question Order")
 # Study Purpose
-s2_study_purpose_plot <- s2_df %>% filter(!is.na(Exit_Q_Order)) %>%
+s2_study_purpose_plot <- s2_df %>% dplyr::filter(!is.na(Exit_Q_Order)) %>%
   ggplot(aes(y = Study_Purpose_Len, x = Exit_Q_Order, color = Exit_Q_Order)) +
   default_violin +
   ylab("Answer to 'Study Purpose' Question\n(Number of Characters)") +
@@ -883,7 +891,7 @@ s3_continuous_predictors <- c("IOS" = "IOS", "Immersion" = "Single_Immersion",
                               "Enjoyment" = "Enjoyment")
 s3_target_vars <- c(s3_outcomes, s3_continuous_predictors)
 # Target columns
-s3_target_cols <- s3_df %>% filter(attention_all_correct) %>% select(all_of(s3_target_vars))
+s3_target_cols <- s3_df %>% dplyr::filter(attention_all_correct) %>% dplyr::select(all_of(s3_target_vars))
 # N, Mean, SD Table
 s3_nmsd_table <- s3_target_cols %>% summarise_descriptives()
 # Correlation Table with stars
@@ -900,16 +908,16 @@ s3_mnsdcor %>% as_tibble() %>%
   kable_styling_cortable()
 ```
 
-```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE}
+```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE, cache=TRUE}
 # GG Pairs for Study 3
 s3_df %>%
-  select(parasocial, social_world, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
+  dplyr::select(parasocial, social_world, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
          T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
          IOS, Single_Immersion,
          OTF_Social_World,
          PC_Identification) %>%
   # Rename variables
-  rename("Parasocial" = parasocial, "Social World" = social_world,
+dplyr::rename("Parasocial" = parasocial, "Social World" = social_world,
          "Heart T1" = T1_Heart_1, "Valence T1" = T1_Valence_1,
          "Arousal T1" = T1_Arousal_1, "Dominance T1" = T1_Dominance_1,
          "Heart T2" = T2_Heart_1, "Valence T2" = T2_Valence_1,
