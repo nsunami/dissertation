@@ -20,7 +20,6 @@ library(ggtext)
 library(apastats)
 library(kableExtra)
 library(effectsize) # for equivalence tests and effect size estimation
-library(tidyverse)
 
 # Project-Specific Parameters
 ## SESOI for ROPE in the equivalence test
@@ -51,7 +50,7 @@ describe_by_factor <- function(df, ..., vars) {
   .group <- enquos(...)
   df %>%
     select(!!!.group, {{ vars }}) %>%
-    group_by(!!!.group) %>%
+    dplyr::group_by(!!!.group) %>%
     dplyr::summarise(across(
       everything(),
       list(mean = ~ mean(., na.rm = TRUE), sd = ~ sd(., na.rm = TRUE))
@@ -64,7 +63,7 @@ get_desc_db <- function(describe_by_factor_df,
   # Get descriptives table by factor and produce a query-able data frame
   descriptives_long <- describe_by_factor_df %>%
     pivot_longer(c(ends_with("mean"), ends_with("sd"))) %>%
-    mutate(
+    dplyr::mutate(
       variable = str_match(name, "^[^_].+(?=_)") %>% as.vector(),
       stat = str_match(name, "(?:[^_](?!_))+$") %>% as.vector()
     )
@@ -78,13 +77,13 @@ get_APA_from_msd <- function(describe_by_factor_df,
   descriptives_long <- describe_by_factor_df %>%
     pivot_longer(c(ends_with("mean"), ends_with("sd"))) %>%
     # Parse with underscores
-    mutate(
+    dplyr::mutate(
       variable = str_match(name, "^[^_].+(?=_)") %>% as.vector(),
       stat = str_match(name, "(?:[^_](?!_))+$") %>% as.vector()
     )
   db <- descriptives_long %>%
     pivot_wider(-name, values_from = value, names_from = stat) %>%
-    mutate(APA = to_msd(mean %>% f.round(), sd %>% f.round()))
+    dplyr::mutate(APA = to_msd(mean %>% f.round(), sd %>% f.round()))
   return(db)
 }
 
@@ -103,16 +102,16 @@ summarise_descriptives <- function(df) {
     # Pivot to the long format (1 column)
     pivot_longer(everything()) %>%
     # Label types using regex (get characters after "_")
-    mutate(type = str_extract(name, "[^_]*$")) %>%
+    dplyr::mutate(type = str_extract(name, "[^_]*$")) %>%
     # Repeat the scale names (since we are dealing with n, mean, sd, rep is 3)
-    mutate(scale = rep(names(df), each = 3)) %>%
+    dplyr::mutate(scale = rep(names(df), each = 3)) %>%
     # pivot to wider form. Each row is a scale, and each columns are n, mean, sd
     pivot_wider(
       names_from = type,
       id_cols = scale
     ) %>%
     # Mutate to number the variables (for correlation)
-    mutate(scale = paste0(row_number(), ". ", scale))
+    dplyr::mutate(scale = paste0(row_number(), ". ", scale))
 }
 
 ## Get Bivariate Correlations with 90 and 95% CI's
@@ -136,17 +135,17 @@ get_correlations <- function(target_df,
     pull(1) %>%
     names()
   df <- df %>%
-    mutate(Conf_Level = model_names) %>%
+    dplyr::mutate(Conf_Level = model_names) %>%
     pivot_longer(-Conf_Level, values_to = "model", names_to = c("label"))
   # Extract numbers from the calculated model using map()
   df <- df %>%
-    mutate(
+    dplyr::mutate(
       model_df = map(model, ~ broom::glance(.)),
       # Create an APA paragraph with
       APA = map_chr(model, ~ describe.r(., .add_CI = TRUE))
     ) %>%
     # Add Confidence Intervals XX%[XX, XX] to APA string
-    # mutate(APA = paste0(APA, ",", to_CI_str(Conf_Level, lower = conf.low, upper = conf.high))) %>%
+    # dplyr::mutate(APA = paste0(APA, ",", to_CI_str(Conf_Level, lower = conf.low, upper = conf.high))) %>%
     unnest(model_df) %>%
     # name parameter to df
     rename(df = "parameter")
@@ -164,7 +163,7 @@ get_correlations <- function(target_df,
 summarize_Anova_with_APA <- function(lm, .sumtype = 3) {
   Anova_obj <- lm %>% Anova(type = .sumtype)
   output_tibble <- broom::tidy(Anova_obj) %>%
-    mutate(APA = describe.Anova(Anova_obj))
+    dplyr::mutate(APA = describe.Anova(Anova_obj))
   return(output_tibble)
 }
 
@@ -260,7 +259,7 @@ s3_draw_mc_plot <- function(df = s3_df, y, ylab,
 # Across-Time Plot for Study 1e
 s1e_plot_across_time <- function(df_long, y, ylab = "", caption = "", title = "") {
   df_long %>%
-    mutate(across(c(rejection, confederate_desire), to_factor)) %>%
+    dplyr::mutate(across(c(rejection, confederate_desire), to_factor)) %>%
     ggplot(aes(
       x = time, y = {{ y }}, color = paste(rejection, confederate_desire),
       group = paste(rejection, confederate_desire)
@@ -439,7 +438,7 @@ describe_chi_htest <- function(x) {
 ## Describe rstatix::anova_test()
 describe_anova_test <- function(x) {
   x %>%
-    mutate(APA = sprintf(
+    dplyr::mutate(APA = sprintf(
       "_F_(%s, %s) = %s, _p_ %s, $\\eta^2_{G}$ %s",
       DFn, DFd, F %>% f.round(),
       p %>% round.p(),
@@ -503,11 +502,11 @@ get_reliability_output <- function(reliability) {
 add_eqtest <- function(lm_df) {
   outdf <- lm_df %>%
     # use ci = .95 for 95% overall confidence (calculate 90% CI for estimates)
-    mutate(eq_test = map(model, ~ equivalence_test(., range = ROPE_r, ci = .95, rule = "classic"))) %>%
+    dplyr::mutate(eq_test = map(model, ~ equivalence_test(., range = ROPE_r, ci = .95, rule = "classic"))) %>%
     # Extract the results for the predictor
-    mutate(eq_pred = map_chr(eq_test, ~ .$ROPE_Equivalence[[2]])) %>%
+    dplyr::mutate(eq_pred = map_chr(eq_test, ~ .$ROPE_Equivalence[[2]])) %>%
     # Add labels for plot annotation
-    mutate(eq_label = case_when(
+    dplyr::mutate(eq_label = case_when(
       eq_pred == "Rejected" ~ "",
       eq_pred == "Accepted" ~ "*",
       # Unicode
@@ -537,14 +536,14 @@ evaluate_equivalence <- function(lower, upper, ROPE) {
 # Get n and percent by specified group and convert it to list for formatting
 get_n_pct <- function(df, ...) {
   df %>%
-    group_by(...) %>%
+    dplyr::group_by(...) %>%
     summarise(n = n()) %>%
     ungroup() %>%
-    mutate(pct = round(n / sum(n) * 100, 2)) %>%
+    dplyr::mutate(pct = round(n / sum(n) * 100, 2)) %>%
     pivot_longer(cols = c(n, pct)) %>%
     nest_by(...) %>%
     ungroup() %>% # Ungroup to avoid cannot be recycled one error
-    mutate(data = map(data, function(x) x %>% deframe_as_list())) %>%
+    dplyr::mutate(data = map(data, function(x) x %>% deframe_as_list())) %>%
     unite("label", ...) %>%
     select(label, data) %>%
     deframe_as_list()
@@ -761,7 +760,7 @@ get_APA_from_emm <- function(emm) {
 
   # Stats df
   stats_df <- stats_df %>%
-    mutate(APA = get_slope_APA(
+    dplyr::mutate(APA = get_slope_APA(
       b = .[[1]],
       SE = SE,
       ci.lower = lower.CL, ci.upper = upper.CL
