@@ -60,7 +60,7 @@ pack_starts <- s1_measures_tbl %>%
         start_num = case_when(Submeasure == 1 ~ rownum),
         end_num = case_when(Submeasure == n() ~ rownum)
     ) %>%
-    ungroup() %>%
+    dplyr::ungroup() %>%
     fill(start_num, .direction = "down") %>%
     fill(end_num, .direction = "up") %>%
     filter(Submeasure == 1) %>%
@@ -85,7 +85,7 @@ s1_measures_tbl <- s1_measures_tbl %>%
     dplyr::mutate(labels = case_when(is.na(labels) ~ "", TRUE ~ labels))
 pack_starts_nested <- s1_measures_tbl %>%
     nest_by(Study) %>%
-    ungroup()
+    dplyr::ungroup()
 
 # List of df to feed to the function in-text to render table on the spot
 s1_measures_dfs <- pack_starts_nested %>%

@@ -913,7 +913,7 @@ s2_df_long <- s2_df_long %>%
     dplyr::mutate(across(all_of(s2_mc_indices[-1]),
         .fns = list(c = function(x) x - mean(x, na.rm = TRUE))
     )) %>%
-    ungroup()
+    dplyr::ungroup()
 
 
 # add "_c" to moderator names

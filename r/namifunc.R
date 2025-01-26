@@ -538,11 +538,11 @@ get_n_pct <- function(df, ...) {
   df %>%
     dplyr::group_by(...) %>%
     summarise(n = n()) %>%
-    ungroup() %>%
+    dplyr::ungroup() %>%
     dplyr::mutate(pct = round(n / sum(n) * 100, 2)) %>%
     pivot_longer(cols = c(n, pct)) %>%
     nest_by(...) %>%
-    ungroup() %>% # Ungroup to avoid cannot be recycled one error
+    dplyr::ungroup() %>% # Ungroup to avoid cannot be recycled one error
     dplyr::mutate(data = map(data, function(x) x %>% deframe_as_list())) %>%
     unite("label", ...) %>%
     select(label, data) %>%
