@@ -6,6 +6,13 @@ knitr::opts_chunk$set(
     message = FALSE,
     warning = FALSE
 )
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(stringr)
+library(forcats)
+library(readr)
+
 library(Hmisc) # summarize namespace overlaps with dplyr
 library(here)
 library(GGally) # Corregiogram

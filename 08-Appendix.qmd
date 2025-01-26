@@ -7,6 +7,14 @@ knitr::opts_chunk$set(
     warning = FALSE
 )
 # Load package
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(stringr)
+library(forcats)
+library(readr)
+library(tibble)
+
 library(codebook) # to generate codebook
 library(here)
 library(car) # for the type III SS in ANOVA

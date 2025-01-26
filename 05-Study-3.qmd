@@ -76,6 +76,15 @@ knitr::opts_chunk$set(
 )
 
 # Load packages
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(stringr)
+library(forcats)
+library(readr)
+library(tibble)
+
+
 library(here)
 source(here("r", "namifunc.R")) # Read User-Defined Functions
 
