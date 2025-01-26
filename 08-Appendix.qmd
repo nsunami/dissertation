@@ -7,7 +7,6 @@ knitr::opts_chunk$set(
     warning = FALSE
 )
 # Load package
-library(tidyverse)
 library(codebook) # to generate codebook
 library(here)
 library(car) # for the type III SS in ANOVA
@@ -297,9 +296,9 @@ I explored whether the heart manikin scores changed across time by condition in 
 
 ```{r appendix-s1c-mixed}
 s1c_sensitivity_mixed_df <- tibble(outcome = c("heart", "valence")) %>%
-  mutate(formula = paste0(outcome, "~ grouping_dummy * time + (1|id)")) %>%
-  mutate(model = map(formula, ~lmer(formula = ., data = s1c_df_long))) %>%
-  mutate(tidy = map(model, ~broom.mixed::tidy(.)),
+  dplyr::mutate(formula = paste0(outcome, "~ grouping_dummy * time + (1|id)")) %>%
+  dplyr::mutate(model = map(formula, ~lmer(formula = ., data = s1c_df_long))) %>%
+  dplyr::mutate(tidy = map(model, ~broom.mixed::tidy(.)),
          APA = map(model, ~describe.glm(.)))
 ```
 
@@ -476,7 +475,7 @@ I explored whether participants reported different levels of belonging across ti
 #| label: fig-appendix-s1e-belonging-plot
 # s1e Plot - Heart by Condition across time
 s1e_heart_plot <- s1e_df_long %>%
-  mutate(across(c(rejection, confederate_desire), to_factor)) %>%
+  dplyr::mutate(across(c(rejection, confederate_desire), to_factor)) %>%
   ggplot(aes(x = time, y = heart, color = paste(rejection, confederate_desire),
              group = paste(rejection, confederate_desire))) +
   # Plot Data Points
@@ -514,11 +513,11 @@ NTS_vars <- c("nts_belonging_mean", "nts_esteem_mean",
               "nts_control_mean", "nts_meaning_mean",
               "nts_mean")
 s1e_rejection_NTS_df <- tibble(outcome = NTS_vars) %>%
-  mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * time + (1|id)"))) %>%
-  mutate(fit = map(formula, ~lmer(formula = as.formula(.),
+  dplyr::mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * time + (1|id)"))) %>%
+  dplyr::mutate(fit = map(formula, ~lmer(formula = as.formula(.),
                                   data = s1e_df_long)))  %>%
-  mutate(tidy = map(fit, broom::tidy)) %>%
-  mutate(described = map(fit, describe.glm))
+  dplyr::mutate(tidy = map(fit, broom::tidy)) %>%
+  dplyr::mutate(described = map(fit, describe.glm))
 
 # Create Plots
 ## caption
@@ -606,21 +605,21 @@ s1e_NTS_T5_vars <- c("nts_T5_belonging_mean", "nts_T5_esteem_mean",
                      "nts_T5_mean")
 
 s1e_NTS_moderation_by_esteem_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
-  mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * esteem_mean"))) %>%
-  mutate(fit = map(formula, ~lm(formula = as.formula(.),
+  dplyr::mutate(formula = (paste0(outcome, " ~ desires_dummy * rejection * esteem_mean"))) %>%
+  dplyr::mutate(fit = map(formula, ~lm(formula = as.formula(.),
                                 data = s1e_df))) %>%
-  mutate(tidy = map(fit, tidy)) %>%
-  mutate(described = map(fit, describe.glm)) %>%
-  mutate(plot = map2(.x = fit, .y = outcome, ~plot_fit(.x, .y)))
+  dplyr::mutate(tidy = map(fit, tidy)) %>%
+  dplyr::mutate(described = map(fit, describe.glm)) %>%
+  dplyr::mutate(plot = map2(.x = fit, .y = outcome, ~plot_fit(.x, .y)))
 
 s1e_NTS_moderation_by_esteem_nocond_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
-  mutate(labels = c("Belonging (T5)", "Self-Esteem (T5)", "Control (T5)", "Meaningful Existence (T5)", "Overall NTS (T5)")) %>%
-  mutate(formula = (paste0(outcome, " ~ rejection * esteem_mean"))) %>%
-  mutate(fit = map(formula, ~lm(formula = as.formula(.),
+  dplyr::mutate(labels = c("Belonging (T5)", "Self-Esteem (T5)", "Control (T5)", "Meaningful Existence (T5)", "Overall NTS (T5)")) %>%
+  dplyr::mutate(formula = (paste0(outcome, " ~ rejection * esteem_mean"))) %>%
+  dplyr::mutate(fit = map(formula, ~lm(formula = as.formula(.),
                                 data = s1e_df))) %>%
-  mutate(tidy = map(fit, tidy)) %>%
-  mutate(described = map(fit, describe.glm)) %>%
-  mutate(plot = map2(fit, labels, function(x = .x, title = .y){
+  dplyr::mutate(tidy = map(fit, tidy)) %>%
+  dplyr::mutate(described = map(fit, describe.glm)) %>%
+  dplyr::mutate(plot = map2(fit, labels, function(x = .x, title = .y){
     sjPlot::plot_model(x, terms = c("esteem_mean", "rejection"), type = "pred") +
       labs(title = title, x = "Self-Esteem", y = title)
   }))
@@ -685,6 +684,7 @@ s2_mnsdcor %>% as_tibble() %>%
 
 #### Bivariate Scatter Plot Matrix
 ```{r s2-matplot, fig.cap = "Matrix Plot for Study 2 Variables", fig.height=15, fig.width=15, message=FALSE, warning=FALSE, cache=TRUE}
+#| label: fig-s2-matplot
 # Study 2 - Matrix Plot
 s2_df %>%
   select(essay_condition, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
@@ -712,8 +712,8 @@ s2_game_names <- s2_df %>%
   filter(followed_VGinstructions == "Yes") %>%
   unnest_tokens(word, target_game_name_cl, token = "lines",
                 to_lower = FALSE) %>%
-  group_by(essay_condition) %>% count(word, sort = TRUE) %>%
-  mutate(proportion = n/sum(n))
+  dplyr::group_by(essay_condition) %>% count(word, sort = TRUE) %>%
+  dplyr::mutate(proportion = n/sum(n))
 
 set.seed(2021)
 # Word cloud for Social Surrogacy Condition
@@ -806,7 +806,7 @@ s2_VG_txt_wide <- s2_VG_txt %>% select(-n) %>%
 # Create a frequency plot
 s2_VG_word_freq_plot <- s2_VG_txt %>%
   filter(n > 50) %>%
-  mutate(word = reorder(word, n)) %>%
+  dplyr::mutate(word = reorder(word, n)) %>%
   ggplot(aes(n, word)) +
   geom_col() +
   labs(y = NULL) +
@@ -901,6 +901,7 @@ s3_mnsdcor %>% as_tibble() %>%
 ```
 
 ```{r appendix-s3-ggpairs, fig.cap='Study 3 - Bivariate Scatter Plot Matrix',fig.height=15, fig.width=15, out.width='100%', message=FALSE, warning=FALSE, cache=TRUE}
+#| label: fig-appendix-s3-ggpairs 
 # GG Pairs for Study 3
 s3_df %>%
   select(parasocial, social_world, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,

@@ -114,14 +114,14 @@ s3_playtime <- s3_df_attentive %>%
         mean_playtime = mean(RPG_playtime, na.rm = TRUE) %>% round(2),
         sd_playtime = sd(RPG_playtime, na.rm = TRUE) %>% round(2)
     ) %>%
-    mutate(APA = to_msd(mean_playtime, sd_playtime)) %>%
+    dplyr::mutate(APA = to_msd(mean_playtime, sd_playtime)) %>%
     as.list()
 
 # Getting participants per condition
 s3_ntable <- s3_df %>%
-    group_by(parasocial, social_world) %>%
+    dplyr::group_by(parasocial, social_world) %>%
     summarise(n = n()) %>%
-    mutate(key = str_c(str_extract(parasocial, "^."), str_extract(social_world, "^.")))
+    dplyr::mutate(key = str_c(str_extract(parasocial, "^."), str_extract(social_world, "^.")))
 s3_n_txt <- s3_ntable %>%
     ungroup() %>%
     select(key, n) %>%
@@ -130,7 +130,7 @@ s3_n_txt <- s3_ntable %>%
     append(list(all_participated = s3_ntable$n %>% sum()))
 # Exclusions by Attention Check
 s3_attention_df <- s3_df %>%
-    group_by(attention_all_correct) %>%
+    dplyr::group_by(attention_all_correct) %>%
     summarise(n = n()) %>%
     deframe_as_list()
 
@@ -455,12 +455,12 @@ ANOVA_EM <- emmeans(ANOVA_lm, pairwise ~ parasocial:social_world, level = .90)
 ANOVA_EM_tibble <- ANOVA_EM$contrasts %>% as_tibble()
 # Add APA Stats Emeans
 ANOVA_EM_tibble <- ANOVA_EM_tibble %>%
-    mutate(APA = ANOVA_EM_tibble %>% describe.emmeans(dtype = "t"))
+    dplyr::mutate(APA = ANOVA_EM_tibble %>% describe.emmeans(dtype = "t"))
 # get a list of APA
 s3_contratsts_APA <- ANOVA_EM_tibble %>%
     select(contrast, APA) %>%
     # abbreviate the contrast labels
-    mutate(contrast = abbreviate(contrast)) %>%
+    dplyr::mutate(contrast = abbreviate(contrast)) %>%
     deframe() %>%
     as.list()
 
@@ -483,20 +483,20 @@ ANOVA_cohen <- eff_size(ANOVA_EM, sigma(ANOVA_lm), df.residual(ANOVA_lm),
 ANOVA_cohen_tibble <- ANOVA_cohen %>% as_tibble()
 # Shortened Labels for forestplot
 ANOVA_cohen_tibble <- ANOVA_cohen_tibble %>%
-    mutate(
+    dplyr::mutate(
         labels = str_split(contrast, " - "),
         label1 = map_chr(labels, ~ .[[1]]),
         label2 = map_chr(labels, ~ .[[2]])
     ) %>%
-    mutate(across(c(label1, label2), ~ str_remove(., "\\(|\\)"))) %>%
-    mutate(across(c(label1, label2), ~ str_replace(., "Parasocial", "Para"))) %>%
-    mutate(across(c(label1, label2), ~ str_replace(., "Social World", "Social"))) %>%
-    mutate(
+    dplyr::mutate(across(c(label1, label2), ~ str_remove(., "\\(|\\)"))) %>%
+    dplyr::mutate(across(c(label1, label2), ~ str_replace(., "Parasocial", "Para"))) %>%
+    dplyr::mutate(across(c(label1, label2), ~ str_replace(., "Social World", "Social"))) %>%
+    dplyr::mutate(
         plot_label = paste(label1, label2, sep = " - "),
         key = abbreviate(plot_label)
     ) %>%
     # APA-formatted results
-    mutate(APA = sprintf(
+    dplyr::mutate(APA = sprintf(
         "_d_ = %s, 90%%CI [%s, %s]",
         effect.size %>% f.round(), lower.CL %>% f.round(), upper.CL %>% f.round()
     ))
@@ -537,11 +537,11 @@ s3_ANOVA_APA <- s3_ANOVA_APA %>% as.list()
 
 # Cohen's d for the main effects (Parascoial and Social World)
 s3_main_effects <- tibble(predictor = c("parasocial", "social_world")) %>%
-    mutate(formula = sprintf("T2_Heart_1 ~ %s", predictor)) %>%
-    mutate(ci90 = map(formula, ~ effectsize::cohens_d(x = formula(.), data = s3_df, ci = .90))) %>%
-    mutate(ci95 = map(formula, ~ effectsize::cohens_d(x = formula(.), data = s3_df, ci = .95))) %>%
-    mutate(equivalence = map(ci90, ~ equivalence_test(., range = c(-Cohen_d_target, Cohen_d_target)))) %>%
-    mutate(APA = map_chr(ci90, describe_d_ci)) %>%
+    dplyr::mutate(formula = sprintf("T2_Heart_1 ~ %s", predictor)) %>%
+    dplyr::mutate(ci90 = map(formula, ~ effectsize::cohens_d(x = formula(.), data = s3_df, ci = .90))) %>%
+    dplyr::mutate(ci95 = map(formula, ~ effectsize::cohens_d(x = formula(.), data = s3_df, ci = .95))) %>%
+    dplyr::mutate(equivalence = map(ci90, ~ equivalence_test(., range = c(-Cohen_d_target, Cohen_d_target)))) %>%
+    dplyr::mutate(APA = map_chr(ci90, describe_d_ci)) %>%
     unnest(c(ci90, ci95), .sep = "_")
 # APA results
 s3_main_effects_APA <- s3_main_effects %>%
@@ -713,7 +713,7 @@ effectiveness of the manipulation based on these analysis.
 s3_parasocial_plot <- s3_df %>%
     filter(attention_all_correct == TRUE) %>%
     # Modify labels
-    mutate(
+    dplyr::mutate(
         parasocial_MC_group_shortlabel =
             case_when(
                 parasocial_MC_group == "No Interaction with NPC" ~ "No Interaction",
@@ -961,8 +961,8 @@ ggarrange(s3_mod_by_gender_plot,
 s3_df_long <- s3_df %>%
     filter(attention_all_correct == TRUE) %>%
     pivot_longer(cols = c(starts_with("T1"), starts_with("T2"))) %>%
-    mutate(name = str_remove(name, "_1")) %>%
-    mutate(
+    dplyr::mutate(name = str_remove(name, "_1")) %>%
+    dplyr::mutate(
         time = str_extract(name, "T\\d"),
         # Get the name followed by _
         repvarname = str_extract(name, "(?:[^_](?!_))+$")
@@ -977,7 +977,7 @@ s3_df_long <- s3_df %>%
 
 # Mixed Anova model
 s3_manikins_time <- tibble(outcome = c("Heart", "Valence", "Arousal", "Dominance")) %>%
-    mutate(
+    dplyr::mutate(
         fit = map(
             outcome,
             ~ rstatix::anova_test(
@@ -991,19 +991,19 @@ s3_manikins_time <- tibble(outcome = c("Heart", "Valence", "Arousal", "Dominance
         })
     ) %>%
     # Go through the tibble to create the APA -compatible string
-    mutate(APA = map(APA, describe_anova_test))
+    dplyr::mutate(APA = map(APA, describe_anova_test))
 # Time meansd
 s3_time_msd <- s3_df_long %>%
     describe_by_factor(time, vars = c(Heart, Valence, Arousal, Dominance)) %>%
     get_APA_from_msd()
 ## APA for Tiem comparisons
 s3_time_APA <- s3_time_msd %>%
-    mutate(label = str_c(time, variable)) %>%
+    dplyr::mutate(label = str_c(time, variable)) %>%
     select(label, APA) %>%
     deframe_as_list()
 # APA
 s3_manikins_time_list <- s3_manikins_time %>%
-    mutate(APA_def = map(APA, function(x) {
+    dplyr::mutate(APA_def = map(APA, function(x) {
         x %>%
             select(Effect, APA) %>%
             deframe_as_list()
@@ -1143,10 +1143,10 @@ s3_mod_by_mc <- expand_grid(
 s3_mod_by_mc <- s3_mod_by_mc %>% left_join(s3_var_labels, by = c("moderator" = "varname"))
 # Turn off ordered factor
 s3_df_long <- s3_df_long %>%
-    mutate(parasocial_MC_group = fct_inorder(parasocial_MC_group, ordered = FALSE))
+    dplyr::mutate(parasocial_MC_group = fct_inorder(parasocial_MC_group, ordered = FALSE))
 # IOS, immersion to continuous
 s3_df_long <- s3_df_long %>%
-    mutate(
+    dplyr::mutate(
         IOS = as.character(IOS) %>% as.numeric(),
         Single_Immersion = Single_Immersion %>% as.character() %>% as.numeric()
     )
@@ -1165,14 +1165,14 @@ s3_df_long <- s3_df_long %>%
 # Mean-Centering the moderators
 s3_df_long <- s3_df_long %>%
     # group by time will actually grand-mean center since the moderators are between scales
-    group_by(time) %>%
-    mutate(across(all_of(s3_mc_indices[-1]),
+    dplyr::group_by(time) %>%
+    dplyr::mutate(across(all_of(s3_mc_indices[-1]),
         .fns = list(c = function(x) x - mean(x, na.rm = TRUE))
     )) %>%
     ungroup()
 # add "_c" to centered moderator
 s3_mod_by_mc <- s3_mod_by_mc %>%
-    mutate(moderator = case_when(
+    dplyr::mutate(moderator = case_when(
         moderator == "parasocial_MC_group" ~ moderator,
         TRUE ~ paste0(moderator, "_c")
     ))
@@ -1180,8 +1180,8 @@ s3_mod_by_mc <- s3_mod_by_mc %>%
 
 # Prepare formula
 s3_mod_by_mc <- s3_mod_by_mc %>%
-    mutate(formula = paste0(outcome, " ~ ", moderator, " * parasocial * social_world * time + (1|ResponseId)")) %>%
-    mutate(contrasts = case_when(
+    dplyr::mutate(formula = paste0(outcome, " ~ ", moderator, " * parasocial * social_world * time + (1|ResponseId)")) %>%
+    dplyr::mutate(contrasts = case_when(
         moderator == "parasocial_MC_group" ~ list(
             parasocial_MC_group = contr.sum,
             social_world = contr.sum,
@@ -1195,29 +1195,29 @@ s3_mod_by_mc <- s3_mod_by_mc %>%
         ) %>% list()
     )) %>%
     # run mixed model
-    mutate(model = map2(formula, contrasts, ~ lmer(formula = .x, data = s3_df_long, contrasts = .y))) %>%
+    dplyr::mutate(model = map2(formula, contrasts, ~ lmer(formula = .x, data = s3_df_long, contrasts = .y))) %>%
     # tidy the model results
-    mutate(
+    dplyr::mutate(
         tidy = map(model, broom.mixed::tidy),
         APA = map(model, ~ describe.glm(., dtype = 3))
     )
 
 # Output as a list
 s3_mod_mc_APA <- s3_mod_by_mc %>%
-    mutate(APA = map(APA, function(x) {
+    dplyr::mutate(APA = map(APA, function(x) {
         x %>%
             select(eff, str) %>%
             deframe_as_list()
     })) %>%
     select(outcome, moderator, APA) %>%
     # Group by outcome to perform deframe as list only among each group
-    group_by(outcome) %>%
+    dplyr::group_by(outcome) %>%
     # Create a named list of moderator and the APA results, grouped by outcome
-    mutate(APA = cur_data() %>% select(moderator, APA) %>% deframe_as_list()) %>%
+    dplyr::mutate(APA = cur_data() %>% select(moderator, APA) %>% deframe_as_list()) %>%
     # nest so that each row will be outcome. data column is a tibble of moderator and APA
     nest(data = c(moderator, APA)) %>%
     # For each data tibble, deframe as list
-    mutate(data = map(data, ~ deframe_as_list(.))) %>%
+    dplyr::mutate(data = map(data, ~ deframe_as_list(.))) %>%
     # Deframe the entire tibble as list
     deframe_as_list()
 
