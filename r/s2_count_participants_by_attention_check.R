@@ -1,7 +1,7 @@
 # Total number of participants by attention check
 s2_count_participants_by_attention_check <- function(df) {
     df %>%
-        summarise(
+dplyr::summarise(
             across(
                 .cols = c(
                     attention_rejection_correct,

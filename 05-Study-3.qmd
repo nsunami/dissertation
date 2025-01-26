@@ -110,7 +110,7 @@ s3_playtime_exclusion <- s3_df %>%
 s3_playtime <- s3_df_attentive %>%
     # One record taking more  than 7000 minutes was removed from the data
     dplyr::filter(RPG_playtime < 7000) %>%
-    summarise(
+dplyr::summarise(
         mean_playtime = mean(RPG_playtime, na.rm = TRUE) %>% round(2),
         sd_playtime = sd(RPG_playtime, na.rm = TRUE) %>% round(2)
     ) %>%
@@ -120,7 +120,7 @@ s3_playtime <- s3_df_attentive %>%
 # Getting participants per condition
 s3_ntable <- s3_df %>%
     dplyr::group_by(parasocial, social_world) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     dplyr::mutate(key = str_c(str_extract(parasocial, "^."), str_extract(social_world, "^.")))
 s3_n_txt <- s3_ntable %>%
     dplyr::ungroup() %>%
@@ -131,7 +131,7 @@ s3_n_txt <- s3_ntable %>%
 # Exclusions by Attention Check
 s3_attention_df <- s3_df %>%
     dplyr::group_by(attention_all_correct) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     deframe_as_list()
 
 s3_atteion_by_group <- s3_df %>%
@@ -142,12 +142,12 @@ s3_atteion_by_group <- s3_df %>%
         attention_all = !attention_rejection_correct & !attention_parasocial_correct & !attention_social_world_correct
     )
 s3_attntion_by_type <- s3_atteion_by_group %>%
-    summarise(across(everything(), sum)) %>%
+dplyr::summarise(across(everything(), sum)) %>%
     as.list()
 
 s3_attention_by_type <- s3_df %>%
     dplyr::filter(Finished == 1) %>%
-    summarise(across(
+dplyr::summarise(across(
         c(
             attention_rejection_correct, attention_parasocial_correct,
             attention_social_world_correct
@@ -157,7 +157,7 @@ s3_attention_by_type <- s3_df %>%
 ## Excluded Participants
 s3_n_excluded <- list(
     all = s3_df %>% dplyr::filter(Finished == 1) %>%
-        summarise(sum(!attention_all_correct)) %>% tibble::deframe(),
+dplyr::summarise(sum(!attention_all_correct)) %>% tibble::deframe(),
     HH = NA,
     HL = NA,
     LH = NA,

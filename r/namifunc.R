@@ -91,7 +91,7 @@ get_APA_from_msd <- function(describe_by_factor_df,
 summarise_descriptives <- function(df) {
   df %>%
     # create a summary row with _n, _nmean, _sd
-    summarise(across(
+dplyr::summarise(across(
       where(is.numeric),
       list(
         n = ~ sum(!is.na(.x)),
@@ -124,7 +124,7 @@ get_correlations <- function(target_df,
   conf.level2 <- 0.90
   # Calculate correlations via cor.test()
   df <- target_df %>%
-    summarise(across(
+dplyr::summarise(across(
       !!vars,
       ~ list(
         model95 = cor.test(pull(cur_data(), !!outcome), .x, conf.level = conf.level1),
@@ -537,7 +537,7 @@ evaluate_equivalence <- function(lower, upper, ROPE) {
 get_n_pct <- function(df, ...) {
   df %>%
     dplyr::group_by(...) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(pct = round(n / sum(n) * 100, 2)) %>%
     pivot_longer(cols = c(n, pct)) %>%

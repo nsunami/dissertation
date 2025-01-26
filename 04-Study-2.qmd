@@ -86,7 +86,7 @@ s2_attention_APA <- s2_df |>
 # Total number of participants that followed the VG Instructions
 followed_VG_inst <- s2_df %>%
     dplyr::group_by(followed_VGinstructions) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     deframe_as_list()
 ## Append the overall rater agreement
 followed_VG_inst <- followed_VG_inst %>%
@@ -110,15 +110,15 @@ s2_age_mean <- s2_df %>%
 # Gender identity
 s2_gender_id <- s2_df %>%
     dplyr::group_by(Gender_Identity_3GP) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     deframe_as_list()
 # Racial Identity (8 groups)
 s2_race8_id <- s2_df %>%
     dplyr::group_by(Race_8GP) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     deframe_as_list()
 # Racial identity (all questions)
-s2_race_multi <- s2_df %>% summarise(across(starts_with("Race"), ~ is.na(.) %>% sum()))
+s2_race_multi <- s2_df %>%dplyr::summarise(across(starts_with("Race"), ~ is.na(.) %>% sum()))
 ```
 
 ### Participants
@@ -396,7 +396,7 @@ parasocial_MC_results <- s2_df %>%
 parasocial_MC_results_df <- s2_df %>%
     dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     dplyr::group_by(essay_condition_title, parasocial_MC_group) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     dplyr::mutate(
         prop_per_cond = n / sum(n),
         percent_per_cond = prop_per_cond * 100 %>% round(2)
@@ -704,7 +704,7 @@ enjoyment_plot
 # T-tests across manikin variables
 manikin_ttests <- s2_df %>%
     dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
-    summarise(across(
+dplyr::summarise(across(
         starts_with(c("T1", "T2")),
         list(ttest = function(x) {
             list(t.test(x ~ essay_condition))
@@ -727,7 +727,7 @@ manikin_ttests <- manikin_ttests %>%
 
 # Two-way Mixed ANOVA Comparing Manikin Scores Across Time x Essay Conditions
 manikin_mixed_ANOVAs <- s2_df_long %>%
-    summarise(across(
+dplyr::summarise(across(
         c("Heart", "Valence", "Arousal", "Dominance"),
         list(
             ANOVA = function(x) {

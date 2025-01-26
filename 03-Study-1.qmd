@@ -576,11 +576,11 @@ received partial course credits as compensation.
 # Get the participants who participanted more than twice in one visit
 s1b_duplicates <- s1b_df %>%
     dplyr::group_by(id, visit) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     dplyr::filter(n > 1)
 s1b_duplicates <- s1b_df %>%
     dplyr::group_by(id, visit) %>%
-    summarise(n =dplyr::n()) %>%
+dplyr::summarise(n =dplyr::n()) %>%
     dplyr::filter(id %in% s1b_duplicates$id)
 #  s1b_df %>% dplyr::filter(id == 306)
 #  s1b_df %>% dplyr::filter(id == 402)
@@ -600,7 +600,7 @@ s1b_dates <- s1b_df %>%
     )
 # Created a summary df showing average participation gaps between visits
 s1b_dates_summary <- s1b_dates %>%
-    summarise(across(c("gap12", "gap13", "gap23"),
+dplyr::summarise(across(c("gap12", "gap13", "gap23"),
         .fns = list("mean" = ~ mean(., na.rm = T) %>% round(2))
     )) %>%
     rowwise() %>%
@@ -1874,7 +1874,7 @@ s1e_df <- s1e_df %>%
         StartDate_D2
     ))
 s1e_D1D2diff <- s1e_df %>%
-    summarise(mean(D1D2_diff)) %>%
+dplyr::summarise(mean(D1D2_diff)) %>%
     pull() %>%
     lubridate::as.duration() %>%
     as.numeric("days") %>%
