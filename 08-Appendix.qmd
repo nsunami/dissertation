@@ -667,7 +667,7 @@ s2_continuous_predictors <- c("IOS" = "IOS", "PSI" = "PSI",
 s2_target_vars <- c(s2_outcomes, s2_continuous_predictors)
 # Create a target columns-only df with renamed columns via `select`
 s2_target_cols <- s2_df %>%
-  filter(attention_all_correct, followed_VGinstructions == "Yes") %>%
+  dplyr::filter(attention_all_correct, followed_VGinstructions == "Yes") %>%
   select(all_of(s2_target_vars))
 # N, Mean, SD Table
 s2_mnsdcor <- s2_target_cols %>% get_nmsd_cor_table()
@@ -709,7 +709,7 @@ s2_df %>%
 ## Word Cloud
 # create words df - one row = a game title
 s2_game_names <- s2_df %>%
-  filter(followed_VGinstructions == "Yes") %>%
+  dplyr::filter(followed_VGinstructions == "Yes") %>%
   unnest_tokens(word, target_game_name_cl, token = "lines",
                 to_lower = FALSE) %>%
   dplyr::group_by(essay_condition) %>% count(word, sort = TRUE) %>%
@@ -718,7 +718,7 @@ s2_game_names <- s2_df %>%
 set.seed(2021)
 # Word cloud for Social Surrogacy Condition
 s2_game_names %>%
-  filter(essay_condition == "Social Surrogacy") %>%
+  dplyr::filter(essay_condition == "Social Surrogacy") %>%
   with(wordcloud(word, n, rot.per = 0, min.freq = 1,
                  scale = c(4, .8), random.color = TRUE,
                  colors = brewer.pal(5, "Set2")))
@@ -727,7 +727,7 @@ s2_game_names %>%
 ```{r s2-word-cloud-nonsurrogate, fig.cap='Word Cloud for Game Titles for the Non-Social Surrogate Condition', fig.width=10, fig.height=9}
 # Word cloud for Non-Social Surrogacy Condition
 s2_game_names %>%
-  filter(essay_condition == "Non-Social Surrogacy") %>%
+  dplyr::filter(essay_condition == "Non-Social Surrogacy") %>%
   with(wordcloud(word, n, rot.per = 0, min.freq = 1,
                  scale = c(4, .8), random.color = TRUE,
                  colors = brewer.pal(5, "Set2")))
@@ -805,7 +805,7 @@ s2_VG_txt_wide <- s2_VG_txt %>% select(-n) %>%
               values_from = proportion)
 # Create a frequency plot
 s2_VG_word_freq_plot <- s2_VG_txt %>%
-  filter(n > 50) %>%
+  dplyr::filter(n > 50) %>%
   dplyr::mutate(word = reorder(word, n)) %>%
   ggplot(aes(n, word)) +
   geom_col() +
@@ -819,7 +819,7 @@ s2_VG_word_freq_plot <- s2_VG_txt %>%
 #| 
 # expect a warning about rows with missing values being removed
 s2_VG_txt_wide %>%
-  filter(!str_detect(word, "\\d+")) %>%
+  dplyr::filter(!str_detect(word, "\\d+")) %>%
   ggplot(aes(x = `Non-Social Surrogacy`, y = `Social Surrogacy`)) +
   geom_abline(color = "gray40", lty = 2) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.3, height = 0.3) +
@@ -850,14 +850,14 @@ s2_exit_q_summary <- s2_df %>%
 ```{r s2-exit-questions-plot, fig.cap='Study 2 - Lengths of Participant Answers to Exit Questions Across Question Order'}
 #| label: fig-s2-exit-questions-plot
 # Share anything
-s2_share_anything_plot <- s2_df %>% filter(!is.na(Exit_Q_Order)) %>%
+s2_share_anything_plot <- s2_df %>% dplyr::filter(!is.na(Exit_Q_Order)) %>%
   ggplot(aes(y = Share_Anything_Len, x = Exit_Q_Order, color = Exit_Q_Order)) +
   default_violin +
   ylab("Answer to 'Share Anything' Question\n(Number of Characters)") +
   xlab("Question Order") +
   labs(color = "Question Order")
 # Study Purpose
-s2_study_purpose_plot <- s2_df %>% filter(!is.na(Exit_Q_Order)) %>%
+s2_study_purpose_plot <- s2_df %>% dplyr::filter(!is.na(Exit_Q_Order)) %>%
   ggplot(aes(y = Study_Purpose_Len, x = Exit_Q_Order, color = Exit_Q_Order)) +
   default_violin +
   ylab("Answer to 'Study Purpose' Question\n(Number of Characters)") +
@@ -883,7 +883,7 @@ s3_continuous_predictors <- c("IOS" = "IOS", "Immersion" = "Single_Immersion",
                               "Enjoyment" = "Enjoyment")
 s3_target_vars <- c(s3_outcomes, s3_continuous_predictors)
 # Target columns
-s3_target_cols <- s3_df %>% filter(attention_all_correct) %>% select(all_of(s3_target_vars))
+s3_target_cols <- s3_df %>% dplyr::filter(attention_all_correct) %>% select(all_of(s3_target_vars))
 # N, Mean, SD Table
 s3_nmsd_table <- s3_target_cols %>% summarise_descriptives()
 # Correlation Table with stars

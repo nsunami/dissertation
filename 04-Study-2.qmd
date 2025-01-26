@@ -44,7 +44,7 @@ s1c_sensitivity_APA <- get_s1c_sensitivity_APA(s1c_df)
 # Descriptives Table ---------------------------------------------------------------------------
 ## Describe by essay cndition and get mean sd
 descriptives_table <- s2_df %>%
-    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    dplyr::filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
     describe_by_factor(essay_condition,
         vars = c(
             T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
@@ -100,11 +100,11 @@ followed_VG_inst <- followed_VG_inst %>%
 
 # Analysis N
 s2_analytic_N <- s2_df %>%
-    filter((attention_all_correct == TRUE) & (followed_VGinstructions == "Yes")) %>%
+    dplyr::filter((attention_all_correct == TRUE) & (followed_VGinstructions == "Yes")) %>%
     nrow()
 # Demographics (Age, number of gender identities, the number of egender )
 s2_age_mean <- s2_df %>%
-    filter((attention_all_correct == TRUE) & (followed_VGinstructions == "Yes")) %>%
+    dplyr::filter((attention_all_correct == TRUE) & (followed_VGinstructions == "Yes")) %>%
     dplyr::summarize(m = mean(Age) %>% round(2), sd = sd(Age)) %>%
     dplyr::mutate(msd = to_msd(m, sd))
 # Gender identity
@@ -200,7 +200,7 @@ I excluded any participants who did not complete the entire study or failed the 
 # Main Analysis t-test
 t_results <- s2_df %>%
     # Include only those who passed the attention check
-    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    dplyr::filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
     # t-test comparing the T2 belonging between the essay conditions
     t.test(
         formula = T2_Heart_1 ~ essay_condition,
@@ -210,7 +210,7 @@ t_results <- s2_df %>%
 # Cohen's d - 90%CI
 main_cohens_d_95 <- s2_df %>%
     # Include only those who passed the attention check
-    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    dplyr::filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
     effectsize::cohens_d(
         x = T2_Heart_1 ~ essay_condition,
         data = ., ci = .95
@@ -219,7 +219,7 @@ main_cohens_d_95 <- s2_df %>%
 # Cohen's d - 90%CI
 main_cohens_d <- s2_df %>%
     # Include only those who passed the attention check
-    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    dplyr::filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
     effectsize::cohens_d(
         x = T2_Heart_1 ~ essay_condition,
         data = ., ci = .90
@@ -261,7 +261,7 @@ heart2_txt <- append(
 # Plot
 plot_T2_Heart <- s2_df %>%
     # Only include people who got the attention check right
-    filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
+    dplyr::filter(followed_VGinstructions == "Yes" & attention_all_correct == TRUE) %>%
     ggplot(aes(
         x = essay_condition, color = essay_condition,
         y = T2_Heart_1
@@ -297,7 +297,7 @@ Since the obtained *p*-value was greater than .05, I performed the two one-sided
 # Probing Effectiveness of Rejection Induction.
 # T-test
 effectivenss <- s2_df %>%
-    filter(
+    dplyr::filter(
         attention_all_correct == TRUE, followed_VGinstructions == "Yes",
         essay_condition == "Non-Social Surrogacy"
     ) %>%
@@ -362,7 +362,7 @@ heart12_txt <- heart12_txt %>%
 
 # Plot among the non-social surrogate
 nonsurrogate_heart12 <- s2_df_long %>%
-    filter(essay_condition == "Non-Social Surrogacy") %>%
+    dplyr::filter(essay_condition == "Non-Social Surrogacy") %>%
     # Start the ggplot 2 (data from the above)
     ggplot(aes(x = Time, y = Heart, color = Time)) +
     # Violin, errorbar, datapoints
@@ -385,7 +385,7 @@ nonsurrogate_heart12
 # Parasocial Relationships Manipulation Check ------------------------------
 # Chi-square test
 parasocial_MC_results <- s2_df %>%
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     {
         chisq.test(
             x = .$essay_condition,
@@ -394,7 +394,7 @@ parasocial_MC_results <- s2_df %>%
     }
 # Summary table
 parasocial_MC_results_df <- s2_df %>%
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     dplyr::group_by(essay_condition_title, parasocial_MC_group) %>%
     summarise(n = n()) %>%
     dplyr::mutate(
@@ -406,17 +406,17 @@ parasocial_MC_results_df <- s2_df %>%
 # Welch's t-test
 PSI_MC_results <- s2_df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     t.test(formula = PSI ~ essay_condition, data = .)
 # Cohen's d
 PSI_d_95 <- s2_df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     effectsize::cohens_d(x = PSI ~ essay_condition, data = ., ci = .95)
 # Plot
 plot_PSI <- s2_df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     ggplot(aes(x = essay_condition, y = PSI, color = essay_condition)) +
     # Violin with errorbar
     default_violin +
@@ -433,17 +433,17 @@ plot_PSI <- s2_df %>%
 # Single-Item Immersion Manipulation Check -----------------------------------
 # Welch's t-test for Immersion Scale
 immersion_MC_results <- s2_df %>%
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     t.test(formula = Single_Immersion ~ essay_condition, data = .)
 # Cohen's d
 immersion_d_95 <- s2_df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     effectsize::cohens_d(x = Single_Immersion ~ essay_condition, data = ., ci = .95)
 # Plot
 plot_immersion <- s2_df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     ggplot(aes(x = essay_condition, y = Single_Immersion, color = essay_condition)) +
     # Violin with errorbar
     default_violin +
@@ -457,12 +457,12 @@ plot_immersion <- s2_df %>%
 
 # Narrative Engagement Scale Manipulation Check -----------------------------------
 NE_MC_results <- s2_df %>%
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     t.test(formula = Narrative_Engagement ~ essay_condition, data = .)
 # Plot
 plot_NE <- s2_df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     ggplot(aes(x = essay_condition, y = Narrative_Engagement, color = essay_condition)) +
     # Violin with errorbar
     default_violin +
@@ -477,12 +477,12 @@ plot_NE <- s2_df %>%
 
 # Narrative Engagement Scale Manipulation Check -----------------------------------
 OTFWorld_MC_results <- s2_df %>%
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     t.test(formula = OTF_Social_World ~ essay_condition, data = .)
 # Plot
 plot_OTFWorld <- s2_df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     ggplot(aes(x = essay_condition, y = OTF_Social_World, color = essay_condition)) +
     # Violin with errorbar
     default_violin +
@@ -510,27 +510,27 @@ parasocial_MC_txt <- parasocial_MC_txt %>%
             parasocial_MC_txt$chisq_glance$p.value %>% round(2)
         ),
         nonsurrogacy_noint = parasocial_MC_results_df %>%
-            filter(essay_condition_title == "Non-Social Surrogacy" &
+            dplyr::filter(essay_condition_title == "Non-Social Surrogacy" &
                 parasocial_MC_group == "No Interaction with NPC") %>%
             pull(percent_per_cond) %>% round(2),
         nonsurrogacy_noPSR = parasocial_MC_results_df %>%
-            filter(essay_condition_title == "Non-Social Surrogacy" &
+            dplyr::filter(essay_condition_title == "Non-Social Surrogacy" &
                 parasocial_MC_group == "No Parasocial Relationship with NPC") %>%
             pull(percent_per_cond) %>% round(2),
         nonsurrogacy_yesPSR = parasocial_MC_results_df %>%
-            filter(essay_condition_title == "Non-Social Surrogacy" &
+            dplyr::filter(essay_condition_title == "Non-Social Surrogacy" &
                 parasocial_MC_group == "Formed Parasocial Relationship with NPC") %>%
             pull(percent_per_cond) %>% round(2),
         surrogacy_noint = parasocial_MC_results_df %>%
-            filter(essay_condition_title == "Social Surrogacy" &
+            dplyr::filter(essay_condition_title == "Social Surrogacy" &
                 parasocial_MC_group == "No Interaction with NPC") %>%
             pull(percent_per_cond) %>% round(2),
         surrogacy_noPSR = parasocial_MC_results_df %>%
-            filter(essay_condition_title == "Social Surrogacy" &
+            dplyr::filter(essay_condition_title == "Social Surrogacy" &
                 parasocial_MC_group == "No Parasocial Relationship with NPC") %>%
             pull(percent_per_cond) %>% round(2),
         surrogacy_yesPSR = parasocial_MC_results_df %>%
-            filter(essay_condition_title == "Social Surrogacy" &
+            dplyr::filter(essay_condition_title == "Social Surrogacy" &
                 parasocial_MC_group == "Formed Parasocial Relationship with NPC") %>%
             pull(percent_per_cond) %>% round(2)
     ))
@@ -595,7 +595,7 @@ OTF_txt <- list(
 #| label: fig-exp-mosaic
 # Plot - Mosaic Plot
 plot_para_chi <- s2_df %>%
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     dplyr::mutate(
         parasocial_MC_group_shortlabel =
             case_when(
@@ -654,7 +654,7 @@ Note that the Inclusion of Self in the Other Scale [@aronInclusionOtherSelf1992]
 # t-test
 enjoyment_results <- s2_df %>%
     # Exclude attention fails
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     t.test(
         formula = Enjoyment ~ essay_condition,
         data = .
@@ -677,7 +677,7 @@ enjoyment_txt <- list(
 # Plot
 enjoyment_plot <- s2_df %>%
     # Exclude attention fails
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     ggplot(aes(x = essay_condition, y = Enjoyment, color = essay_condition)) +
     # Default Violin
     default_violin +
@@ -703,7 +703,7 @@ enjoyment_plot
 ```{r s2-manikins-across-time}
 # T-tests across manikin variables
 manikin_ttests <- s2_df %>%
-    filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
+    dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     summarise(across(
         starts_with(c("T1", "T2")),
         list(ttest = function(x) {
@@ -977,7 +977,7 @@ For the model with the Inclusion of the Other in Self scores as a moderator, the
 
 # Coefficients predicting Heart
 s2_mod_plots <- s2_mod_by_mc %>%
-    filter(outcome == "Heart") %>%
+    dplyr::filter(outcome == "Heart") %>%
     pull(model) %>%
     map(plot_s2_moderation)
 ggarrange(plotlist = s2_mod_plots, ncol = 2, nrow = 4, labels = "AUTO") %>%

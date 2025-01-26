@@ -63,7 +63,7 @@ pack_starts <- s1_measures_tbl %>%
     dplyr::ungroup() %>%
     fill(start_num, .direction = "down") %>%
     fill(end_num, .direction = "up") %>%
-    filter(Submeasure == 1) %>%
+    dplyr::filter(Submeasure == 1) %>%
     dplyr::mutate(
         need_packing = (start_num != end_num),
         `Subscale (if any)` = case_when(need_packing == FALSE ~ `Main Measure`)
@@ -577,20 +577,20 @@ received partial course credits as compensation.
 s1b_duplicates <- s1b_df %>%
     dplyr::group_by(id, visit) %>%
     summarise(n = n()) %>%
-    filter(n > 1)
+    dplyr::filter(n > 1)
 s1b_duplicates <- s1b_df %>%
     dplyr::group_by(id, visit) %>%
     summarise(n = n()) %>%
-    filter(id %in% s1b_duplicates$id)
-#  s1b_df %>% filter(id == 306)
-#  s1b_df %>% filter(id == 402)
+    dplyr::filter(id %in% s1b_duplicates$id)
+#  s1b_df %>% dplyr::filter(id == 306)
+#  s1b_df %>% dplyr::filter(id == 402)
 # Print out the different dates, if needed
-# s1b_df %>% filter(id %in% s1b_duplicates$id) %>% select(id, visit, StartDate) %>% arrange(id, visit)
+# s1b_df %>% dplyr::filter(id %in% s1b_duplicates$id) %>% select(id, visit, StartDate) %>% arrange(id, visit)
 s1b_df <- s1b_df %>%
     # p 306, only include the first data point
-    filter(!(id == 306 & StartDate == lubridate::as_datetime("2016-11-18 11:34:00"))) %>%
-    filter(!(id == 402 & StartDate == lubridate::as_datetime("2016-09-22 12:31:00")))
-# filter(id == 306 | id == 402)
+    dplyr::filter(!(id == 306 & StartDate == lubridate::as_datetime("2016-11-18 11:34:00"))) %>%
+    dplyr::filter(!(id == 402 & StartDate == lubridate::as_datetime("2016-09-22 12:31:00")))
+# dplyr::filter(id == 306 | id == 402)
 s1b_dates <- s1b_df %>%
     pivot_wider(id, names_prefix = "visit", names_from = visit, values_from = StartDate) %>%
     dplyr::mutate(
@@ -2493,7 +2493,7 @@ existence, or overall fundamental need.
 
 
 ```{r probing-rejection-manipulations}
-s1c_df_rej <- s1c_df %>% filter(acceptance == "0")
+s1c_df_rej <- s1c_df %>% dplyr::filter(acceptance == "0")
 s1c_heart_time_dci <- s1c_df_rej %>% effectsize::cohens_d(x = .$heart1, y = .$heart2, paired = T)
 # APA-formatted t and d values with CI's
 s1c_heart_time <- list(

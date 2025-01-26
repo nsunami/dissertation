@@ -240,7 +240,7 @@ s3_draw_mc_plot <- function(df = s3_df, y, ylab,
                             caption = "") {
   df %>%
     # Exclude those failed attention check
-    filter(attention_all_correct == TRUE) %>%
+    dplyr::filter(attention_all_correct == TRUE) %>%
     ggplot(aes(x = {{ x }}, y = {{ y }}, color = {{ color }})) +
     # Default violin, errorbar plot
     default_violin +
@@ -361,7 +361,7 @@ s1_render_kable <- function(df, studykey = " ") {
   # get the named list of packing
   # Filter so that only the label rows will be returned (intervals will be the length of packing)
   pack_named_index <- df %>%
-    filter(!is.na(intervals)) %>%
+    dplyr::filter(!is.na(intervals)) %>%
     select(labels, intervals) %>%
     tibble::deframe()
   # Get the names of the named list
