@@ -14,7 +14,7 @@ get_s1c_sensitivity_APA <- function(df) {
       msd = to_msd(heart2_mean, heart2_sd),
       acceptance = to_factor(acceptance)
     ) |>
-    select(acceptance, msd) |>
+    dplyr::select(acceptance, msd) |>
     tibble::deframe() |>
     as.list() |>
     append(list(

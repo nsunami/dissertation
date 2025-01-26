@@ -198,7 +198,7 @@ s1a_mnsdcor %>% as_tibble() %>%
 
 ```{r appendix-s1b-correlations-table}
 # N, Mean, SD Table
-s1b_mnsdcor <- s1b_target_vars %>% select(-id, -visit) %>% get_nmsd_cor_table()
+s1b_mnsdcor <- s1b_target_vars %>% dplyr::select(-id, -visit) %>% get_nmsd_cor_table()
 
 # Footnote for the table
 s1b_footnote <- paste(sep = " ",
@@ -668,7 +668,7 @@ s2_target_vars <- c(s2_outcomes, s2_continuous_predictors)
 # Create a target columns-only df with renamed columns via `select`
 s2_target_cols <- s2_df %>%
   dplyr::filter(attention_all_correct, followed_VGinstructions == "Yes") %>%
-  select(all_of(s2_target_vars))
+  dplyr::select(all_of(s2_target_vars))
 # N, Mean, SD Table
 s2_mnsdcor <- s2_target_cols %>% get_nmsd_cor_table()
 # Render
@@ -687,7 +687,7 @@ s2_mnsdcor %>% as_tibble() %>%
 #| label: fig-s2-matplot
 # Study 2 - Matrix Plot
 s2_df %>%
-  select(essay_condition, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
+  dplyr::select(essay_condition, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
          T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
          IOS, PSI, Single_Immersion,Narrative_Engagement,
          OTF_Social_World, Enjoyment) %>%
@@ -800,7 +800,7 @@ Words such as "character" and "story" appeared more frequently in the social sur
 # Load Public text file - Anonymous
 s2_VG_txt <- read_rds(here("data_public", "Study2_VG_txt.rds"))
 # Convert to wide, one row is now condition x word
-s2_VG_txt_wide <- s2_VG_txt %>% select(-n) %>%
+s2_VG_txt_wide <- s2_VG_txt %>% dplyr::select(-n) %>%
   pivot_wider(names_from = essay_condition,
               values_from = proportion)
 # Create a frequency plot
@@ -883,7 +883,7 @@ s3_continuous_predictors <- c("IOS" = "IOS", "Immersion" = "Single_Immersion",
                               "Enjoyment" = "Enjoyment")
 s3_target_vars <- c(s3_outcomes, s3_continuous_predictors)
 # Target columns
-s3_target_cols <- s3_df %>% dplyr::filter(attention_all_correct) %>% select(all_of(s3_target_vars))
+s3_target_cols <- s3_df %>% dplyr::filter(attention_all_correct) %>% dplyr::select(all_of(s3_target_vars))
 # N, Mean, SD Table
 s3_nmsd_table <- s3_target_cols %>% summarise_descriptives()
 # Correlation Table with stars
@@ -904,7 +904,7 @@ s3_mnsdcor %>% as_tibble() %>%
 #| label: fig-appendix-s3-ggpairs 
 # GG Pairs for Study 3
 s3_df %>%
-  select(parasocial, social_world, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
+  dplyr::select(parasocial, social_world, T1_Heart_1, T1_Valence_1, T1_Arousal_1, T1_Dominance_1,
          T2_Heart_1, T2_Valence_1, T2_Arousal_1, T2_Dominance_1,
          IOS, Single_Immersion,
          OTF_Social_World,

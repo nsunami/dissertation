@@ -62,7 +62,7 @@ get_stats <- function(..., d = descriptives_long) d[list(...), value]
 
 ## Build APA descriptives
 descriptives_APA <- descriptives_long %>%
-    select(-name) %>%
+    dplyr::select(-name) %>%
     pivot_wider(
         id_cols = c(variable, essay_condition), values_from = value,
         names_from = stat
@@ -761,7 +761,7 @@ manikin_mixed_ANOVAs <- s2_df_long %>%
 manikin_ANOVA_DT <- manikin_mixed_ANOVAs %>%
     dplyr::mutate(ANOVA = map(ANOVA, ~ as_tibble(.))) %>%
     unnest(ANOVA) %>%
-    select(Variable:ges, -`p<.05`) %>%
+    dplyr::select(Variable:ges, -`p<.05`) %>%
     # Create the APA-compliant text
     dplyr::mutate(APA = sprintf(
         "_F_(%s,%s) = %s, _p_ %s, $\\eta^2_{G}$ %s",
@@ -774,7 +774,7 @@ get_manikin_ANOVA_APA <- function(..., d = manikin_ANOVA_DT) d[list(...), APA]
 
 # T-test Results
 manikin_ttests_DT <- manikin_mixed_ANOVAs %>%
-    select(Variable, pairTimed) %>%
+    dplyr::select(Variable, pairTimed) %>%
     unnest(pairTimed)
 
 # Function to Plot Manikin
@@ -949,14 +949,14 @@ s2_mod_by_mc <- s2_mod_by_mc %>%
 s2_mod_mc_APA <- s2_mod_by_mc %>%
     dplyr::mutate(APA = map(APA, function(x) {
         x %>%
-            select(eff, str) %>%
+            dplyr::select(eff, str) %>%
             deframe_as_list()
     })) %>%
-    select(outcome, moderator, APA) %>%
+    dplyr::select(outcome, moderator, APA) %>%
     # Group by outcome to perform deframe as list only among each group
     dplyr::group_by(outcome) %>%
     # Create a named list of moderator and the APA results, grouped by outcome
-    dplyr::mutate(APA = cur_data() %>% select(moderator, APA) %>% deframe_as_list()) %>%
+    dplyr::mutate(APA = cur_data() %>% dplyr::select(moderator, APA) %>% deframe_as_list()) %>%
     # nest so that each row will be outcome. data column is a tibble of moderator and APA
     nest(data = c(moderator, APA)) %>%
     # For each data tibble, deframe as list

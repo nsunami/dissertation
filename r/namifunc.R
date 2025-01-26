@@ -49,7 +49,7 @@ describe_by_factor <- function(df, ..., vars) {
   # vars are target variables
   .group <- enquos(...)
   df %>%
-    select(!!!.group, {{ vars }}) %>%
+    dplyr::select(!!!.group, {{ vars }}) %>%
     dplyr::group_by(!!!.group) %>%
     dplyr::summarise(across(
       everything(),
@@ -362,7 +362,7 @@ s1_render_kable <- function(df, studykey = " ") {
   # Filter so that only the label rows will be returned (intervals will be the length of packing)
   pack_named_index <- df %>%
     dplyr::filter(!is.na(intervals)) %>%
-    select(labels, intervals) %>%
+    dplyr::select(labels, intervals) %>%
     tibble::deframe()
   # Get the names of the named list
   pack_named_index_names <- names(pack_named_index) %>% str_trim()
@@ -370,7 +370,7 @@ s1_render_kable <- function(df, studykey = " ") {
   needs_packing <- (sum(pack_named_index_names == "") != length(pack_named_index_names))
   # Create Kable
   returned_kable <- df %>%
-    select(Measure, Time, Construct, Validity, Citation) %>%
+    dplyr::select(Measure, Time, Construct, Validity, Citation) %>%
     kbl(
       caption = paste0("Summary of Measures for Study", " 1", studykey),
       booktabs = TRUE
@@ -545,7 +545,7 @@ get_n_pct <- function(df, ...) {
     dplyr::ungroup() %>% # Ungroup to avoid cannot be recycled one error
     dplyr::mutate(data = map(data, function(x) x %>% deframe_as_list())) %>%
     unite("label", ...) %>%
-    select(label, data) %>%
+    dplyr::select(label, data) %>%
     deframe_as_list()
 }
 
@@ -749,11 +749,11 @@ get_APA_from_emm <- function(emm) {
 
   stats_df <- emm %>%
     as_tibble() %>%
-    select(ends_with(".trend"):last_col())
+    dplyr::select(ends_with(".trend"):last_col())
   labels_df <- emm %>%
     as_tibble() %>%
-    select(1:ends_with(".trend")) %>%
-    select(-last_col())
+    dplyr::select(1:ends_with(".trend")) %>%
+    dplyr::select(-last_col())
   # Combine the labels as the first row
   labels_df <- labels_df %>%
     unite(col = "label")
@@ -772,6 +772,6 @@ get_APA_from_emm <- function(emm) {
 
   # Deframe as list
   APA_output <- combined_df %>%
-    select(1, APA) %>%
+    dplyr::select(1, APA) %>%
     deframe_as_list()
 }

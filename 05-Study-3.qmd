@@ -124,7 +124,7 @@ s3_ntable <- s3_df %>%
     dplyr::mutate(key = str_c(str_extract(parasocial, "^."), str_extract(social_world, "^.")))
 s3_n_txt <- s3_ntable %>%
     dplyr::ungroup() %>%
-    select(key, n) %>%
+    dplyr::select(key, n) %>%
     tibble::deframe() %>%
     as.list() %>%
     append(list(all_participated = s3_ntable$n %>% sum()))
@@ -458,7 +458,7 @@ ANOVA_EM_tibble <- ANOVA_EM_tibble %>%
     dplyr::mutate(APA = ANOVA_EM_tibble %>% describe.emmeans(dtype = "t"))
 # get a list of APA
 s3_contratsts_APA <- ANOVA_EM_tibble %>%
-    select(contrast, APA) %>%
+    dplyr::select(contrast, APA) %>%
     # abbreviate the contrast labels
     dplyr::mutate(contrast = abbreviate(contrast)) %>%
     tibble::deframe() %>%
@@ -545,12 +545,12 @@ s3_main_effects <- tibble(predictor = c("parasocial", "social_world")) %>%
     unnest(c(ci90, ci95), .sep = "_")
 # APA results
 s3_main_effects_APA <- s3_main_effects %>%
-    select(predictor, APA) %>%
+    dplyr::select(predictor, APA) %>%
     tibble::deframe() %>%
     as.list()
 # Get the cohens'd and the 90% ci for APA
 s3_contratsts_d_APA <- ANOVA_cohen_tibble %>%
-    select(key, APA) %>%
+    dplyr::select(key, APA) %>%
     tibble::deframe() %>%
     as.list()
 # Combine the t-test results and Cohen's d
@@ -779,7 +779,7 @@ s3_enjoyment_fit <- s3_df %>%
 s3_enjoyment_Anova <- s3_enjoyment_fit %>% Anova(type = 3)
 s3_enjoyment_APA_df <- summarize_Anova_with_APA(s3_enjoyment_fit)
 s3_enjoyment_txt <- s3_enjoyment_APA_df %>%
-    select(term, APA) %>%
+    dplyr::select(term, APA) %>%
     deframe_as_list()
 ```
 
@@ -810,11 +810,11 @@ moderation_race_lm <- s3_df %>%
 ### Gender
 # emmeans(moderation_gender_lm, pairwise ~ parasocial:social_world:Gender_Identity_3GP, level = .90)
 moderation_gender_APA <- describe.glm(moderation_gender_lm, dtype = 3) %>%
-    select(eff, str) %>%
+    dplyr::select(eff, str) %>%
     deframe_as_list()
 ### Race
 moderation_race_APA <- describe.glm(moderation_race_lm, dtype = 3) %>%
-    select(eff, str) %>%
+    dplyr::select(eff, str) %>%
     deframe_as_list()
 ```
 
@@ -999,16 +999,16 @@ s3_time_msd <- s3_df_long %>%
 ## APA for Tiem comparisons
 s3_time_APA <- s3_time_msd %>%
     dplyr::mutate(label = str_c(time, variable)) %>%
-    select(label, APA) %>%
+    dplyr::select(label, APA) %>%
     deframe_as_list()
 # APA
 s3_manikins_time_list <- s3_manikins_time %>%
     dplyr::mutate(APA_def = map(APA, function(x) {
         x %>%
-            select(Effect, APA) %>%
+            dplyr::select(Effect, APA) %>%
             deframe_as_list()
     })) %>%
-    select(outcome, APA_def) %>%
+    dplyr::select(outcome, APA_def) %>%
     deframe_as_list()
 ```
 
@@ -1094,7 +1094,7 @@ s3_identification_lm <- s3_df %>%
 ## Add APA-Style Texts
 s3_identification_summary <- summarize_Anova_with_APA(s3_identification_lm)
 s3_identification_APA <- s3_identification_summary %>%
-    select(term, APA) %>%
+    dplyr::select(term, APA) %>%
     deframe_as_list()
 
 ```
@@ -1206,14 +1206,14 @@ s3_mod_by_mc <- s3_mod_by_mc %>%
 s3_mod_mc_APA <- s3_mod_by_mc %>%
     dplyr::mutate(APA = map(APA, function(x) {
         x %>%
-            select(eff, str) %>%
+            dplyr::select(eff, str) %>%
             deframe_as_list()
     })) %>%
-    select(outcome, moderator, APA) %>%
+    dplyr::select(outcome, moderator, APA) %>%
     # Group by outcome to perform deframe as list only among each group
     dplyr::group_by(outcome) %>%
     # Create a named list of moderator and the APA results, grouped by outcome
-    dplyr::mutate(APA = cur_data() %>% select(moderator, APA) %>% deframe_as_list()) %>%
+    dplyr::mutate(APA = cur_data() %>% dplyr::select(moderator, APA) %>% deframe_as_list()) %>%
     # nest so that each row will be outcome. data column is a tibble of moderator and APA
     nest(data = c(moderator, APA)) %>%
     # For each data tibble, deframe as list

@@ -70,7 +70,7 @@ pack_starts <- s1_measures_tbl %>%
     ) %>%
     dplyr::mutate(labels = case_when(need_packing == TRUE ~ `Main Measure`, TRUE ~ " ")) %>%
     dplyr::mutate(intervals = end_num - start_num + 1) %>%
-    select(id, Study, labels, intervals)
+    dplyr::select(id, Study, labels, intervals)
 
 # Join Table
 s1_measures_tbl <- s1_measures_tbl %>%
@@ -89,7 +89,7 @@ pack_starts_nested <- s1_measures_tbl %>%
 
 # List of df to feed to the function in-text to render table on the spot
 s1_measures_dfs <- pack_starts_nested %>%
-    select(Study, data) %>%
+    dplyr::select(Study, data) %>%
     deframe_as_list()
 ```
 
@@ -405,7 +405,7 @@ included the valence item.
 
 ```{r s1a-correlations, include=FALSE}
 s1a_target_vars <- s1a_df %>%
-    select(
+    dplyr::select(
         heart, valence, CESD_sum, social_isolation_mean, bio_diff_mean,
         reactivity_mean, reactivity_perspective, reactivity_fantasy,
         reactivity_empathy, reactivity_distress,
@@ -474,7 +474,7 @@ s1a_cor_CIs <- s1a_cor_CIs %>%
         eq_decision == "Undecided" ~ "+"
     ))
 # Markdown-formatted APA Text (95% only)
-s1a_txt <- s1a_cor_CIs %>% select(label, APA_model95) %>%
+s1a_txt <- s1a_cor_CIs %>% dplyr::select(label, APA_model95) %>%
     # `tibble::deframe()` to convert two-column df to a named vector
     deframe_as_list()
 ```
@@ -585,7 +585,7 @@ s1b_duplicates <- s1b_df %>%
 #  s1b_df %>% dplyr::filter(id == 306)
 #  s1b_df %>% dplyr::filter(id == 402)
 # Print out the different dates, if needed
-# s1b_df %>% dplyr::filter(id %in% s1b_duplicates$id) %>% select(id, visit, StartDate) %>% arrange(id, visit)
+# s1b_df %>% dplyr::filter(id %in% s1b_duplicates$id) %>% dplyr::select(id, visit, StartDate) %>% arrange(id, visit)
 s1b_df <- s1b_df %>%
     # p 306, only include the first data point
     dplyr::filter(!(id == 306 & StartDate == lubridate::as_datetime("2016-11-18 11:34:00"))) %>%
@@ -703,7 +703,7 @@ s1b_var_types <- c(
 
 # Select the variables that will be included in the correlation analysis
 s1b_target_variables <- s1b_df %>%
-    select(
+    dplyr::select(
         id, visit,
         heart,
         valence,
@@ -782,7 +782,7 @@ s1b_cor_heart3 <- s1b_target_wide %>%
 s1b_cor_heart123 <- s1b_cor_heart1 %>%
     bind_rows(s1b_cor_heart2) %>%
     bind_rows(s1b_cor_heart3) %>%
-    select(outcome, everything())
+    dplyr::select(outcome, everything())
 
 # Add variable types and labels ----------------------------------------------------------------
 # Types (Convergent, Discriminant)
@@ -796,7 +796,7 @@ s1b_cor_CIs <- s1b_cor_CIs %>%
 s1b_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1b_cor_CIs.rds"))
 # APA Text
 s1b_cor_txt <- s1b_cor_heart123 %>%
-    select(label, APA_model95) %>%
+    dplyr::select(label, APA_model95) %>%
     tibble::deframe() %>%
     as.list()
 
@@ -881,7 +881,7 @@ s1b_lm_df_std <- s1b_lm_df_std %>%
     )
 # Get a list of APA-formatted texts
 s1b_lm_txt <- s1b_lm_df_std %>%
-    select(predictor, APA_pred) %>%
+    dplyr::select(predictor, APA_pred) %>%
     tibble::deframe() %>%
     as.list()
 ```
@@ -1078,7 +1078,7 @@ s1c_var_types <- c(
     tibble(predictor = names(.), type = .)
 # Subset the data to target variables only
 s1c_target_vars <- s1c_df %>%
-    select(all_of(s1c_target_vars_labels))
+    dplyr::select(all_of(s1c_target_vars_labels))
 # Save
 s1c_target_vars %>% write_rds(here("data_public", "subset", "Study1c_public_target.rds"))
 # Labels keys df for later use
@@ -1104,7 +1104,7 @@ s1c_cor_heart3 <- s1c_target_vars %>%
 s1c_cor_heart123 <- s1c_cor_heart1 %>%
     bind_rows(s1c_cor_heart2) %>%
     bind_rows(s1c_cor_heart3) %>%
-    select(outcome, everything())
+    dplyr::select(outcome, everything())
 # Add types
 s1c_cor_CIs <- s1c_cor_heart123 %>%
     left_join(s1c_var_types)
@@ -1118,7 +1118,7 @@ s1c_txt <- s1c_cor_CIs %>%
 # List
 s1c_bivariate_APA <- s1c_txt %>%
     dplyr::mutate(label = paste(outcome, label)) %>%
-    select(label, APA_model95) %>%
+    dplyr::select(label, APA_model95) %>%
     deframe_as_list()
 
 
@@ -1173,7 +1173,7 @@ s1c_T2_mods <- s1c_T2_mods %>%
     )
 # Deframe to get a list of Markdown text
 s1c_T2_txt <- s1c_T2_mods %>%
-    select(predictor, APA_pred) %>%
+    dplyr::select(predictor, APA_pred) %>%
     tibble::deframe() %>%
     as.list()
 ```
@@ -1247,7 +1247,7 @@ s1c_T2_mods %>%
 ```{r s1c-mixed-model}
 # Target vars for the mixed model - only valence is measured three times - no looping
 s1c_df_long <- s1c_df %>%
-    select(id, acceptance, closeness, grouping_dummy, heart1:heart3, valence1:valence3) %>%
+    dplyr::select(id, acceptance, closeness, grouping_dummy, heart1:heart3, valence1:valence3) %>%
     pivot_longer(c(heart1:heart3, valence1:valence3)) %>%
     dplyr::mutate(
         time = str_extract(name, "\\d"),
@@ -1295,7 +1295,7 @@ s1c_mixed_mods <- s1c_mixed_mods %>%
     )
 # Deframe to get a list of Markdown text
 s1c_mixed_txt <- s1c_mixed_mods %>%
-    select(predictor, APA_pred) %>%
+    dplyr::select(predictor, APA_pred) %>%
     tibble::deframe() %>%
     as.list()
 
@@ -1374,12 +1374,12 @@ s1c_sensitivity_mixed_df <- tibble(outcome = c("heart", "valence")) %>%
     ) %>%
     dplyr::mutate(emm_APA = map(emm_time_acceptance_tidy, function(x) {
         x %>%
-            select(label, APA) %>%
+            dplyr::select(label, APA) %>%
             deframe_as_list()
     }))
 # Deframe as list to get a list
 s1c_sensitivity_heart_mod_APA <- s1c_sensitivity_mixed_df %>%
-    select(outcome, emm_APA) %>%
+    dplyr::select(outcome, emm_APA) %>%
     deframe_as_list()
 
 #  Heart Manikin scores over time
@@ -1512,7 +1512,7 @@ s1d_df <- s1d_df %>%
     ))
 # Subset the data to target variables only
 s1d_df_target_only <- s1d_df %>%
-    select(all_of(s1d_target_vars_labels))
+    dplyr::select(all_of(s1d_target_vars_labels))
 # Chache the file for Appendix
 s1d_df_target_only %>% write_rds(here("data_public", "subset", "Study1d_public_target.rds"))
 # Labels keys df for later use
@@ -1542,7 +1542,7 @@ s1d_msd <- s1d_desc_APA %>%
     ))
 # List of Means and SDs (order: expectancy(A/R), rejection (A/R), and variable(A/R))
 s1d_desc_txt <- s1d_msd %>%
-    select(label, APA) %>%
+    dplyr::select(label, APA) %>%
     tibble::deframe() %>%
     as.list()
 ```
@@ -1600,7 +1600,7 @@ s1d_txt <- s1d_cor_CIs %>%
     dplyr::mutate(var_outcome = paste(label, outcome, sep = "_") %>% str_replace_all(" ", ""))
 # Deframe to a list
 s1d_txt <- s1d_txt %>%
-    select(var_outcome, APA_model95) %>%
+    dplyr::select(var_outcome, APA_model95) %>%
     tibble::deframe() %>%
     as.list()
 ```
@@ -1643,7 +1643,7 @@ s1d_dfC <- s1d_dfC %>%
     )
 # Prepare a long dataset
 s1d_dfC_long <- s1d_dfC %>%
-    select(
+    dplyr::select(
         id, confederate_desire, rejection, confederate_desire_ec, rejection_ec,
         heart_T1:heart_T4, valence_T1:valence_T4,
         arousal_T1:arousal_T4, dominance_T1:dominance_T4
@@ -1693,7 +1693,7 @@ s1d_mixed_df <- s1d_mixed_df %>%
     )
 # Deframe to get a list of Markdown text
 s1d_mixed_txt <- s1d_mixed_df %>%
-    select(predictor, APA_pred) %>%
+    dplyr::select(predictor, APA_pred) %>%
     tibble::deframe() %>%
     as.list()
 ```
@@ -1752,7 +1752,7 @@ s1d_sensitivity_t <- t.test(formula = heart_T3 ~ rejection, data = s1d_df)
 # get means and sd only for rejection vs acceptance
 s1d_sensitivity_APA <- describe_by_factor(s1d_df, rejection, vars = heart_T3) %>%
     dplyr::mutate(msd = to_msd(heart_T3_mean, heart_T3_sd)) %>%
-    select(rejection, msd) %>%
+    dplyr::select(rejection, msd) %>%
     tibble::deframe() %>%
     as.list()
 s1d_sensitivity_d <- effectsize::cohens_d(x = heart_T3 ~ rejection, data = s1d_df)
@@ -1814,12 +1814,12 @@ s1d_sensitivity_mixed_df <- tibble(outcome = c("heart", "valence")) %>%
     ) %>%
     dplyr::mutate(emm_APA = map(emm_time_acceptance_tidy, function(x) {
         x %>%
-            select(label, APA) %>%
+            dplyr::select(label, APA) %>%
             deframe_as_list()
     }))
 # Deframe as list to get a list
 s1d_sensitivity_heart_mod_APA <- s1d_sensitivity_mixed_df %>%
-    select(outcome, emm_APA) %>%
+    dplyr::select(outcome, emm_APA) %>%
     deframe_as_list()
 
 
@@ -2065,7 +2065,7 @@ s1e_var_types <- c(
 
 # Subset the data to target variables only
 s1e_df_target_only <- s1e_df %>%
-    select(all_of(s1e_target_vars_labels))
+    dplyr::select(all_of(s1e_target_vars_labels))
 # Chache the file for Appendix
 s1e_df_target_only %>% write_rds(here("data_public", "subset", "Study1e_public_target.rds"))
 
@@ -2117,12 +2117,12 @@ s1e_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1e_cor_CIs.rds"))
 # Markdown-formatted APA Text (95% only)
 s1e_txt <- s1e_cor_CIs %>%
     dplyr::mutate(label = paste(outcome, label)) %>%
-    select(label, APA_model95) %>%
+    dplyr::select(label, APA_model95) %>%
     deframe_as_list()
 ## 90%CI version for equivalence test
 s1e_txt_90 <- s1e_cor_CIs %>%
     dplyr::mutate(label = paste(outcome, label)) %>%
-    select(label, APA_model90) %>%
+    dplyr::select(label, APA_model90) %>%
     deframe_as_list()
 
 
@@ -2148,7 +2148,7 @@ subjective socioeconomic status
 ```{r s1e-mixed}
 # Standardize the dataset
 s1e_df_std <- s1e_df %>%
-    select(
+    dplyr::select(
         id, participant_desire, confederate_desire, desires_dummy, rejection,
         all_of(as.vector(s1e_target_vars_labels))
     ) %>%
@@ -2227,7 +2227,7 @@ s1e_mixed_df <- s1e_mixed_df %>%
 # Add Type
 s1e_var_types_long <- s1e_var_types %>%
     dplyr::mutate(predictor = str_remove(predictor, "_T\\d")) %>%
-    select(-label) %>%
+    dplyr::select(-label) %>%
     distinct()
 s1e_mixed_df <- s1e_mixed_df %>%
     left_join(s1e_var_types_long, by = "predictor")
@@ -2243,7 +2243,7 @@ s1e_mixed_df <- s1e_mixed_df %>%
     )
 # Deframe to get a list of Markdown text
 s1e_mixed_APA <- s1e_mixed_df %>%
-    select(predictor, APA_pred) %>%
+    dplyr::select(predictor, APA_pred) %>%
     deframe_as_list()
 ```
 
@@ -2316,7 +2316,7 @@ s1e_sensitivity_mod <- t.test(
 # get means and sd only for rejection vs acceptance
 s1e_sensitivity_APA <- describe_by_factor(s1e_df, rejection, vars = heart_T5) %>%
     dplyr::mutate(msd = to_msd(heart_T5_mean, heart_T5_sd)) %>%
-    select(rejection, msd) %>%
+    dplyr::select(rejection, msd) %>%
     dplyr::mutate(rejection = to_factor(rejection)) %>%
     tibble::deframe() %>%
     as.list()
@@ -2417,7 +2417,7 @@ s1e_NTS_T5_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
     dplyr::mutate(td_APA = str_c(t_APA, ci95_APA, sep = ", "))
 # RMD
 s1e_NTS_APA <- s1e_NTS_T5_df %>%
-    select(outcome, td_APA) %>%
+    dplyr::select(outcome, td_APA) %>%
     tibble::deframe() %>%
     as.list()
 # Means and SDs for per conditions
@@ -2429,7 +2429,7 @@ s1e_NTS_desc <- s1e_df %>%
     dplyr::mutate(label = paste0(str_extract(rejection, "^."), variable))
 # Get the descriptives into the list format and append it to the APA list for rmd
 s1e_NTS_APA <- s1e_NTS_APA %>%
-    append(s1e_NTS_desc %>% select(label, APA) %>% tibble::deframe() %>% as.list())
+    append(s1e_NTS_desc %>% dplyr::select(label, APA) %>% tibble::deframe() %>% as.list())
 
 ```
 
