@@ -5,6 +5,17 @@ services:
       - 8787:8787
     volumes:
       - ./:/home/rstudio/dissertation/
-    environment:
-      - PASSWORD=changeme # default username is rstudio
-
+    working_dir: /home/rstudio/dissertation
+    command: quarto render # Render the book
+    ## To launch RStudio server use the command & environment below
+    ## -------------------------
+    # user: root # For launching RStudio server
+    # command:
+    #   [
+    #     "/usr/lib/rstudio-server/bin/rserver",
+    #     "--server-daemonize=0",
+    #     "--auth-none=1",
+    #   ]
+    # environment:
+    #   - PASSWORD=changeme # default username is rstudio
+    #   - USER=root # For launching RStudio server
