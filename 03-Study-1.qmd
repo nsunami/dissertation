@@ -84,7 +84,7 @@ dplyr::rename(
 s1_measures_tbl <- s1_measures_tbl %>%
     dplyr::mutate(labels = dplyr::case_when(is.na(labels) ~ "", TRUE ~ labels))
 pack_starts_nested <- s1_measures_tbl %>%
-    nest_by(Study) %>%
+    dplyr::nest_by(Study) %>%
     dplyr::ungroup()
 
 # List of df to feed to the function in-text to render table on the spot
