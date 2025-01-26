@@ -61,8 +61,8 @@ pack_starts <- s1_measures_tbl %>%
         end_num = case_when(Submeasure == n() ~ rownum)
     ) %>%
     dplyr::ungroup() %>%
-    fill(start_num, .direction = "down") %>%
-    fill(end_num, .direction = "up") %>%
+    tidyr::fill(start_num, .direction = "down") %>%
+    tidyr::fill(end_num, .direction = "up") %>%
     dplyr::filter(Submeasure == 1) %>%
     dplyr::mutate(
         need_packing = (start_num != end_num),
