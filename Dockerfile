@@ -1,4 +1,4 @@
-FROM rocker/rstudio:4
+FROM rocker/tidyverse:4.4.2
 
 # Install Ubuntu distributions of R Packages
 RUN apt-get update
