@@ -431,7 +431,7 @@ dplyr::rename(
         "Multiple Identity" = multiple_identity_mean
     )
 # Export Target Variable DF for the plots in Appendix
-write_rds(s1a_target_vars, here("data_public/subset", "Study1a_public_target.rds"))
+readr::write_rds(s1a_target_vars, here("data_public/subset", "Study1a_public_target.rds"))
 # Assign variable types
 s1a_var_types <- c(
     valence = "Convergent",
@@ -733,7 +733,7 @@ s1b_target_variables <- s1b_df %>%
     # Rename the variables for presentatioon
 dplyr::rename(all_of(s1b_labels))
 # Save the target variables DF for Appendix
-write_rds(s1b_target_variables, here("data_public", "subset", "Study1b_public_target.rds"))
+readr::write_rds(s1b_target_variables, here("data_public", "subset", "Study1b_public_target.rds"))
 
 # Labels keys df for later use
 s1b_target_vars_labels_df <- tibble(
@@ -793,7 +793,7 @@ s1b_cor_CIs <- s1b_cor_CIs %>%
     # Extract Time
     dplyr::mutate(time = str_extract(label, "T\\d"))
 # Cache the table
-s1b_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1b_cor_CIs.rds"))
+s1b_cor_CIs %>% readr::write_rds(here("data_public", "aggregate", "s1b_cor_CIs.rds"))
 # APA Text
 s1b_cor_txt <- s1b_cor_heart123 %>%
     dplyr::select(label, APA_model95) %>%
@@ -1080,7 +1080,7 @@ s1c_var_types <- c(
 s1c_target_vars <- s1c_df %>%
     dplyr::select(all_of(s1c_target_vars_labels))
 # Save
-s1c_target_vars %>% write_rds(here("data_public", "subset", "Study1c_public_target.rds"))
+s1c_target_vars %>% readr::write_rds(here("data_public", "subset", "Study1c_public_target.rds"))
 # Labels keys df for later use
 s1c_target_vars_labels_df <- tibble(
     predictor = s1c_target_vars_labels,
@@ -1111,7 +1111,7 @@ left_join(s1c_var_types)
 # Add Times Variable
 s1c_cor_CIs <- s1c_cor_CIs %>%
     dplyr::mutate(time = str_extract(label, "T\\d"))
-s1c_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1c_cor_CIs.rds"))
+s1c_cor_CIs %>% readr::write_rds(here("data_public", "aggregate", "s1c_cor_CIs.rds"))
 # APA text container
 s1c_txt <- s1c_cor_CIs %>%
     dplyr::mutate(outcome_shorthand = str_extract(outcome, "..$"))
@@ -1255,7 +1255,7 @@ s1c_df_long <- s1c_df %>%
     ) %>%
     pivot_wider(names_from = name, values_from = value)
 # Cache the long file
-s1c_df_long %>% write_rds(here("data_public", "s1c_df_long.rds"))
+s1c_df_long %>% readr::write_rds(here("data_public", "s1c_df_long.rds"))
 # Construct a mixed model
 s1c_mixed_mod <- lmer(
     formula = scale(heart) ~ scale(valence) + grouping_dummy * time + (1 | id),
@@ -1514,7 +1514,7 @@ s1d_df <- s1d_df %>%
 s1d_df_target_only <- s1d_df %>%
     dplyr::select(all_of(s1d_target_vars_labels))
 # Chache the file for Appendix
-s1d_df_target_only %>% write_rds(here("data_public", "subset", "Study1d_public_target.rds"))
+s1d_df_target_only %>% readr::write_rds(here("data_public", "subset", "Study1d_public_target.rds"))
 # Labels keys df for later use
 s1d_target_vars_labels_df <- tibble(
     predictor = s1d_target_vars_labels,
@@ -1593,7 +1593,7 @@ s1d_cor_CIs <- s1d_cor_CIs %>%left_join(s1d_var_types)
 # Add Times Variable
 s1d_cor_CIs <- s1d_cor_CIs %>% dplyr::mutate(time = str_extract(label, "T\\d"))
 # Cache the aggregate
-s1d_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1d_cor_CIs.rds"))
+s1d_cor_CIs %>% readr::write_rds(here("data_public", "aggregate", "s1d_cor_CIs.rds"))
 # APA text container
 s1d_txt <- s1d_cor_CIs %>%
     dplyr::mutate(outcome_shorthand = str_extract(outcome, "..$")) %>%
@@ -1655,7 +1655,7 @@ s1d_dfC_long <- s1d_dfC %>%
     ) %>%
     pivot_wider(names_from = name, values_from = value)
 # Cache
-s1d_dfC_long %>% write_rds(here("data_public", "s1d_dfC_long.rds"))
+s1d_dfC_long %>% readr::write_rds(here("data_public", "s1d_dfC_long.rds"))
 
 # Lmer model
 s1d_mixed_preds <- c("heart", "valence", "arousal", "dominance")
@@ -2067,7 +2067,7 @@ s1e_var_types <- c(
 s1e_df_target_only <- s1e_df %>%
     dplyr::select(all_of(s1e_target_vars_labels))
 # Chache the file for Appendix
-s1e_df_target_only %>% write_rds(here("data_public", "subset", "Study1e_public_target.rds"))
+s1e_df_target_only %>% readr::write_rds(here("data_public", "subset", "Study1e_public_target.rds"))
 
 # Labels keys df for later use
 s1e_target_vars_labels_df <- tibble(
@@ -2113,7 +2113,7 @@ s1e_cor_CIs <- s1e_cor_CIs %>%
         eq_decision == "Undecided" ~ "+"
     ))
 # Cache the df
-s1e_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1e_cor_CIs.rds"))
+s1e_cor_CIs %>% readr::write_rds(here("data_public", "aggregate", "s1e_cor_CIs.rds"))
 # Markdown-formatted APA Text (95% only)
 s1e_txt <- s1e_cor_CIs %>%
     dplyr::mutate(label = paste(outcome, label)) %>%
@@ -2173,7 +2173,7 @@ s1e_df_long <- s1e_df %>%
         name = stringr::str_replace(name, "_.\\d", "")
     ) %>%
     pivot_wider(names_from = name, values_from = value)
-s1e_df_long %>% write_rds(here("data_public", "s1e_df_long.rds"))
+s1e_df_long %>% readr::write_rds(here("data_public", "s1e_df_long.rds"))
 # Prepare a long dataset
 s1e_df_std_long <- s1e_df_std %>%
     pivot_longer(c(
