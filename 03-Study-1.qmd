@@ -74,7 +74,7 @@ pack_starts <- s1_measures_tbl %>%
 
 # Join Table
 s1_measures_tbl <- s1_measures_tbl %>%
-left_join(pack_starts) %>%
+dplyr::left_join(pack_starts) %>%
 dplyr::rename(
         "Measure" = `Subscale (if any)`,
         "Construct" = `Measured Construct`
