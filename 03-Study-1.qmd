@@ -42,7 +42,7 @@ s1e_df <- rio::import(here("data_public/Study1e_public.rds"))
 ## Preparing the table of measures -----------------------------------------
 # get data
 s1_measures_path <- here("data_public", "Study1_measures.csv")
-s1_measures_tbl <- read_csv(s1_measures_path)
+s1_measures_tbl <- readr::read_csv(s1_measures_path)
 # add ronames
 s1_measures_tbl <- s1_measures_tbl %>% dplyr::mutate(id = row_number())
 # abbreviate the labels
