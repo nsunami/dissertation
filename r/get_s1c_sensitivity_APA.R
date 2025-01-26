@@ -15,7 +15,7 @@ get_s1c_sensitivity_APA <- function(df) {
       acceptance = to_factor(acceptance)
     ) |>
     select(acceptance, msd) |>
-    deframe() |>
+    tibble::deframe() |>
     as.list() |>
     append(list(
       t = s1c_sensitivity_mod |> describe.ttest(),

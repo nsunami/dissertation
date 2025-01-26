@@ -125,7 +125,7 @@ s3_ntable <- s3_df %>%
 s3_n_txt <- s3_ntable %>%
     ungroup() %>%
     select(key, n) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list() %>%
     append(list(all_participated = s3_ntable$n %>% sum()))
 # Exclusions by Attention Check
@@ -157,7 +157,7 @@ s3_attention_by_type <- s3_df %>%
 ## Excluded Participants
 s3_n_excluded <- list(
     all = s3_df %>% filter(Finished == 1) %>%
-        summarise(sum(!attention_all_correct)) %>% deframe(),
+        summarise(sum(!attention_all_correct)) %>% tibble::deframe(),
     HH = NA,
     HL = NA,
     LH = NA,
@@ -461,7 +461,7 @@ s3_contratsts_APA <- ANOVA_EM_tibble %>%
     select(contrast, APA) %>%
     # abbreviate the contrast labels
     dplyr::mutate(contrast = abbreviate(contrast)) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 
 
@@ -546,12 +546,12 @@ s3_main_effects <- tibble(predictor = c("parasocial", "social_world")) %>%
 # APA results
 s3_main_effects_APA <- s3_main_effects %>%
     select(predictor, APA) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 # Get the cohens'd and the 90% ci for APA
 s3_contratsts_d_APA <- ANOVA_cohen_tibble %>%
     select(key, APA) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 # Combine the t-test results and Cohen's d
 s3_contrats_td_APA <- paste(s3_contratsts_APA, s3_contratsts_d_APA, sep = ", ")

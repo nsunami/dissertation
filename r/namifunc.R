@@ -170,7 +170,7 @@ summarize_Anova_with_APA <- function(lm, .sumtype = 3) {
 ## Deframe and aslist
 deframe_as_list <- function(x) {
   x %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 }
 
@@ -363,7 +363,7 @@ s1_render_kable <- function(df, studykey = " ") {
   pack_named_index <- df %>%
     filter(!is.na(intervals)) %>%
     select(labels, intervals) %>%
-    deframe()
+    tibble::deframe()
   # Get the names of the named list
   pack_named_index_names <- names(pack_named_index) %>% str_trim()
   # Check if Needs packing

@@ -475,7 +475,7 @@ s1a_cor_CIs <- s1a_cor_CIs %>%
     ))
 # Markdown-formatted APA Text (95% only)
 s1a_txt <- s1a_cor_CIs %>% select(label, APA_model95) %>%
-    # `deframe()` to convert two-column df to a named vector
+    # `tibble::deframe()` to convert two-column df to a named vector
     deframe_as_list()
 ```
 
@@ -797,7 +797,7 @@ s1b_cor_CIs %>% write_rds(here("data_public", "aggregate", "s1b_cor_CIs.rds"))
 # APA Text
 s1b_cor_txt <- s1b_cor_heart123 %>%
     select(label, APA_model95) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 
 # MixedModel --------------------------------------------------------------------
@@ -882,7 +882,7 @@ s1b_lm_df_std <- s1b_lm_df_std %>%
 # Get a list of APA-formatted texts
 s1b_lm_txt <- s1b_lm_df_std %>%
     select(predictor, APA_pred) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 ```
 
@@ -1174,7 +1174,7 @@ s1c_T2_mods <- s1c_T2_mods %>%
 # Deframe to get a list of Markdown text
 s1c_T2_txt <- s1c_T2_mods %>%
     select(predictor, APA_pred) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 ```
 
@@ -1296,7 +1296,7 @@ s1c_mixed_mods <- s1c_mixed_mods %>%
 # Deframe to get a list of Markdown text
 s1c_mixed_txt <- s1c_mixed_mods %>%
     select(predictor, APA_pred) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 
 ```
@@ -1543,7 +1543,7 @@ s1d_msd <- s1d_desc_APA %>%
 # List of Means and SDs (order: expectancy(A/R), rejection (A/R), and variable(A/R))
 s1d_desc_txt <- s1d_msd %>%
     select(label, APA) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 ```
 
@@ -1601,7 +1601,7 @@ s1d_txt <- s1d_cor_CIs %>%
 # Deframe to a list
 s1d_txt <- s1d_txt %>%
     select(var_outcome, APA_model95) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 ```
 
@@ -1694,7 +1694,7 @@ s1d_mixed_df <- s1d_mixed_df %>%
 # Deframe to get a list of Markdown text
 s1d_mixed_txt <- s1d_mixed_df %>%
     select(predictor, APA_pred) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 ```
 
@@ -1753,7 +1753,7 @@ s1d_sensitivity_t <- t.test(formula = heart_T3 ~ rejection, data = s1d_df)
 s1d_sensitivity_APA <- describe_by_factor(s1d_df, rejection, vars = heart_T3) %>%
     dplyr::mutate(msd = to_msd(heart_T3_mean, heart_T3_sd)) %>%
     select(rejection, msd) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 s1d_sensitivity_d <- effectsize::cohens_d(x = heart_T3 ~ rejection, data = s1d_df)
 # Get the RMD object
@@ -2318,7 +2318,7 @@ s1e_sensitivity_APA <- describe_by_factor(s1e_df, rejection, vars = heart_T5) %>
     dplyr::mutate(msd = to_msd(heart_T5_mean, heart_T5_sd)) %>%
     select(rejection, msd) %>%
     dplyr::mutate(rejection = to_factor(rejection)) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 # Get the cohens d and ci
 s1e_sensitivity_dci <- effectsize::cohens_d(x = heart_T5 ~ rejection, data = s1e_df)
@@ -2418,7 +2418,7 @@ s1e_NTS_T5_df <- tibble(outcome = s1e_NTS_T5_vars) %>%
 # RMD
 s1e_NTS_APA <- s1e_NTS_T5_df %>%
     select(outcome, td_APA) %>%
-    deframe() %>%
+    tibble::deframe() %>%
     as.list()
 # Means and SDs for per conditions
 s1e_NTS_desc <- s1e_df %>%
@@ -2429,7 +2429,7 @@ s1e_NTS_desc <- s1e_df %>%
     dplyr::mutate(label = paste0(str_extract(rejection, "^."), variable))
 # Get the descriptives into the list format and append it to the APA list for rmd
 s1e_NTS_APA <- s1e_NTS_APA %>%
-    append(s1e_NTS_desc %>% select(label, APA) %>% deframe() %>% as.list())
+    append(s1e_NTS_desc %>% select(label, APA) %>% tibble::deframe() %>% as.list())
 
 ```
 
