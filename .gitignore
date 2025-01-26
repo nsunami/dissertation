@@ -1,6 +1,9 @@
 # Ignore for publishing
 /.quarto/
 /_site/
+# Ignore the rendered files but keep the directory
+/docs/*
+!docs/.keep
 
 .Rhistory
 .Rprofile
