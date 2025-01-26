@@ -365,7 +365,7 @@ s1_render_kable <- function(df, studykey = " ") {
     dplyr::select(labels, intervals) %>%
     tibble::deframe()
   # Get the names of the named list
-  pack_named_index_names <- names(pack_named_index) %>% str_trim()
+  pack_named_index_names <- names(pack_named_index) %>% stringr::str_trim()
   # Check if Needs packing
   needs_packing <- (sum(pack_named_index_names == "") != length(pack_named_index_names))
   # Create Kable
