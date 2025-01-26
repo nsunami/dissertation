@@ -44,7 +44,7 @@ s1e_df <- rio::import(here("data_public/Study1e_public.rds"))
 s1_measures_path <- here("data_public", "Study1_measures.csv")
 s1_measures_tbl <- readr::read_csv(s1_measures_path)
 # add ronames
-s1_measures_tbl <- s1_measures_tbl %>% dplyr::mutate(id = row_number())
+s1_measures_tbl <- s1_measures_tbl %>% dplyr::mutate(id = dplyr::row_number())
 # abbreviate the labels
 s1_measures_tbl <- s1_measures_tbl %>%
     dplyr::mutate(
@@ -53,9 +53,9 @@ s1_measures_tbl <- s1_measures_tbl %>%
     )
 # Starting positions for packing
 pack_starts <- s1_measures_tbl %>%
-    dplyr::mutate(rownum = row_number()) %>%
+    dplyr::mutate(rownum = dplyr::row_number()) %>%
     dplyr::group_by(Study, `Main Measure`) %>%
-    dplyr::mutate(Submeasure = row_number()) %>%
+    dplyr::mutate(Submeasure = dplyr::row_number()) %>%
     dplyr::mutate(
         start_num = case_when(Submeasure == 1 ~ rownum),
         end_num = case_when(Submeasure == n() ~ rownum)
@@ -2233,7 +2233,7 @@ s1e_mixed_df <- s1e_mixed_df %>%
     left_join(s1e_var_types_long, by = "predictor")
 # Add Plot Order for predictors
 s1e_mixed_df <- s1e_mixed_df %>%
-    dplyr::mutate(plot_order = row_number())
+    dplyr::mutate(plot_order = dplyr::row_number())
 
 # APA
 s1e_mixed_df <- s1e_mixed_df %>%
