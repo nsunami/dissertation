@@ -54,7 +54,7 @@ descriptives_table <- s2_df %>%
         )
     ) %>%
     # Clean Names
-    rename_all(.funs = ~ str_replace(., "_1_", "_"))
+    rename_all(.funs = ~ stringr::str_replace(., "_1_", "_"))
 ## Convert descriptives to long via ad-hoc function
 descriptives_long <- descriptives_table %>% get_desc_db()
 # e.g.,: get_stats("Non-Social Surrogacy", "Enjoyment", "sd")

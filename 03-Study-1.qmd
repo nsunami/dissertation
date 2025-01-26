@@ -48,8 +48,8 @@ s1_measures_tbl <- s1_measures_tbl %>% dplyr::mutate(id = dplyr::row_number())
 # abbreviate the labels
 s1_measures_tbl <- s1_measures_tbl %>%
     dplyr::mutate(
-        Validity = str_replace(Validity, "Convergent", "Con."),
-        Validity = str_replace(Validity, "Discriminant", "Dis.")
+        Validity = stringr::str_replace(Validity, "Convergent", "Con."),
+        Validity = stringr::str_replace(Validity, "Discriminant", "Dis.")
     )
 # Starting positions for packing
 pack_starts <- s1_measures_tbl %>%
@@ -1251,7 +1251,7 @@ s1c_df_long <- s1c_df %>%
     pivot_longer(c(heart1:heart3, valence1:valence3)) %>%
     dplyr::mutate(
         time = str_extract(name, "\\d"),
-        name = str_replace(name, "\\d", "")
+        name = stringr::str_replace(name, "\\d", "")
     ) %>%
     pivot_wider(names_from = name, values_from = value)
 # Cache the long file
@@ -1651,7 +1651,7 @@ s1d_dfC_long <- s1d_dfC %>%
     pivot_longer(matches("T[1-4]")) %>%
     dplyr::mutate(
         time = str_extract(name, "\\d"),
-        name = str_replace(name, "_.\\d", "")
+        name = stringr::str_replace(name, "_.\\d", "")
     ) %>%
     pivot_wider(names_from = name, values_from = value)
 # Cache
@@ -2170,7 +2170,7 @@ s1e_df_long <- s1e_df %>%
     )) %>%
     dplyr::mutate(
         time = str_extract(name, "\\d"),
-        name = str_replace(name, "_.\\d", "")
+        name = stringr::str_replace(name, "_.\\d", "")
     ) %>%
     pivot_wider(names_from = name, values_from = value)
 s1e_df_long %>% write_rds(here("data_public", "s1e_df_long.rds"))
@@ -2187,7 +2187,7 @@ s1e_df_std_long <- s1e_df_std %>%
     )) %>%
     dplyr::mutate(
         time = str_extract(name, "\\d"),
-        name = str_replace(name, "_.\\d", "")
+        name = stringr::str_replace(name, "_.\\d", "")
     ) %>%
     pivot_wider(names_from = name, values_from = value)
 

@@ -563,11 +563,11 @@ plot_s2_moderation <- function(model) {
   # Labels function
   s2mod_relabel <- function(x) {
     x %>%
-      str_replace("parasocial_MC_group2-1", "Group [2-1]") %>%
-      str_replace("parasocial_MC_group3-2", "Group [3-2]") %>%
-      str_replace(cur_mod, cur_mod_label) %>%
-      str_replace("essay_condition1", "Essay [Surrogacy]") %>%
-      str_replace("Time1", "Time [1]") %>%
+      stringr::str_replace("parasocial_MC_group2-1", "Group [2-1]") %>%
+      stringr::str_replace("parasocial_MC_group3-2", "Group [3-2]") %>%
+      stringr::str_replace(cur_mod, cur_mod_label) %>%
+      stringr::str_replace("essay_condition1", "Essay [Surrogacy]") %>%
+      stringr::str_replace("Time1", "Time [1]") %>%
       str_replace_all(":", " x ")
   }
 
@@ -627,12 +627,12 @@ plot_s3_mod_bymc <- function(model) {
   # Function to relabel the variabels
   s3mod_relabel <- function(x) {
     x %>%
-      str_replace("parasocial_MC_group1", "Group [1]") %>%
-      str_replace("parasocial_MC_group2", "Group [2]") %>%
-      str_replace(current_moderator, current_moderator_label) %>%
-      str_replace("social_world1", "Social World [High]") %>%
-      str_replace("parasocial1", "Parasocial [High]") %>%
-      str_replace("time1", "Time [1]") %>%
+      stringr::str_replace("parasocial_MC_group1", "Group [1]") %>%
+      stringr::str_replace("parasocial_MC_group2", "Group [2]") %>%
+      stringr::str_replace(current_moderator, current_moderator_label) %>%
+      stringr::str_replace("social_world1", "Social World [High]") %>%
+      stringr::str_replace("parasocial1", "Parasocial [High]") %>%
+      stringr::str_replace("time1", "Time [1]") %>%
       str_replace_all(":", " x ")
   }
 

@@ -97,7 +97,7 @@ s3_df_msd <- s3_df_attentive %>% describe_by_factor(parasocial, social_world,
     )
 ) %>%
     # Clean Names
-    rename_all(.funs = ~ str_replace(., "_1_", "_"))
+    rename_all(.funs = ~ stringr::str_replace(., "_1_", "_"))
 # Means and Standard Devisions for Each conditions
 s3_df_msd <- get_APA_from_msd(s3_df_msd) %>%
     data.table::setDT(key = c("parasocial", "social_world", "variable", "APA"))
@@ -489,8 +489,8 @@ ANOVA_cohen_tibble <- ANOVA_cohen_tibble %>%
         label2 = map_chr(labels, ~ .[[2]])
     ) %>%
     dplyr::mutate(across(c(label1, label2), ~ str_remove(., "\\(|\\)"))) %>%
-    dplyr::mutate(across(c(label1, label2), ~ str_replace(., "Parasocial", "Para"))) %>%
-    dplyr::mutate(across(c(label1, label2), ~ str_replace(., "Social World", "Social"))) %>%
+    dplyr::mutate(across(c(label1, label2), ~ stringr::str_replace(., "Parasocial", "Para"))) %>%
+    dplyr::mutate(across(c(label1, label2), ~ stringr::str_replace(., "Social World", "Social"))) %>%
     dplyr::mutate(
         plot_label = paste(label1, label2, sep = " - "),
         key = abbreviate(plot_label)
