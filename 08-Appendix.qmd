@@ -692,7 +692,7 @@ s2_df %>%
          IOS, PSI, Single_Immersion,Narrative_Engagement,
          OTF_Social_World, Enjoyment) %>%
   # Rename variables
-  rename("Essay" = essay_condition, "T1 Heart" = T1_Heart_1, "T1 Valence" = T1_Valence_1,
+dplyr::rename("Essay" = essay_condition, "T1 Heart" = T1_Heart_1, "T1 Valence" = T1_Valence_1,
          "T1 Arousal" = T1_Arousal_1, "T1 Dominance" = T1_Dominance_1,
          "T2 Heart" = T2_Heart_1, "T2 Valence" = T2_Valence_1,
          "T2 Arousal" = T2_Arousal_1, "T2 Dominance" = T2_Dominance_1,
@@ -910,7 +910,7 @@ s3_df %>%
          OTF_Social_World,
          PC_Identification) %>%
   # Rename variables
-  rename("Parasocial" = parasocial, "Social World" = social_world,
+dplyr::rename("Parasocial" = parasocial, "Social World" = social_world,
          "Heart T1" = T1_Heart_1, "Valence T1" = T1_Valence_1,
          "Arousal T1" = T1_Arousal_1, "Dominance T1" = T1_Dominance_1,
          "Heart T2" = T2_Heart_1, "Valence T2" = T2_Valence_1,

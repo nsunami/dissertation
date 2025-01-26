@@ -148,7 +148,7 @@ get_correlations <- function(target_df,
     # dplyr::mutate(APA = paste0(APA, ",", to_CI_str(Conf_Level, lower = conf.low, upper = conf.high))) %>%
     unnest(model_df) %>%
     # name parameter to df
-    rename(df = "parameter")
+dplyr::rename(df = "parameter")
   # Wider to create separate columns for 90 & 95% CIs
   df <- df %>%
     pivot_wider(

@@ -75,7 +75,7 @@ pack_starts <- s1_measures_tbl %>%
 # Join Table
 s1_measures_tbl <- s1_measures_tbl %>%
 left_join(pack_starts) %>%
-    rename(
+dplyr::rename(
         "Measure" = `Subscale (if any)`,
         "Construct" = `Measured Construct`
     )
@@ -413,7 +413,7 @@ s1a_target_vars <- s1a_df %>%
         integrative_complexity_mean,
         multiple_identity_mean
     ) %>%
-    rename(
+dplyr::rename(
         "Heart" = heart,
         "Valence" = valence,
         "CESD" = CESD_sum,
@@ -731,7 +731,7 @@ s1b_target_variables <- s1b_df %>%
         CESD_sum
     ) %>%
     # Rename the variables for presentatioon
-    rename(all_of(s1b_labels))
+dplyr::rename(all_of(s1b_labels))
 # Save the target variables DF for Appendix
 write_rds(s1b_target_variables, here("data_public", "subset", "Study1b_public_target.rds"))
 
