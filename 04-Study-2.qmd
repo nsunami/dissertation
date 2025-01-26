@@ -598,7 +598,7 @@ plot_para_chi <- s2_df %>%
     dplyr::filter(attention_all_correct == TRUE, followed_VGinstructions == "Yes") %>%
     dplyr::mutate(
         parasocial_MC_group_shortlabel =
-            case_when(
+            dplyr::case_when(
                 parasocial_MC_group == "No Interaction with NPC" ~ "No Interaction",
                 parasocial_MC_group == "No Parasocial Relationship with NPC" ~ "Interacted, but no PSR",
                 parasocial_MC_group == "Formed Parasocial Relationship with NPC" ~ "Formed PSR"
@@ -918,7 +918,7 @@ s2_df_long <- s2_df_long %>%
 
 # add "_c" to moderator names
 s2_mod_by_mc <- s2_mod_by_mc %>%
-    dplyr::mutate(moderator = case_when(
+    dplyr::mutate(moderator = dplyr::case_when(
         moderator == "parasocial_MC_group" ~ moderator,
         TRUE ~ paste0(moderator, "_c")
     ))
@@ -926,7 +926,7 @@ s2_mod_by_mc <- s2_mod_by_mc %>%
 # Prepare formula
 s2_mod_by_mc <- s2_mod_by_mc %>%
     dplyr::mutate(formula = paste0(outcome, " ~ ", moderator, " * essay_condition * Time + (1|PID)")) %>%
-    dplyr::mutate(contrasts = case_when(
+    dplyr::mutate(contrasts = dplyr::case_when(
         moderator == "parasocial_MC_group" ~ list(
             parasocial_MC_group = contr.sum,
             essay_condition = contr.sum,

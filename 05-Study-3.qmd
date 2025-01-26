@@ -715,7 +715,7 @@ s3_parasocial_plot <- s3_df %>%
     # Modify labels
     dplyr::mutate(
         parasocial_MC_group_shortlabel =
-            case_when(
+            dplyr::case_when(
                 parasocial_MC_group == "No Interaction with NPC" ~ "No Interaction",
                 parasocial_MC_group == "No Parasocial Relationship with NPC" ~ "Interacted, but no PSR",
                 parasocial_MC_group == "Formed Parasocial Relationship with NPC" ~ "Formed PSR"
@@ -1172,7 +1172,7 @@ s3_df_long <- s3_df_long %>%
     dplyr::ungroup()
 # add "_c" to centered moderator
 s3_mod_by_mc <- s3_mod_by_mc %>%
-    dplyr::mutate(moderator = case_when(
+    dplyr::mutate(moderator = dplyr::case_when(
         moderator == "parasocial_MC_group" ~ moderator,
         TRUE ~ paste0(moderator, "_c")
     ))
@@ -1181,7 +1181,7 @@ s3_mod_by_mc <- s3_mod_by_mc %>%
 # Prepare formula
 s3_mod_by_mc <- s3_mod_by_mc %>%
     dplyr::mutate(formula = paste0(outcome, " ~ ", moderator, " * parasocial * social_world * time + (1|ResponseId)")) %>%
-    dplyr::mutate(contrasts = case_when(
+    dplyr::mutate(contrasts = dplyr::case_when(
         moderator == "parasocial_MC_group" ~ list(
             parasocial_MC_group = contr.sum,
             social_world = contr.sum,

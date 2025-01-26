@@ -506,7 +506,7 @@ add_eqtest <- function(lm_df) {
     # Extract the results for the predictor
     dplyr::mutate(eq_pred = map_chr(eq_test, ~ .$ROPE_Equivalence[[2]])) %>%
     # Add labels for plot annotation
-    dplyr::mutate(eq_label = case_when(
+    dplyr::mutate(eq_label = dplyr::case_when(
       eq_pred == "Rejected" ~ "",
       eq_pred == "Accepted" ~ "*",
       # Unicode

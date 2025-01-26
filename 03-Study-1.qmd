@@ -57,8 +57,8 @@ pack_starts <- s1_measures_tbl %>%
     dplyr::group_by(Study, `Main Measure`) %>%
     dplyr::mutate(Submeasure = dplyr::row_number()) %>%
     dplyr::mutate(
-        start_num = case_when(Submeasure == 1 ~ rownum),
-        end_num = case_when(Submeasure == n() ~ rownum)
+        start_num = dplyr::case_when(Submeasure == 1 ~ rownum),
+        end_num = dplyr::case_when(Submeasure == n() ~ rownum)
     ) %>%
     dplyr::ungroup() %>%
     tidyr::fill(start_num, .direction = "down") %>%
@@ -66,9 +66,9 @@ pack_starts <- s1_measures_tbl %>%
     dplyr::filter(Submeasure == 1) %>%
     dplyr::mutate(
         need_packing = (start_num != end_num),
-        `Subscale (if any)` = case_when(need_packing == FALSE ~ `Main Measure`)
+        `Subscale (if any)` = dplyr::case_when(need_packing == FALSE ~ `Main Measure`)
     ) %>%
-    dplyr::mutate(labels = case_when(need_packing == TRUE ~ `Main Measure`, TRUE ~ " ")) %>%
+    dplyr::mutate(labels = dplyr::case_when(need_packing == TRUE ~ `Main Measure`, TRUE ~ " ")) %>%
     dplyr::mutate(intervals = end_num - start_num + 1) %>%
     dplyr::select(id, Study, labels, intervals)
 
@@ -82,7 +82,7 @@ s1_measures_tbl <- s1_measures_tbl %>%
 
 # Clean NAs from the labels
 s1_measures_tbl <- s1_measures_tbl %>%
-    dplyr::mutate(labels = case_when(is.na(labels) ~ "", TRUE ~ labels))
+    dplyr::mutate(labels = dplyr::case_when(is.na(labels) ~ "", TRUE ~ labels))
 pack_starts_nested <- s1_measures_tbl %>%
     nest_by(Study) %>%
     dplyr::ungroup()
@@ -463,12 +463,12 @@ s1a_cor_CIs <- s1a_cor_CIs %>%
 ## Add Equivalence Test Results
 s1a_cor_CIs <- s1a_cor_CIs %>%
     dplyr::mutate(eq_decision = map2_chr(conf.low_model90, conf.high_model90, ~ evaluate_equivalence(.x, .y, ROPE_r))) %>%
-    dplyr::mutate(eq_decision = case_when(
+    dplyr::mutate(eq_decision = dplyr::case_when(
         p.value_model95 >= .05 ~ eq_decision,
         TRUE ~ ""
     )) %>%
     # Add labels for plot annotation
-    dplyr::mutate(eq_label = case_when(
+    dplyr::mutate(eq_label = dplyr::case_when(
         eq_decision == "Rejected" ~ "",
         eq_decision == "Accepted" ~ "∗",
         eq_decision == "Undecided" ~ "+"
@@ -1365,7 +1365,7 @@ s1c_sensitivity_mixed_df <- tibble(outcome = c("heart", "valence")) %>%
             x$contrasts %>%
                 tidy() %>%
                 dplyr::mutate(APA = describe_t_val(t_stat = statistic, df = df, p_value = adj.p.value)) %>%
-                dplyr::mutate(acceptance = case_when(
+                dplyr::mutate(acceptance = dplyr::case_when(
                     acceptance == "0" ~ "Rejection",
                     acceptance == "1" ~ "Acceptance"
                 )) %>%
@@ -1506,7 +1506,7 @@ s1d_var_types <- c(
 
 # Rename the conditions
 s1d_df <- s1d_df %>%
-    dplyr::mutate(confederate_desire = case_when(
+    dplyr::mutate(confederate_desire = dplyr::case_when(
         expectancy == "Acceptance" ~ "High Confederate Desire",
         expectancy == "Rejection" ~ "Low Confederate Desire"
     ))
@@ -1632,11 +1632,11 @@ s1d_dfC <- s1d_df %>%
 # Effect Coding
 s1d_dfC <- s1d_dfC %>%
     dplyr::mutate(
-        confederate_desire_ec = case_when(
+        confederate_desire_ec = dplyr::case_when(
             confederate_desire == "High Confederate Desire" ~ 0.5,
             confederate_desire == "Low Confederate Desire" ~ -0.5
         ),
-        rejection_ec = case_when(
+        rejection_ec = dplyr::case_when(
             rejection == "Rejection" ~ .5,
             rejection == "Acceptance" ~ -.5
         )
@@ -2102,12 +2102,12 @@ s1e_cor_CIs <- s1e_cor_CIs %>%
 s1e_cor_CIs <- s1e_cor_CIs %>%
     dplyr::mutate(eq_decision = map2_chr(conf.low_model90, conf.high_model90, ~ evaluate_equivalence(.x, .y, ROPE_r))) %>%
     # Delete equivalence tests for non-significant results
-    dplyr::mutate(eq_decision = case_when(
+    dplyr::mutate(eq_decision = dplyr::case_when(
         p.value_model95 >= .05 ~ eq_decision,
         TRUE ~ ""
     )) %>%
     # Add labels for plot annotation
-    dplyr::mutate(eq_label = case_when(
+    dplyr::mutate(eq_label = dplyr::case_when(
         eq_decision == "Rejected" ~ "",
         eq_decision == "Accepted" ~ "∗",
         eq_decision == "Undecided" ~ "+"
