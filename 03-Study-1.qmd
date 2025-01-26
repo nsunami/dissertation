@@ -1875,7 +1875,7 @@ s1e_df <- s1e_df %>%
     ))
 s1e_D1D2diff <- s1e_df %>%
 dplyr::summarise(mean(D1D2_diff)) %>%
-    pull() %>%
+dplyr::pull() %>%
     lubridate::as.duration() %>%
     as.numeric("days") %>%
     round(2)

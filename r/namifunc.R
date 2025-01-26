@@ -132,7 +132,7 @@ dplyr::summarise(across(
       )
     ))
   model_names <- df %>%
-    pull(1) %>%
+dplyr::pull(1) %>%
     names()
   df <- df %>%
     dplyr::mutate(Conf_Level = model_names) %>%

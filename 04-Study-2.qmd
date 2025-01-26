@@ -512,27 +512,27 @@ parasocial_MC_txt <- parasocial_MC_txt %>%
         nonsurrogacy_noint = parasocial_MC_results_df %>%
             dplyr::filter(essay_condition_title == "Non-Social Surrogacy" &
                 parasocial_MC_group == "No Interaction with NPC") %>%
-            pull(percent_per_cond) %>% round(2),
+dplyr::pull(percent_per_cond) %>% round(2),
         nonsurrogacy_noPSR = parasocial_MC_results_df %>%
             dplyr::filter(essay_condition_title == "Non-Social Surrogacy" &
                 parasocial_MC_group == "No Parasocial Relationship with NPC") %>%
-            pull(percent_per_cond) %>% round(2),
+dplyr::pull(percent_per_cond) %>% round(2),
         nonsurrogacy_yesPSR = parasocial_MC_results_df %>%
             dplyr::filter(essay_condition_title == "Non-Social Surrogacy" &
                 parasocial_MC_group == "Formed Parasocial Relationship with NPC") %>%
-            pull(percent_per_cond) %>% round(2),
+dplyr::pull(percent_per_cond) %>% round(2),
         surrogacy_noint = parasocial_MC_results_df %>%
             dplyr::filter(essay_condition_title == "Social Surrogacy" &
                 parasocial_MC_group == "No Interaction with NPC") %>%
-            pull(percent_per_cond) %>% round(2),
+dplyr::pull(percent_per_cond) %>% round(2),
         surrogacy_noPSR = parasocial_MC_results_df %>%
             dplyr::filter(essay_condition_title == "Social Surrogacy" &
                 parasocial_MC_group == "No Parasocial Relationship with NPC") %>%
-            pull(percent_per_cond) %>% round(2),
+dplyr::pull(percent_per_cond) %>% round(2),
         surrogacy_yesPSR = parasocial_MC_results_df %>%
             dplyr::filter(essay_condition_title == "Social Surrogacy" &
                 parasocial_MC_group == "Formed Parasocial Relationship with NPC") %>%
-            pull(percent_per_cond) %>% round(2)
+dplyr::pull(percent_per_cond) %>% round(2)
     ))
 
 # PSI - APA Text
@@ -978,7 +978,7 @@ For the model with the Inclusion of the Other in Self scores as a moderator, the
 # Coefficients predicting Heart
 s2_mod_plots <- s2_mod_by_mc %>%
     dplyr::filter(outcome == "Heart") %>%
-    pull(model) %>%
+dplyr::pull(model) %>%
     map(plot_s2_moderation)
 ggarrange(plotlist = s2_mod_plots, ncol = 2, nrow = 4, labels = "AUTO") %>%
     annotate_figure(

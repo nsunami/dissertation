@@ -1224,7 +1224,7 @@ s3_mod_mc_APA <- s3_mod_by_mc %>%
 # Plot
 s3_mod_plots <- s3_mod_by_mc %>%
     dplyr::filter(outcome == "Heart") %>%
-    pull(model) %>%
+dplyr::pull(model) %>%
     map(plot_s3_mod_bymc)
 ```
 
