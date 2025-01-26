@@ -58,7 +58,7 @@ pack_starts <- s1_measures_tbl %>%
     dplyr::mutate(Submeasure = dplyr::row_number()) %>%
     dplyr::mutate(
         start_num = dplyr::case_when(Submeasure == 1 ~ rownum),
-        end_num = dplyr::case_when(Submeasure == n() ~ rownum)
+        end_num = dplyr::case_when(Submeasure ==dplyr::n() ~ rownum)
     ) %>%
     dplyr::ungroup() %>%
     tidyr::fill(start_num, .direction = "down") %>%
@@ -576,11 +576,11 @@ received partial course credits as compensation.
 # Get the participants who participanted more than twice in one visit
 s1b_duplicates <- s1b_df %>%
     dplyr::group_by(id, visit) %>%
-    summarise(n = n()) %>%
+    summarise(n =dplyr::n()) %>%
     dplyr::filter(n > 1)
 s1b_duplicates <- s1b_df %>%
     dplyr::group_by(id, visit) %>%
-    summarise(n = n()) %>%
+    summarise(n =dplyr::n()) %>%
     dplyr::filter(id %in% s1b_duplicates$id)
 #  s1b_df %>% dplyr::filter(id == 306)
 #  s1b_df %>% dplyr::filter(id == 402)

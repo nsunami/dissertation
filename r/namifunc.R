@@ -537,7 +537,7 @@ evaluate_equivalence <- function(lower, upper, ROPE) {
 get_n_pct <- function(df, ...) {
   df %>%
     dplyr::group_by(...) %>%
-    summarise(n = n()) %>%
+    summarise(n =dplyr::n()) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(pct = round(n / sum(n) * 100, 2)) %>%
     pivot_longer(cols = c(n, pct)) %>%

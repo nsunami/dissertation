@@ -120,7 +120,7 @@ s3_playtime <- s3_df_attentive %>%
 # Getting participants per condition
 s3_ntable <- s3_df %>%
     dplyr::group_by(parasocial, social_world) %>%
-    summarise(n = n()) %>%
+    summarise(n =dplyr::n()) %>%
     dplyr::mutate(key = str_c(str_extract(parasocial, "^."), str_extract(social_world, "^.")))
 s3_n_txt <- s3_ntable %>%
     dplyr::ungroup() %>%
@@ -131,7 +131,7 @@ s3_n_txt <- s3_ntable %>%
 # Exclusions by Attention Check
 s3_attention_df <- s3_df %>%
     dplyr::group_by(attention_all_correct) %>%
-    summarise(n = n()) %>%
+    summarise(n =dplyr::n()) %>%
     deframe_as_list()
 
 s3_atteion_by_group <- s3_df %>%
