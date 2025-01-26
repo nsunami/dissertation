@@ -883,7 +883,7 @@ s2_mod_by_mc <- expand_grid(
     moderator = s2_mc_indices
 )
 # Join labels
-s2_mod_by_mc <- s2_mod_by_mc %>% left_join(s2_var_labels, by = c("moderator" = "varname"))
+s2_mod_by_mc <- s2_mod_by_mc %>%left_join(s2_var_labels, by = c("moderator" = "varname"))
 # Turn off ordered factor
 s2_df_long <- s2_df_long %>%
     dplyr::mutate(parasocial_MC_group = fct_inorder(parasocial_MC_group, ordered = FALSE))

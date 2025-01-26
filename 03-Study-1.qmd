@@ -74,7 +74,7 @@ pack_starts <- s1_measures_tbl %>%
 
 # Join Table
 s1_measures_tbl <- s1_measures_tbl %>%
-    left_join(pack_starts) %>%
+left_join(pack_starts) %>%
     rename(
         "Measure" = `Subscale (if any)`,
         "Construct" = `Measured Construct`
@@ -742,7 +742,7 @@ s1b_target_vars_labels_df <- tibble(
 )
 # Append to the vartypes
 s1b_var_types <- s1b_var_types %>%
-    left_join(s1b_target_vars_labels_df)
+left_join(s1b_target_vars_labels_df)
 # Create a longer version of the variable types df with labels
 # for correlation plot
 s1b_var_types_visits <- bind_rows(
@@ -787,7 +787,7 @@ s1b_cor_heart123 <- s1b_cor_heart1 %>%
 # Add variable types and labels ----------------------------------------------------------------
 # Types (Convergent, Discriminant)
 s1b_cor_CIs <- s1b_cor_heart123 %>%
-    left_join(s1b_var_types_visits)
+left_join(s1b_var_types_visits)
 # Add Times Variable
 s1b_cor_CIs <- s1b_cor_CIs %>%
     # Extract Time
@@ -867,12 +867,12 @@ s1b_lm_df_std <- tibble(predictor = s1b_labels[3:length(s1b_labels)]) %>%
 s1b_lm_df_std <- s1b_lm_df_std %>% add_eqtest()
 # Add Types
 s1b_mixed_mods_std <- s1b_lm_df_std %>%
-    left_join(s1b_var_types)
+left_join(s1b_var_types)
 # Add predictor names
 s1b_mixed_mods_std <- s1b_mixed_mods_std %>% dplyr::mutate(pred_label = names(predictor))
 # Add Convergent vs Discriminant Labels
 s1b_mixed_mods_std <- s1b_mixed_mods_std %>%
-    left_join(s1b_var_types)
+left_join(s1b_var_types)
 # Add APA
 s1b_lm_df_std <- s1b_lm_df_std %>%
     dplyr::mutate(
@@ -1087,7 +1087,7 @@ s1c_target_vars_labels_df <- tibble(
     label = names(s1c_target_vars_labels)
 )
 # Append labels to the validity types
-s1c_var_types <- s1c_var_types %>% left_join(s1c_target_vars_labels_df)
+s1c_var_types <- s1c_var_types %>%left_join(s1c_target_vars_labels_df)
 
 # Bivariate Correlation Analysis ------------------------------------------------
 # Correlations with Heart 1-3
@@ -1107,7 +1107,7 @@ s1c_cor_heart123 <- s1c_cor_heart1 %>%
     dplyr::select(outcome, everything())
 # Add types
 s1c_cor_CIs <- s1c_cor_heart123 %>%
-    left_join(s1c_var_types)
+left_join(s1c_var_types)
 # Add Times Variable
 s1c_cor_CIs <- s1c_cor_CIs %>%
     dplyr::mutate(time = str_extract(label, "T\\d"))
@@ -1164,7 +1164,7 @@ s1c_T2_mods <- s1c_T2_mods %>%
     dplyr::mutate(names = names(predictor))
 # Add Types
 s1c_T2_mods <- s1c_T2_mods %>%
-    left_join(s1c_var_types, by = "predictor")
+left_join(s1c_var_types, by = "predictor")
 # Add Markdown
 s1c_T2_mods <- s1c_T2_mods %>%
     dplyr::mutate(
@@ -1522,7 +1522,7 @@ s1d_target_vars_labels_df <- tibble(
 )
 # Append to the vartypes
 s1d_var_types <- s1d_var_types %>%
-    left_join(s1d_target_vars_labels_df)
+left_join(s1d_target_vars_labels_df)
 # Reorder the variables (forcats::)
 s1d_var_types <- s1d_var_types %>%
     dplyr::mutate(label = fct_inorder(label))
@@ -1589,7 +1589,7 @@ s1d_cor_CIs <- tibble(outcome = s1d_heart_vars) %>%
     ))) %>%
     unnest()
 # Add types
-s1d_cor_CIs <- s1d_cor_CIs %>% left_join(s1d_var_types)
+s1d_cor_CIs <- s1d_cor_CIs %>%left_join(s1d_var_types)
 # Add Times Variable
 s1d_cor_CIs <- s1d_cor_CIs %>% dplyr::mutate(time = str_extract(label, "T\\d"))
 # Cache the aggregate
@@ -2076,7 +2076,7 @@ s1e_target_vars_labels_df <- tibble(
 )
 # Append to the vartypes
 s1e_var_types <- s1e_var_types %>%
-    left_join(s1e_target_vars_labels_df)
+left_join(s1e_target_vars_labels_df)
 
 # Correlation analysis ---------------------------------------------------------
 # Create CIs for Correlations
@@ -2094,7 +2094,7 @@ s1e_cor_CIs <- tibble(outcome = s1e_heart_vars) %>%
     unnest(cors)
 # Add validity types
 s1e_cor_CIs <- s1e_cor_CIs %>%
-    left_join(s1e_var_types)
+left_join(s1e_var_types)
 # Add Times Variable
 s1e_cor_CIs <- s1e_cor_CIs %>%
     dplyr::mutate(time = str_extract(label, "T\\d"))
@@ -2230,7 +2230,7 @@ s1e_var_types_long <- s1e_var_types %>%
     dplyr::select(-label) %>%
     distinct()
 s1e_mixed_df <- s1e_mixed_df %>%
-    left_join(s1e_var_types_long, by = "predictor")
+left_join(s1e_var_types_long, by = "predictor")
 # Add Plot Order for predictors
 s1e_mixed_df <- s1e_mixed_df %>%
     dplyr::mutate(plot_order = dplyr::row_number())

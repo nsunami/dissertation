@@ -1140,7 +1140,7 @@ s3_mod_by_mc <- expand_grid(
     moderator = s3_mc_indices
 )
 # Join labels
-s3_mod_by_mc <- s3_mod_by_mc %>% left_join(s3_var_labels, by = c("moderator" = "varname"))
+s3_mod_by_mc <- s3_mod_by_mc %>%left_join(s3_var_labels, by = c("moderator" = "varname"))
 # Turn off ordered factor
 s3_df_long <- s3_df_long %>%
     dplyr::mutate(parasocial_MC_group = fct_inorder(parasocial_MC_group, ordered = FALSE))
