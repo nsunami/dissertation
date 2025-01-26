@@ -111,7 +111,7 @@ summarise_descriptives <- function(df) {
       id_cols = scale
     ) %>%
     # Mutate to number the variables (for correlation)
-    dplyr::mutate(scale = paste0(row_number(), ". ", scale))
+    dplyr::mutate(scale = paste0(dplyr::row_number(), ". ", scale))
 }
 
 ## Get Bivariate Correlations with 90 and 95% CI's
