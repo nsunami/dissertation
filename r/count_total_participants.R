@@ -37,7 +37,7 @@ count_total_participants <- function() {
     s3_df <- load_s3_df()
     s3_attention_df <- s3_df |>
         dplyr::group_by(attention_all_correct) |>
-        dplyr::summarise(n = n()) |>
+        dplyr::summarise(n =dplyr::n()) |>
         deframe_as_list()
 
     # Sum up
