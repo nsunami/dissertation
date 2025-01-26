@@ -10,7 +10,6 @@ COPY renv.lock renv.lock
 
 # Specify library paths for installation
 RUN mkdir -p renv
-COPY .Rprofile .Rprofile
 COPY renv/activate.R renv/activate.R
 COPY renv/settings.json renv/settings.json
 
