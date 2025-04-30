@@ -25,3 +25,7 @@ Nami Sunami (nsunami@pm.me)
 ## Contribution
 
 If you spot any errors etc., feel free to place pull requests.
+
+## License
+
+The code is licensed under the [MIT License](https://opensource.org/licenses/MIT). Other non-code materials are licensed under the [CC BY-NC 4.0 License](https://creativecommons.org/licenses/by-nc/4.0/).
