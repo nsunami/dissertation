@@ -1,5 +1,7 @@
 # Playing Alone, Feeling Connected: Do Single-Player Video Games with Social Surrogates Replenish Belonging After Social Rejection?
 
+[![37.50 % FAIR](https://img.shields.io/badge/FAIR_assessment-37.50_%25-red)](https://fair-checker.france-bioinformatique.fr/assessment/69122be8a04a3b9f7c29ef7d)
+
 This is Nami Sunami's dissertation. Other materials are available on the OSF project: https://osf.io/hydxk/
 The project uses the `bookdown` package.
 
